@@ -11,11 +11,13 @@ enum Colors {
     case mainColor
     case subColor
     case backgroundGray
-    case darkGrey
-    case midGrey
-    case lightGrey
-    case customRed
-    case customBlue
+    case darkGray
+    case midGray
+    case lightGray
+    case red
+    case blue
+    case black
+    case white
 }
 
 extension UIColor {
@@ -25,27 +27,33 @@ extension UIColor {
         switch color {
         case .mainColor:
             return UIColor(hexCode: "FF7800")
-            
+
         case .subColor:
             return UIColor(hexCode: "FFF4DF")
             
         case .backgroundGray:
             return UIColor(hexCode: "F6F6F8")
             
-        case .darkGrey:
+        case .darkGray:
             return UIColor(hexCode: "999999")
             
-        case .midGrey:
+        case .midGray:
             return UIColor(hexCode: "B9B9B9")
             
-        case .lightGrey:
+        case .lightGray:
             return UIColor(hexCode: "D9D9D9")
             
-        case .customRed:
+        case .red:
             return UIColor(hexCode: "FF0000")
             
-        case .customBlue:
+        case .blue:
             return UIColor(hexCode: "0066FF")
+            
+        case .black:
+            return UIColor(hexCode: "000000")
+            
+        case .white:
+            return UIColor(hexCode: "FFFFFF")
         }
     }
 }
