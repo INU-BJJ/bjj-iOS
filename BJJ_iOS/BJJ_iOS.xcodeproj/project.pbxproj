@@ -18,6 +18,8 @@
 		3F25B4002CB282D8005C0907 /* BJJ_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B3FF2CB282D8005C0907 /* BJJ_iOSTests.swift */; };
 		3F25B40A2CB282D8005C0907 /* BJJ_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B4092CB282D8005C0907 /* BJJ_iOSUITests.swift */; };
 		3F25B40C2CB282D8005C0907 /* BJJ_iOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B40B2CB282D8005C0907 /* BJJ_iOSUITestsLaunchTests.swift */; };
+		3F6F565E2CB2975C00A43EF6 /* UIFont++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */; };
+		3FEDD49F2CB2B3A8009617A5 /* PretendardKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3FEDD49E2CB2B3A8009617A5 /* PretendardKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,7 @@
 		3F25B4052CB282D8005C0907 /* BJJ_iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BJJ_iOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F25B4092CB282D8005C0907 /* BJJ_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BJJ_iOSUITests.swift; sourceTree = "<group>"; };
 		3F25B40B2CB282D8005C0907 /* BJJ_iOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BJJ_iOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extensions.swift"; sourceTree = "<group>"; };
 		496DDB09DB1CFA8537904C48 /* Pods-BJJ_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOS.release.xcconfig"; path = "Target Support Files/Pods-BJJ_iOS/Pods-BJJ_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		6EA183F6162643F67ED49CA6 /* Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-BJJ_iOS-BJJ_iOSUITests/Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AE6147FC041336E536EA48C5 /* Pods-BJJ_iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOSTests.release.xcconfig"; path = "Target Support Files/Pods-BJJ_iOSTests/Pods-BJJ_iOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -66,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FEDD49F2CB2B3A8009617A5 /* PretendardKit in Frameworks */,
 				01DC4B538F565897139BADB9 /* Pods_BJJ_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -160,6 +164,7 @@
 		3F25B41A2CB283FC005C0907 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -278,6 +283,9 @@
 			dependencies = (
 			);
 			name = BJJ_iOS;
+			packageProductDependencies = (
+				3FEDD49E2CB2B3A8009617A5 /* PretendardKit */,
+			);
 			productName = BJJ_iOS;
 			productReference = 3F25B3E52CB282D7005C0907 /* BJJ_iOS.app */;
 			productType = "com.apple.product-type.application";
@@ -353,6 +361,9 @@
 				Base,
 			);
 			mainGroup = 3F25B3DC2CB282D7005C0907;
+			packageReferences = (
+				3FEDD49D2CB2B21B009617A5 /* XCRemoteSwiftPackageReference "PretendardKit" */,
+			);
 			productRefGroup = 3F25B3E62CB282D7005C0907 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -500,6 +511,7 @@
 			files = (
 				3F25B3ED2CB282D7005C0907 /* MainViewController.swift in Sources */,
 				3F25B3E92CB282D7005C0907 /* AppDelegate.swift in Sources */,
+				3F6F565E2CB2975C00A43EF6 /* UIFont++Extensions.swift in Sources */,
 				3F25B3EB2CB282D7005C0907 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -843,6 +855,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3FEDD49D2CB2B21B009617A5 /* XCRemoteSwiftPackageReference "PretendardKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/wookeon/PretendardKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3FEDD49E2CB2B3A8009617A5 /* PretendardKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3FEDD49D2CB2B21B009617A5 /* XCRemoteSwiftPackageReference "PretendardKit" */;
+			productName = PretendardKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3F25B3DD2CB282D7005C0907 /* Project object */;
 }
