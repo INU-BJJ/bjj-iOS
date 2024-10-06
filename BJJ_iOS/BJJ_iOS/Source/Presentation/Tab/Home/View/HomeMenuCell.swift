@@ -13,6 +13,19 @@ final class HomeMenuCell: UICollectionViewCell {
     
     // MARK: - UI Components
     
+    private let menuImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
+    }
+    
+    private let menuNameLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_bold, size: 15, color: .black)
+    }
+    
+    private let menuPriceLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard, size: 13, color: .black)
+    }
+    
     // MARK: - LifeCycle
         
     override init(frame: CGRect) {
