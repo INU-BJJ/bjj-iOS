@@ -1,0 +1,23 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '15.0'
+
+target 'BJJ_iOS' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  
+  pod 'SnapKit'
+  pod 'Then'
+
+  use_frameworks!
+
+  # Pods for BJJ_iOS
+
+  target 'BJJ_iOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'BJJ_iOSUITests' do
+    # Pods for testing
+  end
+
+end

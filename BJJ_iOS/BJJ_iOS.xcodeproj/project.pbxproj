@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01DC4B538F565897139BADB9 /* Pods_BJJ_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC754E488571841B3C012092 /* Pods_BJJ_iOS.framework */; };
+		3016EF23BF999F3B2938CB21 /* Pods_BJJ_iOS_BJJ_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDC484312245658E58CCA3D6 /* Pods_BJJ_iOS_BJJ_iOSUITests.framework */; };
+		35ED9F4BBC05537E532973D0 /* Pods_BJJ_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 183A6B16AAF9BFE808F0C4D0 /* Pods_BJJ_iOSTests.framework */; };
 		3F25B3E92CB282D7005C0907 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B3E82CB282D7005C0907 /* AppDelegate.swift */; };
 		3F25B3EB2CB282D7005C0907 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B3EA2CB282D7005C0907 /* SceneDelegate.swift */; };
 		3F25B3ED2CB282D7005C0907 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B3EC2CB282D7005C0907 /* MainViewController.swift */; };
@@ -35,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		12F648792F2CC9262FB5F176 /* Pods-BJJ_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOS.debug.xcconfig"; path = "Target Support Files/Pods-BJJ_iOS/Pods-BJJ_iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		183A6B16AAF9BFE808F0C4D0 /* Pods_BJJ_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BJJ_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F25B3E52CB282D7005C0907 /* BJJ_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BJJ_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F25B3E82CB282D7005C0907 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F25B3EA2CB282D7005C0907 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +52,13 @@
 		3F25B4052CB282D8005C0907 /* BJJ_iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BJJ_iOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F25B4092CB282D8005C0907 /* BJJ_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BJJ_iOSUITests.swift; sourceTree = "<group>"; };
 		3F25B40B2CB282D8005C0907 /* BJJ_iOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BJJ_iOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		496DDB09DB1CFA8537904C48 /* Pods-BJJ_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOS.release.xcconfig"; path = "Target Support Files/Pods-BJJ_iOS/Pods-BJJ_iOS.release.xcconfig"; sourceTree = "<group>"; };
+		6EA183F6162643F67ED49CA6 /* Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-BJJ_iOS-BJJ_iOSUITests/Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		AE6147FC041336E536EA48C5 /* Pods-BJJ_iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOSTests.release.xcconfig"; path = "Target Support Files/Pods-BJJ_iOSTests/Pods-BJJ_iOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		CDC484312245658E58CCA3D6 /* Pods_BJJ_iOS_BJJ_iOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BJJ_iOS_BJJ_iOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8C9D7042EB9940DEF803384 /* Pods-BJJ_iOS-BJJ_iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOS-BJJ_iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-BJJ_iOS-BJJ_iOSUITests/Pods-BJJ_iOS-BJJ_iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
+		E75FD19DFF1E7EB47A2482C3 /* Pods-BJJ_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-BJJ_iOSTests/Pods-BJJ_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EC754E488571841B3C012092 /* Pods_BJJ_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BJJ_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01DC4B538F565897139BADB9 /* Pods_BJJ_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35ED9F4BBC05537E532973D0 /* Pods_BJJ_iOSTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3016EF23BF999F3B2938CB21 /* Pods_BJJ_iOS_BJJ_iOSUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +96,8 @@
 				3F25B3FE2CB282D8005C0907 /* BJJ_iOSTests */,
 				3F25B4082CB282D8005C0907 /* BJJ_iOSUITests */,
 				3F25B3E62CB282D7005C0907 /* Products */,
+				C3A5D1CB8F3EC3DBE0DE8C77 /* Pods */,
+				9958187AB4AC4379F96B0E4E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -220,6 +237,29 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		9958187AB4AC4379F96B0E4E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EC754E488571841B3C012092 /* Pods_BJJ_iOS.framework */,
+				CDC484312245658E58CCA3D6 /* Pods_BJJ_iOS_BJJ_iOSUITests.framework */,
+				183A6B16AAF9BFE808F0C4D0 /* Pods_BJJ_iOSTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C3A5D1CB8F3EC3DBE0DE8C77 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				12F648792F2CC9262FB5F176 /* Pods-BJJ_iOS.debug.xcconfig */,
+				496DDB09DB1CFA8537904C48 /* Pods-BJJ_iOS.release.xcconfig */,
+				6EA183F6162643F67ED49CA6 /* Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig */,
+				D8C9D7042EB9940DEF803384 /* Pods-BJJ_iOS-BJJ_iOSUITests.release.xcconfig */,
+				E75FD19DFF1E7EB47A2482C3 /* Pods-BJJ_iOSTests.debug.xcconfig */,
+				AE6147FC041336E536EA48C5 /* Pods-BJJ_iOSTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -227,9 +267,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3F25B40F2CB282D8005C0907 /* Build configuration list for PBXNativeTarget "BJJ_iOS" */;
 			buildPhases = (
+				729B9EFDCA8183A232E0108D /* [CP] Check Pods Manifest.lock */,
 				3F25B3E12CB282D7005C0907 /* Sources */,
 				3F25B3E22CB282D7005C0907 /* Frameworks */,
 				3F25B3E32CB282D7005C0907 /* Resources */,
+				59F720B39488075FAE7CEA1D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -244,6 +286,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3F25B4122CB282D8005C0907 /* Build configuration list for PBXNativeTarget "BJJ_iOSTests" */;
 			buildPhases = (
+				7D677C0D169846A4A4248C65 /* [CP] Check Pods Manifest.lock */,
 				3F25B3F72CB282D8005C0907 /* Sources */,
 				3F25B3F82CB282D8005C0907 /* Frameworks */,
 				3F25B3F92CB282D8005C0907 /* Resources */,
@@ -262,9 +305,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3F25B4152CB282D8005C0907 /* Build configuration list for PBXNativeTarget "BJJ_iOSUITests" */;
 			buildPhases = (
+				4BE6009CFB9D1D4138925C94 /* [CP] Check Pods Manifest.lock */,
 				3F25B4012CB282D8005C0907 /* Sources */,
 				3F25B4022CB282D8005C0907 /* Frameworks */,
 				3F25B4032CB282D8005C0907 /* Resources */,
+				F76DF3E45497C16BF22043F8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -345,6 +390,109 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4BE6009CFB9D1D4138925C94 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BJJ_iOS-BJJ_iOSUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		59F720B39488075FAE7CEA1D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BJJ_iOS/Pods-BJJ_iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BJJ_iOS/Pods-BJJ_iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BJJ_iOS/Pods-BJJ_iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		729B9EFDCA8183A232E0108D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BJJ_iOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7D677C0D169846A4A4248C65 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BJJ_iOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F76DF3E45497C16BF22043F8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BJJ_iOS-BJJ_iOSUITests/Pods-BJJ_iOS-BJJ_iOSUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BJJ_iOS-BJJ_iOSUITests/Pods-BJJ_iOS-BJJ_iOSUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BJJ_iOS-BJJ_iOSUITests/Pods-BJJ_iOS-BJJ_iOSUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		3F25B3E12CB282D7005C0907 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -403,6 +551,7 @@
 		3F25B40D2CB282D8005C0907 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -437,7 +586,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -466,6 +615,7 @@
 		3F25B40E2CB282D8005C0907 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -500,7 +650,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -521,7 +671,9 @@
 		};
 		3F25B4102CB282D8005C0907 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 12F648792F2CC9262FB5F176 /* Pods-BJJ_iOS.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -548,7 +700,9 @@
 		};
 		3F25B4112CB282D8005C0907 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 496DDB09DB1CFA8537904C48 /* Pods-BJJ_iOS.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -575,6 +729,7 @@
 		};
 		3F25B4132CB282D8005C0907 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E75FD19DFF1E7EB47A2482C3 /* Pods-BJJ_iOSTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -594,6 +749,7 @@
 		};
 		3F25B4142CB282D8005C0907 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AE6147FC041336E536EA48C5 /* Pods-BJJ_iOSTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -613,8 +769,9 @@
 		};
 		3F25B4162CB282D8005C0907 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6EA183F6162643F67ED49CA6 /* Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -630,8 +787,9 @@
 		};
 		3F25B4172CB282D8005C0907 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D8C9D7042EB9940DEF803384 /* Pods-BJJ_iOS-BJJ_iOSUITests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
