@@ -1,5 +1,5 @@
 //
-//  MainViewController.swift
+//  HomeViewController.swift
 //  BJJ_iOS
 //
 //  Created by HyoTaek on 10/6/24.
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class MainViewController: UIViewController {
+final class HomeViewController: UIViewController {
 
     // MARK: Properties
     
