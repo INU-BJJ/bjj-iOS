@@ -13,17 +13,19 @@ final class HomeMenuCell: UICollectionViewCell {
     
     // MARK: - UI Components
     
-    private let menuHorizontalStackView = UIStackView().then {
+    private let menuStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 10
         $0.distribution = .fill
         $0.alignment = .fill
+        $0.layer.cornerRadius = 3
+        $0.layer.masksToBounds = true
     }
     
-    private let menuVerticalStackView = UIStackView().then {
+    private let menuRightStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 7
-        $0.distribution = .fill
+        $0.distribution = .fillEqually
         $0.alignment = .fill
     }
     
@@ -31,7 +33,7 @@ final class HomeMenuCell: UICollectionViewCell {
         $0.axis = .horizontal
         $0.spacing = 10
         $0.distribution = .fill
-        $0.alignment = .fill
+        $0.alignment = .top
     }
     
     private let menuInnerStackView = UIStackView().then {
@@ -43,12 +45,12 @@ final class HomeMenuCell: UICollectionViewCell {
     
     private let menuFooterStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.spacing = 103
-        $0.distribution = .fill
+        $0.distribution = .equalSpacing
         $0.alignment = .fill
     }
     
     private let menuImageView = UIImageView().then {
+        $0.image = UIImage(named: "MenuImage")
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
@@ -96,15 +98,93 @@ final class HomeMenuCell: UICollectionViewCell {
     // MARK: - Set AddView
     
     private func setAddView() {
+        contentView.addSubview(menuStackView)
+        
         [
-         
-        ].forEach(contentView.addSubview)
+         menuImageView,
+         menuRightStackView
+        ].forEach(menuStackView.addArrangedSubview)
+        
+        [
+         menuHeaderStackView,
+         menuFooterStackView
+        ].forEach(menuRightStackView.addArrangedSubview)
+        
+        [
+         menuInnerStackView,
+         menuLikeButton
+        ].forEach(menuHeaderStackView.addArrangedSubview)
+        
+        [
+         menuNameLabel,
+         menuPriceLabel
+        ].forEach(menuInnerStackView.addArrangedSubview)
+        
+        [
+         menuRatingView,
+         cafeteriaLabel
+        ].forEach(menuFooterStackView.addArrangedSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        menuStackView.snp.makeConstraints {
+            // TODO: menuImageView와 menuRightStackView의 vertical inset 차이나니까 나중에 바꾸기
+            $0.verticalEdges.equalToSuperview().inset(6.38)
+            $0.horizontalEdges.equalToSuperview().inset(10)
+        }
         
+        menuImageView.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            // TODO: 이미지의 너비, 높이를 이렇게 고정으로 줘도 되는지?
+            $0.width.equalTo(97)
+        }
+        
+        menuRightStackView.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+        }
+        
+        menuHeaderStackView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+        }
+        
+        menuInnerStackView.snp.makeConstraints {
+            $0.leading.equalToSuperview()
+            $0.verticalEdges.equalToSuperview()
+        }
+        
+        menuLikeButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview()
+            // TODO: 아이콘의 width, height를 고정으로 줘도 되는지?
+            $0.width.equalTo(15)
+            $0.height.equalTo(14.06)
+        }
+        
+        menuNameLabel.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+        }
+        
+        menuPriceLabel.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+        }
+        
+        menuFooterStackView.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+        }
+        
+        menuRatingView.snp.makeConstraints {
+            $0.width.equalTo(53)
+            $0.leading.equalToSuperview()
+            $0.verticalEdges.equalToSuperview()
+        }
+        
+        cafeteriaLabel.snp.makeConstraints {
+            $0.trailing.equalToSuperview()
+            $0.centerY.equalToSuperview()
+        }
     }
     
     // MARK: - Configuration
