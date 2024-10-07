@@ -26,6 +26,9 @@ final class HomeMenuCell: UICollectionViewCell {
         $0.setLabelUI("", font: .pretendard, size: 13, color: .black)
     }
     
+    // TODO: data에서 rating 받아와서 다시 넣기
+    private let menuRatingView = HomeMenuRatingView(rating: 4.4)
+    
     // MARK: - LifeCycle
         
     override init(frame: CGRect) {
