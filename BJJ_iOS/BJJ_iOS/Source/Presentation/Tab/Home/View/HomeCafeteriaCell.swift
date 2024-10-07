@@ -11,6 +11,10 @@ import Then
 
 final class HomeCafeteriaCell: UICollectionViewCell {
     
+    // TODO: identifier 삭제
+    
+    static let identifier = "HomeCafeteriaCell"
+    
     // MARK: - UI Components
     
     // TODO: 선택 여부에 따라 텍스트 색 변경하기
@@ -58,7 +62,7 @@ final class HomeCafeteriaCell: UICollectionViewCell {
     
     // MARK: - Configuration
     
-    func configureCell() {
-        
+    func configureCell(with name: String) {
+        cafeteriaLabel.text = name
     }
 }

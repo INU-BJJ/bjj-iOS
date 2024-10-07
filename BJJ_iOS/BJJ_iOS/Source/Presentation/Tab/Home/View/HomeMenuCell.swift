@@ -11,6 +11,10 @@ import Then
 
 final class HomeMenuCell: UICollectionViewCell {
     
+    // TODO: identifier 삭제
+    
+    static let identifier = "HomeMenuCell"
+    
     // MARK: - UI Components
     
     private let menuStackView = UIStackView().then {
@@ -189,8 +193,9 @@ final class HomeMenuCell: UICollectionViewCell {
     
     // MARK: - Configuration
     
-    func configureCell() {
-        
+    func configureCell(with menuName: String, imageName image: String) {
+        menuNameLabel.text = menuName
+        menuImageView.image = UIImage(named: image)
     }
 }
 
