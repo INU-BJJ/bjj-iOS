@@ -13,11 +13,17 @@ final class HomeCafeteriaCell: UICollectionViewCell {
     
     // MARK: - UI Components
     
+    // TODO: 선택 여부에 따라 텍스트 색 변경하기
+    private let cafeteriaLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_medium, size: 15, color: .black)
+    }
+    
     // MARK: - LifeCycle
         
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        setUI()
         setAddView()
         setConstraints()
     }
@@ -29,21 +35,25 @@ final class HomeCafeteriaCell: UICollectionViewCell {
     // MARK: - Set UI
         
     private func setUI() {
-        
+        self.backgroundColor = .customColor(.mainColor)
+        self.layer.cornerRadius = 100
+        self.layer.masksToBounds = true
     }
     
     // MARK: - Set AddView
     
     private func setAddView() {
         [
-         
+         cafeteriaLabel
         ].forEach(contentView.addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        
+        cafeteriaLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
     }
     
     // MARK: - Configuration
