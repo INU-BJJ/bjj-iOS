@@ -13,6 +13,8 @@ final class HomeViewController: UIViewController {
 
     // MARK: Properties
     
+    private let homeTopView = HomeTopView()
+    
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout()).then {
         $0.register(HomeCafeteriaCell.self, forCellWithReuseIdentifier: HomeCafeteriaCell.identifier)
         $0.register(HomeMenuCell.self, forCellWithReuseIdentifier: HomeMenuCell.identifier)
@@ -57,6 +59,7 @@ final class HomeViewController: UIViewController {
     
     private func setAddView() {
         [
+         homeTopView,
          collectionView
         ].forEach(view.addSubview)
     }
@@ -64,8 +67,16 @@ final class HomeViewController: UIViewController {
     // MARK: Set Constraints
     
     private func setConstraints() {
+        homeTopView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(182)
+        }
+        
         collectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(homeTopView.snp.bottom).offset(18)
+            $0.horizontalEdges.equalToSuperview().inset(21)
+            $0.bottom.equalToSuperview().offset(-265)
         }
     }
     
