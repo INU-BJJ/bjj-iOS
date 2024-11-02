@@ -20,9 +20,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         PretendardKit.register()
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        let navigationController = UINavigationController(rootViewController: HomeViewController())
         
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = HomeViewController()
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
 
