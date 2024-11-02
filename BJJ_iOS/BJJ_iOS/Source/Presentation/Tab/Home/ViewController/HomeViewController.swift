@@ -151,7 +151,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             // 메뉴 섹션
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeMenuCell.identifier, for: indexPath) as! HomeMenuCell
             let menu = currentMenus[indexPath.item]
-            cell.configureCell(menuName: menu.text, menuPrice: menu.price, imageName: menu.image)
+            cell.configureCell(menuName: menu.text, menuPrice: menu.price, imageName: menu.image, cafeteria: menu.cafeteria)
             return cell
         }
     }

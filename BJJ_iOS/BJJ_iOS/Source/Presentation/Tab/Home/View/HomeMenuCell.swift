@@ -50,7 +50,7 @@ final class HomeMenuCell: UICollectionViewCell {
     
     private let menuFooterStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.distribution = .fill
+        $0.distribution = .equalSpacing
         $0.alignment = .fill
         $0.setContentHuggingPriority(.defaultLow, for: .vertical)
         $0.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
@@ -164,10 +164,11 @@ final class HomeMenuCell: UICollectionViewCell {
     
     // MARK: - Configuration
     
-    func configureCell(menuName: String, menuPrice: String, imageName image: String) {
+    func configureCell(menuName: String, menuPrice: String, imageName image: String, cafeteria: String) {
         menuNameLabel.text = menuName
         menuPriceLabel.text = menuPrice
         menuImageView.image = UIImage(named: image)
+        cafeteriaLabel.text = cafeteria
     }
 }
 
