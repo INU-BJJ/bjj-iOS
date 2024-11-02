@@ -97,17 +97,16 @@ final class HomeViewController: UIViewController {
     }
     
     private func createCafeteriaSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .absolute(33))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(124), heightDimension: .absolute(33))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.5), heightDimension: .absolute(33))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(614), heightDimension: .absolute(33))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = .fixed(9)
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
-        section.interGroupSpacing = 9
-        section.contentInsets = NSDirectionalEdgeInsets(top: 9, leading: 14, bottom: 9, trailing: 14)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
         
         return section
     }
