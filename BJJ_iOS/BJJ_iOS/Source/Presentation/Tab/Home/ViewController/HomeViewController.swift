@@ -18,6 +18,7 @@ final class HomeViewController: UIViewController {
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout()).then {
         $0.register(HomeCafeteriaCell.self, forCellWithReuseIdentifier: HomeCafeteriaCell.identifier)
         $0.register(HomeMenuCell.self, forCellWithReuseIdentifier: HomeMenuCell.identifier)
+        $0.backgroundColor = .customColor(.backgroundGray)
     }
     
     private var selectedCafeteriaIndex: Int = 0
@@ -68,7 +69,7 @@ final class HomeViewController: UIViewController {
     
     private func setConstraints() {
         homeTopView.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.equalToSuperview().offset(46)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(182)
         }
@@ -96,30 +97,31 @@ final class HomeViewController: UIViewController {
     }
     
     private func createCafeteriaSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .absolute(33))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(50))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.5), heightDimension: .absolute(33))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = .fixed(9)
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
-        section.interGroupSpacing = 10
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        section.interGroupSpacing = 9
+        section.contentInsets = NSDirectionalEdgeInsets(top: 9, leading: 14, bottom: 9, trailing: 14)
         
         return section
     }
     
     private func createMenuSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(150))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(150))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(240))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 10
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        section.interGroupSpacing = 8
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         
         return section
     }
@@ -149,7 +151,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             // 메뉴 섹션
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeMenuCell.identifier, for: indexPath) as! HomeMenuCell
             let menu = currentMenus[indexPath.item]
-            cell.configureCell(with: menu.text, imageName: menu.image)
+            cell.configureCell(menuName: menu.text, menuPrice: menu.price, imageName: menu.image)
             return cell
         }
     }

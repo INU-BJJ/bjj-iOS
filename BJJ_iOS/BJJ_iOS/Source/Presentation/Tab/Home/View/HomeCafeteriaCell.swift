@@ -40,7 +40,7 @@ final class HomeCafeteriaCell: UICollectionViewCell {
         
     private func setUI() {
         self.backgroundColor = .customColor(.mainColor)
-        self.layer.cornerRadius = 100
+        self.layer.cornerRadius = 15
         self.layer.masksToBounds = true
     }
     

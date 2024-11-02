@@ -43,8 +43,6 @@ final class HomeMenuRatingView: UIView {
         
     private func setUI() {
         self.backgroundColor = .customColor(.subColor)
-//        self.layer.cornerRadius = 32
-        // TODO: CORNERRADIUS를 32로 설정하면 너무 많이 잘려보이는데 어떻게 하지...?
         self.layer.cornerRadius = 21
         self.layer.masksToBounds = true
     }
@@ -61,7 +59,6 @@ final class HomeMenuRatingView: UIView {
     // MARK: Set Constraints
     
     private func setConstraints() {
-        // TODO: 왜 starIcon의 y값이 중앙이 아닌 위는3, 아래는 4? 그냥 center로 하면 안됨?
         starIcon.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(6)
             $0.centerY.equalToSuperview()
@@ -70,9 +67,8 @@ final class HomeMenuRatingView: UIView {
         }
         
         ratingLabel.snp.makeConstraints {
-//            $0.leading.equalTo(starIcon.snp.trailing).offset(5)
             $0.trailing.equalToSuperview()
-            $0.centerX.equalTo(starIcon)
+            $0.centerY.equalToSuperview()
         }
     }
     

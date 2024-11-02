@@ -235,10 +235,10 @@
 		3F25B4212CB28450005C0907 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3F3AB7D82CB3D59C0013FABA /* HomeTopView.swift */,
 				3F61DF4C2CB31B1A00A019E8 /* HomeCafeteriaCell.swift */,
 				3F61DF4E2CB31B2E00A019E8 /* HomeMenuCell.swift */,
 				3F3AB7D62CB397F40013FABA /* HomeMenuRatingView.swift */,
-				3F3AB7D82CB3D59C0013FABA /* HomeTopView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

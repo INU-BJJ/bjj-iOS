@@ -38,18 +38,21 @@ final class HomeMenuCell: UICollectionViewCell {
         $0.spacing = 10
         $0.distribution = .fill
         $0.alignment = .top
+        
+        $0.layer.borderColor = UIColor.blue.cgColor
+        $0.layer.borderWidth = 1
     }
     
     private let menuInnerStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 4
         $0.distribution = .fill
-        $0.alignment = .fill
+        $0.alignment = .leading
     }
     
     private let menuFooterStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.distribution = .equalSpacing
+        $0.distribution = .fill
         $0.alignment = .fill
     }
     
@@ -85,6 +88,7 @@ final class HomeMenuCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        setUI()
         setAddView()
         setConstraints()
     }
@@ -97,6 +101,11 @@ final class HomeMenuCell: UICollectionViewCell {
         
     private func setUI() {
         self.backgroundColor = .white
+        self.layer.cornerRadius = 3
+        self.layer.masksToBounds = true
+        
+        self.layer.borderColor = UIColor.red.cgColor
+        self.layer.borderWidth = 1
     }
     
     // MARK: - Set AddView
@@ -140,61 +149,25 @@ final class HomeMenuCell: UICollectionViewCell {
         }
         
         menuImageView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            // TODO: 이미지의 너비, 높이를 이렇게 고정으로 줘도 되는지?
             $0.width.equalTo(97)
-        }
-        
-        menuRightStackView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-        }
-        
-        menuHeaderStackView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview()
-        }
-        
-        menuInnerStackView.snp.makeConstraints {
-            $0.leading.equalToSuperview()
-            $0.verticalEdges.equalToSuperview()
         }
         
         menuLikeButton.snp.makeConstraints {
             $0.trailing.equalToSuperview()
-            // TODO: 아이콘의 width, height를 고정으로 줘도 되는지?
-            $0.width.equalTo(15)
-            $0.height.equalTo(14.06)
-        }
-        
-        menuNameLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-        }
-        
-        menuPriceLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-        }
-        
-        menuFooterStackView.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview()
+//            $0.width.equalTo(15)
+//            $0.height.equalTo(14.06)
         }
         
         menuRatingView.snp.makeConstraints {
             $0.width.equalTo(53)
-            $0.leading.equalToSuperview()
-            $0.verticalEdges.equalToSuperview()
-        }
-        
-        cafeteriaLabel.snp.makeConstraints {
-            $0.trailing.equalToSuperview()
-            $0.centerY.equalToSuperview()
         }
     }
     
     // MARK: - Configuration
     
-    func configureCell(with menuName: String, imageName image: String) {
+    func configureCell(menuName: String, menuPrice: String, imageName image: String) {
         menuNameLabel.text = menuName
+        menuPriceLabel.text = menuPrice
         menuImageView.image = UIImage(named: image)
     }
 }
