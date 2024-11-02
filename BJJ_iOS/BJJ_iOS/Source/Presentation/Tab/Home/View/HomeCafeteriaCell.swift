@@ -54,9 +54,9 @@ final class HomeCafeteriaCell: UICollectionViewCell {
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
+    private func setConstraints() {  
         cafeteriaLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 9, left: 14, bottom: 9, right: 14))
         }
     }
     

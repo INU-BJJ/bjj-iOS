@@ -145,8 +145,7 @@ final class HomeMenuCell: UICollectionViewCell {
     private func setConstraints() {
         menuStackView.snp.makeConstraints {
             // TODO: menuImageView와 menuRightStackView의 vertical inset 차이나니까 나중에 바꾸기
-            $0.verticalEdges.equalToSuperview().inset(6.38)
-            $0.horizontalEdges.equalToSuperview().inset(10)
+            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 6.38, left: 10, bottom: 6.38, right: 10))
         }
         
         menuImageView.snp.makeConstraints {

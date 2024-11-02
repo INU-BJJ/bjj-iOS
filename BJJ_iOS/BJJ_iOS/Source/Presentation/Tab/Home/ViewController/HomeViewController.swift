@@ -97,7 +97,7 @@ final class HomeViewController: UIViewController {
     }
     
     private func createCafeteriaSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(124), heightDimension: .absolute(33))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(124), heightDimension: .absolute(33))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(614), heightDimension: .absolute(33))
