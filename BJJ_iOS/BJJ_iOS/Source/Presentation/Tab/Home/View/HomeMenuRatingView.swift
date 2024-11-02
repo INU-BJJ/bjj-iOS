@@ -43,8 +43,6 @@ final class HomeMenuRatingView: UIView {
         
     private func setUI() {
         self.backgroundColor = .customColor(.subColor)
-        self.layer.cornerRadius = 21
-        self.layer.masksToBounds = true
     }
     
     // MARK: Set AddViews
@@ -65,7 +63,7 @@ final class HomeMenuRatingView: UIView {
         }
         
         ratingLabel.snp.makeConstraints {
-            $0.trailing.equalToSuperview()
+            $0.leading.equalTo(starIcon.snp.trailing).offset(5)
             $0.centerY.equalToSuperview()
         }
     }
