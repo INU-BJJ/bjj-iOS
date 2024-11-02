@@ -29,7 +29,7 @@ final class HomeMenuCell: UICollectionViewCell {
     private let menuRightStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 7
-        $0.distribution = .fillEqually
+        $0.distribution = .fill
         $0.alignment = .fill
     }
     
@@ -38,9 +38,7 @@ final class HomeMenuCell: UICollectionViewCell {
         $0.spacing = 10
         $0.distribution = .fill
         $0.alignment = .top
-        
-        $0.layer.borderColor = UIColor.blue.cgColor
-        $0.layer.borderWidth = 1
+        $0.setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
     
     private let menuInnerStackView = UIStackView().then {
@@ -54,6 +52,8 @@ final class HomeMenuCell: UICollectionViewCell {
         $0.axis = .horizontal
         $0.distribution = .fill
         $0.alignment = .fill
+        $0.setContentHuggingPriority(.defaultLow, for: .vertical)
+        $0.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
     }
     
     private let menuImageView = UIImageView().then {
@@ -103,9 +103,6 @@ final class HomeMenuCell: UICollectionViewCell {
         self.backgroundColor = .white
         self.layer.cornerRadius = 3
         self.layer.masksToBounds = true
-        
-        self.layer.borderColor = UIColor.red.cgColor
-        self.layer.borderWidth = 1
     }
     
     // MARK: - Set AddView
@@ -151,11 +148,13 @@ final class HomeMenuCell: UICollectionViewCell {
         menuImageView.snp.makeConstraints {
             $0.width.equalTo(97)
         }
+
+        menuFooterStackView.snp.makeConstraints {
+            $0.height.greaterThanOrEqualTo(21)
+        }
         
         menuLikeButton.snp.makeConstraints {
             $0.trailing.equalToSuperview()
-//            $0.width.equalTo(15)
-//            $0.height.equalTo(14.06)
         }
         
         menuRatingView.snp.makeConstraints {

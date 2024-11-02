@@ -62,8 +62,6 @@ final class HomeMenuRatingView: UIView {
         starIcon.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(6)
             $0.centerY.equalToSuperview()
-            $0.width.equalTo(15)
-            $0.height.equalTo(14)
         }
         
         ratingLabel.snp.makeConstraints {
