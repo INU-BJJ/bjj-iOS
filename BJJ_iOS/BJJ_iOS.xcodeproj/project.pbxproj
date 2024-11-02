@@ -26,6 +26,8 @@
 		3F61DF512CB31CCD00A019E8 /* UILabel++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F61DF502CB31CCD00A019E8 /* UILabel++Extensions.swift */; };
 		3F61DF532CB320A900A019E8 /* UIButton++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F61DF522CB320A900A019E8 /* UIButton++Extensions.swift */; };
 		3F6F565E2CB2975C00A43EF6 /* UIFont++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */; };
+		3F996E572CD649C100910DE7 /* UIViewController++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */; };
+		3F996E612CD64D9800910DE7 /* MenuDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */; };
 		3FEDD49F2CB2B3A8009617A5 /* PretendardKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3FEDD49E2CB2B3A8009617A5 /* PretendardKit */; };
 		3FEDD4A12CB2B499009617A5 /* UIColor++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEDD4A02CB2B499009617A5 /* UIColor++Extensions.swift */; };
 /* End PBXBuildFile section */
@@ -70,6 +72,8 @@
 		3F61DF502CB31CCD00A019E8 /* UILabel++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel++Extensions.swift"; sourceTree = "<group>"; };
 		3F61DF522CB320A900A019E8 /* UIButton++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton++Extensions.swift"; sourceTree = "<group>"; };
 		3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extensions.swift"; sourceTree = "<group>"; };
+		3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController++Extensions.swift"; sourceTree = "<group>"; };
+		3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailViewController.swift; sourceTree = "<group>"; };
 		3FEDD4A02CB2B499009617A5 /* UIColor++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor++Extensions.swift"; sourceTree = "<group>"; };
 		496DDB09DB1CFA8537904C48 /* Pods-BJJ_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOS.release.xcconfig"; path = "Target Support Files/Pods-BJJ_iOS/Pods-BJJ_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		6EA183F6162643F67ED49CA6 /* Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-BJJ_iOS-BJJ_iOSUITests/Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -184,6 +188,7 @@
 				3FEDD4A02CB2B499009617A5 /* UIColor++Extensions.swift */,
 				3F61DF502CB31CCD00A019E8 /* UILabel++Extensions.swift */,
 				3F61DF522CB320A900A019E8 /* UIButton++Extensions.swift */,
+				3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -216,10 +221,8 @@
 		3F25B41E2CB2843A005C0907 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				3F25B4242CB28483005C0907 /* Model */,
-				3F25B4222CB28458005C0907 /* Reactor */,
-				3F25B4212CB28450005C0907 /* View */,
-				3F25B4202CB2844A005C0907 /* ViewController */,
+				3F996E582CD64BE900910DE7 /* Home */,
+				3F996E592CD64BFC00910DE7 /* MenuDetail */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -254,6 +257,57 @@
 			isa = PBXGroup;
 			children = (
 				3F61DF4A2CB3149600A019E8 /* HomeSection.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3F996E582CD64BE900910DE7 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				3F25B4242CB28483005C0907 /* Model */,
+				3F25B4222CB28458005C0907 /* Reactor */,
+				3F25B4212CB28450005C0907 /* View */,
+				3F25B4202CB2844A005C0907 /* ViewController */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		3F996E592CD64BFC00910DE7 /* MenuDetail */ = {
+			isa = PBXGroup;
+			children = (
+				3F996E5D2CD64C2000910DE7 /* Model */,
+				3F996E5C2CD64C1B00910DE7 /* Reactor */,
+				3F996E5B2CD64C1200910DE7 /* View */,
+				3F996E5A2CD64C0C00910DE7 /* ViewController */,
+			);
+			path = MenuDetail;
+			sourceTree = "<group>";
+		};
+		3F996E5A2CD64C0C00910DE7 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3F996E5B2CD64C1200910DE7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3F996E5C2CD64C1B00910DE7 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		3F996E5D2CD64C2000910DE7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -537,6 +591,8 @@
 				3F25B3E92CB282D7005C0907 /* AppDelegate.swift in Sources */,
 				3F6F565E2CB2975C00A43EF6 /* UIFont++Extensions.swift in Sources */,
 				3F25B3EB2CB282D7005C0907 /* SceneDelegate.swift in Sources */,
+				3F996E612CD64D9800910DE7 /* MenuDetailViewController.swift in Sources */,
+				3F996E572CD649C100910DE7 /* UIViewController++Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

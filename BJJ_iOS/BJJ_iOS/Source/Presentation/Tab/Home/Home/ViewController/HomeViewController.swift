@@ -11,7 +11,7 @@ import Then
 
 final class HomeViewController: UIViewController {
 
-    // MARK: Properties
+    // MARK: - Properties
     
     private let homeTopView = HomeTopView()
     
@@ -24,9 +24,10 @@ final class HomeViewController: UIViewController {
     private var selectedCafeteriaIndex: Int = 0
     private var currentMenus: [HomeMenuModel] = HomeMenuModel.studentCafeteriaMenu
     
-    // MARK: UI Components
+    // MARK: - UI Components
     
-    // MARK: LifeCycle
+    // MARK: - LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,23 +41,23 @@ final class HomeViewController: UIViewController {
         collectionView.dataSource = self
     }
     
-    // MARK: Bind
+    // MARK: - Bind
     
     func bind() {
         
-        // MARK: Action
+        // MARK: - Action
         
-        // MARK: State
+        // MARK: - State
         
     }
     
-    // MARK: Set UI
+    // MARK: - Set UI
     
     private func setUI() {
         view.backgroundColor = .customColor(.backgroundGray)
     }
     
-    // MARK: Set AddViews
+    // MARK: - Set AddViews
     
     private func setAddView() {
         [
@@ -65,7 +66,7 @@ final class HomeViewController: UIViewController {
         ].forEach(view.addSubview)
     }
     
-    // MARK: Set Constraints
+    // MARK: - Set Constraints
     
     private func setConstraints() {
         homeTopView.snp.makeConstraints {
@@ -81,7 +82,7 @@ final class HomeViewController: UIViewController {
         }
     }
     
-    // MARK: Other Fucntions
+    // MARK: - Create Layout
     
     private func createLayout() -> UICollectionViewLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
@@ -156,25 +157,25 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            if indexPath.section == 0 {
-                // 식당 섹션에서 선택 시
-                selectedCafeteriaIndex = indexPath.item
-                
-                // 선택된 식당에 따른 메뉴 설정
-                switch selectedCafeteriaIndex {
-                case 0:
-                    currentMenus = HomeMenuModel.studentCafeteriaMenu
-                case 1:
-                    currentMenus = HomeMenuModel.staffCafeteriaMenu
-                case 2:
-                    currentMenus = HomeMenuModel.dormitoryCafeteriaMenu
-                default:
-                    currentMenus = []
-                }
-                
-                // 메뉴 섹션만 업데이트
-                collectionView.reloadSections(IndexSet(integer: 1))
+        if indexPath.section == 0 {
+            // 식당 섹션에서 선택 시
+            selectedCafeteriaIndex = indexPath.item
+            
+            // 선택된 식당에 따른 메뉴 설정
+            switch selectedCafeteriaIndex {
+            case 0:
+                currentMenus = HomeMenuModel.studentCafeteriaMenu
+            case 1:
+                currentMenus = HomeMenuModel.staffCafeteriaMenu
+            case 2:
+                currentMenus = HomeMenuModel.dormitoryCafeteriaMenu
+            default:
+                currentMenus = []
             }
+            
+            // 메뉴 섹션만 업데이트
+            collectionView.reloadSections(IndexSet(integer: 1))
         }
+    }
 }
 
