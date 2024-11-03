@@ -67,7 +67,7 @@ final class HomeMenuCell: UICollectionViewCell {
     }
     
     private let menuPriceLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 13, color: .black)
+        $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
     }
     
     // TODO: data에서 rating 받아와서 다시 넣기
@@ -83,7 +83,7 @@ final class HomeMenuCell: UICollectionViewCell {
     }
     
     private let cafeteriaLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 11, color: .black)
+        $0.setLabelUI("", font: .pretendard_medium, size: 11, color: .black)
         $0.alpha = 0.5
     }
 

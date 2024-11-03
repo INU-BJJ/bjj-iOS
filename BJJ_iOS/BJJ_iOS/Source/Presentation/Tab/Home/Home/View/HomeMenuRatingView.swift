@@ -20,7 +20,7 @@ final class HomeMenuRatingView: UIView {
     private let starIcon = UIImageView(image: UIImage(named: "Star"))
     
     private let ratingLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 13, color: .black)
+        $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
     }
     
     // MARK: LifeCycle
