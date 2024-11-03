@@ -9,11 +9,11 @@ import UIKit
 import PretendardKit
 
 enum Fonts {
-    case pretendard_bold
-    case pretendard_semibold
-    case pretendard_medium
-    case pretendard_light
-    case pretendard // pretendard_regular와 같음
+    case pretendard_bold        // 700
+    case pretendard_semibold    // 600
+    case pretendard_medium      // 500
+    case pretendard // pretendard_regular와 같음. 400
+    case pretendard_light       // 300
 }
 
 extension UIFont {
@@ -25,10 +25,10 @@ extension UIFont {
             return .pretendard(ofSize: size, weight: .semibold)
         case .pretendard_medium:
             return .pretendard(ofSize: size, weight: .medium)
-        case .pretendard_light:
-            return .pretendard(ofSize: size, weight: .light)
         case .pretendard:
             return .pretendard(ofSize: size, weight: .regular)
+        case .pretendard_light:
+            return .pretendard(ofSize: size, weight: .light)
         }
     }
 }
