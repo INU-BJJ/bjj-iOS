@@ -28,6 +28,7 @@ final class MenuReview: UICollectionViewCell {
         
         $0.dataSource = self
         $0.showsHorizontalScrollIndicator = false
+        $0.isScrollEnabled = false
     }
     
     // MARK: - Life Cycle

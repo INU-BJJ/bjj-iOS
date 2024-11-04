@@ -28,7 +28,7 @@ final class MenuReviewList: UICollectionViewCell {
             
         $0.dataSource = self
         $0.showsVerticalScrollIndicator = false
-//        $0.backgroundColor = .clear
+        $0.isScrollEnabled = false
     }
     
     // MARK: - Life Cycle

@@ -27,6 +27,7 @@ final class MenuReviewListHashTag: UICollectionViewCell {
             $0.dataSource = self
             $0.showsHorizontalScrollIndicator = false
             $0.backgroundColor = .clear
+            $0.isScrollEnabled = false
         }
 
     // MARK: - Life Cycle
