@@ -82,12 +82,14 @@ final class MenuReviewFooterView: UICollectionReusableView {
     private func setConstraints() {
         onlyPhotoReviewStackView.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview().inset(8)
-            $0.leading.equalToSuperview().offset(22)
+//            $0.leading.equalToSuperview().offset(22)
+            $0.leading.equalToSuperview()
         }
         
         reviewToggleButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().offset(-22)
+//            $0.trailing.equalToSuperview().offset(-22)
+            $0.trailing.equalToSuperview()
         }
     }
 }

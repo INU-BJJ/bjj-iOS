@@ -73,7 +73,7 @@ final class HomeMenuCell: UICollectionViewCell {
     // TODO: data에서 rating 받아와서 다시 넣기
     private let menuRatingView = HomeMenuRatingView(rating: 4.4).then {
         // TODO: cornerRadius 조정
-        $0.layer.cornerRadius = 0
+        $0.layer.cornerRadius = 32
         $0.clipsToBounds = true
     }
     

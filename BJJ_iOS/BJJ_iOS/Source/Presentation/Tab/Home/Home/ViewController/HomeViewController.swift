@@ -70,7 +70,7 @@ final class HomeViewController: UIViewController {
     
     private func setConstraints() {
         homeTopView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(46)
+            $0.top.equalTo(view.snp.top)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(182)
         }
