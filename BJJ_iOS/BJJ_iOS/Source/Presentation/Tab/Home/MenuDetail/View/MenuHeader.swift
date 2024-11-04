@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class MenuHeaderCell: UICollectionViewCell {
+final class MenuHeader: UICollectionViewCell {
     
     // MARK: - Properties
     

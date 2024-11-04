@@ -25,7 +25,7 @@ final class MenuReviewViewController: UIViewController {
         frame: .zero,
         collectionViewLayout: createLayout()
     ).then {
-        $0.register(MenuHeaderCell.self, forCellWithReuseIdentifier: MenuHeaderCell.identifier)
+        $0.register(MenuHeader.self, forCellWithReuseIdentifier: MenuHeader.identifier)
 //        $0.register(MenuInfoCell, forCellWithReuseIdentifier: MenuInfoCell.identifier)
 //        $0.register(MenuReviewCell, forCellWithReuseIdentifier: MenuReviewCell.identifier)
 //        $0.register(MenuReviewDetailCell, forCellWithReuseIdentifier: MenuReviewDetailCell.identifier)
@@ -142,7 +142,7 @@ extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuHeaderCell.identifier, for: indexPath) as! MenuHeaderCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuHeader.identifier, for: indexPath) as! MenuHeader
             cell.configure(menuName: "양상추샐러드/복숭아아이스티", menuPrice: "5,500원")
             return cell
 //        case 1:
