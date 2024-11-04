@@ -22,6 +22,8 @@
 		3F1613312CD876C800A30369 /* MenuReviewListInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1613302CD876C800A30369 /* MenuReviewListInfo.swift */; };
 		3F1613352CD87C1100A30369 /* ReviewHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1613342CD87C1100A30369 /* ReviewHorizontalView.swift */; };
 		3F1A51A62CD88C8200029E09 /* MenuReviewListContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A51A52CD88C8200029E09 /* MenuReviewListContent.swift */; };
+		3F1A51A82CD890B300029E09 /* MenuReviewListHashTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A51A72CD890B300029E09 /* MenuReviewListHashTag.swift */; };
+		3F1A51AA2CD8941200029E09 /* MenuReviewHashTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A51A92CD8941200029E09 /* MenuReviewHashTagCell.swift */; };
 		3F25B3E92CB282D7005C0907 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B3E82CB282D7005C0907 /* AppDelegate.swift */; };
 		3F25B3EB2CB282D7005C0907 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B3EA2CB282D7005C0907 /* SceneDelegate.swift */; };
 		3F25B3ED2CB282D7005C0907 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B3EC2CB282D7005C0907 /* HomeViewController.swift */; };
@@ -78,6 +80,8 @@
 		3F1613302CD876C800A30369 /* MenuReviewListInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewListInfo.swift; sourceTree = "<group>"; };
 		3F1613342CD87C1100A30369 /* ReviewHorizontalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewHorizontalView.swift; sourceTree = "<group>"; };
 		3F1A51A52CD88C8200029E09 /* MenuReviewListContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewListContent.swift; sourceTree = "<group>"; };
+		3F1A51A72CD890B300029E09 /* MenuReviewListHashTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewListHashTag.swift; sourceTree = "<group>"; };
+		3F1A51A92CD8941200029E09 /* MenuReviewHashTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewHashTagCell.swift; sourceTree = "<group>"; };
 		3F25B3E52CB282D7005C0907 /* BJJ_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BJJ_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F25B3E82CB282D7005C0907 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F25B3EA2CB282D7005C0907 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -351,6 +355,8 @@
 				3F16132C2CD8737500A30369 /* MenuReviewList.swift */,
 				3F1613302CD876C800A30369 /* MenuReviewListInfo.swift */,
 				3F1A51A52CD88C8200029E09 /* MenuReviewListContent.swift */,
+				3F1A51A72CD890B300029E09 /* MenuReviewListHashTag.swift */,
+				3F1A51A92CD8941200029E09 /* MenuReviewHashTagCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -642,6 +648,7 @@
 				3F3AB7D72CB397F40013FABA /* HomeMenuRatingView.swift in Sources */,
 				3F61DF532CB320A900A019E8 /* UIButton++Extensions.swift in Sources */,
 				3F3AB7D92CB3D59C0013FABA /* HomeTopView.swift in Sources */,
+				3F1A51A82CD890B300029E09 /* MenuReviewListHashTag.swift in Sources */,
 				3F25B3ED2CB282D7005C0907 /* HomeViewController.swift in Sources */,
 				3F16131D2CD8487800A30369 /* MenuInfo.swift in Sources */,
 				3FEDD4A12CB2B499009617A5 /* UIColor++Extensions.swift in Sources */,
@@ -657,6 +664,7 @@
 				3F16132D2CD8737500A30369 /* MenuReviewList.swift in Sources */,
 				3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */,
 				3F1613292CD8584100A30369 /* MenuReviewHeaderView.swift in Sources */,
+				3F1A51AA2CD8941200029E09 /* MenuReviewHashTagCell.swift in Sources */,
 				3F1613312CD876C800A30369 /* MenuReviewListInfo.swift in Sources */,
 				3F6F565E2CB2975C00A43EF6 /* UIFont++Extensions.swift in Sources */,
 				3F25B3EB2CB282D7005C0907 /* SceneDelegate.swift in Sources */,

@@ -24,7 +24,7 @@ final class MenuReviewList: UICollectionViewCell {
         ).then {
             $0.register(MenuReviewListInfo.self, forCellWithReuseIdentifier: MenuReviewListInfo.identifier)
         $0.register(MenuReviewListContent.self, forCellWithReuseIdentifier: MenuReviewListContent.identifier)
-//        $0.register(ReviewHashTagCell.self, forCellWithReuseIdentifier: ReviewHashTagCell.identifier)
+        $0.register(MenuReviewListHashTag.self, forCellWithReuseIdentifier: MenuReviewListHashTag.identifier)
             
         $0.dataSource = self
         $0.showsVerticalScrollIndicator = false
@@ -83,8 +83,8 @@ final class MenuReviewList: UICollectionViewCell {
                 return self.createMenuReviewListInfoSection()
             case 1:
                 return self.createMenuReviewListContentSection()
-//            case 2:
-//                return self.createReviewHashTagSection()
+            case 2:
+                return self.createMenuReviewListHashTagSection()
             default:
                 return nil
             }
@@ -114,11 +114,23 @@ final class MenuReviewList: UICollectionViewCell {
 //        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         return section
     }
+    
+    private func createMenuReviewListHashTagSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(25))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(50))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+//        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        return section
+    }
 }
 
 extension MenuReviewList: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -127,8 +139,8 @@ extension MenuReviewList: UICollectionViewDataSource {
             return 1 // Info Section에 1개의 셀
         case 1:
             return 1 // Content Section에 1개의 셀
-//        case 2:
-//            return 2 // HashTag Section에 2개의 셀
+        case 2:
+            return 1 // HashTag Section에 2개의 셀
         default:
             return 0
         }
@@ -144,10 +156,10 @@ extension MenuReviewList: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListContent.identifier, for: indexPath) as! MenuReviewListContent
             // 데이터 설정
             return cell
-//        case 2:
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewHashTagCell.identifier, for: indexPath) as! ReviewHashTagCell
-//            // 데이터 설정
-//            return cell
+        case 2:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListHashTag.identifier, for: indexPath) as! MenuReviewListHashTag
+            // 데이터 설정
+            return cell
         default:
             fatalError("Unexpected section")
         }
