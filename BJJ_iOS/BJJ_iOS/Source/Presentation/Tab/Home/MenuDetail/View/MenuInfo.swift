@@ -25,7 +25,7 @@ final class MenuInfo: UICollectionViewCell {
         $0.register(MenuInfoCell.self, forCellWithReuseIdentifier: MenuInfoCell.identifier)
         $0.register(MenuInfoHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MenuInfoHeaderView.identifier)
         
-        
+        $0.isScrollEnabled = false
         $0.dataSource = self
     }
     
@@ -75,10 +75,10 @@ final class MenuInfo: UICollectionViewCell {
     // MARK: - Create Layout
     
     private func createLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(17))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(17))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
