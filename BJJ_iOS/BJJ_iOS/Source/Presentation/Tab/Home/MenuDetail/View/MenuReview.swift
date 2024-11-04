@@ -14,7 +14,7 @@ final class MenuReview: UICollectionViewCell {
     // MARK: - Properties
     
     static let identifier = "MenuReview"
-//    private var menuItems: [MenuItem] = []
+    private var menuItems: [MenuItem] = []
     
     // MARK: - UI Components
     
@@ -22,11 +22,12 @@ final class MenuReview: UICollectionViewCell {
         frame: .zero,
         collectionViewLayout: createLayout()
     ).then {
-//        $0.register(MenuReviewCell.self, forCellWithReuseIdentifier: MenuReviewCell.identifier)
-//        $0.register(MenuReviewHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MenuReviewHeaderView.identifier)
+        $0.register(MenuReviewCell.self, forCellWithReuseIdentifier: MenuReviewCell.identifier)
+        $0.register(MenuReviewHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MenuReviewHeaderView.identifier)
         
         
         $0.dataSource = self
+        $0.showsHorizontalScrollIndicator = false
     }
     
     // MARK: - Life Cycle
@@ -67,22 +68,24 @@ final class MenuReview: UICollectionViewCell {
     
     // MARK: - Configure Cell
     
-    func configureMenuInfo(with items: [MenuItem]) {
-//        self.menuItems = items
+    func configureMenuReview(with items: [MenuItem]) {
+        self.menuItems = items
         menuReviewCollectionView.reloadData()
     }
     
     // MARK: - Create Layout
     
     private func createLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(67))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.25), heightDimension: .absolute(67))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = .fixed(10)
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+        section.orthogonalScrollingBehavior = .continuous
         
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(50))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
@@ -98,19 +101,24 @@ extension MenuReview: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return menuItems.count
+        return min(menuItems.count, 4)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfoCell.identifier, for: indexPath) as! MenuInfoCell
-//        cell.configureMenuInfoCell(with: menuItems[indexPath.item].menuName)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewCell.identifier, for: indexPath) as! MenuReviewCell
+        
+        if indexPath.row == 3 {
+            cell.configureAddButton()
+        } else {
+            cell.configureReviewCell(reviewImage: menuItems[indexPath.row].menuImage)
+        }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MenuInfoHeaderView.identifier, for: indexPath) as! MenuInfoHeaderView
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MenuReviewHeaderView.identifier, for: indexPath) as! MenuReviewHeaderView
             
             return headerView
         }

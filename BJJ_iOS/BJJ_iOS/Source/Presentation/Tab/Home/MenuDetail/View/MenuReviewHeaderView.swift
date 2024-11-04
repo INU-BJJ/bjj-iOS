@@ -22,7 +22,7 @@ final class MenuReviewHeaderView: UICollectionReusableView {
     }
     
     private let reviewCountLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .darkGray)
+        $0.setLabelUI("(605)", font: .pretendard_medium, size: 13, color: .darkGray)
     }
     
     private let reviewRatingView = HomeMenuRatingView(rating: 4.2)
@@ -65,6 +65,8 @@ final class MenuReviewHeaderView: UICollectionReusableView {
         reviewRatingView.snp.makeConstraints {
             $0.leading.equalTo(reviewCountLabel.snp.trailing).offset(10)
             $0.centerY.equalTo(titleLabel)
+            $0.width.equalTo(53)
+            $0.height.equalTo(21)
         }
     }
 }

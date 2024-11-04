@@ -87,7 +87,7 @@ final class MenuHeader: UICollectionViewCell {
     
     // MARK: - Configure Cell
     
-    func configure(menuName: String, menuPrice: String) {
+    func configureMenuHeader(menuName: String, menuPrice: String) {
         menuNameLabel.text = menuName
         menuPriceLabel.text = menuPrice
     }
