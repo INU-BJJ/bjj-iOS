@@ -26,8 +26,8 @@ final class MenuReviewListInfo: UICollectionViewCell {
     
     private let reviewListStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.distribution = .equalSpacing
-        $0.alignment = .center
+        $0.alignment = .fill
+        $0.spacing = 53
     }
     
     private let reviewListLeftStackView = UIStackView().then {

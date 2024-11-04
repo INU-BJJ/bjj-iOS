@@ -69,14 +69,14 @@ final class MenuReviewListHashTag: UICollectionViewCell {
     private func createLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             // Item Size
-            let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(80), heightDimension: .absolute(25))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(80), heightDimension: .estimated(25))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
 //            item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
 
             // Group Size
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(50))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(25))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-            group.interItemSpacing = .fixed(8)
+            group.interItemSpacing = .fixed(5)
             
             // Section
             let section = NSCollectionLayoutSection(group: group)

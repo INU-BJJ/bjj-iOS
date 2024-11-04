@@ -20,8 +20,8 @@ final class MenuReviewListContent: UICollectionViewCell {
     
     private let reviewContentStackView = UIStackView().then {
         $0.axis = .vertical
-        $0.distribution = .equalSpacing
         $0.alignment = .leading
+        $0.spacing = 12
     }
     
     private let reviewContentTextView = UITextView().then {
@@ -37,6 +37,8 @@ final class MenuReviewListContent: UICollectionViewCell {
     
     private let reviewImage = UIImageView().then {
         $0.image = UIImage(named: "MenuImage1")
+        $0.layer.cornerRadius = 11
+        $0.clipsToBounds = true
     }
     
     // MARK: - Life Cycle
