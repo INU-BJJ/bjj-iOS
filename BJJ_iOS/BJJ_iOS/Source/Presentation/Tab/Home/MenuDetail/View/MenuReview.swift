@@ -77,7 +77,7 @@ final class MenuReview: UICollectionViewCell {
     // MARK: - Create Layout
     
     private func createLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(67))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(68), heightDimension: .absolute(67))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.25), heightDimension: .absolute(67))
@@ -85,7 +85,9 @@ final class MenuReview: UICollectionViewCell {
         group.interItemSpacing = .fixed(10)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        // TODO: top, bottom inset 크기가 다름. 질문하기
+        section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 0, bottom: 17, trailing: 0)
         section.orthogonalScrollingBehavior = .continuous
         
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(21))

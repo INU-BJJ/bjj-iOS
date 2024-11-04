@@ -58,7 +58,7 @@ final class MenuReviewHeaderView: UICollectionReusableView {
         }
         
         reviewCountLabel.snp.makeConstraints {
-            $0.leading.equalTo(titleLabel.snp.trailing).offset(1)
+            $0.leading.equalTo(titleLabel.snp.trailing).offset(3)
             $0.centerY.equalTo(titleLabel)
         }
         

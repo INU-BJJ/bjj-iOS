@@ -19,8 +19,8 @@ final class MenuReviewFooterView: UICollectionReusableView {
     
     private let onlyPhotoReviewStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.distribution = .equalSpacing
         $0.alignment = .center
+        $0.spacing = 5
     }
     
     private let onlyPhotoReviewCheckBox = UIImageView().then {
@@ -33,8 +33,8 @@ final class MenuReviewFooterView: UICollectionReusableView {
     
     private let reviewToggleButton = UIStackView().then {
         $0.axis = .horizontal
-        $0.distribution = .equalSpacing
         $0.alignment = .center
+        $0.spacing = 5
     }
     
     private let toggleLabel = UILabel().then {
