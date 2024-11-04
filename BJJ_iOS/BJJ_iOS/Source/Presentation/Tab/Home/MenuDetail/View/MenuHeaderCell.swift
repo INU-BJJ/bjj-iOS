@@ -18,7 +18,7 @@ final class MenuHeaderCell: UICollectionViewCell {
     // MARK: - UI Components
     
     private let menuNameLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 24, color: .black)
+        $0.setLabelUI("", font: .pretendard_semibold, size: 24, color: .black)
     }
     
     private let menuFooterStackView = UIStackView().then {
