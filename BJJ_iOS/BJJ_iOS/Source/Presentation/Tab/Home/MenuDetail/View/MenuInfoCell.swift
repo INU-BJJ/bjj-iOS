@@ -26,6 +26,7 @@ final class MenuInfoCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        setUI()
         setAddView()
         setConstraints()
     }
@@ -34,9 +35,19 @@ final class MenuInfoCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Set UI
+    
+    private func setUI() {
+        contentView.backgroundColor = .customColor(.subColor)
+    }
+    
+    // MARK: - Set AddView
+    
     private func setAddView() {
         contentView.addSubview(menuLabel)
     }
+    
+    // MARK: - Set Constraints()
     
     private func setConstraints() {
         menuLabel.snp.makeConstraints {
@@ -44,7 +55,9 @@ final class MenuInfoCell: UICollectionViewCell {
         }
     }
     
-    func configure(with text: String) {
+    // MARK: - Configure Cell
+    
+    func configureMenuInfoCell(with text: String) {
         menuLabel.text = text
     }
 }

@@ -26,7 +26,7 @@ final class MenuReviewViewController: UIViewController {
         collectionViewLayout: createLayout()
     ).then {
         $0.register(MenuHeader.self, forCellWithReuseIdentifier: MenuHeader.identifier)
-//        $0.register(MenuInfoCell, forCellWithReuseIdentifier: MenuInfoCell.identifier)
+        $0.register(MenuInfo.self, forCellWithReuseIdentifier: MenuInfo.identifier)
 //        $0.register(MenuReviewCell, forCellWithReuseIdentifier: MenuReviewCell.identifier)
 //        $0.register(MenuReviewDetailCell, forCellWithReuseIdentifier: MenuReviewDetailCell.identifier)
         $0.delegate = self
@@ -91,8 +91,8 @@ final class MenuReviewViewController: UIViewController {
             switch sectionIndex {
             case 0:
                 return self.createMenuHeaderSection()    // 메뉴 정보 섹션
-//            case 1:
-//                return self.createMenuCompositionSection() // 메뉴 구성 섹션
+            case 1:
+                return self.createMenuInfoSection() // 메뉴 구성 섹션
 //            case 2:
 //                return self.createReviewHeaderSection() // 리뷰 헤더 섹션 (가로 스크롤 사진 포함)
 //            case 3:
@@ -117,19 +117,32 @@ final class MenuReviewViewController: UIViewController {
         
         return section
     }
+    
+    private func createMenuInfoSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(300))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(300))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        return section
+    }
 }
 
 extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
             return 1      // 메뉴 정보는 하나의 셀만 필요
-//        case 1:
-//            return 1      // 메뉴 구성도 하나의 셀로 표시
+        case 1:
+            return 1      // 메뉴 구성도 하나의 셀로 표시
 //        case 2:
 //            return 1      // 리뷰 헤더도 하나의 셀로 구성
 //        case 3:
@@ -145,10 +158,10 @@ extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDa
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuHeader.identifier, for: indexPath) as! MenuHeader
             cell.configure(menuName: "양상추샐러드/복숭아아이스티", menuPrice: "5,500원")
             return cell
-//        case 1:
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuCompositionCell.identifier, for: indexPath) as! MenuCompositionCell
-//            cell.configure(menuItems: ["돼지불고기카레", "우동국물", "찹쌀탕수육", "짜장떡볶이", "깍두기무침"])
-//            return cell
+        case 1:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfo.identifier, for: indexPath) as! MenuInfo
+            cell.configureMenuInfo(with: menuData)
+            return cell
 //        case 2:
 //            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewHeaderCell.identifier, for: indexPath) as! ReviewHeaderCell
 //            cell.configure(reviewCount: 605, rating: 4.2)
