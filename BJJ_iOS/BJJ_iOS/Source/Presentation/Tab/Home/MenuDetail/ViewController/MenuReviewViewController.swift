@@ -28,7 +28,8 @@ final class MenuReviewViewController: UIViewController {
         $0.register(MenuHeader.self, forCellWithReuseIdentifier: MenuHeader.identifier)
         $0.register(MenuInfo.self, forCellWithReuseIdentifier: MenuInfo.identifier)
         $0.register(MenuReview.self, forCellWithReuseIdentifier: MenuReview.identifier)
-//        $0.register(MenuReviewDetailCell, forCellWithReuseIdentifier: MenuReviewDetailCell.identifier)
+        $0.register(MenuReviewList.self, forCellWithReuseIdentifier: MenuReviewList.identifier)
+        
         $0.delegate = self
         $0.dataSource = self
     }
@@ -95,8 +96,8 @@ final class MenuReviewViewController: UIViewController {
                 return self.createMenuInfoSection() // 메뉴 구성 섹션
             case 2:
                 return self.createReviewSection() // 리뷰 헤더 섹션 (가로 스크롤 사진 포함)
-//            case 3:
-//                return self.createReviewListSection()   // 리뷰 리스트 섹션
+            case 3:
+                return self.createReviewListSection()   // 리뷰 리스트 섹션
             default:
                 return nil
             }
@@ -143,11 +144,24 @@ final class MenuReviewViewController: UIViewController {
         
         return section
     }
+    
+    private func createReviewListSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(403))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(403))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        return section
+    }
 }
 
 extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -158,8 +172,8 @@ extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDa
             return 1      // 메뉴 구성도 하나의 셀로 표시
         case 2:
             return 1      // 리뷰 헤더도 하나의 셀로 구성
-//        case 3:
-//            return currentReviews.count  // 리뷰 리스트는 현재 필터링된 리뷰 개수에 따라 동적으로 결정
+        case 3:
+            return 1  // 리뷰 리스트는 현재 필터링된 리뷰 개수에 따라 동적으로 결정
         default:
             return 0
         }
@@ -182,11 +196,11 @@ extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDa
 //                self?.isPhotoOnly = isPhotoOnly  // "포토 리뷰만" 체크박스의 상태 업데이트
 //            }
             return cell
-//        case 3:
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCell.identifier, for: indexPath) as! ReviewCell
+        case 3:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.identifier, for: indexPath) as! MenuReviewList
 //            let review = currentReviews[indexPath.item]
-//            cell.configure(review: review)
-//            return cell
+            cell.configureMenuReviewList(with: menuData)
+            return cell
         default:
             fatalError("Unexpected section")
         }
