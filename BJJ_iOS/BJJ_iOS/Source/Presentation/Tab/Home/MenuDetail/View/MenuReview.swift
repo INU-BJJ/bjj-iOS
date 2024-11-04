@@ -24,7 +24,7 @@ final class MenuReview: UICollectionViewCell {
     ).then {
         $0.register(MenuReviewCell.self, forCellWithReuseIdentifier: MenuReviewCell.identifier)
         $0.register(MenuReviewHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MenuReviewHeaderView.identifier)
-        
+        $0.register(MenuReviewFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: MenuReviewFooterView.identifier)
         
         $0.dataSource = self
         $0.showsHorizontalScrollIndicator = false
@@ -87,9 +87,13 @@ final class MenuReview: UICollectionViewCell {
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
         section.orthogonalScrollingBehavior = .continuous
         
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(50))
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(21))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
-        section.boundarySupplementaryItems = [header]
+        
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(33))
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
+        
+        section.boundarySupplementaryItems = [header, footer]
         
         return UICollectionViewCompositionalLayout(section: section)
     }
@@ -121,6 +125,10 @@ extension MenuReview: UICollectionViewDataSource {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MenuReviewHeaderView.identifier, for: indexPath) as! MenuReviewHeaderView
             
             return headerView
+        } else if kind == UICollectionView.elementKindSectionFooter {
+            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MenuReviewFooterView.identifier, for: indexPath) as! MenuReviewFooterView
+            
+            return footerView
         }
         fatalError("Unexpected element kind")
     }
