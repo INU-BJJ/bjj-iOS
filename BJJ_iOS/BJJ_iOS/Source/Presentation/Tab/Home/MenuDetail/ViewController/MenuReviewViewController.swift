@@ -115,7 +115,9 @@ final class MenuReviewViewController: UIViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
+        section.contentInsets = NSDirectionalEdgeInsets(top: 41, leading: 46, bottom: 20, trailing: 46)
         
         return section
     }
@@ -128,7 +130,9 @@ final class MenuReviewViewController: UIViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 46, bottom: 0, trailing: 46)
         
         return section
     }
@@ -141,7 +145,9 @@ final class MenuReviewViewController: UIViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 46, bottom: 0, trailing: 46)
         
         return section
     }
@@ -154,7 +160,9 @@ final class MenuReviewViewController: UIViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 46, bottom: 17, trailing: 46)
         
         return section
     }
