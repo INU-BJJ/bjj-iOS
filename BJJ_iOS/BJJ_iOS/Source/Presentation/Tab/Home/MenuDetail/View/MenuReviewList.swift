@@ -23,7 +23,7 @@ final class MenuReviewList: UICollectionViewCell {
             collectionViewLayout: createLayout()
         ).then {
             $0.register(MenuReviewListInfo.self, forCellWithReuseIdentifier: MenuReviewListInfo.identifier)
-//        $0.register(ReviewContentCell.self, forCellWithReuseIdentifier: ReviewContentCell.identifier)
+        $0.register(MenuReviewListContent.self, forCellWithReuseIdentifier: MenuReviewListContent.identifier)
 //        $0.register(ReviewHashTagCell.self, forCellWithReuseIdentifier: ReviewHashTagCell.identifier)
             
         $0.dataSource = self
@@ -81,8 +81,8 @@ final class MenuReviewList: UICollectionViewCell {
             switch sectionIndex {
             case 0:
                 return self.createMenuReviewListInfoSection()
-//            case 1:
-//                return self.createReviewContentSection()
+            case 1:
+                return self.createMenuReviewListContentSection()
 //            case 2:
 //                return self.createReviewHashTagSection()
             default:
@@ -103,20 +103,30 @@ final class MenuReviewList: UICollectionViewCell {
         return section
     }
     
-    
+    private func createMenuReviewListContentSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(350))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(350))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+//        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        return section
+    }
 }
 
 extension MenuReviewList: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
             return 1 // Info Section에 1개의 셀
-//        case 1:
-//            return 1 // Content Section에 1개의 셀
+        case 1:
+            return 1 // Content Section에 1개의 셀
 //        case 2:
 //            return 2 // HashTag Section에 2개의 셀
         default:
@@ -130,10 +140,10 @@ extension MenuReviewList: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListInfo.identifier, for: indexPath) as! MenuReviewListInfo
             // 데이터 설정
             return cell
-//        case 1:
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewContentCell.identifier, for: indexPath) as! ReviewContentCell
-//            // 데이터 설정
-//            return cell
+        case 1:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListContent.identifier, for: indexPath) as! MenuReviewListContent
+            // 데이터 설정
+            return cell
 //        case 2:
 //            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewHashTagCell.identifier, for: indexPath) as! ReviewHashTagCell
 //            // 데이터 설정

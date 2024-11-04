@@ -184,22 +184,23 @@ extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDa
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuHeader.identifier, for: indexPath) as! MenuHeader
             cell.configureMenuHeader(menuName: "양상추샐러드/복숭아아이스티", menuPrice: "5,500원")
+            
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfo.identifier, for: indexPath) as! MenuInfo
             cell.configureMenuInfo(with: menuData)
+            
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReview.identifier, for: indexPath) as! MenuReview
             cell.configureMenuReview(with: menuData)
-//            cell.onPhotoOnlyToggle = { [weak self] isPhotoOnly in
-//                self?.isPhotoOnly = isPhotoOnly  // "포토 리뷰만" 체크박스의 상태 업데이트
-//            }
+            
             return cell
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.identifier, for: indexPath) as! MenuReviewList
 //            let review = currentReviews[indexPath.item]
             cell.configureMenuReviewList(with: menuData)
+            
             return cell
         default:
             fatalError("Unexpected section")
