@@ -34,6 +34,8 @@ final class MenuReviewViewController: UIViewController {
         $0.delegate = self
         $0.dataSource = self
         $0.showsVerticalScrollIndicator = false
+        $0.layer.cornerRadius = 30
+        $0.layer.masksToBounds = true
     }
     
     // MARK: - LifeCycle
