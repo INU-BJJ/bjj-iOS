@@ -1,0 +1,15 @@
+{
+  "originHash" : "7eccf92adef63c782245f63d33f24349ea01772145d1050b1834d2658391dfa5",
+  "pins" : [
+    {
+      "identity" : "pretendardkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/wookeon/PretendardKit.git",
+      "state" : {
+        "revision" : "d8362d8ecee86c297f2784fa453037136914bc2c",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}
