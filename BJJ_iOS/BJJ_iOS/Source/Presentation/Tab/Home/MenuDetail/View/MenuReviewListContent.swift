@@ -14,7 +14,6 @@ final class MenuReviewListContent: UICollectionViewCell {
     // MARK: - Properties
     
     static let identifier = "MenuReviewListContent"
-//    private var reviewData: [asdfas] = []
     
     // MARK: - UI Components
     
@@ -33,6 +32,8 @@ final class MenuReviewListContent: UICollectionViewCell {
         $0.textColor = .black
         $0.font = .customFont(.pretendard_medium, 13)
         $0.isScrollEnabled = false
+        $0.textContainerInset = UIEdgeInsets.zero
+        $0.textContainer.lineFragmentPadding = 0
     }
     
     private let reviewImage = UIImageView().then {

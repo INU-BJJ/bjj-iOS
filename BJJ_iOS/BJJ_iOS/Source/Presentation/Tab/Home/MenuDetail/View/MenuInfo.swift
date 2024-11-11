@@ -20,6 +20,7 @@ final class MenuInfo: UICollectionViewCell {
                                 우동국물
                                 찹쌀탕수육
                                 짜장떡볶이
+                                깍둑단무지무침
                                 배추김치
                                 기장밥
                                """
@@ -69,7 +70,8 @@ final class MenuInfo: UICollectionViewCell {
     
     private func setConstraints() {
         menuInfoCollectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.verticalEdges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(24)
         }
     }
     

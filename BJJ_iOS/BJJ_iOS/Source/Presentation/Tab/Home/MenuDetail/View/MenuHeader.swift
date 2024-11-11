@@ -74,13 +74,13 @@ final class MenuHeader: UICollectionViewCell {
     private func setConstraints() {
         menuNameLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(24)
             $0.height.greaterThanOrEqualTo(29)
         }
         
         menuFooterStackView.snp.makeConstraints {
             $0.bottom.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview()
+            $0.horizontalEdges.equalTo(menuNameLabel)
             $0.height.greaterThanOrEqualTo(23)
         }
     }

@@ -9,14 +9,14 @@ import UIKit
 import SnapKit
 import Then
 
-final class MenuReviewFooterView: UICollectionReusableView {
+final class MenuReviewSorting: UICollectionViewCell {
     
     // MARK: - Properties
     
-    static let identifier = "MenuReviewFooterView"
+    static let identifier = "MenuReviewSorting"
     
     // MARK: - UI Components
-    
+
     private let onlyPhotoReviewStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.alignment = .center
@@ -82,14 +82,12 @@ final class MenuReviewFooterView: UICollectionReusableView {
     private func setConstraints() {
         onlyPhotoReviewStackView.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview().inset(8)
-//            $0.leading.equalToSuperview().offset(22)
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().offset(22)
         }
         
         reviewToggleButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-//            $0.trailing.equalToSuperview().offset(-22)
-            $0.trailing.equalToSuperview()
+            $0.centerY.equalTo(onlyPhotoReviewStackView)
+            $0.trailing.equalToSuperview().offset(-22)
         }
     }
 }

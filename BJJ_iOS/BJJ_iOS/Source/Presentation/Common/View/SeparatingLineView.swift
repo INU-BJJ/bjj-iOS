@@ -9,33 +9,43 @@ import UIKit
 import SnapKit
 import Then
 
-final class SeparatingLineView: UIView {
+final class SeparatingLineView: UICollectionReusableView {
     
     // MARK: - Properties
     
-    private var dividingColor: UIColor
+    static let identifier = "SeparatingLineView"
     
-    // MARK: Life Cycle
+    // MARK: - UI Components
     
-    init(color: UIColor) {
-        self.dividingColor = color
-        super.init(frame: .zero)
-        
-        setUI()
+    private let dividerView = UIView().then {
+        $0.backgroundColor = .customColor(.lineColor)
     }
     
-    init(frame: CGRect, color: UIColor) {
-        self.dividingColor = color
+    // MARK: - Life Cycle
+    
+    override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setUI()
+        setAddView()
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setUI() {
-        backgroundColor = dividingColor
+    // MARK: - Set AddView
+    
+    private func setAddView() {
+        addSubview(dividerView)
+    }
+    
+    // MARK: - Set Constraints
+    
+    private func setConstraints() {
+        dividerView.snp.makeConstraints {
+            $0.horizontalEdges.equalTo(snp.horizontalEdges)
+            $0.height.equalTo(1)
+        }
     }
 }

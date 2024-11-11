@@ -15,7 +15,6 @@ final class MenuReviewListHashTag: UICollectionViewCell {
     
     static let identifier = "MenuReviewListHastTag"
     private let hashTags = ["우삽겹떡볶이*핫도그", "오뎅국"]
-//    private var dataSource: UITableViewDiffableDataSource<Int, String>!
     
     // MARK: - UI Components
     
@@ -68,20 +67,15 @@ final class MenuReviewListHashTag: UICollectionViewCell {
         
     private func createLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            // Item Size
             let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(80), heightDimension: .estimated(25))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//            item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
 
-            // Group Size
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(25))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             group.interItemSpacing = .fixed(5)
             
-            // Section
             let section = NSCollectionLayoutSection(group: group)
             section.orthogonalScrollingBehavior = .continuous
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
 
             return section
         }

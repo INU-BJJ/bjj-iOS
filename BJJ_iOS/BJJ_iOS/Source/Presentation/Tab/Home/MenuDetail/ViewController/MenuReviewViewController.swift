@@ -12,7 +12,7 @@ import Then
 final class MenuReviewViewController: UIViewController {
     
     // MARK: - Properties
-  
+    
     // MARK: - UI Components
     
     private let menuDefaultImageView = UIImageView().then {
@@ -20,7 +20,7 @@ final class MenuReviewViewController: UIViewController {
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
-
+    
     private lazy var menuReviewCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createLayout()
@@ -28,8 +28,9 @@ final class MenuReviewViewController: UIViewController {
         $0.register(MenuHeader.self, forCellWithReuseIdentifier: MenuHeader.identifier)
         $0.register(MenuInfo.self, forCellWithReuseIdentifier: MenuInfo.identifier)
         $0.register(MenuReview.self, forCellWithReuseIdentifier: MenuReview.identifier)
+        $0.register(MenuReviewSorting.self, forCellWithReuseIdentifier: MenuReviewSorting.identifier)
         $0.register(MenuReviewList.self, forCellWithReuseIdentifier: MenuReviewList.identifier)
-        
+        $0.register(SeparatingLineView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: SeparatingLineView.identifier)
         $0.delegate = self
         $0.dataSource = self
         $0.showsVerticalScrollIndicator = false
@@ -65,8 +66,8 @@ final class MenuReviewViewController: UIViewController {
     
     private func setAddView() {
         [
-         menuDefaultImageView,
-         menuReviewCollectionView
+            menuDefaultImageView,
+            menuReviewCollectionView
         ].forEach(view.addSubview)
     }
     
@@ -87,7 +88,7 @@ final class MenuReviewViewController: UIViewController {
     }
     
     // MARK: - Create Layout
-   
+    
     private func createLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             switch sectionIndex {
@@ -98,6 +99,8 @@ final class MenuReviewViewController: UIViewController {
             case 2:
                 return self.createReviewSection() // 리뷰 헤더 섹션 (가로 스크롤 사진 포함)
             case 3:
+                return self.createReviewSortingSection() // 리뷰 정렬 섹션
+            case 4:
                 return self.createReviewListSection()   // 리뷰 리스트 섹션
             default:
                 return nil
@@ -116,38 +119,69 @@ final class MenuReviewViewController: UIViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(1))
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
+        
         // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
-        section.contentInsets = NSDirectionalEdgeInsets(top: 41, leading: 46, bottom: 20, trailing: 46)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 41, leading: 24, bottom: 23, trailing: 24)
+        section.boundarySupplementaryItems = [footer]
         
         return section
     }
     
     private func createMenuInfoSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(176))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(176))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(176))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(176))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(1))
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
+        
         // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
-        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 46, bottom: 0, trailing: 46)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 30, leading: 24, bottom: 16, trailing: 24)
+        section.boundarySupplementaryItems = [footer]
         
         return section
     }
     
     private func createReviewSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(150))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(104))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(150))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(104))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(1))
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
+        
         // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
-        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 46, bottom: 0, trailing: 46)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 24, bottom: 17, trailing: 24)
+        section.boundarySupplementaryItems = [footer]
+        
+        return section
+    }
+    
+    private func createReviewSortingSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(33))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(33))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(1))
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
+        
+        // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24)
+        section.boundarySupplementaryItems = [footer]
         
         return section
     }
@@ -161,8 +195,12 @@ final class MenuReviewViewController: UIViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(1))
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
+        
         // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
-        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 46, bottom: 17, trailing: 46)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 24, bottom: 17, trailing: 24)
+        section.boundarySupplementaryItems = [footer]
         
         return section
     }
@@ -170,7 +208,7 @@ final class MenuReviewViewController: UIViewController {
 
 extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 4
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -182,6 +220,8 @@ extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDa
         case 2:
             return 1      // 리뷰 헤더도 하나의 셀로 구성
         case 3:
+            return 1
+        case 4:
             return 1  // 리뷰 리스트는 현재 필터링된 리뷰 개수에 따라 동적으로 결정
         default:
             return 0
@@ -206,6 +246,10 @@ extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDa
             
             return cell
         case 3:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSorting.identifier, for: indexPath) as! MenuReviewSorting
+            
+            return cell
+        case 4:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.identifier, for: indexPath) as! MenuReviewList
 //            let review = currentReviews[indexPath.item]
             cell.configureMenuReviewList(with: menuData)
@@ -214,5 +258,21 @@ extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDa
         default:
             fatalError("Unexpected section")
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionFooter {
+            let footer = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: SeparatingLineView.identifier,
+                for: indexPath
+            ) as! SeparatingLineView
+            
+            // 마지막 섹션에는 구분선을 표시하지 않을 경우
+            footer.isHidden = indexPath.section == 4
+            
+            return footer
+        }
+        return UICollectionReusableView()
     }
 }

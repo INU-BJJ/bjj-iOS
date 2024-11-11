@@ -21,7 +21,7 @@ final class MenuReviewHashTagCell: UICollectionViewCell {
         $0.setLabelUI("", font: .pretendard, size: 11, color: .black)
         $0.textAlignment = .center
         $0.clipsToBounds = true
-        $0.layer.cornerRadius = 8
+        $0.layer.cornerRadius = 3
     }
     
     // MARK: - Initializer
@@ -47,8 +47,6 @@ final class MenuReviewHashTagCell: UICollectionViewCell {
     
     private func setConstraints() {
         hashTagLabel.snp.makeConstraints {
-//            $0.horizontalEdges.equalToSuperview().inset(7)
-//            $0.verticalEdges.equalToSuperview().inset(5)
             $0.edges.equalToSuperview()
         }
     }
