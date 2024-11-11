@@ -96,7 +96,7 @@ extension MenuReviewListHashTag: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewHashTagCell.identifier, for: indexPath) as! MenuReviewHashTagCell
         let isHighlighted = (indexPath.row == 0)
-        cell.configure(with: hashTags[indexPath.row], isHighlighted: isHighlighted)
+        cell.configureHashTag(with: hashTags[indexPath.row], isHighlighted: isHighlighted)
         return cell
     }
 }

@@ -17,11 +17,14 @@ final class MenuReviewHashTagCell: UICollectionViewCell {
     
     // MARK: - UI Components
     
+    private let hashTagView = UIView().then {
+        $0.layer.cornerRadius = 3
+        $0.clipsToBounds = true
+    }
+    
     private let hashTagLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 11, color: .black)
         $0.textAlignment = .center
-        $0.clipsToBounds = true
-        $0.layer.cornerRadius = 3
     }
     
     // MARK: - Initializer
@@ -40,21 +43,27 @@ final class MenuReviewHashTagCell: UICollectionViewCell {
     // MARK: - Set AddView
     
     private func setAddView() {
-        contentView.addSubview(hashTagLabel)
+        contentView.addSubview(hashTagView)
+        hashTagView.addSubview(hashTagLabel)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        hashTagLabel.snp.makeConstraints {
+        hashTagView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        hashTagLabel.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(7)
+            $0.verticalEdges.equalToSuperview().inset(5)
         }
     }
     
     // MARK: - Configure Cell
     
-    func configure(with text: String, isHighlighted: Bool) {
+    func configureHashTag(with text: String, isHighlighted: Bool) {
         hashTagLabel.text = text
-        hashTagLabel.backgroundColor = isHighlighted ? .customColor(.mainColor) : .customColor(.backgroundGray)
+        hashTagView.backgroundColor = isHighlighted ? .customColor(.mainColor) : .customColor(.backgroundGray)
     }
 }
