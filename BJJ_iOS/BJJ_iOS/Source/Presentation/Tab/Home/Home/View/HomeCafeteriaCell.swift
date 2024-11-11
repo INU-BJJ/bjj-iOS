@@ -18,6 +18,13 @@ final class HomeCafeteriaCell: UICollectionViewCell {
     // MARK: - UI Components
     
     // TODO: 선택 여부에 따라 텍스트 색 변경하기
+    
+    private let cafeteriaCellView = UIView().then {
+        $0.layer.cornerRadius = 100
+        $0.layer.masksToBounds = true
+        $0.layer.borderWidth = 1
+    }
+    
     private let cafeteriaLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 15, color: .black)
     }
@@ -27,7 +34,6 @@ final class HomeCafeteriaCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setUI()
         setAddView()
         setConstraints()
     }
@@ -36,25 +42,25 @@ final class HomeCafeteriaCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Set UI
-        
-    private func setUI() {
-        self.backgroundColor = .customColor(.mainColor)
-        self.layer.cornerRadius = 100
-        self.layer.masksToBounds = true
-    }
-    
     // MARK: - Set AddView
     
     private func setAddView() {
         [
-         cafeteriaLabel
+            cafeteriaCellView
         ].forEach(contentView.addSubview)
+        
+        [
+            cafeteriaLabel
+        ].forEach(cafeteriaCellView.addSubview)
     }
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {  
+    private func setConstraints() {
+        cafeteriaCellView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         cafeteriaLabel.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 9, left: 14, bottom: 9, right: 14))
         }
@@ -62,7 +68,10 @@ final class HomeCafeteriaCell: UICollectionViewCell {
     
     // MARK: - Configuration
     
-    func configureCell(with name: String) {
+    func configureCell(with name: String, isSelected: Bool) {
         cafeteriaLabel.text = name
+        cafeteriaLabel.textColor = isSelected ? .white : .customColor(.darkGray)
+        cafeteriaCellView.backgroundColor = isSelected ? .customColor(.mainColor) : .white
+        cafeteriaCellView.layer.borderColor = isSelected ? UIColor.customColor(.mainColor).cgColor : UIColor.customColor(.darkGray).cgColor
     }
 }

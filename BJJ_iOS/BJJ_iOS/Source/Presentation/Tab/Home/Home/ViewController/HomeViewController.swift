@@ -145,7 +145,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             // 식당 섹션
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCafeteriaCell.identifier, for: indexPath) as! HomeCafeteriaCell
             let cafeteria = HomeCafeteriaModel.cafeteria[indexPath.item]
-            cell.configureCell(with: cafeteria.text)
+            let isSelected = indexPath.item == 0
+            
+            cell.configureCell(with: cafeteria.text, isSelected: isSelected)
             return cell
         } else {
             // 메뉴 섹션
