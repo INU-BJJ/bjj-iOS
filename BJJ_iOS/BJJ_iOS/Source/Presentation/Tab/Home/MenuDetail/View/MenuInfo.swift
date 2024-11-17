@@ -14,16 +14,17 @@ final class MenuInfo: UICollectionViewCell {
     // MARK: - Properties
     
     static let identifier = "MenuInfo"
-    private var menuItems: [MenuItem] = []
-    private let menuInfoData = """
-                                돼지불고기카레
-                                우동국물
-                                찹쌀탕수육
-                                짜장떡볶이
-                                깍둑단무지무침
-                                배추김치
-                                기장밥
-                               """
+//    private var menuComposition: [MenuItem] = []
+    private var menuComposition: [String] = []
+//    private let menuInfoData = """
+//                                돼지불고기카레
+//                                우동국물
+//                                찹쌀탕수육
+//                                짜장떡볶이
+//                                깍둑단무지무침
+//                                배추김치
+//                                기장밥
+//                               """
     
     // MARK: - UI Components
     
@@ -77,8 +78,9 @@ final class MenuInfo: UICollectionViewCell {
     
     // MARK: - Configure Cell
     
-    func configureMenuInfo(with items: [MenuItem]) {
-        self.menuItems = items
+    func configureMenuInfo(with items: ReviewListItem) {
+//        self.menuComposition = items.reviewList.map { $0.menu }
+        self.menuComposition = items.reviewList.flatMap { $0.menu.menuComposition }
         menuInfoCollectionView.reloadData()
     }
     
@@ -113,7 +115,8 @@ extension MenuInfo: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfoCell.identifier, for: indexPath) as! MenuInfoCell
-        cell.configureMenuInfoCell(with: menuInfoData)
+        let compositionItem = menuComposition[indexPath.row]
+        cell.configureMenuInfoCell(with: compositionItem)
         
         return cell
     }

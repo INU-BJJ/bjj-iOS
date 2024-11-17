@@ -239,12 +239,12 @@ extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDa
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfo.identifier, for: indexPath) as! MenuInfo
-            cell.configureMenuInfo(with: menuData)
+            cell.configureMenuInfo(with: ReviewListItem.reviewListData)
             
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReview.identifier, for: indexPath) as! MenuReview
-            cell.configureMenuReview(with: menuData)
+            cell.configureMenuReview(with: ReviewListItem.reviewListData)
             
             return cell
         case 3:
@@ -254,7 +254,7 @@ extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDa
         case 4:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.identifier, for: indexPath) as! MenuReviewList
 //            let review = currentReviews[indexPath.item]
-            cell.configureMenuReviewList(with: menuData)
+            cell.configureMenuReviewList(with: ReviewListItem.reviewListData)
             
             return cell
         default:

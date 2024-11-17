@@ -71,7 +71,7 @@ final class MenuInfoCell: UICollectionViewCell {
     
     // MARK: - Configure Cell
     
-    func configureMenuInfoCell(with text: String) {
-        menuLabel.text = text
+    func configureMenuInfoCell(with menuCompositionItem: String) {
+        menuLabel.text = menuCompositionItem
     }
 }
