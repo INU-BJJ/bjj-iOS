@@ -79,7 +79,6 @@ final class MenuInfo: UICollectionViewCell {
     // MARK: - Configure Cell
     
     func configureMenuInfo(with items: ReviewListItem) {
-//        self.menuComposition = items.reviewList.map { $0.menu }
         self.menuComposition = items.reviewList.flatMap { $0.menu.menuComposition }
         menuInfoCollectionView.reloadData()
     }

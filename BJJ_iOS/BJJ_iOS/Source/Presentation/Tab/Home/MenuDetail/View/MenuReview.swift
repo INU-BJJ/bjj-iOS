@@ -14,7 +14,7 @@ final class MenuReview: UICollectionViewCell {
     // MARK: - Properties
     
     static let identifier = "MenuReview"
-    private var menuItems: [MenuItem] = []
+    private var menuItems: [String] = []
     
     // MARK: - UI Components
     
@@ -68,8 +68,8 @@ final class MenuReview: UICollectionViewCell {
     
     // MARK: - Configure Cell
     
-    func configureMenuReview(with items: [MenuItem]) {
-        self.menuItems = items
+    func configureMenuReview(with items: ReviewListItem) {
+        self.menuItems = items.reviewList.map { $0.menu.menuImage }
         menuReviewCollectionView.reloadData()
     }
     
@@ -113,7 +113,7 @@ extension MenuReview: UICollectionViewDataSource {
         if indexPath.row == 3 {
             cell.configureAddButton()
         } else {
-            cell.configureReviewCell(reviewImage: menuItems[indexPath.row].menuImage)
+            cell.configureReviewCell(reviewImage: menuItems[indexPath.row])
         }
         
         return cell
