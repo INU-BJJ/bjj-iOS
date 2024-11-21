@@ -14,6 +14,7 @@ final class MenuReviewList: UICollectionViewCell {
     // MARK: - Properties
     
     static let identifier = "MenuReviewList"
+    private var menuReview: [MenuReviewInfo] = []
     
     // MARK: - UI Components
     
@@ -22,11 +23,12 @@ final class MenuReviewList: UICollectionViewCell {
             collectionViewLayout: createLayout()
         ).then {
             $0.register(MenuReviewListInfo.self, forCellWithReuseIdentifier: MenuReviewListInfo.identifier)
-        $0.register(MenuReviewListContent.self, forCellWithReuseIdentifier: MenuReviewListContent.identifier)
-        $0.register(MenuReviewListHashTag.self, forCellWithReuseIdentifier: MenuReviewListHashTag.identifier)
-        $0.dataSource = self
-        $0.showsVerticalScrollIndicator = false
-        $0.isScrollEnabled = false
+            $0.register(MenuReviewListContent.self, forCellWithReuseIdentifier: MenuReviewListContent.identifier)
+            $0.register(MenuReviewListHashTag.self, forCellWithReuseIdentifier: MenuReviewListHashTag.identifier)
+            $0.register(MenuReviewSeparatingView.self, forCellWithReuseIdentifier: MenuReviewSeparatingView.identifier)
+            $0.dataSource = self
+            $0.showsVerticalScrollIndicator = false
+            $0.isScrollEnabled = false
     }
     
     // MARK: - Life Cycle
@@ -67,7 +69,8 @@ final class MenuReviewList: UICollectionViewCell {
     
     // MARK: - Configure Cell
     
-    func configureMenuReviewList(with items: [MenuItem]) {
+    func configureMenuReviewList(with items: Review) {
+        self.menuReview = items.menuReviewList
         reviewCollectionView.reloadData()
     }
     
@@ -82,6 +85,8 @@ final class MenuReviewList: UICollectionViewCell {
                 return self.createMenuReviewListContentSection()
             case 2:
                 return self.createMenuReviewListHashTagSection()
+            case 3:
+                return self.createMenuReviewSeparatingSection()
             default:
                 return nil
             }
@@ -96,7 +101,8 @@ final class MenuReviewList: UICollectionViewCell {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 22, bottom: 0, trailing: 22)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 46, bottom: 0, trailing: 46)
+        
         return section
     }
     
@@ -108,7 +114,8 @@ final class MenuReviewList: UICollectionViewCell {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 22, bottom: 12, trailing: 22)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 46, bottom: 12, trailing: 46)
+        
         return section
     }
     
@@ -120,14 +127,27 @@ final class MenuReviewList: UICollectionViewCell {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 22, bottom: 17, trailing: 22)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 46, bottom: 17, trailing: 46)
+        
+        return section
+    }
+    
+    private func createMenuReviewSeparatingSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(7))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(7))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
         return section
     }
 }
 
 extension MenuReviewList: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -138,6 +158,8 @@ extension MenuReviewList: UICollectionViewDataSource {
             return 1 // Content Section에 1개의 셀
         case 2:
             return 1 // HashTag Section에 2개의 셀
+        case 3:
+            return 1 // SeparatingView 1개의 셀
         default:
             return 0
         }
@@ -147,14 +169,20 @@ extension MenuReviewList: UICollectionViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListInfo.identifier, for: indexPath) as! MenuReviewListInfo
+            cell.configureReviewListInfo(with: menuReview[indexPath.row])
             
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListContent.identifier, for: indexPath) as! MenuReviewListContent
+            cell.configureReviewListContent(with: menuReview[indexPath.row])
             
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListHashTag.identifier, for: indexPath) as! MenuReviewListHashTag
+            
+            return cell
+        case 3:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSeparatingView.identifier, for: indexPath) as! MenuReviewSeparatingView
             
             return cell
         default:

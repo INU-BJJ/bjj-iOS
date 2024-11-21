@@ -13,6 +13,9 @@ final class MenuReviewViewController: UIViewController {
     
     // MARK: - Properties
     
+    // TODO: 동적으로 index 바꾸기
+    private var selectedIndex: Int = 0
+    
     // MARK: - UI Components
     
     private let menuDefaultImageView = UIImageView().then {
@@ -189,10 +192,10 @@ final class MenuReviewViewController: UIViewController {
     }
     
     private func createReviewListSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(403))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(447))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(403))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(447))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -200,8 +203,6 @@ final class MenuReviewViewController: UIViewController {
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(1))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
         
-        // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
-        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 24, bottom: 17, trailing: 24)
         section.boundarySupplementaryItems = [footer]
         
         return section
@@ -224,7 +225,8 @@ extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDa
         case 3:
             return 1
         case 4:
-            return 1  // 리뷰 리스트는 현재 필터링된 리뷰 개수에 따라 동적으로 결정
+            let selectedMenu = ReviewListItem.reviewListData.reviewList[selectedIndex]
+            return selectedMenu.menuReviewList.count  // 리뷰 리스트는 현재 필터링된 리뷰 개수에 따라 동적으로 결정
         default:
             return 0
         }
@@ -253,8 +255,7 @@ extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDa
             return cell
         case 4:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.identifier, for: indexPath) as! MenuReviewList
-//            let review = currentReviews[indexPath.item]
-            cell.configureMenuReviewList(with: ReviewListItem.reviewListData)
+            cell.configureMenuReviewList(with: ReviewListItem.reviewListData.reviewList[indexPath.row])
             
             return cell
         default:

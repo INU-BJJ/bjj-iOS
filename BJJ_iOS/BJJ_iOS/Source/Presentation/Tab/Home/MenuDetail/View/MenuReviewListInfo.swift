@@ -14,7 +14,6 @@ final class MenuReviewListInfo: UICollectionViewCell {
     // MARK: - Properties
     
     static let identifier = "MenuReviewListInfo"
-//    private var reviewData: [asdfas] = []
     
     // MARK: - UI Components
     
@@ -49,13 +48,13 @@ final class MenuReviewListInfo: UICollectionViewCell {
     }
     
     private let nicknameLabel = UILabel().then {
-        $0.setLabelUI("떡볶이킬러나는최고야룰루", font: .pretendard_bold, size: 15, color: .black)
+        $0.setLabelUI("", font: .pretendard_bold, size: 15, color: .black)
     }
     
     private let reviewRatingView = ReviewHorizontalView()
     
     private let reviewDateLabel = UILabel().then {
-        $0.setLabelUI("2024.08.20", font: .pretendard, size: 13, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard, size: 13, color: .darkGray)
     }
     
     private let reviewLikeButton = UIButton().then {
@@ -63,7 +62,7 @@ final class MenuReviewListInfo: UICollectionViewCell {
     }
     
     private let reviewLikeCountLabel = UILabel().then {
-        $0.setLabelUI("0", font: .pretendard, size: 11, color: .black)
+        $0.setLabelUI("", font: .pretendard, size: 11, color: .black)
     }
     
     // MARK: - Life Cycle
@@ -129,5 +128,13 @@ final class MenuReviewListInfo: UICollectionViewCell {
             $0.trailing.equalToSuperview()
             $0.verticalEdges.equalToSuperview()
         }
+    }
+    
+    // MARK: - Configure Cell
+    
+    func configureReviewListInfo(with reviewListInfo: MenuReviewInfo) {
+        nicknameLabel.text = reviewListInfo.userInfo.nickname
+        reviewDateLabel.text = reviewListInfo.reviewDate
+        reviewLikeCountLabel.text = "\(reviewListInfo.menuLikedCount)"
     }
 }

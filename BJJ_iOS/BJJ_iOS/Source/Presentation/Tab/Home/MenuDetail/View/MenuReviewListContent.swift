@@ -24,11 +24,6 @@ final class MenuReviewListContent: UICollectionViewCell {
     }
     
     private let reviewContentTextView = UITextView().then {
-        $0.text = """
-                    핫도그는 냉동인데
-                    떡볶이는 맛있음
-                    맛도 있고 가격도 착해서 떡볶이 땡길 때 추천
-                  """
         $0.textColor = .black
         $0.font = .customFont(.pretendard_medium, 13)
         $0.isScrollEnabled = false
@@ -37,7 +32,6 @@ final class MenuReviewListContent: UICollectionViewCell {
     }
     
     private let reviewImage = UIImageView().then {
-        $0.image = UIImage(named: "MenuImage1")
         $0.layer.cornerRadius = 11
         $0.clipsToBounds = true
     }
@@ -84,5 +78,12 @@ final class MenuReviewListContent: UICollectionViewCell {
             $0.width.equalToSuperview()
             $0.height.equalTo(250)
         }
+    }
+    
+    // MARK: - Configure Cell
+    
+    func configureReviewListContent(with reviewList: MenuReviewInfo) {
+        reviewContentTextView.text = reviewList.reviewContent
+        reviewImage.image = UIImage(named: reviewList.reviewImage)
     }
 }
