@@ -59,4 +59,8 @@ final class MenuReviewCell: UICollectionViewCell {
         imageView.contentMode = .center
         imageView.backgroundColor = .customColor(.lightGray)
     }
+    
+    func configureDefaultCell() {
+        imageView.backgroundColor = .customColor(.lightGray)
+    }
 }
