@@ -84,7 +84,7 @@ extension ReviewListItem {
                                 menuImage: "MenuImage1",
                                 menuPrice: "5,500원",
                                 menuLiked: true,
-                                menuComposition: ["돼지불고기카레", "우동 국물", "찹쌀탕수육", "짜장떡볶이", "깍둑단무지무침", "배추김치", "기장밥"]),
+                                menuComposition: ["우동 국물", "새우까스*칠리s", "쫄면", "단무지"]),
                         menuReviewList:
                             [
                                 MenuReviewInfo(

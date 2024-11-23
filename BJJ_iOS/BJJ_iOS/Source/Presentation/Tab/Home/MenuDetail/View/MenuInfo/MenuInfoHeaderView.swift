@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class MenuInfoHeaderView: UICollectionReusableView {
+final class MenuInfoHeaderView: UIView {
     
     // MARK: - Properties
     
@@ -43,7 +43,8 @@ final class MenuInfoHeaderView: UICollectionReusableView {
     
     private func setConstraints() {
         headerLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().offset(22)
         }
     }
 }

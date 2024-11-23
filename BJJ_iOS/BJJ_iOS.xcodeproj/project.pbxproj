@@ -355,20 +355,11 @@
 		3F996E5B2CD64C1200910DE7 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3FBA45B02CD749730038960A /* MenuHeader.swift */,
-				3F16131C2CD8487800A30369 /* MenuInfo.swift */,
-				3F1613202CD84E0800A30369 /* MenuInfoHeaderView.swift */,
-				3F16131E2CD84D0E00A30369 /* MenuInfoCell.swift */,
-				3F1613242CD8572E00A30369 /* MenuReview.swift */,
-				3F1613282CD8584100A30369 /* MenuReviewHeaderView.swift */,
-				3F1613262CD8582D00A30369 /* MenuReviewCell.swift */,
-				3F16132A2CD86D3B00A30369 /* MenuReviewSorting.swift */,
-				3F16132C2CD8737500A30369 /* MenuReviewList.swift */,
-				3F1613302CD876C800A30369 /* MenuReviewListInfo.swift */,
-				3F1A51A52CD88C8200029E09 /* MenuReviewListContent.swift */,
-				3F1A51A72CD890B300029E09 /* MenuReviewListHashTag.swift */,
-				3F1A51A92CD8941200029E09 /* MenuReviewHashTagCell.swift */,
-				3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */,
+				3FCA676C2CEF21A600E38AC6 /* MenuHeader */,
+				3FCA676D2CEF21B200E38AC6 /* MenuInfo */,
+				3FCA676E2CEF21C800E38AC6 /* MenuReview */,
+				3FCA67702CEF220E00E38AC6 /* MenuReviewSorting */,
+				3FCA676F2CEF21F100E38AC6 /* MenuReviewList */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -386,6 +377,55 @@
 				3F1613222CD8523400A30369 /* MenuItem.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3FCA676C2CEF21A600E38AC6 /* MenuHeader */ = {
+			isa = PBXGroup;
+			children = (
+				3FBA45B02CD749730038960A /* MenuHeader.swift */,
+			);
+			path = MenuHeader;
+			sourceTree = "<group>";
+		};
+		3FCA676D2CEF21B200E38AC6 /* MenuInfo */ = {
+			isa = PBXGroup;
+			children = (
+				3F16131C2CD8487800A30369 /* MenuInfo.swift */,
+				3F1613202CD84E0800A30369 /* MenuInfoHeaderView.swift */,
+				3F16131E2CD84D0E00A30369 /* MenuInfoCell.swift */,
+			);
+			path = MenuInfo;
+			sourceTree = "<group>";
+		};
+		3FCA676E2CEF21C800E38AC6 /* MenuReview */ = {
+			isa = PBXGroup;
+			children = (
+				3F1613242CD8572E00A30369 /* MenuReview.swift */,
+				3F1613282CD8584100A30369 /* MenuReviewHeaderView.swift */,
+				3F1613262CD8582D00A30369 /* MenuReviewCell.swift */,
+			);
+			path = MenuReview;
+			sourceTree = "<group>";
+		};
+		3FCA676F2CEF21F100E38AC6 /* MenuReviewList */ = {
+			isa = PBXGroup;
+			children = (
+				3F16132C2CD8737500A30369 /* MenuReviewList.swift */,
+				3F1613302CD876C800A30369 /* MenuReviewListInfo.swift */,
+				3F1A51A52CD88C8200029E09 /* MenuReviewListContent.swift */,
+				3F1A51A72CD890B300029E09 /* MenuReviewListHashTag.swift */,
+				3F1A51A92CD8941200029E09 /* MenuReviewHashTagCell.swift */,
+				3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */,
+			);
+			path = MenuReviewList;
+			sourceTree = "<group>";
+		};
+		3FCA67702CEF220E00E38AC6 /* MenuReviewSorting */ = {
+			isa = PBXGroup;
+			children = (
+				3F16132A2CD86D3B00A30369 /* MenuReviewSorting.swift */,
+			);
+			path = MenuReviewSorting;
 			sourceTree = "<group>";
 		};
 		9958187AB4AC4379F96B0E4E /* Frameworks */ = {
