@@ -1,30 +1,31 @@
 //
-//  MenuInfoHeaderView.swift
+//  ReviewSeparatingView.swift
 //  BJJ_iOS
 //
-//  Created by HyoTaek on 11/4/24.
+//  Created by HyoTaek on 11/21/24.
 //
 
 import UIKit
 import SnapKit
 import Then
 
-final class MenuInfoHeaderView: UICollectionReusableView {
+final class MenuReviewSeparatingView: UICollectionViewCell {
     
     // MARK: - Properties
     
-    static let identifier = "MenuInfoHeaderView"
+    static let identifier = "ReviewSeparatingView"
     
     // MARK: - UI Components
     
-    private let headerLabel = UILabel().then {
-        $0.setLabelUI("메뉴 구성", font: .pretendard_bold, size: 18, color: .black)
+    private let dividerView = UIView().then {
+        $0.backgroundColor = .customColor(.backgroundGray)
     }
     
     // MARK: - Life Cycle
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
         setAddView()
         setConstraints()
     }
@@ -36,14 +37,16 @@ final class MenuInfoHeaderView: UICollectionReusableView {
     // MARK: - Set AddView
     
     private func setAddView() {
-        addSubview(headerLabel)
+        addSubview(dividerView)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        headerLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        dividerView.snp.makeConstraints {
+            $0.horizontalEdges.equalTo(snp.horizontalEdges)
+            $0.height.equalTo(7)
         }
     }
 }
+

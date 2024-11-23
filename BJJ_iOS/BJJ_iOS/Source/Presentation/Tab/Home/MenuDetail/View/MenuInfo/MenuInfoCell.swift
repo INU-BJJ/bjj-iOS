@@ -17,15 +17,8 @@ final class MenuInfoCell: UICollectionViewCell {
     
     // MARK: - UI Components
     
-    private let menuView = UIView().then {
-        $0.backgroundColor = .customColor(.subColor)
-        $0.layer.cornerRadius = 10
-        $0.clipsToBounds = true
-    }
-    
     private let menuLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
-        $0.numberOfLines = 0
     }
     
     // MARK: - Life Cycle
@@ -45,33 +38,29 @@ final class MenuInfoCell: UICollectionViewCell {
     // MARK: - Set UI
     
     private func setUI() {
-        contentView.backgroundColor = .white
+        
     }
     
     // MARK: - Set AddView
     
     private func setAddView() {
-        contentView.addSubview(menuView)
-        menuView.addSubview(menuLabel)
+        [
+            menuLabel
+        ].forEach(contentView.addSubview)
     }
     
-    // MARK: - Set Constraints()
+    // MARK: - Set Constraints
     
     private func setConstraints() {
-        menuView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
         menuLabel.snp.makeConstraints {
-            $0.verticalEdges.equalToSuperview().inset(10)
+            $0.verticalEdges.equalToSuperview()
             $0.leading.equalToSuperview().offset(15)
-            $0.trailing.equalToSuperview().offset(-192)
         }
     }
     
     // MARK: - Configure Cell
     
-    func configureMenuInfoCell(with text: String) {
-        menuLabel.text = text
+    func configureMenuInfoCell(with menuCompositionItem: String) {
+        menuLabel.text = menuCompositionItem
     }
 }

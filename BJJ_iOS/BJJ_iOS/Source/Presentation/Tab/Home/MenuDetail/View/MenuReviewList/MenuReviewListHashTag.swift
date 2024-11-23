@@ -52,7 +52,9 @@ final class MenuReviewListHashTag: UICollectionViewCell {
     // MARK: - Set AddView
     
     private func setAddView() {
-        contentView.addSubview(reviewHashTagCollectionView)
+        [
+            reviewHashTagCollectionView
+        ].forEach(contentView.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -75,8 +77,7 @@ final class MenuReviewListHashTag: UICollectionViewCell {
             group.interItemSpacing = .fixed(5)
             
             let section = NSCollectionLayoutSection(group: group)
-            section.orthogonalScrollingBehavior = .continuous
-
+            
             return section
         }
     }
