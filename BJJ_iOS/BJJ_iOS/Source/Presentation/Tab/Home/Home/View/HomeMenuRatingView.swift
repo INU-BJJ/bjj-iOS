@@ -42,7 +42,9 @@ final class HomeMenuRatingView: UIView {
     // MARK: Set UI
         
     private func setUI() {
-        self.backgroundColor = .customColor(.subColor)
+        backgroundColor = .customColor(.subColor)
+        layer.cornerRadius = 21 / 2
+        clipsToBounds = true
     }
     
     // MARK: Set AddViews

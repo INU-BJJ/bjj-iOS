@@ -32,7 +32,7 @@ final class MenuReviewListInfo: UICollectionViewCell {
     private let reviewListLeftStackView = UIStackView().then {
         $0.axis = .vertical
         $0.distribution = .equalSpacing
-        $0.alignment = .leading
+        $0.alignment = .fill
     }
     
     private let reviewListRightStackView = UIStackView().then {

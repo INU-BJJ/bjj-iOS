@@ -20,7 +20,7 @@ final class HomeCafeteriaCell: UICollectionViewCell {
     // TODO: 선택 여부에 따라 텍스트 색 변경하기
     
     private let cafeteriaCellView = UIView().then {
-        $0.layer.cornerRadius = 100
+        $0.layer.cornerRadius = 33 / 2
         $0.layer.masksToBounds = true
         $0.layer.borderWidth = 1
     }
