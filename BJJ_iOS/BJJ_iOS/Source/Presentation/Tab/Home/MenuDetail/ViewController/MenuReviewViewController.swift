@@ -65,6 +65,7 @@ final class MenuReviewViewController: UIViewController {
     
     private func setUI() {
         view.backgroundColor = .white
+        setClearWhiteBackNaviBar()
     }
     
     // MARK: - Set AddViews
