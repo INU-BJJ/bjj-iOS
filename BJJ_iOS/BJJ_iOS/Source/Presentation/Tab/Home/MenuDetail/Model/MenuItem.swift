@@ -30,7 +30,7 @@ struct MenuReviewInfo {
     let reviewDate: String
     let menuLikedCount: Int
     let reviewContent: String
-    let reviewImage: String
+    let reviewImage: [String]
 }
 
 struct UserInfo {
@@ -62,7 +62,7 @@ extension ReviewListItem {
                                     reviewDate: "2024.08.20",
                                     menuLikedCount: 0,
                                     reviewContent: "핫도그는 냉동인데\n떡볶이는 맛있음\n맛도 있고 가격도 착해서 떡볶이 땡길 때 추천",
-                                    reviewImage: "MenuImage1"
+                                    reviewImage: ["MenuImage1", "MenuImage2", "MenuImage1", "MenuImage2"]
                                 ),
                                 MenuReviewInfo(
                                     userInfo:
@@ -74,7 +74,7 @@ extension ReviewListItem {
                                     reviewDate: "2025.12.31",
                                     menuLikedCount: 99,
                                     reviewContent: "나를 사로잡은 그 맛",
-                                    reviewImage: "MenuImage1"
+                                    reviewImage: ["MenuImage1", "MenuImage2", "MenuImage1"]
                                 )
                             ]
                     ),
@@ -97,7 +97,7 @@ extension ReviewListItem {
                                     reviewDate: "2024.08.20",
                                     menuLikedCount: 0,
                                     reviewContent: "핫도그는 냉동인데\n떡볶이는 맛있음\n맛도 있고 가격도 착해서 떡볶이 땡길 때 추천",
-                                    reviewImage: "MenuImage1"
+                                    reviewImage: ["MenuImage1", "MenuImage2", "MenuImage1", "MenuImage2", "MenuImage1"]
                                 ),
                                 MenuReviewInfo(
                                     userInfo:
@@ -109,7 +109,7 @@ extension ReviewListItem {
                                     reviewDate: "2025.12.31",
                                     menuLikedCount: 99,
                                     reviewContent: "나를 사로잡은 그 맛",
-                                    reviewImage: "MenuImage1"
+                                    reviewImage: ["MenuImage1", "MenuImage2", "MenuImage1"]
                                 )
                             ]
                     )

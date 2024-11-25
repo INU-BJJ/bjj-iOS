@@ -37,6 +37,7 @@
 		3F3AB7D92CB3D59C0013FABA /* HomeTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AB7D82CB3D59C0013FABA /* HomeTopView.swift */; };
 		3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F47B9E72CD7716C00F8E2CB /* UIImage++Extensions.swift */; };
 		3F4B09252CE1FC31005C56C2 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4B09242CE1FC31005C56C2 /* TabBarController.swift */; };
+		3F5617B82CF3312400B4912D /* MenuReviewImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5617B72CF3312400B4912D /* MenuReviewImageCell.swift */; };
 		3F61DF4B2CB3149600A019E8 /* HomeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F61DF4A2CB3149600A019E8 /* HomeSection.swift */; };
 		3F61DF4D2CB31B1A00A019E8 /* HomeCafeteriaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F61DF4C2CB31B1A00A019E8 /* HomeCafeteriaCell.swift */; };
 		3F61DF4F2CB31B2E00A019E8 /* HomeMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F61DF4E2CB31B2E00A019E8 /* HomeMenuCell.swift */; };
@@ -104,6 +105,7 @@
 		3F3AB7D82CB3D59C0013FABA /* HomeTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTopView.swift; sourceTree = "<group>"; };
 		3F47B9E72CD7716C00F8E2CB /* UIImage++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage++Extensions.swift"; sourceTree = "<group>"; };
 		3F4B09242CE1FC31005C56C2 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		3F5617B72CF3312400B4912D /* MenuReviewImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewImageCell.swift; sourceTree = "<group>"; };
 		3F61DF4A2CB3149600A019E8 /* HomeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSection.swift; sourceTree = "<group>"; };
 		3F61DF4C2CB31B1A00A019E8 /* HomeCafeteriaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCafeteriaCell.swift; sourceTree = "<group>"; };
 		3F61DF4E2CB31B2E00A019E8 /* HomeMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMenuCell.swift; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 				3F16132C2CD8737500A30369 /* MenuReviewList.swift */,
 				3F1613302CD876C800A30369 /* MenuReviewListInfo.swift */,
 				3F1A51A52CD88C8200029E09 /* MenuReviewListContent.swift */,
+				3F5617B72CF3312400B4912D /* MenuReviewImageCell.swift */,
 				3F1A51A72CD890B300029E09 /* MenuReviewListHashTag.swift */,
 				3F1A51A92CD8941200029E09 /* MenuReviewHashTagCell.swift */,
 				3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */,
@@ -720,6 +723,7 @@
 				3FBA45B12CD749730038960A /* MenuHeader.swift in Sources */,
 				3F16132B2CD86D3B00A30369 /* MenuReviewSorting.swift in Sources */,
 				3F25B3E92CB282D7005C0907 /* AppDelegate.swift in Sources */,
+				3F5617B82CF3312400B4912D /* MenuReviewImageCell.swift in Sources */,
 				3F16132D2CD8737500A30369 /* MenuReviewList.swift in Sources */,
 				3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */,
 				3F1613292CD8584100A30369 /* MenuReviewHeaderView.swift in Sources */,
