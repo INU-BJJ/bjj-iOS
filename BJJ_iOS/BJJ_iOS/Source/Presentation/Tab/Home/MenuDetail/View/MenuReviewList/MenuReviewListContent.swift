@@ -14,6 +14,7 @@ final class MenuReviewListContent: UICollectionViewCell {
     // MARK: - Properties
     
     static let identifier = "MenuReviewListContent"
+    private var reviewImages: [String] = []
     
     // MARK: - UI Components
     
@@ -31,9 +32,14 @@ final class MenuReviewListContent: UICollectionViewCell {
         $0.textContainer.lineFragmentPadding = 0
     }
     
-    private let reviewImage = UIImageView().then {
-        $0.layer.cornerRadius = 11
-        $0.clipsToBounds = true
+    private lazy var reviewImageCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createLayout()
+    ).then {
+        $0.register(MenuReviewImageCell.self, forCellWithReuseIdentifier: MenuReviewImageCell.identifier)
+        $0.dataSource = self
+        $0.showsHorizontalScrollIndicator = false
+        $0.alwaysBounceVertical = false
     }
     
     // MARK: - Life Cycle
@@ -61,7 +67,7 @@ final class MenuReviewListContent: UICollectionViewCell {
     private func setAddView() {
         [
             reviewContentTextView,
-            reviewImage
+            reviewImageCollectionView
         ].forEach(reviewContentStackView.addArrangedSubview)
         
         contentView.addSubview(reviewContentStackView)
@@ -74,16 +80,90 @@ final class MenuReviewListContent: UICollectionViewCell {
             $0.edges.equalToSuperview()
         }
         
-        reviewImage.snp.makeConstraints {
-            $0.width.equalToSuperview()
+        reviewImageCollectionView.snp.makeConstraints {
             $0.height.equalTo(250)
+            $0.horizontalEdges.equalToSuperview()
         }
+    }
+    
+    // MARK: - Create Layout
+    
+    private func createLayout() -> UICollectionViewCompositionalLayout {
+        let layout = UICollectionViewCompositionalLayout {
+            (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            // TODO: absolute 없애기
+            let absoluteItemWidth: CGFloat
+            let absoluteGroupWidth: CGFloat
+            
+            switch self.reviewImages.count {
+            case 1:
+                absoluteItemWidth = 301
+                absoluteGroupWidth = 301
+            case 2:
+                absoluteItemWidth = 149.5
+                absoluteGroupWidth = 301
+            case 3:
+//                fractionalWidth = 0.4738047138
+                absoluteItemWidth = 140.72
+                absoluteGroupWidth = 426.16
+            case 4:
+//                fractionalWidth = 0.4738047138
+                absoluteItemWidth = 140.72
+                absoluteGroupWidth = 568.88
+            case 5:
+//                fractionalWidth = 0.4738047138
+                absoluteItemWidth = 140.72
+                absoluteGroupWidth = 711.59
+            default:
+//                absoluteItemWidth = 1.0
+                absoluteItemWidth = 140.72
+                absoluteGroupWidth = 301
+            }
+            
+            // TODO: absolute 없애기
+            let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(absoluteItemWidth), heightDimension: .absolute(250))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(absoluteGroupWidth), heightDimension: .absolute(250))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            group.interItemSpacing = .fixed(2)
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.orthogonalScrollingBehavior = .continuous
+            
+            return section
+        }
+        
+        return layout
     }
     
     // MARK: - Configure Cell
     
     func configureReviewListContent(with reviewList: MenuReviewInfo) {
         reviewContentTextView.text = reviewList.reviewContent
-        reviewImage.image = UIImage(named: reviewList.reviewImage)
+        self.reviewImages = reviewList.reviewImage
+        reviewImageCollectionView.reloadData()
+    }
+}
+
+extension MenuReviewListContent: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return reviewImages.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewImageCell.identifier, for: indexPath) as! MenuReviewImageCell
+        var cornerStyle: UIRectCorner = []
+        
+        if indexPath.row == 0 {
+            cornerStyle = [.topLeft, .bottomLeft]
+        } else if indexPath.row == reviewImages.count - 1 {
+            cornerStyle = [.topRight, .bottomRight]
+        }
+
+        cell.configureReviewImageCell(with: reviewImages[indexPath.row], cornerStyle: cornerStyle)
+        
+        return cell
     }
 }
