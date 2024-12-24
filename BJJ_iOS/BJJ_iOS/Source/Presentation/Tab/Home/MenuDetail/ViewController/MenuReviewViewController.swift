@@ -16,7 +16,23 @@ final class MenuReviewViewController: UIViewController {
     // TODO: 동적으로 index 바꾸기
     private var selectedIndex: Int = 0
     
+    // TODO: 네비바 숨김 방식 고민하기
+    private var isNavigationBarHidden = false
+    
     // MARK: - UI Components
+    
+    private lazy var menuReviewScrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+        $0.contentInsetAdjustmentBehavior = .never
+        $0.delegate = self
+    }
+    
+    private let menuReviewStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = -41
+        $0.alignment = .fill
+        $0.distribution = .fill
+    }
     
     private let menuDefaultImageView = UIImageView().then {
         $0.image = UIImage(named: "MenuImage2")
@@ -36,9 +52,9 @@ final class MenuReviewViewController: UIViewController {
         $0.register(SeparatingLineView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: SeparatingLineView.identifier)
         $0.delegate = self
         $0.dataSource = self
-        $0.showsVerticalScrollIndicator = false
         $0.layer.cornerRadius = 30
         $0.layer.masksToBounds = true
+        $0.isScrollEnabled = false
     }
     
     // MARK: - LifeCycle
@@ -72,24 +88,56 @@ final class MenuReviewViewController: UIViewController {
     
     private func setAddView() {
         [
+            menuReviewScrollView
+        ].forEach(view.addSubview)
+        
+        [
+            menuReviewStackView
+        ].forEach(menuReviewScrollView.addSubview)
+        
+        [
             menuDefaultImageView,
             menuReviewCollectionView
-        ].forEach(view.addSubview)
+        ].forEach(menuReviewStackView.addArrangedSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        menuDefaultImageView.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top)
-            $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(272)
+        menuReviewScrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
+        menuReviewStackView.snp.makeConstraints {
+            $0.edges.equalTo(menuReviewScrollView.contentLayoutGuide)
+            $0.width.equalTo(menuReviewScrollView.frameLayoutGuide)
+        }
+        
+        menuDefaultImageView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.height.equalTo(272)
+            $0.width.equalToSuperview()
+        }
+    
+        // TODO: collectionView 높이 문제 해결하기
         menuReviewCollectionView.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top).offset(231)
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.height.equalTo(1450)
+        }
+    }
+    
+    // MARK: - UIScrollView Function
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+                
+        if offsetY > 50, !isNavigationBarHidden {
+            // 아래로 스크롤하면 네비게이션 바 숨김
+            navigationController?.setNavigationBarHidden(true, animated: true)
+            isNavigationBarHidden = true
+        } else if offsetY <= 50, isNavigationBarHidden {
+            // 위로 스크롤하거나 초기 상태로 돌아오면 네비게이션 바 표시
+            navigationController?.setNavigationBarHidden(false, animated: true)
+            isNavigationBarHidden = false
         }
     }
     
