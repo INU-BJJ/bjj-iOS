@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+enum HomeAddress {
+    case fetchAllMenuInfo
+    
+    var url: String {
+        switch self {
+        case .fetchAllMenuInfo:
+            return "today-diets"
+        }
+    }
+}
