@@ -7,10 +7,6 @@
 
 import Foundation
 
-struct HomeAllMenuInfo: Hashable, Codable {
-    let allMenu: [HomeMenuInfo]
-}
-
 struct HomeMenuInfo: Hashable, Codable {
     let todayDietID: Int
     let price: String

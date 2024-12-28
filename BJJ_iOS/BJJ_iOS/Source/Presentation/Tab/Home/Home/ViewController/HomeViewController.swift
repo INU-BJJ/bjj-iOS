@@ -13,18 +13,20 @@ final class HomeViewController: UIViewController {
 
     // MARK: - Properties
     
-    private let homeTopView = HomeTopView()
-    
-    private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout()).then {
-        $0.register(HomeCafeteriaCell.self, forCellWithReuseIdentifier: HomeCafeteriaCell.identifier)
-        $0.register(HomeMenuCell.self, forCellWithReuseIdentifier: HomeMenuCell.identifier)
-        $0.backgroundColor = .customColor(.backgroundGray)
-    }
-    
     private var selectedCafeteriaIndex: Int = 0
     private var currentMenus: [HomeMenuModel] = HomeMenuModel.studentCafeteriaMenu
     
     // MARK: - UI Components
+    
+    private let homeTopView = HomeTopView()
+    
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout()).then {
+        $0.register(HomeCafeteriaCell.self, forCellWithReuseIdentifier: HomeCafeteriaCell.identifier)
+        $0.register(HomeMenuCell.self, forCellWithReuseIdentifier: HomeMenuCell.identifier)
+        $0.backgroundColor = .customColor(.backgroundGray)
+        $0.delegate = self
+        $0.dataSource = self
+    }
     
     // MARK: - LifeCycle
     
@@ -36,9 +38,6 @@ final class HomeViewController: UIViewController {
         setConstraints()
         
         collectionView.setCollectionViewLayout(createLayout(), animated: false)
-                
-        collectionView.delegate = self
-        collectionView.dataSource = self
     }
     
     // MARK: - Bind

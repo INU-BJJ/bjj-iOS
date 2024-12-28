@@ -8,12 +8,12 @@
 import Foundation
 
 final class HomeAPI {
-    static func fetchHomeAllMenuInfo(cafeteriaName: String, completion: @escaping (Result<HomeAllMenuInfo, Error>) -> Void) {
+    static func fetchHomeAllMenuInfo(cafeteriaName: String, completion: @escaping (Result<[HomeMenuInfo], Error>) -> Void) {
             networkRequest(
                 urlStr: HomeAddress.fetchAllMenuInfo.url,
                 method: .get,
                 data: nil,
-                model: HomeAllMenuInfo.self,
+                model: [HomeMenuInfo].self,
                 query: ["cafeteriaName": cafeteriaName],
                 completion: completion
             )

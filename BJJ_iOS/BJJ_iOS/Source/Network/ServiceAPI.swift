@@ -40,7 +40,11 @@ public func networkRequest<T: Decodable>(
     }
     
     var request = URLRequest(url: url)
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    request.allHTTPHeaderFields = [
+        "Content-Type": "application/json",
+        "Authorization": "Bearer \(Key.JWT_Token)"
+    ]
     request.httpBody = data
     request.method = method
     
@@ -51,6 +55,13 @@ public func networkRequest<T: Decodable>(
             case .success(let decodedData):
                 completion(.success(decodedData))
             case .failure(let error):
+                if let data = response.data,
+                   let errorMessage = String(data: data, encoding: .utf8) {
+                    print("\n<< [ServiceAPI] ErrorMsg: \(errorMessage)\n")
+                } else {
+                    print("\n<< [ServiceAPI] Error.localizedDescription: \(error.localizedDescription)\n")
+                }
+                
                 completion(.failure(error))
             }
         }
