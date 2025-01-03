@@ -13,18 +13,20 @@ final class HomeViewController: UIViewController {
 
     // MARK: - Properties
     
+    private var selectedCafeteriaIndex: Int = 0
+    private var currentMenus: [HomeMenuModel] = []
+    
+    // MARK: - UI Components
+    
     private let homeTopView = HomeTopView()
     
-    private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout()).then {
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout()).then {
         $0.register(HomeCafeteriaCell.self, forCellWithReuseIdentifier: HomeCafeteriaCell.identifier)
         $0.register(HomeMenuCell.self, forCellWithReuseIdentifier: HomeMenuCell.identifier)
         $0.backgroundColor = .customColor(.backgroundGray)
+        $0.delegate = self
+        $0.dataSource = self
     }
-    
-    private var selectedCafeteriaIndex: Int = 0
-    private var currentMenus: [HomeMenuModel] = HomeMenuModel.studentCafeteriaMenu
-    
-    // MARK: - UI Components
     
     // MARK: - LifeCycle
     
@@ -36,9 +38,7 @@ final class HomeViewController: UIViewController {
         setConstraints()
         
         collectionView.setCollectionViewLayout(createLayout(), animated: false)
-                
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        fetchAllMenuData(cafeteriaName: "학생식당")
     }
     
     // MARK: - Bind
@@ -125,6 +125,38 @@ final class HomeViewController: UIViewController {
         
         return section
     }
+    
+    // MARK: - Fetch API
+    
+    private func fetchAllMenuData(cafeteriaName: String) {
+        HomeAPI.fetchHomeAllMenuInfo(cafeteriaName: cafeteriaName) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let menuInfos):
+                DispatchQueue.main.async {
+                    // 서버 데이터를 currentMenus에 저장
+                    self.currentMenus = menuInfos.map { menu in
+                        HomeMenuModel(
+                            menuName: menu.mainMenuName,
+                            menuImage: menu.reviewImageName ?? "DefaultMenuImage",
+                            menuPrice: menu.price,
+                            menuRating: menu.reviewRatingAverage,
+                            cafeteriaCorner: menu.cafeteriaCorner,
+                            isLikedMenu: menu.likedMenu
+                        )
+                    }
+                    // 컬렉션 뷰 업데이트
+                    self.collectionView.reloadSections(IndexSet(integer: 1))
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    // 에러 처리 (필요 시 UI에 에러 메시지 표시 가능)
+                    print("Error fetching menu data: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
 }
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -141,7 +173,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 0 {
+        let selectedSection = indexPath.section
+        if selectedSection == 0 {
             // 식당 섹션
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCafeteriaCell.identifier, for: indexPath) as! HomeCafeteriaCell
             let cafeteria = HomeCafeteriaModel.cafeteria[indexPath.item]
@@ -153,30 +186,43 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             // 메뉴 섹션
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeMenuCell.identifier, for: indexPath) as! HomeMenuCell
             let menu = currentMenus[indexPath.item]
-            cell.configureCell(menuName: menu.text, menuPrice: menu.price, imageName: menu.image, cafeteria: menu.cafeteria)
+            cell.configureCell(
+                menuName: menu.menuName,
+                menuPrice: menu.menuPrice,
+                imageName: menu.menuImage ?? "DefaultMenuImage",
+                cafeteria: menu.cafeteriaCorner,
+                menuRating: menu.menuRating
+            )
             return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            // 식당 섹션에서 선택 시
+        let selectedSection = indexPath.section
+        if selectedSection == 0 { // 식당 섹션에서 선택 시
             selectedCafeteriaIndex = indexPath.item
             
             // 선택된 식당에 따른 메뉴 설정
             switch selectedCafeteriaIndex {
             case 0:
-                currentMenus = HomeMenuModel.studentCafeteriaMenu
+                fetchAllMenuData(cafeteriaName: "학생식당")
             case 1:
-                currentMenus = HomeMenuModel.staffCafeteriaMenu
+                fetchAllMenuData(cafeteriaName: "2호관식당")
             case 2:
-                currentMenus = HomeMenuModel.dormitoryCafeteriaMenu
+                fetchAllMenuData(cafeteriaName: "제1기숙사식당")
+            case 3:
+                fetchAllMenuData(cafeteriaName: "27호관식당")
+            case 4:
+                fetchAllMenuData(cafeteriaName: "사범대식당")
             default:
                 currentMenus = []
             }
             
-            // 메뉴 섹션만 업데이트
-            collectionView.reloadSections(IndexSet(integer: 1))
+            // 메뉴 섹션의 특정 아이템만 업데이트
+            let menuIndexPath = IndexPath(item: selectedCafeteriaIndex, section: 1)
+            collectionView.reloadItems(at: [menuIndexPath])
+        } else {    // 메뉴 섹션에서 선택 시
+            
         }
     }
 }

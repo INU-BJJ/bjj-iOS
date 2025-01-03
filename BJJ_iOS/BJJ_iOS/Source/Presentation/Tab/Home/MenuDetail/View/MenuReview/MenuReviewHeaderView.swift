@@ -25,7 +25,7 @@ final class MenuReviewHeaderView: UICollectionReusableView {
         $0.setLabelUI("(605)", font: .pretendard_medium, size: 13, color: .darkGray)
     }
     
-    private let reviewRatingView = HomeMenuRatingView(rating: 4.2)
+    private let reviewRatingView = HomeMenuRatingView()
     
     // MARK: - Life Cycle
     

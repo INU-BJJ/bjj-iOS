@@ -70,8 +70,7 @@ final class HomeMenuCell: UICollectionViewCell {
         $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
     }
     
-    // TODO: data에서 rating 받아와서 다시 넣기
-    private let menuRatingView = HomeMenuRatingView(rating: 4.4)
+    private let menuRatingView = HomeMenuRatingView()
     
     // TODO: 하트 아이콘 눌렀을 때, 아이콘 변경하기 (UIButton에서 makeHeartButton 함수 만들기)
     private let menuLikeButton = UIButton(type: .custom).then {
@@ -163,11 +162,12 @@ final class HomeMenuCell: UICollectionViewCell {
     
     // MARK: - Configuration
     
-    func configureCell(menuName: String, menuPrice: String, imageName image: String, cafeteria: String) {
+    func configureCell(menuName: String, menuPrice: String, imageName image: String, cafeteria: String, menuRating: Double) {
         menuNameLabel.text = menuName
         menuPriceLabel.text = menuPrice
         menuImageView.image = UIImage(named: image)
         cafeteriaLabel.text = cafeteria
+        menuRatingView.configureRatingLabel(with: menuRating)
     }
 }
 

@@ -140,4 +140,7 @@ iOSInjectionProject/
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
 
+# API Key
+BJJ_iOS/BJJ_iOS/Source/Network/Key/
+
 # End of https://www.toptal.com/developers/gitignore/api/xcode,swift,cocoapods,macos
