@@ -190,7 +190,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 menuName: menu.menuName,
                 menuPrice: menu.menuPrice,
                 imageName: menu.menuImage ?? "DefaultMenuImage",
-                cafeteria: menu.cafeteriaCorner
+                cafeteria: menu.cafeteriaCorner,
+                menuRating: menu.menuRating
             )
             return cell
         }

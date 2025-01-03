@@ -13,8 +13,6 @@ final class HomeMenuRatingView: UIView {
     
     // MARK: Properties
     
-    private let rating: Float
-    
     // MARK: UI Components
     
     private let starIcon = UIImageView(image: UIImage(named: "Star"))
@@ -24,15 +22,13 @@ final class HomeMenuRatingView: UIView {
     }
     
     // MARK: LifeCycle
-        
-    init(rating: Float) {
-        self.rating = rating
-        super.init(frame: .zero)
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         setUI()
         setAddView()
         setConstraints()
-        configureRatingLabel(with: rating)
     }
     
     required init?(coder: NSCoder) {
@@ -72,7 +68,7 @@ final class HomeMenuRatingView: UIView {
     
     // MARK: Other Fucntions
     
-    private func configureRatingLabel(with rating: Float) {
+    func configureRatingLabel(with rating: Double) {
         ratingLabel.text = "\(rating)"
     }
 }
