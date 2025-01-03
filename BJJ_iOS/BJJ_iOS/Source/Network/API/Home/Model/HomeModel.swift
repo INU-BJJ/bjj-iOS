@@ -16,7 +16,7 @@ struct HomeMenuInfo: Hashable, Codable {
     let mainMenuID: Int
     let mainMenuName: String
     let subMenuID: Int
-    let restMenu: String
+    let restMenu: String?
     let cafeteriaName: String
     let cafeteriaCorner: String
     let reviewCount: Int
