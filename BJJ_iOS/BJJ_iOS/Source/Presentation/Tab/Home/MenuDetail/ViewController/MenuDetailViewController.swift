@@ -9,12 +9,13 @@ import UIKit
 import SnapKit
 import Then
 
-final class MenuReviewViewController: UIViewController {
+final class MenuDetailViewController: UIViewController {
     
     // MARK: - Properties
     
     // TODO: 동적으로 index 바꾸기
     private var selectedIndex: Int = 0
+    private var menuData: HomeMenuModel?
     
     // TODO: 네비바 숨김 방식 고민하기
     private var isNavigationBarHidden = false
@@ -124,6 +125,14 @@ final class MenuReviewViewController: UIViewController {
             $0.height.equalTo(1450)
         }
     }
+    
+    // MARK: - Bind Data
+    
+    func bindData(with menu: HomeMenuModel) {
+        self.menuData = menu
+    }
+    
+    // MARK: - Configure CollectionView
     
     // MARK: - UIScrollView Function
     
@@ -258,7 +267,7 @@ final class MenuReviewViewController: UIViewController {
     }
 }
 
-extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 5
     }

@@ -199,6 +199,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedSection = indexPath.section
+        
         if selectedSection == 0 { // 식당 섹션에서 선택 시
             selectedCafeteriaIndex = indexPath.item
             
@@ -222,7 +223,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let menuIndexPath = IndexPath(item: selectedCafeteriaIndex, section: 1)
             collectionView.reloadItems(at: [menuIndexPath])
         } else {    // 메뉴 섹션에서 선택 시
+            let selectedMenu = currentMenus[indexPath.item]
             
+            let menuDetailVC = MenuDetailViewController()
+            menuDetailVC.bindData(with: selectedMenu)
+            menuDetailVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(menuDetailVC, animated: true)
         }
     }
 }
