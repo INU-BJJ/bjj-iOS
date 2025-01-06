@@ -14,8 +14,7 @@ final class MenuInfo: UICollectionViewCell {
     // MARK: - Properties
     
     static let identifier = "MenuInfo"
-    private var menuComposition: [[String]] = []
-    private var selectedIndex = 0
+    private var menuComposition: [String] = []
     
     // MARK: - UI Components
     
@@ -79,8 +78,8 @@ final class MenuInfo: UICollectionViewCell {
     
     // MARK: - Configure Cell
     
-    func configureMenuInfo(with items: ReviewListItem) {
-        self.menuComposition = items.reviewList.map { $0.menu.menuComposition }
+    func configureMenuInfo(with restMenu: [String]) {
+        self.menuComposition = restMenu
         menuInfoCollectionView.reloadData()
     }
     
@@ -106,12 +105,12 @@ extension MenuInfo: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return menuComposition[selectedIndex].count
+        return menuComposition.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfoCell.identifier, for: indexPath) as! MenuInfoCell
-        let compositionItem = menuComposition[selectedIndex][indexPath.row]
+        let compositionItem = menuComposition[indexPath.row]
         cell.configureMenuInfoCell(with: compositionItem)
         
         return cell

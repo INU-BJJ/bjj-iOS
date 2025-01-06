@@ -36,7 +36,6 @@ final class MenuDetailViewController: UIViewController {
     }
     
     private let menuDefaultImageView = UIImageView().then {
-        $0.image = UIImage(named: "MenuImage2")
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
@@ -66,6 +65,7 @@ final class MenuDetailViewController: UIViewController {
         setUI()
         setAddView()
         setConstraints()
+        configure()
     }
     
     // MARK: - Bind
@@ -133,6 +133,10 @@ final class MenuDetailViewController: UIViewController {
     }
     
     // MARK: - Configure CollectionView
+    
+    private func configure() {
+        menuDefaultImageView.image = UIImage(named: menuData?.menuImage ?? "DefaultMenuImage")
+    }
     
     // MARK: - UIScrollView Function
     
@@ -294,12 +298,14 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuHeader.identifier, for: indexPath) as! MenuHeader
-            cell.configureMenuHeader(menuName: "양상추샐러드/복숭아아이스티", menuPrice: "5,500원")
+            cell.configureMenuHeader(menuName: menuData?.menuName ?? "", menuPrice: menuData?.menuPrice ?? "")
             
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfo.identifier, for: indexPath) as! MenuInfo
-            cell.configureMenuInfo(with: ReviewListItem.reviewListData)
+            if let menuData = menuData {
+                cell.configureMenuInfo(with: menuData.restMenu ?? [])
+            }
             
             return cell
         case 2:

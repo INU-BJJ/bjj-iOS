@@ -143,7 +143,8 @@ final class HomeViewController: UIViewController {
                             menuPrice: menu.price,
                             menuRating: menu.reviewRatingAverage,
                             cafeteriaCorner: menu.cafeteriaCorner,
-                            isLikedMenu: menu.likedMenu
+                            isLikedMenu: menu.likedMenu,
+                            restMenu: menu.restMenu?.components(separatedBy: " ") ?? []
                         )
                     }
                     // 컬렉션 뷰 업데이트
