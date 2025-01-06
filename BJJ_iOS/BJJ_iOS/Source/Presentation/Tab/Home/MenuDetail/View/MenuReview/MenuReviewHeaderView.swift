@@ -22,7 +22,7 @@ final class MenuReviewHeaderView: UICollectionReusableView {
     }
     
     private let reviewCountLabel = UILabel().then {
-        $0.setLabelUI("(605)", font: .pretendard_medium, size: 13, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .darkGray)
     }
     
     private let reviewRatingView = HomeMenuRatingView()
@@ -69,6 +69,13 @@ final class MenuReviewHeaderView: UICollectionReusableView {
             $0.width.equalTo(53)
             $0.height.equalTo(21)
         }
+    }
+    
+    // MARK: - Configure HeaderView
+    
+    func configureHeaderView(reviewCount: Int, reviewRating: Double) {
+        reviewCountLabel.text = "(\(reviewCount))"
+        reviewRatingView.configureRatingLabel(with: reviewRating)
     }
 }
 

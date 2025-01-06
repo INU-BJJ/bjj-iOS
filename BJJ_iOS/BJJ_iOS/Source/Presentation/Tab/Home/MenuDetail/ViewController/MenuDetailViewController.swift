@@ -310,7 +310,7 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReview.identifier, for: indexPath) as! MenuReview
-            cell.configureMenuReview(with: ReviewListItem.reviewListData)
+            cell.configureMenuReview(with: menuData ?? HomeMenuModel(menuName: "", menuImage: "DefaultMenuImage", menuPrice: "", menuRating: 0.0, cafeteriaCorner: "", isLikedMenu: false, restMenu: [], reviewCount: 0))
             
             return cell
         case 3:

@@ -14,6 +14,7 @@ final class MenuReview: UICollectionViewCell {
     // MARK: - Properties
     
     static let identifier = "MenuReview"
+    private var menuReviewData: HomeMenuModel?
     private var menuImages: [String] = []
     
     // MARK: - UI Components
@@ -68,8 +69,8 @@ final class MenuReview: UICollectionViewCell {
     
     // MARK: - Configure Cell
     
-    func configureMenuReview(with items: ReviewListItem) {
-        self.menuImages = items.reviewList.map { $0.menu.menuImage }
+    func configureMenuReview(with items: HomeMenuModel) {
+        self.menuReviewData = items
         menuReviewCollectionView.reloadData()
     }
     
@@ -124,6 +125,7 @@ extension MenuReview: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MenuReviewHeaderView.identifier, for: indexPath) as! MenuReviewHeaderView
+            headerView.configureHeaderView(reviewCount: menuReviewData?.reviewCount ?? 0, reviewRating: menuReviewData?.menuRating ?? 0.0)
             
             return headerView
         }

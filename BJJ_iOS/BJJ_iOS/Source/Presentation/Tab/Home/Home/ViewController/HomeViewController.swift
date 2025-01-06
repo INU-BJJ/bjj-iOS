@@ -144,7 +144,8 @@ final class HomeViewController: UIViewController {
                             menuRating: menu.reviewRatingAverage,
                             cafeteriaCorner: menu.cafeteriaCorner,
                             isLikedMenu: menu.likedMenu,
-                            restMenu: menu.restMenu?.components(separatedBy: " ") ?? []
+                            restMenu: menu.restMenu?.components(separatedBy: " ") ?? [],
+                            reviewCount: menu.reviewCount
                         )
                     }
                     // 컬렉션 뷰 업데이트
