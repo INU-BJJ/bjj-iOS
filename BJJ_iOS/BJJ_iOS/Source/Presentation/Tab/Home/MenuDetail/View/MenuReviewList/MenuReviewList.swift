@@ -182,6 +182,7 @@ extension MenuReviewList: UICollectionViewDataSource {
         // 메뉴 해시태그 섹션
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListHashTag.identifier, for: indexPath) as! MenuReviewListHashTag
+            cell.bindHashTagData(with: [menuReview[indexPath.row].mainMenuName, menuReview[indexPath.row].subMenuName])
             
             return cell
         // 구분선 섹션
