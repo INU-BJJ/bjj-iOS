@@ -14,7 +14,7 @@ final class MenuReviewList: UICollectionViewCell {
     // MARK: - Properties
     
     static let identifier = "MenuReviewList"
-    private var menuReview: [MenuReviewInfo] = []
+    private var menuReview: [MenuDetailModel] = []
     
     // MARK: - UI Components
     
@@ -69,8 +69,8 @@ final class MenuReviewList: UICollectionViewCell {
     
     // MARK: - Configure Cell
     
-    func configureMenuReviewList(with items: Review) {
-        self.menuReview = items.menuReviewList
+    func configureMenuReviewList(with menuReview: [MenuDetailModel]) {
+        self.menuReview = menuReview
         reviewCollectionView.reloadData()
     }
     
@@ -167,20 +167,24 @@ extension MenuReviewList: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
+        // 프로필 이미지, 닉네임, 평점, 날짜, 좋아요 섹션
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListInfo.identifier, for: indexPath) as! MenuReviewListInfo
             cell.configureReviewListInfo(with: menuReview[indexPath.row])
             
             return cell
+        // 리뷰 글, 사진 섹션
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListContent.identifier, for: indexPath) as! MenuReviewListContent
             cell.configureReviewListContent(with: menuReview[indexPath.row])
             
             return cell
+        // 메뉴 해시태그 섹션
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListHashTag.identifier, for: indexPath) as! MenuReviewListHashTag
             
             return cell
+        // 구분선 섹션
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSeparatingView.identifier, for: indexPath) as! MenuReviewSeparatingView
             

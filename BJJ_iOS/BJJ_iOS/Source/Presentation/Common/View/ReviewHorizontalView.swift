@@ -50,12 +50,6 @@ final class ReviewHorizontalView: UIView {
         [
             starStackView
         ].forEach(addSubview)
-        
-        for _ in 0..<5 {
-            let starIcon = UIImageView(image: UIImage(named: "Star")?.resize(to: CGSize(width: 12.0, height: 11.2)))
-            starIcon.contentMode = .scaleAspectFit
-            starStackView.addArrangedSubview(starIcon)
-        }
     }
     
     // MARK: - Set Constraints
@@ -63,6 +57,22 @@ final class ReviewHorizontalView: UIView {
     private func setConstraints() {
         starStackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+    }
+    
+    // MARK: - Configure Star
+    
+    func configureReviewStar(reviewRating: Int) {
+        for _ in 0..<reviewRating {
+            let filledStarIcon = UIImageView(image: UIImage(named: "Star")?.resize(to: CGSize(width: 12.0, height: 11.2)))
+            filledStarIcon.contentMode = .scaleAspectFit
+            starStackView.addArrangedSubview(filledStarIcon)
+        }
+        
+        for _ in 0..<5 - reviewRating {
+            let emptyStarIcon = UIImageView(image: UIImage(named: "EmptyStar")?.resize(to: CGSize(width: 12.0, height: 11.2)))
+            emptyStarIcon.contentMode = .scaleAspectFit
+            starStackView.addArrangedSubview(emptyStarIcon)
         }
     }
 }

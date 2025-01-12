@@ -132,9 +132,11 @@ final class MenuReviewListInfo: UICollectionViewCell {
     
     // MARK: - Configure Cell
     
-    func configureReviewListInfo(with reviewListInfo: MenuReviewInfo) {
-        nicknameLabel.text = reviewListInfo.userInfo.nickname
-        reviewDateLabel.text = reviewListInfo.reviewDate
-        reviewLikeCountLabel.text = "\(reviewListInfo.menuLikedCount)"
+    func configureReviewListInfo(with reviewListInfo: MenuDetailModel) {
+        profileImage.image = UIImage(named: reviewListInfo.memberImage)
+        nicknameLabel.text = reviewListInfo.memberNickname
+        reviewRatingView.configureReviewStar(reviewRating: reviewListInfo.reviewRating)
+        reviewDateLabel.text = reviewListInfo.reviewCreatedDate
+        reviewLikeCountLabel.text = "\(reviewListInfo.reviewLikedCount)"
     }
 }

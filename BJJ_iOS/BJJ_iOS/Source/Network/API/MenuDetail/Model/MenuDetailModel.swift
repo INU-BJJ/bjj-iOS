@@ -10,7 +10,7 @@ import Foundation
 struct MenuDetailReviewInfo: Hashable, Codable {
     let reviewID: Int
     let comment: String
-    let reviewRating: Double
+    let reviewRating: Int
     let reviewImage: String
     let reviewLikeCount: Int
     let reviewCreatedDate: String
