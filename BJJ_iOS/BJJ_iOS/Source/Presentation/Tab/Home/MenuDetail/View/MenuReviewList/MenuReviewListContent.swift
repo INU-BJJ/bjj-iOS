@@ -140,8 +140,8 @@ final class MenuReviewListContent: UICollectionViewCell {
     
     // MARK: - Configure Cell
     
-    func configureReviewListContent(with reviewList: MenuReviewInfo) {
-        reviewContentTextView.text = reviewList.reviewContent
+    func configureReviewListContent(with reviewList: MenuDetailModel) {
+        reviewContentTextView.text = reviewList.reviewComment
         self.reviewImages = reviewList.reviewImage
         reviewImageCollectionView.reloadData()
     }
