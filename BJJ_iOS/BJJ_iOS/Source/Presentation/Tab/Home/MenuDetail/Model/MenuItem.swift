@@ -7,6 +7,19 @@
 
 import Foundation
 
+struct MenuDetailModel: Hashable {
+    let reviewComment: String
+    let reviewRating: Double
+    let reviewImage: String
+    let reviewLikedCount: Int
+    let reviewCreatedDate: String
+    let mainMenuName: String
+    let subMenuName: String
+    let memberNickname: String
+    let memberImage: String
+    let isMemberLikedReview: Bool
+}
+
 struct ReviewListItem {
     let reviewList: [Review]
 }

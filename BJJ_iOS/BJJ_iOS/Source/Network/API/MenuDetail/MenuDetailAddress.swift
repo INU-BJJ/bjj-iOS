@@ -9,11 +9,14 @@ import Foundation
 
 enum MenuDetailAddress {
     case fetchReviewInfo
+    case fetchReviewImageList
     
     var url: String {
         switch self {
         case .fetchReviewInfo:
             return "reviews"
+        case .fetchReviewImageList:
+            return "reviews/images"
         }
     }
 }

@@ -16,6 +16,8 @@ final class MenuDetailViewController: UIViewController {
     // TODO: 동적으로 index 바꾸기
     private var selectedIndex: Int = 0
     private var menuData: HomeMenuModel?
+    private var reviewData: [MenuDetailModel]?
+    private var reviewImages: [String] = []
     
     // TODO: 네비바 숨김 방식 고민하기
     private var isNavigationBarHidden = false
@@ -66,6 +68,8 @@ final class MenuDetailViewController: UIViewController {
         setAddView()
         setConstraints()
         configure()
+        fetchReviewImage(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 3)
+        fetchReviewInfo(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 5, sortingCriteria: "BEST_MATCH", isWithImage: false)
     }
     
     // MARK: - Bind
@@ -151,6 +155,61 @@ final class MenuDetailViewController: UIViewController {
             // 위로 스크롤하거나 초기 상태로 돌아오면 네비게이션 바 표시
             navigationController?.setNavigationBarHidden(false, animated: true)
             isNavigationBarHidden = false
+        }
+    }
+    
+    // MARK: - Fetch API
+    
+    private func fetchReviewImage(menuPairID: Int, pageNumber: Int, pageSize: Int) {
+        MenuDetailAPI.fetchReviewImageList(menuPairID: menuPairID, pageNumber: pageNumber, pageSize: pageSize) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let reviewInfo):
+                DispatchQueue.main.async {
+                    // 서버 데이터를 reviewImage에 저장
+                    self.reviewImages = reviewInfo.reviewImageDetailList.map { $0.reviewImage }
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    // 에러 처리 (필요 시 UI에 에러 메시지 표시 가능)
+                    print("Error fetching menu data: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    private func fetchReviewInfo(menuPairID: Int, pageNumber: Int, pageSize: Int, sortingCriteria: String, isWithImage: Bool) {
+        MenuDetailAPI.fetchReviewInfo(menuPairID: menuPairID, pageNumber: pageNumber, pageSize: pageSize, sortingCriteria: sortingCriteria, isWithImage: isWithImage) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let reviewInfo):
+                DispatchQueue.main.async {
+                    // 서버 데이터를 reviewData에 저장
+                    self.reviewData = reviewInfo.reviewList.map { review in
+                        MenuDetailModel(
+                            reviewComment: review.comment,
+                            reviewRating: review.reviewRating,
+                            reviewImage: review.reviewImage,
+                            reviewLikedCount: review.reviewLikeCount,
+                            reviewCreatedDate: review.reviewCreatedDate,
+                            mainMenuName: review.mainMenuName,
+                            subMenuName: review.subMenuName,
+                            memberNickname: review.memberNickname,
+                            memberImage: review.memberImage,
+                            isMemberLikedReview: review.isMemberLikedReview
+                        )
+                    }
+                    // 컬렉션 뷰 업데이트
+                    self.menuReviewCollectionView.reloadSections(IndexSet(integer: 1))
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    // 에러 처리 (필요 시 UI에 에러 메시지 표시 가능)
+                    print("Error fetching menu data: \(error.localizedDescription)")
+                }
+            }
         }
     }
     
@@ -310,7 +369,7 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReview.identifier, for: indexPath) as! MenuReview
-            cell.configureMenuReview(with: menuData ?? HomeMenuModel(menuName: "", menuImage: "DefaultMenuImage", menuPrice: "", menuRating: 0.0, cafeteriaCorner: "", isLikedMenu: false, restMenu: [], reviewCount: 0))
+            cell.configureMenuReview(menuReviewData: menuData ?? HomeMenuModel(menuName: "", menuImage: "DefaultMenuImage", menuPrice: "", menuRating: 0.0, cafeteriaCorner: "", isLikedMenu: false, restMenu: [], reviewCount: 0, menuPairID: 0), reviewImages: reviewImages)
             
             return cell
         case 3:

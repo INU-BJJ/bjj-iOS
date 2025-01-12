@@ -48,3 +48,23 @@ struct MenuDetailReview: Hashable, Codable {
         case isLastPage = "lastPage"
     }
 }
+
+struct MenuDetailReviewImage: Hashable, Codable {
+    let reviewImageDetailList: [MenuDetailImage]
+    let isLastPage: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case reviewImageDetailList
+        case isLastPage = "lastPage"
+    }
+}
+
+struct MenuDetailImage: Hashable, Codable {
+    let reviewID: Int
+    let reviewImage: String
+    
+    enum CodingKeys: String, CodingKey {
+        case reviewID = "reviewId"
+        case reviewImage = "imageName"
+    }
+}

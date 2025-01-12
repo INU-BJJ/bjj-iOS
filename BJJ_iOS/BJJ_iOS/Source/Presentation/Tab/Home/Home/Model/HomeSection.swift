@@ -20,6 +20,7 @@ struct HomeMenuModel: Hashable {
     let isLikedMenu: Bool
     let restMenu: [String]?
     let reviewCount: Int
+    let menuPairID: Int
 }
 
 extension HomeCafeteriaModel {

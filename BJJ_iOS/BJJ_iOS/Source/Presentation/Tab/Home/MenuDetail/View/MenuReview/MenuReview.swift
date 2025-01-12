@@ -69,8 +69,9 @@ final class MenuReview: UICollectionViewCell {
     
     // MARK: - Configure Cell
     
-    func configureMenuReview(with items: HomeMenuModel) {
-        self.menuReviewData = items
+    func configureMenuReview(menuReviewData: HomeMenuModel, reviewImages: [String]) {
+        self.menuReviewData = menuReviewData
+        self.menuImages = reviewImages
         menuReviewCollectionView.reloadData()
     }
     

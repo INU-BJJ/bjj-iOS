@@ -24,4 +24,19 @@ final class MenuDetailAPI {
                 completion: completion
             )
         }
+    
+    static func fetchReviewImageList(menuPairID: Int, pageNumber: Int, pageSize: Int, completion: @escaping (Result<MenuDetailReviewImage, Error>) -> Void) {
+            networkRequest(
+                urlStr: MenuDetailAddress.fetchReviewImageList.url,
+                method: .get,
+                data: nil,
+                model: MenuDetailReviewImage.self,
+                query: [
+                    "menuPairId": menuPairID,
+                    "pageNumber": pageNumber,
+                    "pageSize": pageSize
+                ],
+                completion: completion
+            )
+        }
 }
