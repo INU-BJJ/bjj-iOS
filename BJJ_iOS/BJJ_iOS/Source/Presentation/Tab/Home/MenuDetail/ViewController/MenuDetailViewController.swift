@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Kingfisher
 
 final class MenuDetailViewController: UIViewController {
     
@@ -139,7 +140,11 @@ final class MenuDetailViewController: UIViewController {
     // MARK: - Configure CollectionView
     
     private func configure() {
-        menuDefaultImageView.image = UIImage(named: menuData?.menuImage ?? "DefaultMenuImage")
+        if let imageName = menuData?.menuImage, imageName != "DefaultMenuImage" {
+            menuDefaultImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(imageName)"))
+        } else {
+            menuDefaultImageView.image = UIImage(named: "DefaultMenuImage")
+        }
     }
     
     // MARK: - UIScrollView Function
