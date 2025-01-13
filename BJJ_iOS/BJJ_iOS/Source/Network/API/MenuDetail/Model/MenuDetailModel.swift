@@ -19,7 +19,7 @@ struct MenuDetailReviewInfo: Hashable, Codable {
     let subMenuName: String
     let memberID: Int
     let memberNickname: String
-    let memberImage: String
+    let memberImage: String?
     let isMemberLikedReview: Bool
     
     enum CodingKeys: String, CodingKey {

@@ -61,8 +61,8 @@ final class HomeViewController: UIViewController {
     
     private func setAddView() {
         [
-         homeTopView,
-         collectionView
+            homeTopView,
+            collectionView
         ].forEach(view.addSubview)
     }
     
@@ -229,7 +229,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let selectedMenu = currentMenus[indexPath.item]
             
             let menuDetailVC = MenuDetailViewController()
-            menuDetailVC.bindData(with: selectedMenu)
+            menuDetailVC.bindData(menu: selectedMenu)
             menuDetailVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(menuDetailVC, animated: true)
         }

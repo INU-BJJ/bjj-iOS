@@ -16,7 +16,7 @@ final class MenuDetailViewController: UIViewController {
     // TODO: 동적으로 index 바꾸기
     private var selectedIndex: Int = 0
     private var menuData: HomeMenuModel?
-    private var reviewData: [MenuDetailModel]?
+    private var reviewData: [MenuDetailModel] = []
     private var reviewImages: [String] = []
     
     // TODO: 네비바 숨김 방식 고민하기
@@ -132,7 +132,7 @@ final class MenuDetailViewController: UIViewController {
     
     // MARK: - Bind Data
     
-    func bindData(with menu: HomeMenuModel) {
+    func bindData(menu: HomeMenuModel) {
         self.menuData = menu
     }
     
@@ -197,12 +197,13 @@ final class MenuDetailViewController: UIViewController {
                             mainMenuName: review.mainMenuName,
                             subMenuName: review.subMenuName,
                             memberNickname: review.memberNickname,
-                            memberImage: review.memberImage,
+                            memberImage: review.memberImage ?? "MenuDefaultImage",
                             isMemberLikedReview: review.isMemberLikedReview
                         )
                     }
+                    
                     // 컬렉션 뷰 업데이트
-                    self.menuReviewCollectionView.reloadSections(IndexSet(integer: 1))
+                    self.menuReviewCollectionView.reloadSections(IndexSet(integer: 4))
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -346,8 +347,7 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
         case 3:
             return 1
         case 4:
-            let selectedMenu = ReviewListItem.reviewListData.reviewList[selectedIndex]
-            return selectedMenu.menuReviewList.count  // 리뷰 리스트는 현재 필터링된 리뷰 개수에 따라 동적으로 결정
+            return reviewData.isEmpty ? 0 : reviewData.count
         default:
             return 0
         }
@@ -378,7 +378,7 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             return cell
         case 4:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.identifier, for: indexPath) as! MenuReviewList
-            cell.configureMenuReviewList(with: reviewData ?? [])
+            cell.configureMenuReviewList(with: reviewData)
             
             return cell
         default:
