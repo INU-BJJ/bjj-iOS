@@ -51,7 +51,7 @@ final class MenuReviewCell: UICollectionViewCell {
     // MARK: - Configure Cell
     
     func configureReviewCell(reviewImage: String) {
-        imageView.image = UIImage(named: reviewImage)
+        imageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(reviewImage)"))
     }
     
     func configureAddButton() {

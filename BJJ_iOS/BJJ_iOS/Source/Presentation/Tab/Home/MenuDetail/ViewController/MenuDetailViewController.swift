@@ -208,7 +208,7 @@ final class MenuDetailViewController: UIViewController {
                     }
                     
                     // 컬렉션 뷰 업데이트
-                    self.menuReviewCollectionView.reloadSections(IndexSet(integer: 4))
+                    self.menuReviewCollectionView.reloadSections(IndexSet([2, 4]))
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
