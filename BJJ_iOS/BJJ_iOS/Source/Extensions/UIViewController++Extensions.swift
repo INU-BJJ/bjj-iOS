@@ -29,7 +29,7 @@ extension UIViewController {
     
     /// MenuDetailVC로 push
     func presentMenuDetailViewController() {
-        let menuDetailVC = MenuReviewViewController()
+        let menuDetailVC = MenuDetailViewController()
         menuDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(menuDetailVC, animated: true)
     }

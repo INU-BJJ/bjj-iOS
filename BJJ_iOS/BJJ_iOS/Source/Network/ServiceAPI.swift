@@ -23,7 +23,7 @@ public func networkRequest<T: Decodable>(
     query: [String: Any]? = nil,
     completion: @escaping (Result<T, Error>) -> Void
 ) {
-    guard var urlComponents = URLComponents(string: baseURL.url + urlStr) else {
+    guard var urlComponents = URLComponents(string: baseURL.URL + urlStr) else {
         completion(.failure(NetworkError.invalidURL))
         return
     }

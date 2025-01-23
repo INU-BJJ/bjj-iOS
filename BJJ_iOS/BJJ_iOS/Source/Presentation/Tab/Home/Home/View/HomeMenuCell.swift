@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Kingfisher
 
 final class HomeMenuCell: UICollectionViewCell {
     
@@ -165,7 +166,11 @@ final class HomeMenuCell: UICollectionViewCell {
     func configureCell(menuName: String, menuPrice: String, imageName image: String, cafeteria: String, menuRating: Double) {
         menuNameLabel.text = menuName
         menuPriceLabel.text = menuPrice
-        menuImageView.image = UIImage(named: image)
+        if image == "DefaultMenuImage" {
+            menuImageView.image = UIImage(named: image)
+        } else {
+            menuImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(image)"))
+        }
         cafeteriaLabel.text = cafeteria
         menuRatingView.configureRatingLabel(with: menuRating)
     }

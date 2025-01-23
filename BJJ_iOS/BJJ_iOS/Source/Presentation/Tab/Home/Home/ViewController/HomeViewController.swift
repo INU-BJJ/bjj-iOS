@@ -61,8 +61,8 @@ final class HomeViewController: UIViewController {
     
     private func setAddView() {
         [
-         homeTopView,
-         collectionView
+            homeTopView,
+            collectionView
         ].forEach(view.addSubview)
     }
     
@@ -143,7 +143,10 @@ final class HomeViewController: UIViewController {
                             menuPrice: menu.price,
                             menuRating: menu.reviewRatingAverage,
                             cafeteriaCorner: menu.cafeteriaCorner,
-                            isLikedMenu: menu.likedMenu
+                            isLikedMenu: menu.likedMenu,
+                            restMenu: menu.restMenu?.components(separatedBy: " ") ?? [],
+                            reviewCount: menu.reviewCount,
+                            menuPairID: menu.menuPairID
                         )
                     }
                     // 컬렉션 뷰 업데이트
@@ -199,6 +202,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedSection = indexPath.section
+        
         if selectedSection == 0 { // 식당 섹션에서 선택 시
             selectedCafeteriaIndex = indexPath.item
             
@@ -222,7 +226,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let menuIndexPath = IndexPath(item: selectedCafeteriaIndex, section: 1)
             collectionView.reloadItems(at: [menuIndexPath])
         } else {    // 메뉴 섹션에서 선택 시
+            let selectedMenu = currentMenus[indexPath.item]
             
+            let menuDetailVC = MenuDetailViewController()
+            menuDetailVC.bindData(menu: selectedMenu)
+            menuDetailVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(menuDetailVC, animated: true)
         }
     }
 }

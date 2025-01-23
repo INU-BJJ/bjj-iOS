@@ -140,8 +140,8 @@ final class MenuReviewListContent: UICollectionViewCell {
     
     // MARK: - Configure Cell
     
-    func configureReviewListContent(with reviewList: MenuReviewInfo) {
-        reviewContentTextView.text = reviewList.reviewContent
+    func configureReviewListContent(with reviewList: MenuDetailModel) {
+        reviewContentTextView.text = reviewList.reviewComment
         self.reviewImages = reviewList.reviewImage
         reviewImageCollectionView.reloadData()
     }
@@ -156,10 +156,14 @@ extension MenuReviewListContent: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewImageCell.identifier, for: indexPath) as! MenuReviewImageCell
         var cornerStyle: UIRectCorner = []
         
-        if indexPath.row == 0 {
-            cornerStyle = [.topLeft, .bottomLeft]
-        } else if indexPath.row == reviewImages.count - 1 {
-            cornerStyle = [.topRight, .bottomRight]
+        if reviewImages.count > 1 {
+            if indexPath.row == 0 {
+                cornerStyle = [.topLeft, .bottomLeft]
+            } else if indexPath.row == reviewImages.count - 1 {
+                cornerStyle = [.topRight, .bottomRight]
+            }
+        } else {
+            cornerStyle = [.allCorners]
         }
 
         cell.configureReviewImageCell(with: reviewImages[indexPath.row], cornerStyle: cornerStyle)

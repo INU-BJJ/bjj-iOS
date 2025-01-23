@@ -14,7 +14,7 @@ final class MenuReviewListHashTag: UICollectionViewCell {
     // MARK: - Properties
     
     static let identifier = "MenuReviewListHastTag"
-    private let hashTags = ["우삽겹떡볶이*핫도그", "오뎅국"]
+    private var hashTags: [String] = []
     
     // MARK: - UI Components
     
@@ -63,6 +63,12 @@ final class MenuReviewListHashTag: UICollectionViewCell {
         reviewHashTagCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+    
+    // MARK: - Bind Data
+    
+    func bindHashTagData(with hashTags: [String]) {
+        self.hashTags = hashTags
     }
     
     // MARK: - Create Layout

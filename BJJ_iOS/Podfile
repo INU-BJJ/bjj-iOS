@@ -7,6 +7,7 @@ target 'BJJ_iOS' do
   pod 'SnapKit'
   pod 'Then'
   pod 'Alamofire'
+  pod 'Kingfisher'
 
   use_frameworks!
 

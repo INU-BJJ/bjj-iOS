@@ -8,13 +8,15 @@
 import UIKit
 import SnapKit
 import Then
+import Kingfisher
 
-final class MenuReviewViewController: UIViewController {
+final class MenuDetailViewController: UIViewController {
     
     // MARK: - Properties
-    
-    // TODO: 동적으로 index 바꾸기
-    private var selectedIndex: Int = 0
+
+    private var menuData: HomeMenuModel?
+    private var reviewData: [MenuDetailModel] = []
+    private var reviewImages: [String] = []
     
     // TODO: 네비바 숨김 방식 고민하기
     private var isNavigationBarHidden = false
@@ -35,7 +37,6 @@ final class MenuReviewViewController: UIViewController {
     }
     
     private let menuDefaultImageView = UIImageView().then {
-        $0.image = UIImage(named: "MenuImage2")
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
@@ -65,6 +66,9 @@ final class MenuReviewViewController: UIViewController {
         setUI()
         setAddView()
         setConstraints()
+        configure()
+        fetchReviewImage(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 3)
+        fetchReviewInfo(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 5, sortingCriteria: "BEST_MATCH", isWithImage: false)
     }
     
     // MARK: - Bind
@@ -125,6 +129,22 @@ final class MenuReviewViewController: UIViewController {
         }
     }
     
+    // MARK: - Bind Data
+    
+    func bindData(menu: HomeMenuModel) {
+        self.menuData = menu
+    }
+    
+    // MARK: - Configure CollectionView
+    
+    private func configure() {
+        if let imageName = menuData?.menuImage, imageName != "DefaultMenuImage" {
+            menuDefaultImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(imageName)"))
+        } else {
+            menuDefaultImageView.image = UIImage(named: "DefaultMenuImage")
+        }
+    }
+    
     // MARK: - UIScrollView Function
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -138,6 +158,62 @@ final class MenuReviewViewController: UIViewController {
             // 위로 스크롤하거나 초기 상태로 돌아오면 네비게이션 바 표시
             navigationController?.setNavigationBarHidden(false, animated: true)
             isNavigationBarHidden = false
+        }
+    }
+    
+    // MARK: - Fetch API
+    
+    private func fetchReviewImage(menuPairID: Int, pageNumber: Int, pageSize: Int) {
+        MenuDetailAPI.fetchReviewImageList(menuPairID: menuPairID, pageNumber: pageNumber, pageSize: pageSize) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let reviewInfo):
+                DispatchQueue.main.async {
+                    // 서버 데이터를 reviewImage에 저장
+                    self.reviewImages = reviewInfo.reviewImageDetailList.map { $0.reviewImage }
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    // 에러 처리 (필요 시 UI에 에러 메시지 표시 가능)
+                    print("Error fetching menu data: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    private func fetchReviewInfo(menuPairID: Int, pageNumber: Int, pageSize: Int, sortingCriteria: String, isWithImage: Bool) {
+        MenuDetailAPI.fetchReviewInfo(menuPairID: menuPairID, pageNumber: pageNumber, pageSize: pageSize, sortingCriteria: sortingCriteria, isWithImage: isWithImage) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let reviewInfo):
+                DispatchQueue.main.async {
+                    // 서버 데이터를 reviewData에 저장
+                    self.reviewData = reviewInfo.reviewList.map { review in
+                        MenuDetailModel(
+                            reviewComment: review.comment,
+                            reviewRating: review.reviewRating,
+                            reviewImage: review.reviewImage,
+                            reviewLikedCount: review.reviewLikeCount,
+                            reviewCreatedDate: review.reviewCreatedDate,
+                            mainMenuName: review.mainMenuName,
+                            subMenuName: review.subMenuName,
+                            memberNickname: review.memberNickname,
+                            memberImage: review.memberImage ?? "MenuDefaultImage",
+                            isMemberLikedReview: review.isMemberLikedReview
+                        )
+                    }
+                    
+                    // 컬렉션 뷰 업데이트
+                    self.menuReviewCollectionView.reloadSections(IndexSet([2, 4]))
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    // 에러 처리 (필요 시 UI에 에러 메시지 표시 가능)
+                    print("Error fetching menu data: \(error.localizedDescription)")
+                }
+            }
         }
     }
     
@@ -258,7 +334,7 @@ final class MenuReviewViewController: UIViewController {
     }
 }
 
-extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 5
     }
@@ -274,8 +350,7 @@ extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDa
         case 3:
             return 1
         case 4:
-            let selectedMenu = ReviewListItem.reviewListData.reviewList[selectedIndex]
-            return selectedMenu.menuReviewList.count  // 리뷰 리스트는 현재 필터링된 리뷰 개수에 따라 동적으로 결정
+            return reviewData.isEmpty ? 0 : reviewData.count
         default:
             return 0
         }
@@ -285,17 +360,19 @@ extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDa
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuHeader.identifier, for: indexPath) as! MenuHeader
-            cell.configureMenuHeader(menuName: "양상추샐러드/복숭아아이스티", menuPrice: "5,500원")
+            cell.configureMenuHeader(menuName: menuData?.menuName ?? "", menuPrice: menuData?.menuPrice ?? "")
             
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfo.identifier, for: indexPath) as! MenuInfo
-            cell.configureMenuInfo(with: ReviewListItem.reviewListData)
+            if let menuData = menuData {
+                cell.configureMenuInfo(with: menuData.restMenu ?? [])
+            }
             
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReview.identifier, for: indexPath) as! MenuReview
-            cell.configureMenuReview(with: ReviewListItem.reviewListData)
+            cell.configureMenuReview(menuReviewData: menuData ?? HomeMenuModel(menuName: "", menuImage: "DefaultMenuImage", menuPrice: "", menuRating: 0.0, cafeteriaCorner: "", isLikedMenu: false, restMenu: [], reviewCount: 0, menuPairID: 0), reviewImages: reviewImages)
             
             return cell
         case 3:
@@ -304,7 +381,7 @@ extension MenuReviewViewController: UICollectionViewDelegate, UICollectionViewDa
             return cell
         case 4:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.identifier, for: indexPath) as! MenuReviewList
-            cell.configureMenuReviewList(with: ReviewListItem.reviewListData.reviewList[indexPath.row])
+            cell.configureMenuReviewList(with: reviewData)
             
             return cell
         default:
