@@ -23,7 +23,6 @@ final class HomeMenuCell: UICollectionViewCell {
         $0.spacing = 10
         $0.distribution = .fill
         $0.alignment = .fill
-        $0.layer.cornerRadius = 3
         $0.layer.masksToBounds = true
     }
     
@@ -60,6 +59,7 @@ final class HomeMenuCell: UICollectionViewCell {
     private let menuImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
+        $0.layer.cornerRadius = 3
     }
     
     private let menuNameLabel = UILabel().then {
@@ -139,7 +139,6 @@ final class HomeMenuCell: UICollectionViewCell {
     
     private func setConstraints() {
         menuStackView.snp.makeConstraints {
-            // TODO: menuImageView와 menuRightStackView의 vertical inset 차이나니까 나중에 바꾸기
             $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 6.38, left: 10, bottom: 6.38, right: 10))
         }
         
