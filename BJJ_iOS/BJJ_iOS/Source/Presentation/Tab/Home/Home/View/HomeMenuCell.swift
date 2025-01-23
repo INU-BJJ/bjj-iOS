@@ -161,13 +161,13 @@ final class HomeMenuCell: UICollectionViewCell {
     
     // MARK: - Configuration
     
-    func configureCell(menuName: String, menuPrice: String, imageName image: String, cafeteriaName: String, cafeteriaCorner: String, menuRating: Double) {
+    func configureCell(menuName: String, menuPrice: String, imageName: String, cafeteriaName: String, cafeteriaCorner: String, menuRating: Double) {
         menuNameLabel.text = menuName
         menuPriceLabel.text = menuPrice
-        if image == "DefaultMenuImage" {
-            menuImageView.image = UIImage(named: image)
+        if imageName == "DefaultMenuImage" {
+            menuImageView.image = UIImage(named: "HomeDefaultMenuImage")
         } else {
-            menuImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(image)"))
+            menuImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(imageName)"))
         }
         cafeteriaLabel.text = "\(cafeteriaName) \(cafeteriaCorner)"
         menuRatingView.configureRatingLabel(with: menuRating)
