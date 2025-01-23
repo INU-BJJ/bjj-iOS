@@ -58,7 +58,6 @@ final class HomeMenuCell: UICollectionViewCell {
     }
     
     private let menuImageView = UIImageView().then {
-        $0.image = UIImage(named: "MenuImage")
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
