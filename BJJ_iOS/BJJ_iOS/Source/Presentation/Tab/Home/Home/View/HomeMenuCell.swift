@@ -161,7 +161,7 @@ final class HomeMenuCell: UICollectionViewCell {
     
     // MARK: - Configuration
     
-    func configureCell(menuName: String, menuPrice: String, imageName image: String, cafeteria: String, menuRating: Double) {
+    func configureCell(menuName: String, menuPrice: String, imageName image: String, cafeteriaName: String, cafeteriaCorner: String, menuRating: Double) {
         menuNameLabel.text = menuName
         menuPriceLabel.text = menuPrice
         if image == "DefaultMenuImage" {
@@ -169,7 +169,7 @@ final class HomeMenuCell: UICollectionViewCell {
         } else {
             menuImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(image)"))
         }
-        cafeteriaLabel.text = cafeteria
+        cafeteriaLabel.text = "\(cafeteriaName) \(cafeteriaCorner)"
         menuRatingView.configureRatingLabel(with: menuRating)
     }
 }

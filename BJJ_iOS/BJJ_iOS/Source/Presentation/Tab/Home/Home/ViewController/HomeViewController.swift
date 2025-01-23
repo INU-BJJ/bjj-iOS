@@ -143,6 +143,7 @@ final class HomeViewController: UIViewController {
                             menuImage: menu.reviewImageName ?? "DefaultMenuImage",
                             menuPrice: menu.price,
                             menuRating: menu.reviewRatingAverage,
+                            cafeteriaName: menu.cafeteriaName,
                             cafeteriaCorner: menu.cafeteriaCorner,
                             isLikedMenu: menu.likedMenu,
                             restMenu: menu.restMenu?.components(separatedBy: " ") ?? [],
@@ -194,7 +195,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 menuName: menu.menuName,
                 menuPrice: menu.menuPrice,
                 imageName: menu.menuImage ?? "DefaultMenuImage",
-                cafeteria: menu.cafeteriaCorner,
+                cafeteriaName: menu.cafeteriaName,
+                cafeteriaCorner: menu.cafeteriaCorner,
                 menuRating: menu.menuRating
             )
             return cell

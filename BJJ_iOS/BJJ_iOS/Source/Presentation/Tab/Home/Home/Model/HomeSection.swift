@@ -16,6 +16,7 @@ struct HomeMenuModel: Hashable {
     let menuImage: String?
     let menuPrice: String
     let menuRating: Double
+    let cafeteriaName: String
     let cafeteriaCorner: String
     let isLikedMenu: Bool
     let restMenu: [String]?
