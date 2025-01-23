@@ -13,9 +13,7 @@ import Kingfisher
 final class MenuDetailViewController: UIViewController {
     
     // MARK: - Properties
-    
-    // TODO: 동적으로 index 바꾸기
-    private var selectedIndex: Int = 0
+
     private var menuData: HomeMenuModel?
     private var reviewData: [MenuDetailModel] = []
     private var reviewImages: [String] = []
