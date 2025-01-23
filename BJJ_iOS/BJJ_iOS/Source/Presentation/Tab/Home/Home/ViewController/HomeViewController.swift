@@ -20,7 +20,10 @@ final class HomeViewController: UIViewController {
     
     private let homeTopView = HomeTopView()
     
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout()).then {
+    private lazy var collectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createLayout()
+    ).then {
         $0.register(HomeCafeteriaCell.self, forCellWithReuseIdentifier: HomeCafeteriaCell.identifier)
         $0.register(HomeMenuCell.self, forCellWithReuseIdentifier: HomeMenuCell.identifier)
         $0.backgroundColor = .customColor(.backgroundGray)
@@ -36,8 +39,6 @@ final class HomeViewController: UIViewController {
         setUI()
         setAddView()
         setConstraints()
-        
-        collectionView.setCollectionViewLayout(createLayout(), animated: false)
         fetchAllMenuData(cafeteriaName: "학생식당")
     }
     
