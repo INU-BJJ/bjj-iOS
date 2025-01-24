@@ -108,6 +108,8 @@ final class MenuReviewListInfo: UICollectionViewCell {
             reviewDateLabel
         ].forEach(reviewRatingDateStackView.addArrangedSubview)
         
+        reviewRatingDateStackView.setCustomSpacing(10, after: reviewRatingView)
+        
         [
             reviewLikeButton,
             reviewLikeCountLabel
@@ -126,7 +128,7 @@ final class MenuReviewListInfo: UICollectionViewCell {
         reviewListStackView.snp.makeConstraints {
             $0.leading.equalTo(profileImage.snp.trailing).offset(10)
             $0.trailing.equalToSuperview()
-            $0.verticalEdges.equalToSuperview()
+            $0.verticalEdges.equalToSuperview().inset(2.5)
         }
     }
     
