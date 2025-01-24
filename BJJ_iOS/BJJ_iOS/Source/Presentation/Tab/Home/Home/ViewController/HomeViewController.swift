@@ -13,7 +13,8 @@ final class HomeViewController: UIViewController {
 
     // MARK: - Properties
     
-    private var selectedCafeteriaIndex: Int = 0
+    private var previousCafeteriaIndex: Int = 0
+    private var presentCafeteriaIndex: Int = 0
     private var currentMenus: [HomeMenuModel] = []
     
     // MARK: - UI Components
@@ -102,7 +103,7 @@ final class HomeViewController: UIViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(124), heightDimension: .absolute(33))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(614), heightDimension: .absolute(33))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(2.0), heightDimension: .absolute(33))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = .fixed(9)
         
@@ -183,7 +184,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             // 식당 섹션
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCafeteriaCell.reuseIdentifier, for: indexPath) as! HomeCafeteriaCell
             let cafeteria = HomeCafeteriaModel.cafeteria[indexPath.item]
-            let isSelected = indexPath.item == 0
+            let isSelected = indexPath.item == presentCafeteriaIndex
             
             cell.configureCell(with: cafeteria.text, isSelected: isSelected)
             return cell
@@ -207,10 +208,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let selectedSection = indexPath.section
         
         if selectedSection == 0 { // 식당 섹션에서 선택 시
-            selectedCafeteriaIndex = indexPath.item
+            previousCafeteriaIndex = presentCafeteriaIndex
+            presentCafeteriaIndex = indexPath.item
             
             // 선택된 식당에 따른 메뉴 설정
-            switch selectedCafeteriaIndex {
+            switch presentCafeteriaIndex {
             case 0:
                 fetchAllMenuData(cafeteriaName: "학생식당")
             case 1:
@@ -225,9 +227,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 currentMenus = []
             }
             
-            // 메뉴 섹션의 특정 아이템만 업데이트
-            let menuIndexPath = IndexPath(item: selectedCafeteriaIndex, section: 1)
-            collectionView.reloadItems(at: [menuIndexPath])
+            // 식당 섹션의 이전에 선택했던 아이템, 현재 선택한 아이템만 업데이트
+            let reloadIndexPaths = [IndexPath(item: previousCafeteriaIndex, section: 0), IndexPath(item: presentCafeteriaIndex, section: 0)]
+            collectionView.reloadItems(at: reloadIndexPaths)
+            
         } else {    // 메뉴 섹션에서 선택 시
             let selectedMenu = currentMenus[indexPath.item]
             
