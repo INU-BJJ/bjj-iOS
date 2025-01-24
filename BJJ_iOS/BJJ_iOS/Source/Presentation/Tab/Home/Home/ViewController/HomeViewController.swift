@@ -152,8 +152,10 @@ final class HomeViewController: UIViewController {
                             menuPairID: menu.menuPairID
                         )
                     }
-                    // 컬렉션 뷰 업데이트
-                    self.collectionView.reloadSections(IndexSet(integer: 1))
+                    // 메뉴 섹션 애니메이션 효과 없이 새로고침 
+                    UIView.performWithoutAnimation {
+                        self.collectionView.reloadSections(IndexSet(integer: 1))
+                    }
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
