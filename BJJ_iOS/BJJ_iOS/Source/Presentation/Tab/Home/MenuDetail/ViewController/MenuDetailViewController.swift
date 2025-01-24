@@ -263,7 +263,10 @@ final class MenuDetailViewController: UIViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(176))
+        let menuCount = menuData?.restMenu?.count ?? 0
+        let calculatedHeight = CGFloat((menuCount * 17) + 20 + 22 + 15) // calculatedHeight = 메뉴 높이(17 * 메뉴 개수) + 메뉴박스 위아래 공백(20) + 메뉴 헤더와의 간격(22) + 메뉴 헤더 높이(15)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(calculatedHeight))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
