@@ -196,7 +196,7 @@ final class MenuDetailViewController: UIViewController {
                             reviewRating: review.reviewRating,
                             reviewImage: review.reviewImage,
                             reviewLikedCount: review.reviewLikeCount,
-                            reviewCreatedDate: review.reviewCreatedDate,
+                            reviewCreatedDate: review.reviewCreatedDate.convertDateFormat(),
                             mainMenuName: review.mainMenuName,
                             subMenuName: review.subMenuName,
                             memberNickname: review.memberNickname,

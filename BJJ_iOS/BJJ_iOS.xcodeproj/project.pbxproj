@@ -45,6 +45,7 @@
 		3F61DF532CB320A900A019E8 /* UIButton++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F61DF522CB320A900A019E8 /* UIButton++Extensions.swift */; };
 		3F6F565E2CB2975C00A43EF6 /* UIFont++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */; };
 		3F8430272CE7208000B5A2F1 /* UITabBar++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8430262CE7208000B5A2F1 /* UITabBar++Extensions.swift */; };
+		3F876EB62D43728700C96096 /* String++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F876EB52D43728700C96096 /* String++Extensions.swift */; };
 		3F94C8142D27BECC00364D0F /* MenuDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */; };
 		3F94C8162D27BEDC00364D0F /* MenuDetailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */; };
 		3F94C8182D27BEE800364D0F /* MenuDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */; };
@@ -121,6 +122,7 @@
 		3F61DF522CB320A900A019E8 /* UIButton++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton++Extensions.swift"; sourceTree = "<group>"; };
 		3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extensions.swift"; sourceTree = "<group>"; };
 		3F8430262CE7208000B5A2F1 /* UITabBar++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar++Extensions.swift"; sourceTree = "<group>"; };
+		3F876EB52D43728700C96096 /* String++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String++Extensions.swift"; sourceTree = "<group>"; };
 		3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailModel.swift; sourceTree = "<group>"; };
 		3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailAddress.swift; sourceTree = "<group>"; };
 		3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailAPI.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				3F47B9E72CD7716C00F8E2CB /* UIImage++Extensions.swift */,
 				3F8430262CE7208000B5A2F1 /* UITabBar++Extensions.swift */,
 				3FFAB73B2CF1CF0B00D09749 /* UINavigationItem++Extensions.swift */,
+				3F876EB52D43728700C96096 /* String++Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -804,6 +807,7 @@
 				3F1613272CD8582D00A30369 /* MenuReviewCell.swift in Sources */,
 				3F61DF512CB31CCD00A019E8 /* UILabel++Extensions.swift in Sources */,
 				3F1613252CD8572E00A30369 /* MenuReview.swift in Sources */,
+				3F876EB62D43728700C96096 /* String++Extensions.swift in Sources */,
 				3F94C8142D27BECC00364D0F /* MenuDetailModel.swift in Sources */,
 				3FBA45B12CD749730038960A /* MenuHeader.swift in Sources */,
 				3F16132B2CD86D3B00A30369 /* MenuReviewSorting.swift in Sources */,
