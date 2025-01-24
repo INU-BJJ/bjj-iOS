@@ -24,8 +24,8 @@ final class HomeViewController: UIViewController {
         frame: .zero,
         collectionViewLayout: createLayout()
     ).then {
-        $0.register(HomeCafeteriaCell.self, forCellWithReuseIdentifier: HomeCafeteriaCell.identifier)
-        $0.register(HomeMenuCell.self, forCellWithReuseIdentifier: HomeMenuCell.identifier)
+        $0.register(HomeCafeteriaCell.self, forCellWithReuseIdentifier: HomeCafeteriaCell.reuseIdentifier)
+        $0.register(HomeMenuCell.self, forCellWithReuseIdentifier: HomeMenuCell.reuseIdentifier)
         $0.backgroundColor = .customColor(.backgroundGray)
         $0.delegate = self
         $0.dataSource = self
@@ -181,7 +181,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let selectedSection = indexPath.section
         if selectedSection == 0 {
             // 식당 섹션
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCafeteriaCell.identifier, for: indexPath) as! HomeCafeteriaCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCafeteriaCell.reuseIdentifier, for: indexPath) as! HomeCafeteriaCell
             let cafeteria = HomeCafeteriaModel.cafeteria[indexPath.item]
             let isSelected = indexPath.item == 0
             
@@ -189,7 +189,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return cell
         } else {
             // 메뉴 섹션
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeMenuCell.identifier, for: indexPath) as! HomeMenuCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeMenuCell.reuseIdentifier, for: indexPath) as! HomeMenuCell
             let menu = currentMenus[indexPath.item]
             cell.configureCell(
                 menuName: menu.menuName,

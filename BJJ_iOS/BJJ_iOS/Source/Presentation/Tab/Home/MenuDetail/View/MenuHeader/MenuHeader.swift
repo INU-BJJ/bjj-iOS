@@ -9,11 +9,9 @@ import UIKit
 import SnapKit
 import Then
 
-final class MenuHeader: UICollectionViewCell {
+final class MenuHeader: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
-    
-    static let identifier = "MenuHeaderCell"
     
     // MARK: - UI Components
     

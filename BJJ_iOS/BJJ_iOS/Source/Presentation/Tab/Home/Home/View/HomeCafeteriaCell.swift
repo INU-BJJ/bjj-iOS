@@ -9,12 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class HomeCafeteriaCell: UICollectionViewCell {
-    
-    // TODO: identifier 삭제
-    
-    static let identifier = "HomeCafeteriaCell"
-    
+final class HomeCafeteriaCell: UICollectionViewCell, ReuseIdentifying {
     // MARK: - UI Components
     
     // TODO: 선택 여부에 따라 텍스트 색 변경하기

@@ -7,11 +7,10 @@
 
 import UIKit
 
-final class MenuReviewImageCell: UICollectionViewCell {
+final class MenuReviewImageCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
-    static let identifier = "MenuReviewImageCell"
     private let cornerRadius: CGFloat = 11
     
     // MARK: - UI Components

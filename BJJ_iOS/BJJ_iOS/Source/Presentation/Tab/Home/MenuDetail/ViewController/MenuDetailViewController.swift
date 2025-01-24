@@ -45,12 +45,12 @@ final class MenuDetailViewController: UIViewController {
         frame: .zero,
         collectionViewLayout: createLayout()
     ).then {
-        $0.register(MenuHeader.self, forCellWithReuseIdentifier: MenuHeader.identifier)
-        $0.register(MenuInfo.self, forCellWithReuseIdentifier: MenuInfo.identifier)
-        $0.register(MenuReview.self, forCellWithReuseIdentifier: MenuReview.identifier)
-        $0.register(MenuReviewSorting.self, forCellWithReuseIdentifier: MenuReviewSorting.identifier)
-        $0.register(MenuReviewList.self, forCellWithReuseIdentifier: MenuReviewList.identifier)
-        $0.register(SeparatingLineView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: SeparatingLineView.identifier)
+        $0.register(MenuHeader.self, forCellWithReuseIdentifier: MenuHeader.reuseIdentifier)
+        $0.register(MenuInfo.self, forCellWithReuseIdentifier: MenuInfo.reuseIdentifier)
+        $0.register(MenuReview.self, forCellWithReuseIdentifier: MenuReview.reuseIdentifier)
+        $0.register(MenuReviewSorting.self, forCellWithReuseIdentifier: MenuReviewSorting.reuseIdentifier)
+        $0.register(MenuReviewList.self, forCellWithReuseIdentifier: MenuReviewList.reuseIdentifier)
+        $0.register(SeparatingLineView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: SeparatingLineView.reuseIdentifier)
         $0.delegate = self
         $0.dataSource = self
         $0.layer.cornerRadius = 30
@@ -359,19 +359,19 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuHeader.identifier, for: indexPath) as! MenuHeader
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuHeader.reuseIdentifier, for: indexPath) as! MenuHeader
             cell.configureMenuHeader(menuName: menuData?.menuName ?? "", menuPrice: menuData?.menuPrice ?? "")
             
             return cell
         case 1:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfo.identifier, for: indexPath) as! MenuInfo
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfo.reuseIdentifier, for: indexPath) as! MenuInfo
             if let menuData = menuData {
                 cell.configureMenuInfo(with: menuData.restMenu ?? [])
             }
             
             return cell
         case 2:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReview.identifier, for: indexPath) as! MenuReview
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReview.reuseIdentifier, for: indexPath) as! MenuReview
             cell.configureMenuReview(
                 menuReviewData: menuData
                     ?? HomeMenuModel(
@@ -391,11 +391,11 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             
             return cell
         case 3:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSorting.identifier, for: indexPath) as! MenuReviewSorting
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSorting.reuseIdentifier, for: indexPath) as! MenuReviewSorting
             
             return cell
         case 4:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.identifier, for: indexPath) as! MenuReviewList
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.reuseIdentifier, for: indexPath) as! MenuReviewList
             cell.configureMenuReviewList(with: reviewData)
             
             return cell
@@ -408,7 +408,7 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
         if kind == UICollectionView.elementKindSectionFooter {
             let footer = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
-                withReuseIdentifier: SeparatingLineView.identifier,
+                withReuseIdentifier: SeparatingLineView.reuseIdentifier,
                 for: indexPath
             ) as! SeparatingLineView
             

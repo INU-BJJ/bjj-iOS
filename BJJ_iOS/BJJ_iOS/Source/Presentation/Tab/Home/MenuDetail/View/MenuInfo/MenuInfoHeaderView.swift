@@ -9,11 +9,9 @@ import UIKit
 import SnapKit
 import Then
 
-final class MenuInfoHeaderView: UIView {
+final class MenuInfoHeaderView: UIView, ReuseIdentifying {
     
     // MARK: - Properties
-    
-    static let identifier = "MenuInfoHeaderView"
     
     // MARK: - UI Components
     

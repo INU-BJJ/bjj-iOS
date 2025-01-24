@@ -9,11 +9,9 @@ import UIKit
 import SnapKit
 import Then
 
-final class MenuReviewHashTagCell: UICollectionViewCell {
+final class MenuReviewHashTagCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
-    
-    static let identifier = "HashTagCollectionViewCell"
     
     // MARK: - UI Components
     

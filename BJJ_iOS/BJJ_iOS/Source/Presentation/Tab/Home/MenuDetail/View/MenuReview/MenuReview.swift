@@ -9,11 +9,10 @@ import UIKit
 import SnapKit
 import Then
 
-final class MenuReview: UICollectionViewCell {
+final class MenuReview: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
-    static let identifier = "MenuReview"
     private var menuReviewData: HomeMenuModel?
     private var menuImages: [String] = []
     
@@ -23,8 +22,8 @@ final class MenuReview: UICollectionViewCell {
         frame: .zero,
         collectionViewLayout: createLayout()
     ).then {
-        $0.register(MenuReviewCell.self, forCellWithReuseIdentifier: MenuReviewCell.identifier)
-        $0.register(MenuReviewHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MenuReviewHeaderView.identifier)
+        $0.register(MenuReviewCell.self, forCellWithReuseIdentifier: MenuReviewCell.reuseIdentifier)
+        $0.register(MenuReviewHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MenuReviewHeaderView.reuseIdentifier)
         $0.dataSource = self
         $0.showsHorizontalScrollIndicator = false
         $0.isScrollEnabled = false
@@ -110,7 +109,7 @@ extension MenuReview: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewCell.identifier, for: indexPath) as! MenuReviewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewCell.reuseIdentifier, for: indexPath) as! MenuReviewCell
         
         if indexPath.row < menuImages.count {
             cell.configureReviewCell(reviewImage: menuImages[indexPath.row])
@@ -125,7 +124,7 @@ extension MenuReview: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MenuReviewHeaderView.identifier, for: indexPath) as! MenuReviewHeaderView
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MenuReviewHeaderView.reuseIdentifier, for: indexPath) as! MenuReviewHeaderView
             headerView.configureHeaderView(reviewCount: menuReviewData?.reviewCount ?? 0, reviewRating: menuReviewData?.menuRating ?? 0.0)
             
             return headerView

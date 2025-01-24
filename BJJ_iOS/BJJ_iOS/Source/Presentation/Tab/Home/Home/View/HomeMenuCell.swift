@@ -10,12 +10,7 @@ import SnapKit
 import Then
 import Kingfisher
 
-final class HomeMenuCell: UICollectionViewCell {
-    
-    // TODO: identifier 삭제
-    
-    static let identifier = "HomeMenuCell"
-    
+final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
     // MARK: - UI Components
     
     private let menuStackView = UIStackView().then {

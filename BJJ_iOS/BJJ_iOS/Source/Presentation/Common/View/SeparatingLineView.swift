@@ -9,11 +9,9 @@ import UIKit
 import SnapKit
 import Then
 
-final class SeparatingLineView: UICollectionReusableView {
+final class SeparatingLineView: UICollectionReusableView, ReuseIdentifying {
     
     // MARK: - Properties
-    
-    static let identifier = "SeparatingLineView"
     
     // MARK: - UI Components
     
