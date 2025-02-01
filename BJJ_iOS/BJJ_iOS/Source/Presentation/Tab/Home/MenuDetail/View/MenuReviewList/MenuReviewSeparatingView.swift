@@ -9,11 +9,9 @@ import UIKit
 import SnapKit
 import Then
 
-final class MenuReviewSeparatingView: UICollectionViewCell {
+final class MenuReviewSeparatingView: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
-    
-    static let identifier = "ReviewSeparatingView"
     
     // MARK: - UI Components
     

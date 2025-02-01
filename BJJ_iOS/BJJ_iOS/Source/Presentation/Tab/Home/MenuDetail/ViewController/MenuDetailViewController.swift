@@ -45,12 +45,12 @@ final class MenuDetailViewController: UIViewController {
         frame: .zero,
         collectionViewLayout: createLayout()
     ).then {
-        $0.register(MenuHeader.self, forCellWithReuseIdentifier: MenuHeader.identifier)
-        $0.register(MenuInfo.self, forCellWithReuseIdentifier: MenuInfo.identifier)
-        $0.register(MenuReview.self, forCellWithReuseIdentifier: MenuReview.identifier)
-        $0.register(MenuReviewSorting.self, forCellWithReuseIdentifier: MenuReviewSorting.identifier)
-        $0.register(MenuReviewList.self, forCellWithReuseIdentifier: MenuReviewList.identifier)
-        $0.register(SeparatingLineView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: SeparatingLineView.identifier)
+        $0.register(MenuHeader.self, forCellWithReuseIdentifier: MenuHeader.reuseIdentifier)
+        $0.register(MenuInfo.self, forCellWithReuseIdentifier: MenuInfo.reuseIdentifier)
+        $0.register(MenuReview.self, forCellWithReuseIdentifier: MenuReview.reuseIdentifier)
+        $0.register(MenuReviewSorting.self, forCellWithReuseIdentifier: MenuReviewSorting.reuseIdentifier)
+        $0.register(MenuReviewList.self, forCellWithReuseIdentifier: MenuReviewList.reuseIdentifier)
+        $0.register(SeparatingLineView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: SeparatingLineView.reuseIdentifier)
         $0.delegate = self
         $0.dataSource = self
         $0.layer.cornerRadius = 30
@@ -69,6 +69,21 @@ final class MenuDetailViewController: UIViewController {
         configure()
         fetchReviewImage(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 3)
         fetchReviewInfo(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 5, sortingCriteria: "BEST_MATCH", isWithImage: false)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // 레이아웃 계산을 강제
+        menuReviewCollectionView.layoutIfNeeded()
+        
+        // 콘텐츠 크기 기반으로 높이 계산
+        let collectionViewContentHeight = menuReviewCollectionView.collectionViewLayout.collectionViewContentSize.height
+        
+        // 컬렉션 뷰 높이 업데이트
+        menuReviewCollectionView.snp.updateConstraints {
+            $0.height.equalTo(collectionViewContentHeight)
+        }
     }
     
     // MARK: - Bind
@@ -122,10 +137,9 @@ final class MenuDetailViewController: UIViewController {
             $0.height.equalTo(272)
             $0.width.equalToSuperview()
         }
-    
-        // TODO: collectionView 높이 문제 해결하기
+        
         menuReviewCollectionView.snp.makeConstraints {
-            $0.height.equalTo(1450)
+            $0.height.equalTo(1)
         }
     }
     
@@ -141,7 +155,7 @@ final class MenuDetailViewController: UIViewController {
         if let imageName = menuData?.menuImage, imageName != "DefaultMenuImage" {
             menuDefaultImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(imageName)"))
         } else {
-            menuDefaultImageView.image = UIImage(named: "DefaultMenuImage")
+            menuDefaultImageView.image = UIImage(named: "MenuDetailDefaultMenuImage")
         }
     }
     
@@ -196,7 +210,7 @@ final class MenuDetailViewController: UIViewController {
                             reviewRating: review.reviewRating,
                             reviewImage: review.reviewImage,
                             reviewLikedCount: review.reviewLikeCount,
-                            reviewCreatedDate: review.reviewCreatedDate,
+                            reviewCreatedDate: review.reviewCreatedDate.convertDateFormat(),
                             mainMenuName: review.mainMenuName,
                             subMenuName: review.subMenuName,
                             memberNickname: review.memberNickname,
@@ -238,7 +252,7 @@ final class MenuDetailViewController: UIViewController {
         }
     }
     
-    // MARK: - Create Section
+    // MARK: - Create Section
     
     private func createMenuHeaderSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(60))
@@ -263,7 +277,10 @@ final class MenuDetailViewController: UIViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(176))
+        let menuCount = menuData?.restMenu?.count ?? 0
+        let calculatedHeight = CGFloat((menuCount * 17) + 20 + 22 + 15) // calculatedHeight = 메뉴 높이(17 * 메뉴 개수) + 메뉴박스 위아래 공백(20) + 메뉴 헤더와의 간격(22) + 메뉴 헤더 높이(15)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(calculatedHeight))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -317,18 +334,29 @@ final class MenuDetailViewController: UIViewController {
     }
     
     private func createReviewListSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(447))
+        var calculatedHeight: CGFloat = 122.0
+
+        for review in reviewData {
+            // 리뷰의 줄 개수 계산
+            let reviewLines = review.reviewComment.reduce(0) { $0 + ($1 == "\n" ? 1 : 0) } + 1
+            
+            // 리뷰의 이미지 개수에 따라 높이 계산
+            if let images = review.reviewImage, images.isEmpty {
+                // 이미지가 없을 때
+                calculatedHeight += CGFloat(17 * reviewLines + 12)
+            } else {
+                // 이미지가 있을 때
+                calculatedHeight += CGFloat(17 * reviewLines + 250 + 24)
+            }
+        }
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(447))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(calculatedHeight))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        
-        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(1))
-        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
-        
-        section.boundarySupplementaryItems = [footer]
         
         return section
     }
@@ -359,28 +387,43 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuHeader.identifier, for: indexPath) as! MenuHeader
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuHeader.reuseIdentifier, for: indexPath) as! MenuHeader
             cell.configureMenuHeader(menuName: menuData?.menuName ?? "", menuPrice: menuData?.menuPrice ?? "")
             
             return cell
         case 1:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfo.identifier, for: indexPath) as! MenuInfo
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfo.reuseIdentifier, for: indexPath) as! MenuInfo
             if let menuData = menuData {
                 cell.configureMenuInfo(with: menuData.restMenu ?? [])
             }
             
             return cell
         case 2:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReview.identifier, for: indexPath) as! MenuReview
-            cell.configureMenuReview(menuReviewData: menuData ?? HomeMenuModel(menuName: "", menuImage: "DefaultMenuImage", menuPrice: "", menuRating: 0.0, cafeteriaCorner: "", isLikedMenu: false, restMenu: [], reviewCount: 0, menuPairID: 0), reviewImages: reviewImages)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReview.reuseIdentifier, for: indexPath) as! MenuReview
+            cell.configureMenuReview(
+                menuReviewData: menuData
+                    ?? HomeMenuModel(
+                        menuName: "",
+                        menuImage: "DefaultMenuImage",
+                        menuPrice: "",
+                        menuRating: 0.0,
+                        cafeteriaName: "",
+                        cafeteriaCorner: "",
+                        isLikedMenu: false,
+                        restMenu: [],
+                        reviewCount: 0,
+                        menuPairID: 0
+                    ),
+                reviewImages: reviewImages
+            )
             
             return cell
         case 3:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSorting.identifier, for: indexPath) as! MenuReviewSorting
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSorting.reuseIdentifier, for: indexPath) as! MenuReviewSorting
             
             return cell
         case 4:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.identifier, for: indexPath) as! MenuReviewList
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.reuseIdentifier, for: indexPath) as! MenuReviewList
             cell.configureMenuReviewList(with: reviewData)
             
             return cell
@@ -393,7 +436,7 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
         if kind == UICollectionView.elementKindSectionFooter {
             let footer = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
-                withReuseIdentifier: SeparatingLineView.identifier,
+                withReuseIdentifier: SeparatingLineView.reuseIdentifier,
                 for: indexPath
             ) as! SeparatingLineView
             

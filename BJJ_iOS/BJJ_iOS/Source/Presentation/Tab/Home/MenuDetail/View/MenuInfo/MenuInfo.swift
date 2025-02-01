@@ -9,11 +9,10 @@ import UIKit
 import SnapKit
 import Then
 
-final class MenuInfo: UICollectionViewCell {
+final class MenuInfo: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
-    
-    static let identifier = "MenuInfo"
+
     private var menuComposition: [String] = []
     
     // MARK: - UI Components
@@ -24,7 +23,7 @@ final class MenuInfo: UICollectionViewCell {
         frame: .zero,
         collectionViewLayout: createLayout()
     ).then {
-        $0.register(MenuInfoCell.self, forCellWithReuseIdentifier: MenuInfoCell.identifier)
+        $0.register(MenuInfoCell.self, forCellWithReuseIdentifier: MenuInfoCell.reuseIdentifier)
         $0.isScrollEnabled = false
         $0.dataSource = self
         $0.backgroundColor = .customColor(.subColor)
@@ -109,7 +108,7 @@ extension MenuInfo: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfoCell.identifier, for: indexPath) as! MenuInfoCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfoCell.reuseIdentifier, for: indexPath) as! MenuInfoCell
         let compositionItem = menuComposition[indexPath.row]
         cell.configureMenuInfoCell(with: compositionItem)
         

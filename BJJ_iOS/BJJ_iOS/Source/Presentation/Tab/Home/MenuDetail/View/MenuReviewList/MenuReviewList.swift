@@ -9,11 +9,10 @@ import UIKit
 import SnapKit
 import Then
 
-final class MenuReviewList: UICollectionViewCell {
+final class MenuReviewList: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
-    static let identifier = "MenuReviewList"
     private var menuReview: [MenuDetailModel] = []
     
     // MARK: - UI Components
@@ -22,10 +21,10 @@ final class MenuReviewList: UICollectionViewCell {
             frame: .zero,
             collectionViewLayout: createLayout()
         ).then {
-            $0.register(MenuReviewListInfo.self, forCellWithReuseIdentifier: MenuReviewListInfo.identifier)
-            $0.register(MenuReviewListContent.self, forCellWithReuseIdentifier: MenuReviewListContent.identifier)
-            $0.register(MenuReviewListHashTag.self, forCellWithReuseIdentifier: MenuReviewListHashTag.identifier)
-            $0.register(MenuReviewSeparatingView.self, forCellWithReuseIdentifier: MenuReviewSeparatingView.identifier)
+            $0.register(MenuReviewListInfo.self, forCellWithReuseIdentifier: MenuReviewListInfo.reuseIdentifier)
+            $0.register(MenuReviewListContent.self, forCellWithReuseIdentifier: MenuReviewListContent.reuseIdentifier)
+            $0.register(MenuReviewListHashTag.self, forCellWithReuseIdentifier: MenuReviewListHashTag.reuseIdentifier)
+            $0.register(MenuReviewSeparatingView.self, forCellWithReuseIdentifier: MenuReviewSeparatingView.reuseIdentifier)
             $0.dataSource = self
             $0.showsVerticalScrollIndicator = false
             $0.isScrollEnabled = false
@@ -94,10 +93,10 @@ final class MenuReviewList: UICollectionViewCell {
     }
     
     private func createMenuReviewListInfoSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(41))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(41))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(41))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(41))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -107,14 +106,30 @@ final class MenuReviewList: UICollectionViewCell {
     }
     
     private func createMenuReviewListContentSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(350))
+        var calculatedHeight: CGFloat = 0.0
+
+        for review in menuReview {
+            // 리뷰의 줄 개수 계산
+            let reviewLines = review.reviewComment.reduce(0) { $0 + ($1 == "\n" ? 1 : 0) } + 1
+            
+            // 리뷰의 이미지 개수에 따라 높이 계산
+            if let images = review.reviewImage, images.isEmpty {
+                // 이미지가 없을 때
+                calculatedHeight += CGFloat(17 * reviewLines + 12)
+            } else {
+                // 이미지가 있을 때
+                calculatedHeight += CGFloat(17 * reviewLines + 250 + 24)
+            }
+        }
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(350))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(calculatedHeight))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 46, bottom: 12, trailing: 46)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 46, bottom: 0, trailing: 46)
         
         return section
     }
@@ -169,25 +184,25 @@ extension MenuReviewList: UICollectionViewDataSource {
         switch indexPath.section {
         // 프로필 이미지, 닉네임, 평점, 날짜, 좋아요 섹션
         case 0:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListInfo.identifier, for: indexPath) as! MenuReviewListInfo
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListInfo.reuseIdentifier, for: indexPath) as! MenuReviewListInfo
             cell.configureReviewListInfo(with: menuReview[indexPath.row])
             
             return cell
         // 리뷰 글, 사진 섹션
         case 1:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListContent.identifier, for: indexPath) as! MenuReviewListContent
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListContent.reuseIdentifier, for: indexPath) as! MenuReviewListContent
             cell.configureReviewListContent(with: menuReview[indexPath.row])
             
             return cell
         // 메뉴 해시태그 섹션
         case 2:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListHashTag.identifier, for: indexPath) as! MenuReviewListHashTag
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListHashTag.reuseIdentifier, for: indexPath) as! MenuReviewListHashTag
             cell.bindHashTagData(with: [menuReview[indexPath.row].mainMenuName, menuReview[indexPath.row].subMenuName])
             
             return cell
         // 구분선 섹션
         case 3:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSeparatingView.identifier, for: indexPath) as! MenuReviewSeparatingView
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSeparatingView.reuseIdentifier, for: indexPath) as! MenuReviewSeparatingView
             
             return cell
         default:

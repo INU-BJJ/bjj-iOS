@@ -10,12 +10,7 @@ import SnapKit
 import Then
 import Kingfisher
 
-final class HomeMenuCell: UICollectionViewCell {
-    
-    // TODO: identifier 삭제
-    
-    static let identifier = "HomeMenuCell"
-    
+final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
     // MARK: - UI Components
     
     private let menuStackView = UIStackView().then {
@@ -23,7 +18,6 @@ final class HomeMenuCell: UICollectionViewCell {
         $0.spacing = 10
         $0.distribution = .fill
         $0.alignment = .fill
-        $0.layer.cornerRadius = 3
         $0.layer.masksToBounds = true
     }
     
@@ -58,9 +52,9 @@ final class HomeMenuCell: UICollectionViewCell {
     }
     
     private let menuImageView = UIImageView().then {
-        $0.image = UIImage(named: "MenuImage")
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
+        $0.layer.cornerRadius = 3
     }
     
     private let menuNameLabel = UILabel().then {
@@ -140,7 +134,6 @@ final class HomeMenuCell: UICollectionViewCell {
     
     private func setConstraints() {
         menuStackView.snp.makeConstraints {
-            // TODO: menuImageView와 menuRightStackView의 vertical inset 차이나니까 나중에 바꾸기
             $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 6.38, left: 10, bottom: 6.38, right: 10))
         }
         
@@ -163,15 +156,15 @@ final class HomeMenuCell: UICollectionViewCell {
     
     // MARK: - Configuration
     
-    func configureCell(menuName: String, menuPrice: String, imageName image: String, cafeteria: String, menuRating: Double) {
+    func configureCell(menuName: String, menuPrice: String, imageName: String, cafeteriaName: String, cafeteriaCorner: String, menuRating: Double) {
         menuNameLabel.text = menuName
         menuPriceLabel.text = menuPrice
-        if image == "DefaultMenuImage" {
-            menuImageView.image = UIImage(named: image)
+        if imageName == "DefaultMenuImage" {
+            menuImageView.image = UIImage(named: "HomeDefaultMenuImage")
         } else {
-            menuImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(image)"))
+            menuImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(imageName)"))
         }
-        cafeteriaLabel.text = cafeteria
+        cafeteriaLabel.text = "\(cafeteriaName) \(cafeteriaCorner)"
         menuRatingView.configureRatingLabel(with: menuRating)
     }
 }

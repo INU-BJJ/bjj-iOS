@@ -9,11 +9,10 @@ import UIKit
 import SnapKit
 import Then
 
-final class MenuReviewListHashTag: UICollectionViewCell {
+final class MenuReviewListHashTag: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
-    static let identifier = "MenuReviewListHastTag"
     private var hashTags: [String] = []
     
     // MARK: - UI Components
@@ -22,7 +21,7 @@ final class MenuReviewListHashTag: UICollectionViewCell {
             frame: .zero,
             collectionViewLayout: createLayout()
         ).then {
-            $0.register(MenuReviewHashTagCell.self, forCellWithReuseIdentifier: MenuReviewHashTagCell.identifier)
+            $0.register(MenuReviewHashTagCell.self, forCellWithReuseIdentifier: MenuReviewHashTagCell.reuseIdentifier)
             $0.dataSource = self
             $0.showsHorizontalScrollIndicator = false
             $0.backgroundColor = .clear
@@ -101,7 +100,7 @@ extension MenuReviewListHashTag: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewHashTagCell.identifier, for: indexPath) as! MenuReviewHashTagCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewHashTagCell.reuseIdentifier, for: indexPath) as! MenuReviewHashTagCell
         let isHighlighted = (indexPath.row == 0)
         cell.configureHashTag(with: hashTags[indexPath.row], isHighlighted: isHighlighted)
         return cell

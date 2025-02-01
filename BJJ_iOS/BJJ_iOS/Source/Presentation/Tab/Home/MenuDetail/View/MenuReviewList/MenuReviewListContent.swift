@@ -9,11 +9,10 @@ import UIKit
 import SnapKit
 import Then
 
-final class MenuReviewListContent: UICollectionViewCell {
+final class MenuReviewListContent: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
-    static let identifier = "MenuReviewListContent"
     private var reviewImages: [String] = []
     
     // MARK: - UI Components
@@ -36,7 +35,7 @@ final class MenuReviewListContent: UICollectionViewCell {
         frame: .zero,
         collectionViewLayout: createLayout()
     ).then {
-        $0.register(MenuReviewImageCell.self, forCellWithReuseIdentifier: MenuReviewImageCell.identifier)
+        $0.register(MenuReviewImageCell.self, forCellWithReuseIdentifier: MenuReviewImageCell.reuseIdentifier)
         $0.dataSource = self
         $0.showsHorizontalScrollIndicator = false
         $0.alwaysBounceVertical = false
@@ -81,7 +80,6 @@ final class MenuReviewListContent: UICollectionViewCell {
         }
         
         reviewImageCollectionView.snp.makeConstraints {
-            $0.height.equalTo(250)
             $0.horizontalEdges.equalToSuperview()
         }
     }
@@ -142,7 +140,7 @@ final class MenuReviewListContent: UICollectionViewCell {
     
     func configureReviewListContent(with reviewList: MenuDetailModel) {
         reviewContentTextView.text = reviewList.reviewComment
-        self.reviewImages = reviewList.reviewImage
+        self.reviewImages = reviewList.reviewImage ?? []
         reviewImageCollectionView.reloadData()
     }
 }
@@ -153,7 +151,7 @@ extension MenuReviewListContent: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewImageCell.identifier, for: indexPath) as! MenuReviewImageCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewImageCell.reuseIdentifier, for: indexPath) as! MenuReviewImageCell
         var cornerStyle: UIRectCorner = []
         
         if reviewImages.count > 1 {

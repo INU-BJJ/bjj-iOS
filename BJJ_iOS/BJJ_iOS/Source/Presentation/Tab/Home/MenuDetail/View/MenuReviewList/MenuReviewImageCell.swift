@@ -7,11 +7,10 @@
 
 import UIKit
 
-final class MenuReviewImageCell: UICollectionViewCell {
+final class MenuReviewImageCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
-    static let identifier = "MenuReviewImageCell"
     private let cornerRadius: CGFloat = 11
     
     // MARK: - UI Components
@@ -53,12 +52,7 @@ final class MenuReviewImageCell: UICollectionViewCell {
     // MARK: - Configure Cell
     
     func configureReviewImageCell(with imageName: String, cornerStyle: UIRectCorner) {
-        
-        if imageName == "DefaultMenuImage" {
-            reviewImageView.image = UIImage(named: imageName)
-        } else {
-            reviewImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(imageName)"))
-        }
+        reviewImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(imageName)"))
         applyCorners(cornerStyle: cornerStyle)
     }
     
