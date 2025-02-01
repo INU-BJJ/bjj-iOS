@@ -71,6 +71,21 @@ final class MenuDetailViewController: UIViewController {
         fetchReviewInfo(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 5, sortingCriteria: "BEST_MATCH", isWithImage: false)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // 레이아웃 계산을 강제
+        menuReviewCollectionView.layoutIfNeeded()
+        
+        // 콘텐츠 크기 기반으로 높이 계산
+        let collectionViewContentHeight = menuReviewCollectionView.collectionViewLayout.collectionViewContentSize.height
+        
+        // 컬렉션 뷰 높이 업데이트
+        menuReviewCollectionView.snp.updateConstraints {
+            $0.height.equalTo(collectionViewContentHeight)
+        }
+    }
+    
     // MARK: - Bind
     
     func bind() {
@@ -122,10 +137,9 @@ final class MenuDetailViewController: UIViewController {
             $0.height.equalTo(272)
             $0.width.equalToSuperview()
         }
-    
-        // TODO: collectionView 높이 문제 해결하기
+        
         menuReviewCollectionView.snp.makeConstraints {
-            $0.height.equalTo(1450)
+            $0.height.equalTo(1)
         }
     }
     
@@ -238,7 +252,7 @@ final class MenuDetailViewController: UIViewController {
         }
     }
     
-    // MARK: - Create Section
+    // MARK: - Create Section
     
     private func createMenuHeaderSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(60))
@@ -320,18 +334,29 @@ final class MenuDetailViewController: UIViewController {
     }
     
     private func createReviewListSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(447))
+        var calculatedHeight: CGFloat = 122.0
+
+        for review in reviewData {
+            // 리뷰의 줄 개수 계산
+            let reviewLines = review.reviewComment.reduce(0) { $0 + ($1 == "\n" ? 1 : 0) } + 1
+            
+            // 리뷰의 이미지 개수에 따라 높이 계산
+            if let images = review.reviewImage, images.isEmpty {
+                // 이미지가 없을 때
+                calculatedHeight += CGFloat(17 * reviewLines + 12)
+            } else {
+                // 이미지가 있을 때
+                calculatedHeight += CGFloat(17 * reviewLines + 250 + 24)
+            }
+        }
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(447))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(calculatedHeight))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        
-        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(1))
-        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
-        
-        section.boundarySupplementaryItems = [footer]
         
         return section
     }

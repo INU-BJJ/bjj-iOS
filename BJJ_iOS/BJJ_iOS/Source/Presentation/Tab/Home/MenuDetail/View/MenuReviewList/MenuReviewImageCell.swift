@@ -52,12 +52,7 @@ final class MenuReviewImageCell: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Configure Cell
     
     func configureReviewImageCell(with imageName: String, cornerStyle: UIRectCorner) {
-        
-        if imageName == "DefaultMenuImage" {
-            reviewImageView.image = UIImage(named: imageName)
-        } else {
-            reviewImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(imageName)"))
-        }
+        reviewImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(imageName)"))
         applyCorners(cornerStyle: cornerStyle)
     }
     

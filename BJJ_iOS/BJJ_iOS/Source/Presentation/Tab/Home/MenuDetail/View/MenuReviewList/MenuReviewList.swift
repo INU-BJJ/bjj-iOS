@@ -93,10 +93,10 @@ final class MenuReviewList: UICollectionViewCell, ReuseIdentifying {
     }
     
     private func createMenuReviewListInfoSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(41))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(41))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(41))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(41))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -106,14 +106,30 @@ final class MenuReviewList: UICollectionViewCell, ReuseIdentifying {
     }
     
     private func createMenuReviewListContentSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(350))
+        var calculatedHeight: CGFloat = 0.0
+
+        for review in menuReview {
+            // 리뷰의 줄 개수 계산
+            let reviewLines = review.reviewComment.reduce(0) { $0 + ($1 == "\n" ? 1 : 0) } + 1
+            
+            // 리뷰의 이미지 개수에 따라 높이 계산
+            if let images = review.reviewImage, images.isEmpty {
+                // 이미지가 없을 때
+                calculatedHeight += CGFloat(17 * reviewLines + 12)
+            } else {
+                // 이미지가 있을 때
+                calculatedHeight += CGFloat(17 * reviewLines + 250 + 24)
+            }
+        }
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(350))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(calculatedHeight))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 46, bottom: 12, trailing: 46)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 46, bottom: 0, trailing: 46)
         
         return section
     }

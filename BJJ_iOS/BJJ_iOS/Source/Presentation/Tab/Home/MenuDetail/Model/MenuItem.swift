@@ -10,7 +10,7 @@ import Foundation
 struct MenuDetailModel: Hashable {
     let reviewComment: String
     let reviewRating: Int
-    let reviewImage: [String]
+    let reviewImage: [String]?
     let reviewLikedCount: Int
     let reviewCreatedDate: String
     let mainMenuName: String

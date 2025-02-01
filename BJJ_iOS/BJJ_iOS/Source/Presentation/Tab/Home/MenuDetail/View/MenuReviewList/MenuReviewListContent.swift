@@ -80,7 +80,6 @@ final class MenuReviewListContent: UICollectionViewCell, ReuseIdentifying {
         }
         
         reviewImageCollectionView.snp.makeConstraints {
-            $0.height.equalTo(250)
             $0.horizontalEdges.equalToSuperview()
         }
     }
@@ -141,7 +140,7 @@ final class MenuReviewListContent: UICollectionViewCell, ReuseIdentifying {
     
     func configureReviewListContent(with reviewList: MenuDetailModel) {
         reviewContentTextView.text = reviewList.reviewComment
-        self.reviewImages = reviewList.reviewImage
+        self.reviewImages = reviewList.reviewImage ?? []
         reviewImageCollectionView.reloadData()
     }
 }
