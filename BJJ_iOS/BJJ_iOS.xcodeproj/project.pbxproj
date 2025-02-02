@@ -53,6 +53,7 @@
 		3F996E572CD649C100910DE7 /* UIViewController++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */; };
 		3F996E612CD64D9800910DE7 /* MenuDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */; };
 		3FBA45B12CD749730038960A /* MenuHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBA45B02CD749730038960A /* MenuHeader.swift */; };
+		3FBC44362D4F66AF00D47EEA /* MyReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBC44352D4F66AF00D47EEA /* MyReviewViewController.swift */; };
 		3FC691592D1D53D7004643D2 /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC691582D1D53D7004643D2 /* ServiceAPI.swift */; };
 		3FC6915C2D1D5795004643D2 /* HomeAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC6915B2D1D5795004643D2 /* HomeAddress.swift */; };
 		3FC6915F2D1D57B0004643D2 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC6915E2D1D57B0004643D2 /* HomeModel.swift */; };
@@ -131,6 +132,7 @@
 		3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController++Extensions.swift"; sourceTree = "<group>"; };
 		3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailViewController.swift; sourceTree = "<group>"; };
 		3FBA45B02CD749730038960A /* MenuHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeader.swift; sourceTree = "<group>"; };
+		3FBC44352D4F66AF00D47EEA /* MyReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewViewController.swift; sourceTree = "<group>"; };
 		3FC691582D1D53D7004643D2 /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
 		3FC6915B2D1D5795004643D2 /* HomeAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAddress.swift; sourceTree = "<group>"; };
 		3FC6915E2D1D57B0004643D2 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 			isa = PBXGroup;
 			children = (
 				3F25B41E2CB2843A005C0907 /* Home */,
+				3FBC442F2D4F662200D47EEA /* Review */,
 			);
 			path = Tab;
 			sourceTree = "<group>";
@@ -421,6 +424,46 @@
 			isa = PBXGroup;
 			children = (
 				3F1613222CD8523400A30369 /* MenuItem.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3FBC442F2D4F662200D47EEA /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				3FBC44312D4F666000D47EEA /* MyReview */,
+			);
+			path = Review;
+			sourceTree = "<group>";
+		};
+		3FBC44312D4F666000D47EEA /* MyReview */ = {
+			isa = PBXGroup;
+			children = (
+				3FBC44342D4F667F00D47EEA /* Model */,
+				3FBC44332D4F667A00D47EEA /* View */,
+				3FBC44322D4F667200D47EEA /* ViewController */,
+			);
+			path = MyReview;
+			sourceTree = "<group>";
+		};
+		3FBC44322D4F667200D47EEA /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3FBC44352D4F66AF00D47EEA /* MyReviewViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3FBC44332D4F667A00D47EEA /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3FBC44342D4F667F00D47EEA /* Model */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -787,6 +830,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FBC44362D4F66AF00D47EEA /* MyReviewViewController.swift in Sources */,
 				3F61DF4D2CB31B1A00A019E8 /* HomeCafeteriaCell.swift in Sources */,
 				3F4B09252CE1FC31005C56C2 /* TabBarController.swift in Sources */,
 				3F1613352CD87C1100A30369 /* ReviewHorizontalView.swift in Sources */,
