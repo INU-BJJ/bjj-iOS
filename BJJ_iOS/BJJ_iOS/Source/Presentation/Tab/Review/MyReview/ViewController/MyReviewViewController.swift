@@ -15,6 +15,8 @@ final class MyReviewViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private let floatingButton = UIButton().makeFloatingButton()
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -35,12 +37,17 @@ final class MyReviewViewController: UIViewController {
     // MARK: - Set AddViews
     
     private func setAddView() {
-        
+        [
+            floatingButton
+        ].forEach(view.addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        
+        floatingButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(29.12)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(35.12)
+        }
     }
 }
