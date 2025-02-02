@@ -28,7 +28,8 @@ final class MyReviewViewController: UIViewController {
     // MARK: - Set UI
     
     private func setUI() {
-        
+        view.backgroundColor = .white
+        setNaviBar("리뷰 페이지")
     }
     
     // MARK: - Set AddViews
