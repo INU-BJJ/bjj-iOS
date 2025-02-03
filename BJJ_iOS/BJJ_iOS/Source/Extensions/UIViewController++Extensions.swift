@@ -27,6 +27,15 @@ extension UIViewController {
         self.navigationController?.navigationBar.standardAppearance = standardAppearance
     }
     
+    /// Back 버튼이 없는 Navigation Bar
+    func setNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.setLabelUI(title, font: .pretendard_bold, size: 18, color: .black)
+        }
+        
+        self.navigationItem.titleView = titleLabel
+    }
+    
     /// MenuDetailVC로 push
     func presentMenuDetailViewController() {
         let menuDetailVC = MenuDetailViewController()

@@ -45,6 +45,9 @@
 		3F61DF532CB320A900A019E8 /* UIButton++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F61DF522CB320A900A019E8 /* UIButton++Extensions.swift */; };
 		3F6F565E2CB2975C00A43EF6 /* UIFont++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */; };
 		3F8430272CE7208000B5A2F1 /* UITabBar++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8430262CE7208000B5A2F1 /* UITabBar++Extensions.swift */; };
+		3F87423B2D4FB08E004DF204 /* MyReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F87423A2D4FB08E004DF204 /* MyReviewModel.swift */; };
+		3F87423D2D4FC1E3004DF204 /* MyReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F87423C2D4FC1E3004DF204 /* MyReviewCell.swift */; };
+		3F87423F2D4FD87A004DF204 /* MyReviewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F87423E2D4FD87A004DF204 /* MyReviewHeaderView.swift */; };
 		3F876EB62D43728700C96096 /* String++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F876EB52D43728700C96096 /* String++Extensions.swift */; };
 		3F876EB82D43750300C96096 /* ReUseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F876EB72D43750300C96096 /* ReUseIdentifying.swift */; };
 		3F94C8142D27BECC00364D0F /* MenuDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */; };
@@ -53,6 +56,7 @@
 		3F996E572CD649C100910DE7 /* UIViewController++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */; };
 		3F996E612CD64D9800910DE7 /* MenuDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */; };
 		3FBA45B12CD749730038960A /* MenuHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBA45B02CD749730038960A /* MenuHeader.swift */; };
+		3FBC44362D4F66AF00D47EEA /* MyReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBC44352D4F66AF00D47EEA /* MyReviewViewController.swift */; };
 		3FC691592D1D53D7004643D2 /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC691582D1D53D7004643D2 /* ServiceAPI.swift */; };
 		3FC6915C2D1D5795004643D2 /* HomeAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC6915B2D1D5795004643D2 /* HomeAddress.swift */; };
 		3FC6915F2D1D57B0004643D2 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC6915E2D1D57B0004643D2 /* HomeModel.swift */; };
@@ -61,6 +65,7 @@
 		3FCA676B2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */; };
 		3FEDD49F2CB2B3A8009617A5 /* PretendardKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3FEDD49E2CB2B3A8009617A5 /* PretendardKit */; };
 		3FEDD4A12CB2B499009617A5 /* UIColor++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEDD4A02CB2B499009617A5 /* UIColor++Extensions.swift */; };
+		3FF6CAC32D50A544006ED4F3 /* MyReviewFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF6CAC22D50A544006ED4F3 /* MyReviewFooterView.swift */; };
 		3FFAB73C2CF1CF0B00D09749 /* UINavigationItem++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFAB73B2CF1CF0B00D09749 /* UINavigationItem++Extensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -123,6 +128,9 @@
 		3F61DF522CB320A900A019E8 /* UIButton++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton++Extensions.swift"; sourceTree = "<group>"; };
 		3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extensions.swift"; sourceTree = "<group>"; };
 		3F8430262CE7208000B5A2F1 /* UITabBar++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar++Extensions.swift"; sourceTree = "<group>"; };
+		3F87423A2D4FB08E004DF204 /* MyReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewModel.swift; sourceTree = "<group>"; };
+		3F87423C2D4FC1E3004DF204 /* MyReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewCell.swift; sourceTree = "<group>"; };
+		3F87423E2D4FD87A004DF204 /* MyReviewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewHeaderView.swift; sourceTree = "<group>"; };
 		3F876EB52D43728700C96096 /* String++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String++Extensions.swift"; sourceTree = "<group>"; };
 		3F876EB72D43750300C96096 /* ReUseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReUseIdentifying.swift; sourceTree = "<group>"; };
 		3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailModel.swift; sourceTree = "<group>"; };
@@ -131,6 +139,7 @@
 		3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController++Extensions.swift"; sourceTree = "<group>"; };
 		3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailViewController.swift; sourceTree = "<group>"; };
 		3FBA45B02CD749730038960A /* MenuHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeader.swift; sourceTree = "<group>"; };
+		3FBC44352D4F66AF00D47EEA /* MyReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewViewController.swift; sourceTree = "<group>"; };
 		3FC691582D1D53D7004643D2 /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
 		3FC6915B2D1D5795004643D2 /* HomeAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAddress.swift; sourceTree = "<group>"; };
 		3FC6915E2D1D57B0004643D2 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
@@ -138,6 +147,7 @@
 		3FC691632D1D646A004643D2 /* IgnoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreData.swift; sourceTree = "<group>"; };
 		3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewSeparatingView.swift; sourceTree = "<group>"; };
 		3FEDD4A02CB2B499009617A5 /* UIColor++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor++Extensions.swift"; sourceTree = "<group>"; };
+		3FF6CAC22D50A544006ED4F3 /* MyReviewFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewFooterView.swift; sourceTree = "<group>"; };
 		3FFAB73B2CF1CF0B00D09749 /* UINavigationItem++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem++Extensions.swift"; sourceTree = "<group>"; };
 		496DDB09DB1CFA8537904C48 /* Pods-BJJ_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOS.release.xcconfig"; path = "Target Support Files/Pods-BJJ_iOS/Pods-BJJ_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		6EA183F6162643F67ED49CA6 /* Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-BJJ_iOS-BJJ_iOSUITests/Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -303,6 +313,7 @@
 			isa = PBXGroup;
 			children = (
 				3F25B41E2CB2843A005C0907 /* Home */,
+				3FBC442F2D4F662200D47EEA /* Review */,
 			);
 			path = Tab;
 			sourceTree = "<group>";
@@ -421,6 +432,50 @@
 			isa = PBXGroup;
 			children = (
 				3F1613222CD8523400A30369 /* MenuItem.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3FBC442F2D4F662200D47EEA /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				3FBC44312D4F666000D47EEA /* MyReview */,
+			);
+			path = Review;
+			sourceTree = "<group>";
+		};
+		3FBC44312D4F666000D47EEA /* MyReview */ = {
+			isa = PBXGroup;
+			children = (
+				3FBC44342D4F667F00D47EEA /* Model */,
+				3FBC44332D4F667A00D47EEA /* View */,
+				3FBC44322D4F667200D47EEA /* ViewController */,
+			);
+			path = MyReview;
+			sourceTree = "<group>";
+		};
+		3FBC44322D4F667200D47EEA /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3FBC44352D4F66AF00D47EEA /* MyReviewViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3FBC44332D4F667A00D47EEA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F87423E2D4FD87A004DF204 /* MyReviewHeaderView.swift */,
+				3F87423C2D4FC1E3004DF204 /* MyReviewCell.swift */,
+				3FF6CAC22D50A544006ED4F3 /* MyReviewFooterView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3FBC44342D4F667F00D47EEA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F87423A2D4FB08E004DF204 /* MyReviewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -787,6 +842,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FBC44362D4F66AF00D47EEA /* MyReviewViewController.swift in Sources */,
 				3F61DF4D2CB31B1A00A019E8 /* HomeCafeteriaCell.swift in Sources */,
 				3F4B09252CE1FC31005C56C2 /* TabBarController.swift in Sources */,
 				3F1613352CD87C1100A30369 /* ReviewHorizontalView.swift in Sources */,
@@ -802,13 +858,16 @@
 				3F1A51AC2CD8C38900029E09 /* SeparatingLineView.swift in Sources */,
 				3F8430272CE7208000B5A2F1 /* UITabBar++Extensions.swift in Sources */,
 				3F16131D2CD8487800A30369 /* MenuInfo.swift in Sources */,
+				3FF6CAC32D50A544006ED4F3 /* MyReviewFooterView.swift in Sources */,
 				3FC691592D1D53D7004643D2 /* ServiceAPI.swift in Sources */,
+				3F87423D2D4FC1E3004DF204 /* MyReviewCell.swift in Sources */,
 				3FEDD4A12CB2B499009617A5 /* UIColor++Extensions.swift in Sources */,
 				3F61DF4F2CB31B2E00A019E8 /* HomeMenuCell.swift in Sources */,
 				3F61DF4B2CB3149600A019E8 /* HomeSection.swift in Sources */,
 				3F1613232CD8523400A30369 /* MenuItem.swift in Sources */,
 				3F1613272CD8582D00A30369 /* MenuReviewCell.swift in Sources */,
 				3F61DF512CB31CCD00A019E8 /* UILabel++Extensions.swift in Sources */,
+				3F87423B2D4FB08E004DF204 /* MyReviewModel.swift in Sources */,
 				3F1613252CD8572E00A30369 /* MenuReview.swift in Sources */,
 				3F876EB62D43728700C96096 /* String++Extensions.swift in Sources */,
 				3F94C8142D27BECC00364D0F /* MenuDetailModel.swift in Sources */,
@@ -821,6 +880,7 @@
 				3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */,
 				3F1613292CD8584100A30369 /* MenuReviewHeaderView.swift in Sources */,
 				3FC691612D1D57C5004643D2 /* HomeAPI.swift in Sources */,
+				3F87423F2D4FD87A004DF204 /* MyReviewHeaderView.swift in Sources */,
 				3F1A51AA2CD8941200029E09 /* MenuReviewHashTagCell.swift in Sources */,
 				3F1613312CD876C800A30369 /* MenuReviewListInfo.swift in Sources */,
 				3FC6915C2D1D5795004643D2 /* HomeAddress.swift in Sources */,
