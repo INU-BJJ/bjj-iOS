@@ -18,7 +18,8 @@ final class MyReviewViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private lazy var myReviewTableView = UITableView(frame: .zero, style: .plain).then {
+    private lazy var myReviewTableView = UITableView(frame: .zero, style: .grouped).then {
+        $0.register(MyReviewHeaderView.self, forHeaderFooterViewReuseIdentifier: MyReviewHeaderView.reuseIdentifier)
         $0.register(MyReviewCell.self, forCellReuseIdentifier: MyReviewCell.reuseIdentifier)
         $0.delegate = self
         $0.dataSource = self
@@ -58,8 +59,9 @@ final class MyReviewViewController: UIViewController {
     
     private func setConstraints() {
         myReviewTableView.snp.makeConstraints {
-            $0.verticalEdges.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalToSuperview().offset(102)
             $0.horizontalEdges.equalToSuperview().inset(31)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         floatingButton.snp.makeConstraints {
@@ -98,6 +100,32 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 63
+        // 셀당 높이 + 셀 간 간격 (63 + 10)
+        return 73
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MyReviewHeaderView.reuseIdentifier) as? MyReviewHeaderView else {
+            return nil
+        }
+        
+        let cafeteriaName: String
+        
+        switch section {
+        case 0:
+            cafeteriaName = "학생식당"
+        case 1:
+            cafeteriaName = "2호관 교직원식당"
+        default:
+            cafeteriaName = ""
+        }
+        headerView.configureMyReviewHeaderView(with: cafeteriaName)
+        
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        // 헤더 높이 + 헤더와 섹션 간격 (18 + 7)
+        return 25
     }
 }

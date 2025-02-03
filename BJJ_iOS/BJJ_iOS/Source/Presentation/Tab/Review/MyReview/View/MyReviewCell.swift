@@ -67,7 +67,7 @@ final class MyReviewCell: UITableViewCell, ReuseIdentifying {
     
     private func setConstraints() {
         containerView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0))
         }
         
         menuLabel.snp.makeConstraints {
