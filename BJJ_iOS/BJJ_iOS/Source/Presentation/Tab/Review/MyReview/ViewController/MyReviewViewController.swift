@@ -21,6 +21,7 @@ final class MyReviewViewController: UIViewController {
     private lazy var myReviewTableView = UITableView(frame: .zero, style: .grouped).then {
         $0.register(MyReviewHeaderView.self, forHeaderFooterViewReuseIdentifier: MyReviewHeaderView.reuseIdentifier)
         $0.register(MyReviewCell.self, forCellReuseIdentifier: MyReviewCell.reuseIdentifier)
+        $0.register(MyReviewFooterView.self, forHeaderFooterViewReuseIdentifier: MyReviewFooterView.reuseIdentifier)
         $0.delegate = self
         $0.dataSource = self
         $0.separatorStyle = .none
@@ -72,6 +73,9 @@ final class MyReviewViewController: UIViewController {
 }
 
 extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    // MARK: - TableView Section
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         // TODO: 사용자가 작성한 리뷰의 식당 개수에 따라 달라지도록 수정
         return 2
@@ -104,6 +108,8 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
         return 73
     }
     
+    //MARK: - TableView Header
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MyReviewHeaderView.reuseIdentifier) as? MyReviewHeaderView else {
             return nil
@@ -127,5 +133,20 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         // 헤더 높이 + 헤더와 섹션 간격 (18 + 7)
         return 25
+    }
+    
+    // MARK: - TableView Footer
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MyReviewFooterView.reuseIdentifier) as? MyReviewFooterView else {
+            return nil
+        }
+        
+        return footerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        // 섹션과 footer 사이의 간격 - 셀 간 간격 + 구분선 높이 + footer와 다음 섹션간의 간격 (24 - 10 + 7 + 22)
+        return 43
     }
 }
