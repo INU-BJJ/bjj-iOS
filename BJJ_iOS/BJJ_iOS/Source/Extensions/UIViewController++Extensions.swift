@@ -38,7 +38,7 @@ extension UIViewController {
         self.navigationItem.titleView = titleLabel
     }
     
-    /// 흰 배경 + 검정 Back 버튼
+    /// 흰 배경 + 검정 Back 버튼 Navigation Bar
     func setBackNaviBar(_ title: String) {
         let titleLabel = UILabel().then {
             $0.setLabelUI(title, font: .pretendard_bold, size: 18, color: .black)
@@ -48,6 +48,25 @@ extension UIViewController {
         
         self.navigationItem.titleView = titleLabel
         self.navigationItem.leftBarButtonItem = backButton
+        
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.backgroundColor = .white
+        
+        self.navigationController?.navigationBar.standardAppearance = standardAppearance
+    }
+    
+    /// 흰 배경 + 검정 Back 버튼 + More 버튼 Navigation Bar
+    func setBackMoreNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.setLabelUI(title, font: .pretendard_bold, size: 18, color: .black)
+        }
+        
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "BlackBackButton")
+        let moreButton = self.navigationItem.makeImageButtonItem(self, action: #selector(showMoreOptions), imageName: "VerticalMoreButton")
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItem = backButton
+        self.navigationItem.rightBarButtonItem = moreButton
         
         let standardAppearance = UINavigationBarAppearance()
         standardAppearance.backgroundColor = .white
@@ -71,10 +90,22 @@ extension UIViewController {
         self.navigationController?.pushViewController(cafeteriaMyReviewVC, animated: true)
     }
     
+    /// MyReviewDetailVC로 push
+    func presentMyReviewDetailViewController() {
+        let myReviewDetailVC = MyReviewDetailViewController()
+        myReviewDetailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(myReviewDetailVC, animated: true)
+    }
+    
     // MARK: - objc Function
     
     /// popVC
     @objc func popViewController() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    /// 더보기 버튼
+    @objc func showMoreOptions() {
+        
     }
 }
