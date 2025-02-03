@@ -43,7 +43,7 @@ final class MyReviewHeaderView: UITableViewHeaderFooterView, ReuseIdentifying {
     private func setConstraints() {
         cafeteriaNameLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.leading.equalToSuperview().offset(9)
+            $0.leading.equalToSuperview().offset(40)
         }
     }
     

@@ -61,7 +61,7 @@ final class MyReviewViewController: UIViewController {
     private func setConstraints() {
         myReviewTableView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(102)
-            $0.horizontalEdges.equalToSuperview().inset(31)
+            $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
