@@ -15,6 +15,8 @@ final class MyReviewDetailViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private let myReviewStackView = MyReviewDetailView()
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -36,13 +38,16 @@ final class MyReviewDetailViewController: UIViewController {
     
     private func setAddView() {
         [
-            
+            myReviewStackView
         ].forEach(view.addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        
+        myReviewStackView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(111)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+        }
     }
 }
