@@ -150,9 +150,10 @@ final class MyReviewDetailView: UIView {
             $0.centerY.equalTo(reviewRatingView)
         }
         
+        // TODO: 따봉 View 위치 점검
         myLikedView.snp.makeConstraints {
             $0.trailing.equalToSuperview()
-            $0.verticalEdges.equalToSuperview()
+            $0.verticalEdges.equalToSuperview().inset(4)
         }
         
         reviewLikeButton.snp.makeConstraints {
