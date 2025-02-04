@@ -55,6 +55,16 @@ final class MyReviewDetailView: UIView {
         $0.setLabelUI("15004", font: .pretendard, size: 11, color: .black)
     }
     
+    // TODO: 서버 데이터 연결하기
+    private let reviewTextView = UITextView().then {
+        $0.textColor = .black
+        $0.text = "핫도그는 냉동인데\n떡볶이는 맛있음\n맛도 있고 가격도 착해서 떡볶이 땡길 때 추천"
+        $0.font = .customFont(.pretendard_medium, 13)
+        $0.isScrollEnabled = false
+        $0.textContainerInset = UIEdgeInsets.zero
+        $0.textContainer.lineFragmentPadding = 0
+    }
+    
     // MARK: - LifeCycle
     
     override init(frame: CGRect) {
@@ -86,7 +96,8 @@ final class MyReviewDetailView: UIView {
         ].forEach(addSubview)
         
         [
-            myInfoTotalView
+            myInfoTotalView,
+            reviewTextView
         ].forEach(myReviewStackView.addArrangedSubview)
         
         [
@@ -131,10 +142,10 @@ final class MyReviewDetailView: UIView {
         
         myInfoStackView.snp.makeConstraints {
             $0.leading.equalTo(profileImage.snp.trailing).offset(10)
-            // TODO: - 질문: 메뉴 상세 페이지는 2.5로 되어 있던데 지금은 3.5임. 의도한건가?
-            $0.verticalEdges.equalToSuperview().inset(3.5)
+            $0.verticalEdges.equalToSuperview().inset(2.5)
         }
         
+        // TODO: 따봉 View 위치 점검
         myLikedView.snp.makeConstraints {
             $0.trailing.equalToSuperview()
             $0.verticalEdges.equalToSuperview()
@@ -148,12 +159,6 @@ final class MyReviewDetailView: UIView {
         reviewDateLabel.snp.makeConstraints {
             $0.leading.equalTo(reviewRatingView.snp.trailing).offset(10)
             $0.centerY.equalTo(reviewRatingView)
-        }
-        
-        // TODO: 따봉 View 위치 점검
-        myLikedView.snp.makeConstraints {
-            $0.trailing.equalToSuperview()
-            $0.verticalEdges.equalToSuperview().inset(4)
         }
         
         reviewLikeButton.snp.makeConstraints {
