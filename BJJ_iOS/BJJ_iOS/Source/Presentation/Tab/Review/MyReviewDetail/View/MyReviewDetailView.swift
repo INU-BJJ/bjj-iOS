@@ -167,7 +167,7 @@ final class MyReviewDetailView: UIView {
         }
         
         reviewLikeCountLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(4)
             $0.horizontalEdges.equalToSuperview()
         }
     }
