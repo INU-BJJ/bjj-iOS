@@ -14,6 +14,7 @@ final class MyReviewDetailView: UIView {
     // MARK: - Properties
     
     private var reviewImages: [String] = []
+    private var hashTags: [String] = []
     
     // MARK: - UI Components
     
@@ -71,12 +72,23 @@ final class MyReviewDetailView: UIView {
     
     private lazy var reviewImageCollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: createLayout()
+        collectionViewLayout: createImageLayout()
     ).then {
         $0.register(MyReviewDetailImageCell.self, forCellWithReuseIdentifier: MyReviewDetailImageCell.reuseIdentifier)
         $0.dataSource = self
         $0.showsHorizontalScrollIndicator = false
         $0.alwaysBounceVertical = false
+    }
+    
+    private lazy var reviewHashTagCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createHashTagLayout()
+    ).then {
+        $0.register(MyReviewDetailHashTagCell.self, forCellWithReuseIdentifier: MyReviewDetailHashTagCell.reuseIdentifier)
+        $0.dataSource = self
+        $0.showsHorizontalScrollIndicator = false
+        $0.backgroundColor = .clear
+        $0.isScrollEnabled = false
     }
     
     // MARK: - LifeCycle
@@ -112,7 +124,8 @@ final class MyReviewDetailView: UIView {
         [
             myInfoTotalView,
             reviewTextView,
-            reviewImageCollectionView
+            reviewImageCollectionView,
+            reviewHashTagCollectionView
         ].forEach(myReviewStackView.addArrangedSubview)
         
         [
@@ -191,11 +204,16 @@ final class MyReviewDetailView: UIView {
             // TODO: 높이 질문하기
             $0.height.equalTo(250)
         }
+        
+        reviewHashTagCollectionView.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(25)
+        }
     }
     
     // MARK: - Create Layout
     
-    private func createLayout() -> UICollectionViewCompositionalLayout {
+    private func createImageLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout {
             (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             
@@ -245,29 +263,61 @@ final class MyReviewDetailView: UIView {
         
         return layout
     }
+    
+    private func createHashTagLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(80), heightDimension: .estimated(25))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(25))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            group.interItemSpacing = .fixed(5)
+            
+            let section = NSCollectionLayoutSection(group: group)
+            
+            return section
+        }
+    }
 }
 
 extension MyReviewDetailView: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return reviewImages.count
+        
+        if collectionView == reviewImageCollectionView {
+            return reviewImages.count
+        } else {
+            return hashTags.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyReviewDetailImageCell.reuseIdentifier, for: indexPath) as! MyReviewDetailImageCell
-        var cornerStyle: UIRectCorner = []
-        
-        if reviewImages.count > 1 {
-            if indexPath.row == 0 {
-                cornerStyle = [.topLeft, .bottomLeft]
-            } else if indexPath.row == reviewImages.count - 1 {
-                cornerStyle = [.topRight, .bottomRight]
+        if collectionView == reviewImageCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyReviewDetailImageCell.reuseIdentifier, for: indexPath) as! MyReviewDetailImageCell
+            var cornerStyle: UIRectCorner = []
+            
+            if reviewImages.count > 1 {
+                if indexPath.row == 0 {
+                    cornerStyle = [.topLeft, .bottomLeft]
+                } else if indexPath.row == reviewImages.count - 1 {
+                    cornerStyle = [.topRight, .bottomRight]
+                }
+            } else {
+                cornerStyle = [.allCorners]
             }
-        } else {
-            cornerStyle = [.allCorners]
-        }
 
-        cell.configureReviewImageCell(with: reviewImages[indexPath.row], cornerStyle: cornerStyle)
-        
-        return cell
+            cell.configureReviewImageCell(with: reviewImages[indexPath.row], cornerStyle: cornerStyle)
+            
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyReviewDetailHashTagCell.reuseIdentifier, for: indexPath) as! MyReviewDetailHashTagCell
+            let isHighlighted = (indexPath.row == 0)
+            cell.configureHashTag(with: hashTags[indexPath.row], isHighlighted: isHighlighted)
+            
+            return cell
+        }
     }
 }
