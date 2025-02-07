@@ -10,6 +10,7 @@
 		01DC4B538F565897139BADB9 /* Pods_BJJ_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC754E488571841B3C012092 /* Pods_BJJ_iOS.framework */; };
 		3016EF23BF999F3B2938CB21 /* Pods_BJJ_iOS_BJJ_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDC484312245658E58CCA3D6 /* Pods_BJJ_iOS_BJJ_iOSUITests.framework */; };
 		35ED9F4BBC05537E532973D0 /* Pods_BJJ_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 183A6B16AAF9BFE808F0C4D0 /* Pods_BJJ_iOSTests.framework */; };
+		3F03EEA82D5643F4007B3505 /* ReviewWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F03EEA72D5643F4007B3505 /* ReviewWriteViewController.swift */; };
 		3F16131D2CD8487800A30369 /* MenuInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F16131C2CD8487800A30369 /* MenuInfo.swift */; };
 		3F16131F2CD84D0E00A30369 /* MenuInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F16131E2CD84D0E00A30369 /* MenuInfoCell.swift */; };
 		3F1613212CD84E0800A30369 /* MenuInfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1613202CD84E0800A30369 /* MenuInfoHeaderView.swift */; };
@@ -97,6 +98,7 @@
 /* Begin PBXFileReference section */
 		12F648792F2CC9262FB5F176 /* Pods-BJJ_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOS.debug.xcconfig"; path = "Target Support Files/Pods-BJJ_iOS/Pods-BJJ_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		183A6B16AAF9BFE808F0C4D0 /* Pods_BJJ_iOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BJJ_iOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F03EEA72D5643F4007B3505 /* ReviewWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteViewController.swift; sourceTree = "<group>"; };
 		3F16131C2CD8487800A30369 /* MenuInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuInfo.swift; sourceTree = "<group>"; };
 		3F16131E2CD84D0E00A30369 /* MenuInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuInfoCell.swift; sourceTree = "<group>"; };
 		3F1613202CD84E0800A30369 /* MenuInfoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuInfoHeaderView.swift; sourceTree = "<group>"; };
@@ -203,6 +205,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F03EEA32D56435E007B3505 /* ReviewWrite */ = {
+			isa = PBXGroup;
+			children = (
+				3F03EEA62D5643B2007B3505 /* Model */,
+				3F03EEA52D5643AE007B3505 /* View */,
+				3F03EEA42D5643A6007B3505 /* ViewController */,
+			);
+			path = ReviewWrite;
+			sourceTree = "<group>";
+		};
+		3F03EEA42D5643A6007B3505 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F03EEA72D5643F4007B3505 /* ReviewWriteViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3F03EEA52D5643AE007B3505 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3F03EEA62D5643B2007B3505 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		3F1613322CD87BB800A30369 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -528,6 +562,7 @@
 				3FBC44312D4F666000D47EEA /* MyReview */,
 				3F1BC3132D50D88300B153BA /* CafeteriaMyReview */,
 				3F2BE7932D50E55F005003CC /* MyReviewDetail */,
+				3F03EEA32D56435E007B3505 /* ReviewWrite */,
 			);
 			path = Review;
 			sourceTree = "<group>";
@@ -932,6 +967,7 @@
 			files = (
 				3FBC44362D4F66AF00D47EEA /* MyReviewViewController.swift in Sources */,
 				3F1BC31A2D50DC7800B153BA /* CafeteriaMyReviewCell.swift in Sources */,
+				3F03EEA82D5643F4007B3505 /* ReviewWriteViewController.swift in Sources */,
 				3F61DF4D2CB31B1A00A019E8 /* HomeCafeteriaCell.swift in Sources */,
 				3F4B09252CE1FC31005C56C2 /* TabBarController.swift in Sources */,
 				3F1613352CD87C1100A30369 /* ReviewHorizontalView.swift in Sources */,
