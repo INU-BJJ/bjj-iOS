@@ -50,4 +50,11 @@ final class MyReviewDetailViewController: UIViewController {
             $0.horizontalEdges.equalToSuperview().inset(20)
         }
     }
+    
+    @objc func presentModalVC() {
+        let modalVC = MyReviewDeleteModalViewController()
+        modalVC.modalPresentationStyle = .overCurrentContext
+        
+        present(modalVC, animated: true)
+    }
 }

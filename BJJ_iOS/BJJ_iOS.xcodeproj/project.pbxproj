@@ -62,6 +62,7 @@
 		3F996E612CD64D9800910DE7 /* MenuDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */; };
 		3FB984602D5378A30050D66A /* MyReviewDetailImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB9845F2D5378A30050D66A /* MyReviewDetailImageCell.swift */; };
 		3FB984622D5389710050D66A /* MyReviewDetailHashTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB984612D5389710050D66A /* MyReviewDetailHashTagCell.swift */; };
+		3FB984642D53918F0050D66A /* MyReviewDeleteModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB984632D53918F0050D66A /* MyReviewDeleteModalViewController.swift */; };
 		3FBA45B12CD749730038960A /* MenuHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBA45B02CD749730038960A /* MenuHeader.swift */; };
 		3FBC44362D4F66AF00D47EEA /* MyReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBC44352D4F66AF00D47EEA /* MyReviewViewController.swift */; };
 		3FC691592D1D53D7004643D2 /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC691582D1D53D7004643D2 /* ServiceAPI.swift */; };
@@ -152,6 +153,7 @@
 		3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailViewController.swift; sourceTree = "<group>"; };
 		3FB9845F2D5378A30050D66A /* MyReviewDetailImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailImageCell.swift; sourceTree = "<group>"; };
 		3FB984612D5389710050D66A /* MyReviewDetailHashTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailHashTagCell.swift; sourceTree = "<group>"; };
+		3FB984632D53918F0050D66A /* MyReviewDeleteModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDeleteModalViewController.swift; sourceTree = "<group>"; };
 		3FBA45B02CD749730038960A /* MenuHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeader.swift; sourceTree = "<group>"; };
 		3FBC44352D4F66AF00D47EEA /* MyReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewViewController.swift; sourceTree = "<group>"; };
 		3FC691582D1D53D7004643D2 /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
@@ -422,6 +424,7 @@
 			isa = PBXGroup;
 			children = (
 				3F2BE7972D50E594005003CC /* MyReviewDetailViewController.swift */,
+				3FB984632D53918F0050D66A /* MyReviewDeleteModalViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -952,6 +955,7 @@
 				3FEDD4A12CB2B499009617A5 /* UIColor++Extensions.swift in Sources */,
 				3F61DF4F2CB31B2E00A019E8 /* HomeMenuCell.swift in Sources */,
 				3F61DF4B2CB3149600A019E8 /* HomeSection.swift in Sources */,
+				3FB984642D53918F0050D66A /* MyReviewDeleteModalViewController.swift in Sources */,
 				3F1613232CD8523400A30369 /* MenuItem.swift in Sources */,
 				3F1BC3182D50D8EE00B153BA /* CafeteriaMyReviewViewController.swift in Sources */,
 				3F1613272CD8582D00A30369 /* MenuReviewCell.swift in Sources */,
