@@ -15,6 +15,14 @@ final class ReviewWriteViewController: UIViewController {
     
     // MARK: - UI Components
     
+//    private lazy var reviewWriteCollectionView = UICollectionView(
+//        frame: .zero,
+//        collectionViewLayout: createLayout()
+//    ).then {
+//        $0.register(<#T##cellClass: AnyClass?##AnyClass?#>, forCellWithReuseIdentifier: <#T##String#>)
+//        $0.delegate = self
+//        $0.dataSource = self
+//    }
     
     // MARK: - LifeCycle
     
@@ -46,5 +54,19 @@ final class ReviewWriteViewController: UIViewController {
     private func setConstraints() {
         
     }
+    
+    // MARK: - Create Layout
+    
+//    private func createLayout() -> UICollectionViewLayout {
+//        return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+//            switch sectionIndex {
+//            case 0:
+//                return self.createCafeteriaSection()
+//            case 1:
+//                return self.createMenuSection()
+//            default:
+//                return nil
+//            }
+//        }
+//    }
 }
-
