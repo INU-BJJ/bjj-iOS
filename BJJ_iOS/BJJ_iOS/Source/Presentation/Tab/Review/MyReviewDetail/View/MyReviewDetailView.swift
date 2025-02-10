@@ -101,7 +101,7 @@ final class MyReviewDetailView: UIView {
         setConstraints()
         
         // TODO: configure 함수로 빼기
-        reviewRatingView.configureReviewStar(reviewRating: 4)
+        reviewRatingView.configureReviewStar(reviewRating: 4, type: .small)
     }
     
     required init?(coder: NSCoder) {
