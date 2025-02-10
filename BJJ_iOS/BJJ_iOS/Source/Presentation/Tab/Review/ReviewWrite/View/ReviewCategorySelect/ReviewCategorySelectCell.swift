@@ -71,8 +71,8 @@ final class ReviewCategorySelectCell: UICollectionViewCell, ReuseIdentifying {
     
     private func setConstraints() {
         dropDownSelectButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(111)
-            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(45)
         }
     }
