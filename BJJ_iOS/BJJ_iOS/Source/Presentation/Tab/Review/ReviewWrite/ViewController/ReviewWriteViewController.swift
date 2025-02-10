@@ -20,6 +20,7 @@ final class ReviewWriteViewController: UIViewController {
         collectionViewLayout: createLayout()
     ).then {
         $0.register(ReviewCategorySelectCell.self, forCellWithReuseIdentifier: ReviewCategorySelectCell.reuseIdentifier)
+        $0.register(SeparatingLineView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: SeparatingLineView.reuseIdentifier)
         $0.delegate = self
         $0.dataSource = self
         
@@ -82,18 +83,18 @@ final class ReviewWriteViewController: UIViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(100))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(114))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         
         
-        // TODO: Footer, 다른 셀과의 간격 조정
-//        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(1))
-//        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
+        // TODO: 다른 셀과의 간격 조정
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(0.5))
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
         
 //        section.contentInsets = NSDirectionalEdgeInsets(top: 41, leading: 24, bottom: 23, trailing: 24)
-//        section.boundarySupplementaryItems = [footer]
+        section.boundarySupplementaryItems = [footer]
         
         return section
     }
@@ -113,13 +114,25 @@ extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewD
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCategorySelectCell.reuseIdentifier, for: indexPath) as! ReviewCategorySelectCell
             
-            // TODO: 경계선 삭제
-            cell.layer.borderColor = UIColor.blue.cgColor
-            cell.layer.borderWidth = 1
-            
             return cell
         default:
             fatalError("Unexpected section")
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionFooter {
+            let footer = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: SeparatingLineView.reuseIdentifier,
+                for: indexPath
+            ) as! SeparatingLineView
+            
+            // Footer Style 지정
+            footer.configureLineView(.menuDetail)
+            
+            return footer
+        }
+        return UICollectionReusableView()
     }
 }
