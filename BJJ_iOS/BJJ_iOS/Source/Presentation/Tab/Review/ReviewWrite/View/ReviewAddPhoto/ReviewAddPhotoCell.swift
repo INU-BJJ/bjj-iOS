@@ -21,12 +21,9 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
     
     private let addPhotoButton = UIButton().then {
         $0.setImage(UIImage(named: "Photo"), for: .normal)
-        $0.setTitle("1/4", for: .normal)
+        $0.setTitle("0/4", for: .normal)
         $0.setTitleColor(.customColor(.midGray), for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard_medium, 13)
-        $0.layer.borderWidth = 1.5
-        $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
-        $0.layer.cornerRadius = 3
     }
     
     // MARK: - Life Cycle
@@ -41,6 +38,11 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        addDashedBorder(to: addPhotoButton)
     }
     
     // MARK: - Set UI
@@ -81,5 +83,22 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
             photoImageView.isHidden = true
             addPhotoButton.isHidden = false
         }
+    }
+    
+    // MARK: - Configure Dash Border Button
+    
+    // TODO: dash 점선이 왼쪽은 얇고 오른쪽은 두꺼움. 수정 필요
+    private func addDashedBorder(to button: UIButton) {
+        let dashedBorder = CAShapeLayer()
+        
+        dashedBorder.strokeColor = UIColor.customColor(.midGray).cgColor
+        dashedBorder.lineDashPattern = [2, 2]
+        dashedBorder.lineWidth = 1.5
+        dashedBorder.fillColor = nil
+        dashedBorder.frame = button.bounds
+        dashedBorder.path = UIBezierPath(roundedRect: button.bounds, cornerRadius: 3).cgPath
+        
+        button.layer.sublayers?.removeAll(where: { $0 is CAShapeLayer })
+        button.layer.addSublayer(dashedBorder)
     }
 }
