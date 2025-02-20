@@ -20,13 +20,10 @@ final class ReviewWriteViewController: UIViewController {
         collectionViewLayout: createLayout()
     ).then {
         $0.register(ReviewCategorySelectCell.self, forCellWithReuseIdentifier: ReviewCategorySelectCell.reuseIdentifier)
+        $0.register(ReviewRatingCell.self, forCellWithReuseIdentifier: ReviewRatingCell.reuseIdentifier)
         $0.register(SeparatingLineView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: SeparatingLineView.reuseIdentifier)
         $0.delegate = self
         $0.dataSource = self
-        
-        // TODO: 경계선 삭제
-        $0.layer.borderColor = UIColor.red.cgColor
-        $0.layer.borderWidth = 1
     }
     
     // MARK: - LifeCycle
@@ -71,6 +68,8 @@ final class ReviewWriteViewController: UIViewController {
             switch sectionIndex {
             case 0:
                 return self.createCategorySelectSection()
+            case 1:
+                return self.createReviewRatingSection()
             default:
                 return nil
             }
@@ -88,13 +87,25 @@ final class ReviewWriteViewController: UIViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         
-        
         // TODO: 다른 셀과의 간격 조정
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(0.5))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
         
-//        section.contentInsets = NSDirectionalEdgeInsets(top: 41, leading: 24, bottom: 23, trailing: 24)
         section.boundarySupplementaryItems = [footer]
+        
+        return section
+    }
+    
+    private func createReviewRatingSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(58.27))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        section.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 0, bottom: 24.73, trailing: 0)
         
         return section
     }
@@ -102,7 +113,7 @@ final class ReviewWriteViewController: UIViewController {
 
 extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -113,6 +124,11 @@ extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewD
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCategorySelectCell.reuseIdentifier, for: indexPath) as! ReviewCategorySelectCell
+            
+            return cell
+        case 1:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewRatingCell.reuseIdentifier, for: indexPath) as! ReviewRatingCell
+            cell.configureReviewRatingCell(reviewRating: 4, type: .big)
             
             return cell
         default:

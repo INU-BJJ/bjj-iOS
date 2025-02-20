@@ -13,8 +13,6 @@ final class ReviewHorizontalView: UIView {
     
     // MARK: - Properties
     
-//    private let rating: Int
-    
     // MARK: - UI Components
     
     private let starStackView = UIStackView().then {
@@ -63,8 +61,7 @@ final class ReviewHorizontalView: UIView {
     
     func configureReviewStar(reviewRating: Int, type: StarSizeType) {
         starStackView.spacing = type.stackViewSpacing
-        // TODO: 삭제 고려
-//        starStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        starStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
         for _ in 0..<reviewRating {
             let filledStarIcon = UIImageView(image: type.filledStarImage?.resize(to: type.starSize))

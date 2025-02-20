@@ -15,6 +15,12 @@ final class ReviewRatingCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
     
+    private let reviewRatingLabel = UILabel().then {
+        $0.setLabelUI("음식 만족도를 평가해주세요", font: .pretendard_medium, size: 15, color: .black)
+    }
+    
+    private let reviewRatingView = ReviewHorizontalView()
+    
     // MARK: - Life Cycle
     
     override init(frame: CGRect) {
@@ -39,17 +45,27 @@ final class ReviewRatingCell: UICollectionViewCell, ReuseIdentifying {
     
     private func setAddView() {
         [
-            
+            reviewRatingLabel,
+            reviewRatingView
         ].forEach(addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        reviewRatingLabel.snp.makeConstraints {
+            $0.top.leading.equalToSuperview()
+        }
         
+        reviewRatingView.snp.makeConstraints {
+            $0.bottom.leading.equalToSuperview()
+        }
     }
     
     // MARK: - Configure Cell
     
+    func configureReviewRatingCell(reviewRating: Int, type: StarSizeType) {
+        reviewRatingView.configureReviewStar(reviewRating: reviewRating, type: type)
+    }
 }
 

@@ -27,7 +27,7 @@ enum StarSizeType {
         case .small:
             return UIImage(named: "EmptyStar")
         case .big:
-            return UIImage(named: "BigEmptyStar")
+            return UIImage(named: "EmptyBigStar")
         }
     }
 
