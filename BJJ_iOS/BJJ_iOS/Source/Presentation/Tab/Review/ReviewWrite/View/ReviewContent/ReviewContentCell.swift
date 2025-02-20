@@ -15,6 +15,16 @@ final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
     
+    private let reviewContentLabel = UILabel().then {
+        $0.setLabelUI("자세한 리뷰를 작성해주세요", font: .pretendard_medium, size: 15, color: .black)
+    }
+    
+    private let reviewTextView = UITextView().then {
+        $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
+        $0.layer.borderWidth = 1
+        $0.layer.cornerRadius = 4
+    }
+    
     // MARK: - Life Cycle
     
     override init(frame: CGRect) {
@@ -39,13 +49,22 @@ final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
     
     private func setAddView() {
         [
-            
+            reviewContentLabel,
+            reviewTextView
         ].forEach(addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        reviewContentLabel.snp.makeConstraints {
+            $0.top.leading.equalToSuperview()
+        }
         
+        reviewTextView.snp.makeConstraints {
+            $0.top.equalTo(reviewContentLabel.snp.bottom).offset(8)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(158)
+        }
     }
 }
