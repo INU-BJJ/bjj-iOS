@@ -19,10 +19,18 @@ final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
         $0.setLabelUI("자세한 리뷰를 작성해주세요", font: .pretendard_medium, size: 15, color: .black)
     }
     
-    private let reviewTextView = UITextView().then {
+    private lazy var reviewTextView = UITextView().then {
+        $0.setTextViewUI("", font: .pretendard_medium, size: 13, color: .black)
+        $0.textContainerInset = UIEdgeInsets(top: 16, left: 17, bottom: 38, right: 36)
+        $0.textContainer.lineFragmentPadding = 0
         $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
         $0.layer.borderWidth = 1
         $0.layer.cornerRadius = 4
+        $0.delegate = self
+    }
+    
+    private let reviewTextViewPlaceholder = UILabel().then {
+        $0.setLabelUI("텍스트 리뷰는 000P, 포토리뷰는 000P 드려요.", font: .pretendard_medium, size: 13, color: .midGray)
     }
     
     // MARK: - Life Cycle
@@ -52,6 +60,10 @@ final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
             reviewContentLabel,
             reviewTextView
         ].forEach(addSubview)
+        
+        [
+            reviewTextViewPlaceholder
+        ].forEach(reviewTextView.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -66,5 +78,15 @@ final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(158)
         }
+        
+        reviewTextViewPlaceholder.snp.makeConstraints {
+            $0.edges.equalTo(UIEdgeInsets(top: 16, left: 17, bottom: 38, right: 36))
+        }
+    }
+}
+
+extension ReviewContentCell: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        reviewTextViewPlaceholder.isHidden = !reviewTextView.text.isEmpty
     }
 }
