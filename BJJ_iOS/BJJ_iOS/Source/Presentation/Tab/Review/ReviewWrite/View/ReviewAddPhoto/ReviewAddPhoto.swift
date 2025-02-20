@@ -61,7 +61,7 @@ final class ReviewAddPhoto: UICollectionViewCell, ReuseIdentifying {
     
     private func setConstraints() {
         reviewImageCollectionView.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
     }
     

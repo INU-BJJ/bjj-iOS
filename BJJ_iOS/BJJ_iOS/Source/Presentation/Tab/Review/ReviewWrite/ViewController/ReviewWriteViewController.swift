@@ -22,6 +22,7 @@ final class ReviewWriteViewController: UIViewController {
         $0.register(ReviewCategorySelectCell.self, forCellWithReuseIdentifier: ReviewCategorySelectCell.reuseIdentifier)
         $0.register(ReviewRatingCell.self, forCellWithReuseIdentifier: ReviewRatingCell.reuseIdentifier)
         $0.register(ReviewContentCell.self, forCellWithReuseIdentifier: ReviewContentCell.reuseIdentifier)
+        $0.register(ReviewAddPhoto.self, forCellWithReuseIdentifier: ReviewAddPhoto.reuseIdentifier)
         $0.register(SeparatingLineView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: SeparatingLineView.reuseIdentifier)
         $0.delegate = self
         $0.dataSource = self
@@ -73,6 +74,8 @@ final class ReviewWriteViewController: UIViewController {
                 return self.createReviewRatingSection()
             case 2:
                 return self.createReviewContentSection()
+            case 3:
+                return self.createReviewAddPhotoSection()
             default:
                 return nil
             }
@@ -117,7 +120,21 @@ final class ReviewWriteViewController: UIViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(274))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(184))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 15, trailing: 0)
+        
+        return section
+    }
+    
+    private func createReviewAddPhotoSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(75))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -130,7 +147,7 @@ final class ReviewWriteViewController: UIViewController {
 
 extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -150,6 +167,10 @@ extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewD
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewContentCell.reuseIdentifier, for: indexPath) as! ReviewContentCell
+            
+            return cell
+        case 3:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewAddPhoto.reuseIdentifier, for: indexPath) as! ReviewAddPhoto
             
             return cell
         default:

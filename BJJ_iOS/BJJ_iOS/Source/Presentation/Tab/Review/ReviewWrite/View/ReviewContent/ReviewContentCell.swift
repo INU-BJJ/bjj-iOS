@@ -103,22 +103,20 @@ final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
         }
         
         // TODO: 양 옆 간격 다른 것 질문
-        // TODO: 아래와 같이 코드를 작성하면 leading, trailing 값이 다름. 원인을 모르겠음. 추후 수정
+        // TODO: $0.horizontalEdges.equalToSuperView().inset(17)로 작성하면 leading, trailing 값이 다름. 원인을 모르겠음. 추후 수정
         characterLimitView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(127)
-            $0.horizontalEdges.equalToSuperview().inset(17)
-            $0.width.equalTo(316)
+            $0.leading.equalToSuperview().offset(-17)
+            $0.width.equalToSuperview()
         }
         
         currentCharacterLabel.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(14)
             $0.trailing.equalTo(characterLimitLabel.snp.leading)
         }
         
         characterLimitLabel.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(14)
             $0.trailing.equalToSuperview()
         }
     }
