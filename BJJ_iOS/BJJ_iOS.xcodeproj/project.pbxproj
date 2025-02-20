@@ -36,6 +36,8 @@
 		3F2BE7982D50E594005003CC /* MyReviewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2BE7972D50E594005003CC /* MyReviewDetailViewController.swift */; };
 		3F2BE79A2D50ECD3005003CC /* MyReviewDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2BE7992D50ECD3005003CC /* MyReviewDetailModel.swift */; };
 		3F2BE79C2D50F687005003CC /* MyReviewDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2BE79B2D50F687005003CC /* MyReviewDetailView.swift */; };
+		3F31AAE12D675C3100FDCC35 /* ReviewAddPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F31AAE02D675C3100FDCC35 /* ReviewAddPhotoCell.swift */; };
+		3F31AAE32D675C5700FDCC35 /* ReviewAddPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F31AAE22D675C5700FDCC35 /* ReviewAddPhoto.swift */; };
 		3F375BAA2D577323005015C1 /* ReviewCategorySelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F375BA92D577323005015C1 /* ReviewCategorySelectCell.swift */; };
 		3F3AB7D72CB397F40013FABA /* HomeMenuRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AB7D62CB397F40013FABA /* HomeMenuRatingView.swift */; };
 		3F3AB7D92CB3D59C0013FABA /* HomeTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AB7D82CB3D59C0013FABA /* HomeTopView.swift */; };
@@ -137,6 +139,8 @@
 		3F2BE7972D50E594005003CC /* MyReviewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailViewController.swift; sourceTree = "<group>"; };
 		3F2BE7992D50ECD3005003CC /* MyReviewDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailModel.swift; sourceTree = "<group>"; };
 		3F2BE79B2D50F687005003CC /* MyReviewDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailView.swift; sourceTree = "<group>"; };
+		3F31AAE02D675C3100FDCC35 /* ReviewAddPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewAddPhotoCell.swift; sourceTree = "<group>"; };
+		3F31AAE22D675C5700FDCC35 /* ReviewAddPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewAddPhoto.swift; sourceTree = "<group>"; };
 		3F375BA92D577323005015C1 /* ReviewCategorySelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCategorySelectCell.swift; sourceTree = "<group>"; };
 		3F3AB7D62CB397F40013FABA /* HomeMenuRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMenuRatingView.swift; sourceTree = "<group>"; };
 		3F3AB7D82CB3D59C0013FABA /* HomeTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTopView.swift; sourceTree = "<group>"; };
@@ -241,6 +245,7 @@
 				3FE68A7E2D576FD400258AAC /* ReviewCategorySelect */,
 				3F3C74ED2D59E57B00D510A7 /* ReviewRating */,
 				3FF1E9282D66F96B00A237FA /* ReviewContent */,
+				3F31AADF2D675BE800FDCC35 /* ReviewAddPhoto */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -497,6 +502,15 @@
 				3F2BE7992D50ECD3005003CC /* MyReviewDetailModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3F31AADF2D675BE800FDCC35 /* ReviewAddPhoto */ = {
+			isa = PBXGroup;
+			children = (
+				3F31AAE02D675C3100FDCC35 /* ReviewAddPhotoCell.swift */,
+				3F31AAE22D675C5700FDCC35 /* ReviewAddPhoto.swift */,
+			);
+			path = ReviewAddPhoto;
 			sourceTree = "<group>";
 		};
 		3F3C74ED2D59E57B00D510A7 /* ReviewRating */ = {
@@ -1051,6 +1065,7 @@
 				3F2BE79A2D50ECD3005003CC /* MyReviewDetailModel.swift in Sources */,
 				3F61DF512CB31CCD00A019E8 /* UILabel++Extensions.swift in Sources */,
 				3F87423B2D4FB08E004DF204 /* MyReviewModel.swift in Sources */,
+				3F31AAE32D675C5700FDCC35 /* ReviewAddPhoto.swift in Sources */,
 				3F375BAA2D577323005015C1 /* ReviewCategorySelectCell.swift in Sources */,
 				3F1613252CD8572E00A30369 /* MenuReview.swift in Sources */,
 				3F876EB62D43728700C96096 /* String++Extensions.swift in Sources */,
@@ -1061,6 +1076,7 @@
 				3FBA45B12CD749730038960A /* MenuHeader.swift in Sources */,
 				3F3C74EC2D59D35C00D510A7 /* UIView++Extensions.swift in Sources */,
 				3F16132B2CD86D3B00A30369 /* MenuReviewSorting.swift in Sources */,
+				3F31AAE12D675C3100FDCC35 /* ReviewAddPhotoCell.swift in Sources */,
 				3F25B3E92CB282D7005C0907 /* AppDelegate.swift in Sources */,
 				3F5617B82CF3312400B4912D /* MenuReviewImageCell.swift in Sources */,
 				3F876EB82D43750300C96096 /* ReUseIdentifying.swift in Sources */,
