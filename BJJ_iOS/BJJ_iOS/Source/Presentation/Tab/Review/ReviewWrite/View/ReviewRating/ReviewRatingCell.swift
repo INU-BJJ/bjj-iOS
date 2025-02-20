@@ -68,4 +68,3 @@ final class ReviewRatingCell: UICollectionViewCell, ReuseIdentifying {
         reviewRatingView.configureReviewStar(reviewRating: reviewRating, type: type)
     }
 }
-

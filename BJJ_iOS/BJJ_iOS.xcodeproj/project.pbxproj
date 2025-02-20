@@ -75,6 +75,7 @@
 		3FCA676B2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */; };
 		3FEDD49F2CB2B3A8009617A5 /* PretendardKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3FEDD49E2CB2B3A8009617A5 /* PretendardKit */; };
 		3FEDD4A12CB2B499009617A5 /* UIColor++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEDD4A02CB2B499009617A5 /* UIColor++Extensions.swift */; };
+		3FF1E92A2D66F9A300A237FA /* ReviewContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1E9292D66F9A300A237FA /* ReviewContentCell.swift */; };
 		3FF6CAC32D50A544006ED4F3 /* MyReviewFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF6CAC22D50A544006ED4F3 /* MyReviewFooterView.swift */; };
 		3FFAB73C2CF1CF0B00D09749 /* UINavigationItem++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFAB73B2CF1CF0B00D09749 /* UINavigationItem++Extensions.swift */; };
 		8CB8B6DAAA797515681E5BE4 /* Pods_BJJ_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33515C51778C5C5E22CDE88A /* Pods_BJJ_iOS.framework */; };
@@ -173,6 +174,7 @@
 		3FC691632D1D646A004643D2 /* IgnoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreData.swift; sourceTree = "<group>"; };
 		3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewSeparatingView.swift; sourceTree = "<group>"; };
 		3FEDD4A02CB2B499009617A5 /* UIColor++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor++Extensions.swift"; sourceTree = "<group>"; };
+		3FF1E9292D66F9A300A237FA /* ReviewContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewContentCell.swift; sourceTree = "<group>"; };
 		3FF6CAC22D50A544006ED4F3 /* MyReviewFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewFooterView.swift; sourceTree = "<group>"; };
 		3FFAB73B2CF1CF0B00D09749 /* UINavigationItem++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem++Extensions.swift"; sourceTree = "<group>"; };
 		5C0139F5C073095340DC8F57 /* Pods-BJJ_iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOSTests.release.xcconfig"; path = "Target Support Files/Pods-BJJ_iOSTests/Pods-BJJ_iOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 			children = (
 				3FE68A7E2D576FD400258AAC /* ReviewCategorySelect */,
 				3F3C74ED2D59E57B00D510A7 /* ReviewRating */,
+				3FF1E9282D66F96B00A237FA /* ReviewContent */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -734,6 +737,14 @@
 			path = ReviewCategorySelect;
 			sourceTree = "<group>";
 		};
+		3FF1E9282D66F96B00A237FA /* ReviewContent */ = {
+			isa = PBXGroup;
+			children = (
+				3FF1E9292D66F9A300A237FA /* ReviewContentCell.swift */,
+			);
+			path = ReviewContent;
+			sourceTree = "<group>";
+		};
 		C3A5D1CB8F3EC3DBE0DE8C77 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1039,6 +1050,7 @@
 				3F375BAA2D577323005015C1 /* ReviewCategorySelectCell.swift in Sources */,
 				3F1613252CD8572E00A30369 /* MenuReview.swift in Sources */,
 				3F876EB62D43728700C96096 /* String++Extensions.swift in Sources */,
+				3FF1E92A2D66F9A300A237FA /* ReviewContentCell.swift in Sources */,
 				3F94C8142D27BECC00364D0F /* MenuDetailModel.swift in Sources */,
 				3F2BE7982D50E594005003CC /* MyReviewDetailViewController.swift in Sources */,
 				3F2BE79C2D50F687005003CC /* MyReviewDetailView.swift in Sources */,
