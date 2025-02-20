@@ -82,12 +82,17 @@ final class ReviewAddPhoto: UICollectionViewCell, ReuseIdentifying {
 
 extension ReviewAddPhoto: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return reviewImages.count
+        return max(reviewImages.count, 1)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewAddPhotoCell.reuseIdentifier, for: indexPath) as! ReviewAddPhotoCell
-        cell.configureAddPhotoCell(with: reviewImages[indexPath.item])
+        
+        if indexPath.item < reviewImages.count {
+            cell.configureAddPhotoCell(with: reviewImages[indexPath.item])
+        } else {
+            cell.configureAddPhotoCell(with: nil)
+        }
         
         return cell
     }

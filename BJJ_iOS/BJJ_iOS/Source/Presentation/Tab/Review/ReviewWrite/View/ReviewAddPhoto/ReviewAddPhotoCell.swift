@@ -20,14 +20,13 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
     }
     
     private let addPhotoButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "Photo"), for: .normal)
+        $0.setImage(UIImage(named: "Photo"), for: .normal)
         $0.setTitle("1/4", for: .normal)
         $0.setTitleColor(.customColor(.midGray), for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard_medium, 13)
         $0.layer.borderWidth = 1.5
         $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
         $0.layer.cornerRadius = 3
-//        $0.layer.backgroundColor = UIColor.clear.cgColor
     }
     
     // MARK: - Life Cycle
@@ -74,7 +73,7 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Configure PhotoCell
     
     func configureAddPhotoCell(with image: String?) {
-        if let image = image {
+        if let image = image, !image.isEmpty {
             photoImageView.image = UIImage(named: image)
             photoImageView.isHidden = false
             addPhotoButton.isHidden = true
