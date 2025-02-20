@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class ReviewPhotoCell: UICollectionViewCell, ReuseIdentifying {
+final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
     
@@ -73,14 +73,14 @@ final class ReviewPhotoCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Configure PhotoCell
     
-//    func configure(with image: UIImage?) {
-//        if let image = image {
-//            photoImageView.image = image
-//            photoImageView.isHidden = false
-//            addPhotoButton.isHidden = true
-//        } else {
-//            photoImageView.isHidden = true
-//            addPhotoButton.isHidden = false
-//        }
-//    }
+    func configureAddPhotoCell(with image: String?) {
+        if let image = image {
+            photoImageView.image = UIImage(named: image)
+            photoImageView.isHidden = false
+            addPhotoButton.isHidden = true
+        } else {
+            photoImageView.isHidden = true
+            addPhotoButton.isHidden = false
+        }
+    }
 }
