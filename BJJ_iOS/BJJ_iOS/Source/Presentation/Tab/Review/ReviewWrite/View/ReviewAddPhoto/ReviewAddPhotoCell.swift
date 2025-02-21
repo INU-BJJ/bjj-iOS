@@ -20,10 +20,22 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
     }
     
     private let addPhotoButton = UIButton().then {
-        $0.setImage(UIImage(named: "Photo"), for: .normal)
-        $0.setTitle("0/4", for: .normal)
-        $0.setTitleColor(.customColor(.midGray), for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard_medium, 13)
+        var config = UIButton.Configuration.plain()
+        let attributedString = NSAttributedString(
+            string: "0/4",
+            attributes: [
+                .font: UIFont.customFont(.pretendard_medium, 13),
+                .foregroundColor: UIColor.customColor(.midGray)
+            ]
+        )
+        
+        config.image = UIImage(named: "Photo")?.resize(to: CGSize(width: 25, height: 20))
+        config.attributedTitle = AttributedString(attributedString)
+        config.imagePlacement = .top
+        config.imagePadding = 5
+        config.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 25, bottom: 15, trailing: 25)
+        
+        $0.configuration = config
     }
     
     // MARK: - Life Cycle
