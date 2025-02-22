@@ -13,10 +13,25 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
     
+    private let photoContainerView = UIView().then {
+        $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
+        $0.layer.borderWidth = 1
+        $0.layer.cornerRadius = 3
+        $0.clipsToBounds = true
+        $0.isHidden = true
+    }
+    
     private let photoImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
-        $0.isHidden = true
+    }
+    
+    private let deselectPhotoButton = UIButton().then {
+        $0.setImage(UIImage(named: "DeselectXButton"), for: .normal)
+        $0.backgroundColor = .clear
+        $0.layer.cornerRadius = 17 / 2
+        $0.clipsToBounds = true
+        
     }
     
     private let addPhotoButton = UIButton().then {
@@ -67,16 +82,31 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
     
     private func setAddView() {
         [
-            photoImageView,
+            photoContainerView,
             addPhotoButton
         ].forEach(addSubview)
+        
+        [
+            photoImageView,
+            deselectPhotoButton
+        ].forEach(photoContainerView.addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        photoContainerView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         photoImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        deselectPhotoButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(3.73)
+            $0.leading.equalToSuperview().offset(53)
+            $0.width.height.equalTo(17)
         }
         
         addPhotoButton.snp.makeConstraints {
@@ -89,10 +119,10 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
     func configureAddPhotoCell(with image: String?) {
         if let image = image, !image.isEmpty {
             photoImageView.image = UIImage(named: image)
-            photoImageView.isHidden = false
+            photoContainerView.isHidden = false
             addPhotoButton.isHidden = true
         } else {
-            photoImageView.isHidden = true
+            photoContainerView.isHidden = true
             addPhotoButton.isHidden = false
         }
     }
