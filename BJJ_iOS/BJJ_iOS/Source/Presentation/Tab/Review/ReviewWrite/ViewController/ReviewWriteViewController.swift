@@ -19,7 +19,7 @@ final class ReviewWriteViewController: UIViewController {
         frame: .zero,
         collectionViewLayout: createLayout()
     ).then {
-        $0.register(ReviewCategorySelectCell.self, forCellWithReuseIdentifier: ReviewCategorySelectCell.reuseIdentifier)
+        $0.register(ReviewCategorySelect.self, forCellWithReuseIdentifier: ReviewCategorySelect.reuseIdentifier)
         $0.register(ReviewRatingCell.self, forCellWithReuseIdentifier: ReviewRatingCell.reuseIdentifier)
         $0.register(ReviewContentCell.self, forCellWithReuseIdentifier: ReviewContentCell.reuseIdentifier)
         $0.register(ReviewAddPhoto.self, forCellWithReuseIdentifier: ReviewAddPhoto.reuseIdentifier)
@@ -166,7 +166,7 @@ extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCategorySelectCell.reuseIdentifier, for: indexPath) as! ReviewCategorySelectCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCategorySelect.reuseIdentifier, for: indexPath) as! ReviewCategorySelect
             
             return cell
         case 1:
