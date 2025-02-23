@@ -27,7 +27,11 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
         
         configuration.baseBackgroundColor = .white
         configuration.attributedTitle = AttributedString("식당 위치", attributes: AttributeContainer(attributes))
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: 13, leading: 18, bottom: 13, trailing: 77)
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 13, leading: 18, bottom: 13, trailing: 0)
+        configuration.image = UIImage(named: "DropDown")
+        configuration.imagePlacement = .trailing
+        // TODO: 타이틀라벨의 너비를 258 말고 딱 맞도록 해서 패딩 계산하기
+        configuration.imagePadding = 45
         
         $0.configuration = configuration
         $0.contentHorizontalAlignment = .leading
