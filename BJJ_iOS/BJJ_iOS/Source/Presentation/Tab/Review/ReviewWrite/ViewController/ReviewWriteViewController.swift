@@ -28,6 +28,8 @@ final class ReviewWriteViewController: UIViewController {
         $0.dataSource = self
     }
     
+    private let submitReviewButton = UIButton().makeConfirmButton(type: .submitReview)
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -49,7 +51,8 @@ final class ReviewWriteViewController: UIViewController {
     
     private func setAddView() {
         [
-            reviewWriteCollectionView
+            reviewWriteCollectionView,
+            submitReviewButton
         ].forEach(view.addSubview)
     }
     
@@ -60,6 +63,12 @@ final class ReviewWriteViewController: UIViewController {
             $0.top.equalToSuperview().offset(111)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.bottom.equalToSuperview().inset(152)
+        }
+        
+        submitReviewButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(55)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(50)
         }
     }
     

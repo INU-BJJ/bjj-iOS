@@ -68,6 +68,7 @@ final class ReviewAddPhoto: UICollectionViewCell, ReuseIdentifying {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
+        // TODO: 피그마에서 고정 너비를 75로 할 경우, 마지막 셀의 오른쪽이 잘려보임. 텍스트뷰의 trailing은 20, 사진첨부 셀의 trailing은 19를 의도했는지 질문.
         let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(75), heightDimension: .absolute(75))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
