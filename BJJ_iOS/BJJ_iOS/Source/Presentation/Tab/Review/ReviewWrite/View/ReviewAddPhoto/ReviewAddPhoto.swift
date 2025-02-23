@@ -23,10 +23,7 @@ final class ReviewAddPhoto: UICollectionViewCell, ReuseIdentifying {
     ).then {
         $0.register(ReviewAddPhotoCell.self, forCellWithReuseIdentifier: ReviewAddPhotoCell.reuseIdentifier)
         $0.dataSource = self
-        
-        // TODO: 삭제
-//        $0.showsHorizontalScrollIndicator = false
-//        $0.alwaysBounceVertical = false
+        $0.delegate = self
     }
     
     // MARK: - Life Cycle
@@ -68,21 +65,29 @@ final class ReviewAddPhoto: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Create Layout
     
     private func createLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(75), heightDimension: .absolute(75))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: itemSize, subitems: [item])
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(75), heightDimension: .absolute(75))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
+        
         section.interGroupSpacing = 18
+        // TODO: 가로 스크롤 비활성화
+        section.orthogonalScrollingBehavior = .paging
         
         return UICollectionViewCompositionalLayout(section: section)
     }
 }
 
 extension ReviewAddPhoto: UICollectionViewDataSource, UICollectionViewDelegate {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return max(reviewImages.count, 1)
+        return reviewImages.count < 4 ? reviewImages.count + 1 : reviewImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

@@ -31,7 +31,6 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
         $0.backgroundColor = .clear
         $0.layer.cornerRadius = 17 / 2
         $0.clipsToBounds = true
-        
     }
     
     private let addPhotoButton = UIButton().then {
@@ -139,6 +138,7 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
         dashedBorder.fillColor = nil
         dashedBorder.frame = button.bounds
         dashedBorder.path = UIBezierPath(roundedRect: button.bounds, cornerRadius: 3).cgPath
+        dashedBorder.masksToBounds = true
         
         button.layer.sublayers?.removeAll(where: { $0 is CAShapeLayer })
         button.layer.addSublayer(dashedBorder)
