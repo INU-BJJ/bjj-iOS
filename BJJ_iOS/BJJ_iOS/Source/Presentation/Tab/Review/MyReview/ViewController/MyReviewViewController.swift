@@ -28,6 +28,7 @@ final class MyReviewViewController: UIViewController {
         $0.backgroundColor = .white
     }
     
+    // TODO: 플로팅 버튼 그림자 효과 
     private let floatingButton = UIButton().makeFloatingButton()
     
     // MARK: - LifeCycle

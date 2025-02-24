@@ -24,8 +24,7 @@ final class MenuReviewListContent: UICollectionViewCell, ReuseIdentifying {
     }
     
     private let reviewContentTextView = UITextView().then {
-        $0.textColor = .black
-        $0.font = .customFont(.pretendard_medium, 13)
+        $0.setTextViewUI("", font: .pretendard_medium, size: 13, color: .black)
         $0.isScrollEnabled = false
         $0.textContainerInset = UIEdgeInsets.zero
         $0.textContainer.lineFragmentPadding = 0
