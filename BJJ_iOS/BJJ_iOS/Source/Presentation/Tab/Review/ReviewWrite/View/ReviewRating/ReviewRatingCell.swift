@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Cosmos
 
 final class ReviewRatingCell: UICollectionViewCell, ReuseIdentifying {
     
@@ -19,7 +20,15 @@ final class ReviewRatingCell: UICollectionViewCell, ReuseIdentifying {
         $0.setLabelUI("음식 만족도를 평가해주세요", font: .pretendard_medium, size: 15, color: .black)
     }
     
-    private let reviewRatingView = ReviewHorizontalView()
+    private let reviewRatingView = CosmosView().then {
+        $0.settings.filledImage = UIImage(named: "BigStar")
+        $0.settings.emptyImage = UIImage(named: "EmptyBigStar")
+        // TODO: 별 사이즈 커스텀 (34.58 x 32.27)로 리사이징
+        $0.settings.starSize = 34.58
+        $0.settings.starMargin = 11.53
+        $0.rating = 0
+        $0.settings.updateOnTouch = true
+    }
     
     // MARK: - Life Cycle
     
@@ -38,7 +47,7 @@ final class ReviewRatingCell: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Set UI
     
     private func setUI() {
-//        contentView.backgroundColor = .white
+        
     }
     
     // MARK: - Set AddView
@@ -60,11 +69,5 @@ final class ReviewRatingCell: UICollectionViewCell, ReuseIdentifying {
         reviewRatingView.snp.makeConstraints {
             $0.bottom.leading.equalToSuperview()
         }
-    }
-    
-    // MARK: - Configure Cell
-    
-    func configureReviewRatingCell(reviewRating: Int, type: StarSizeType) {
-        reviewRatingView.configureReviewStar(reviewRating: reviewRating, type: type)
     }
 }

@@ -8,7 +8,7 @@ target 'BJJ_iOS' do
   pod 'Then'
   pod 'Alamofire'
   pod 'Kingfisher'
-  pod 'DropDown'
+  pod 'Cosmos'
 
   use_frameworks!
 
