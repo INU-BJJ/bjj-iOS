@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+enum MyReviewAddress {
+    case fetchMyReview
+    
+    var url: String {
+        switch self {
+        case .fetchMyReview:
+            return "reviews/my"
+        }
+    }
+}
