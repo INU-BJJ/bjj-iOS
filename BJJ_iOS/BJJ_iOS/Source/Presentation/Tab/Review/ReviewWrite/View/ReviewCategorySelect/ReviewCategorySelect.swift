@@ -108,6 +108,7 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
             superview?.bringSubviewToFront(dropDownTableView)
         }
         
+        // TODO: Durationg 값 조절
         UIView.animate(withDuration: 0.5) {
             self.dropDownTableView.isHidden = !self.isExpanded
         }

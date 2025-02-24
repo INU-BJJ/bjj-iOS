@@ -23,6 +23,7 @@ final class ReviewWriteViewController: UIViewController {
         $0.register(ReviewRatingCell.self, forCellWithReuseIdentifier: ReviewRatingCell.reuseIdentifier)
         $0.register(ReviewContentCell.self, forCellWithReuseIdentifier: ReviewContentCell.reuseIdentifier)
         $0.register(ReviewAddPhoto.self, forCellWithReuseIdentifier: ReviewAddPhoto.reuseIdentifier)
+        $0.register(ReviewGuidelines.self, forCellWithReuseIdentifier: ReviewGuidelines.reuseIdentifier)
         $0.register(SeparatingLineView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: SeparatingLineView.reuseIdentifier)
         $0.delegate = self
         $0.dataSource = self
@@ -85,6 +86,8 @@ final class ReviewWriteViewController: UIViewController {
                 return self.createReviewContentSection()
             case 3:
                 return self.createReviewAddPhotoSection()
+            case 4:
+                return self.createReviewGuidelineSection()
             default:
                 return nil
             }
@@ -152,11 +155,23 @@ final class ReviewWriteViewController: UIViewController {
         
         return section
     }
+    
+    private func createReviewGuidelineSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(72))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        return section
+    }
 }
 
 extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 4
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -180,6 +195,10 @@ extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewD
             return cell
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewAddPhoto.reuseIdentifier, for: indexPath) as! ReviewAddPhoto
+            
+            return cell
+        case 4:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewGuidelines.reuseIdentifier, for: indexPath) as! ReviewGuidelines
             
             return cell
         default:

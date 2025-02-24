@@ -24,7 +24,7 @@ final class MyReviewDeleteModalViewController: UIViewController {
     }
     
     private let deleteLabel = UILabel().then {
-        $0.setLabelUI("삭제하기", font: .pretendard_medium, size: 15, color: .red)
+        $0.setLabelUI("삭제하기", font: .pretendard_medium, size: 15, color: .warningRed)
     }
     
     // MARK: - LifeCycle
