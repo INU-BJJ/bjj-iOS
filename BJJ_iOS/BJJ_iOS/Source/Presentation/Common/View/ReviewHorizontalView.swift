@@ -13,13 +13,10 @@ final class ReviewHorizontalView: UIView {
     
     // MARK: - Properties
     
-//    private let rating: Int
-    
     // MARK: - UI Components
     
     private let starStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.spacing = 4
         $0.alignment = .center
         $0.distribution = .fillEqually
     }
@@ -62,15 +59,18 @@ final class ReviewHorizontalView: UIView {
     
     // MARK: - Configure Star
     
-    func configureReviewStar(reviewRating: Int) {
+    func configureReviewStar(reviewRating: Int, type: StarSizeType) {
+        starStackView.spacing = type.stackViewSpacing
+        starStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
         for _ in 0..<reviewRating {
-            let filledStarIcon = UIImageView(image: UIImage(named: "Star")?.resize(to: CGSize(width: 12.0, height: 11.2)))
+            let filledStarIcon = UIImageView(image: type.filledStarImage?.resize(to: type.starSize))
             filledStarIcon.contentMode = .scaleAspectFit
             starStackView.addArrangedSubview(filledStarIcon)
         }
         
         for _ in 0..<5 - reviewRating {
-            let emptyStarIcon = UIImageView(image: UIImage(named: "EmptyStar")?.resize(to: CGSize(width: 12.0, height: 11.2)))
+            let emptyStarIcon = UIImageView(image: type.emptyStarImage?.resize(to: type.starSize))
             emptyStarIcon.contentMode = .scaleAspectFit
             starStackView.addArrangedSubview(emptyStarIcon)
         }

@@ -19,6 +19,7 @@ enum Colors {
     case black
     case white
     case lineColor
+    case warningRed
 }
 
 extension UIColor {
@@ -58,6 +59,9 @@ extension UIColor {
             
         case .lineColor:
             return UIColor(hexCode: "A9A9A9")
+            
+        case .warningRed:
+            return UIColor(hexCode: "FF3916")
         }
     }
 }

@@ -135,7 +135,7 @@ final class MenuReviewListInfo: UICollectionViewCell, ReuseIdentifying {
     func configureReviewListInfo(with reviewListInfo: MenuDetailModel) {
         profileImage.image = UIImage(named: reviewListInfo.memberImage)
         nicknameLabel.text = reviewListInfo.memberNickname
-        reviewRatingView.configureReviewStar(reviewRating: reviewListInfo.reviewRating)
+        reviewRatingView.configureReviewStar(reviewRating: reviewListInfo.reviewRating, type: .small)
         reviewDateLabel.text = reviewListInfo.reviewCreatedDate
         reviewLikeCountLabel.text = "\(reviewListInfo.reviewLikedCount)"
     }
