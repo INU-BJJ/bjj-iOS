@@ -9,15 +9,20 @@ import UIKit
 import SnapKit
 import Then
 
+protocol ReviewAddPhotoDelegate: AnyObject {
+    func didTapAddPhoto()
+}
+
 final class ReviewAddPhoto: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
-    private var reviewImages: [String] = []
+    weak var delegate: ReviewAddPhotoDelegate?
+    var selectedPhotos: [UIImage] = []
     
     // MARK: - UI Components
     
-    private lazy var reviewImageCollectionView = UICollectionView(
+    lazy var reviewImageCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createLayout()
     ).then {
@@ -88,14 +93,14 @@ extension ReviewAddPhoto: UICollectionViewDataSource, UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return reviewImages.count < 4 ? reviewImages.count + 1 : reviewImages.count
+        return selectedPhotos.count < 4 ? selectedPhotos.count + 1 : selectedPhotos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewAddPhotoCell.reuseIdentifier, for: indexPath) as! ReviewAddPhotoCell
         
-        if indexPath.item < reviewImages.count {
-            cell.configureAddPhotoCell(with: reviewImages[indexPath.item])
+        if indexPath.item < selectedPhotos.count {
+            cell.configureAddPhotoCell(with: selectedPhotos[indexPath.item])
         } else {
             cell.configureAddPhotoCell(with: nil)
         }
@@ -103,8 +108,7 @@ extension ReviewAddPhoto: UICollectionViewDataSource, UICollectionViewDelegate {
         return cell
     }
     
-    // TODO: 이미지 버튼 선택 시 동작
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        presentImagePicker(for: indexPath.item)
-//    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.didTapAddPhoto()
+    }
 }

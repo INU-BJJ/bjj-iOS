@@ -8,10 +8,14 @@
 import UIKit
 import SnapKit
 import Then
+import PhotosUI
 
-final class ReviewWriteViewController: UIViewController {
+final class ReviewWriteViewController: UIViewController, ReviewAddPhotoDelegate {
     
     // MARK: - Properties
+    
+    private var selectedPhotos: [UIImage] = []
+    private let maxPhotoCount = 4
     
     // MARK: - UI Components
     
@@ -147,7 +151,7 @@ final class ReviewWriteViewController: UIViewController {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(75))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         
@@ -166,6 +170,18 @@ final class ReviewWriteViewController: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         
         return section
+    }
+    
+    // MARK: - didTapAddPhoto
+    
+    func didTapAddPhoto() {
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = maxPhotoCount
+        configuration.filter = .images
+        
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true)
     }
 }
 
@@ -196,6 +212,10 @@ extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewD
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewAddPhoto.reuseIdentifier, for: indexPath) as! ReviewAddPhoto
             
+            cell.delegate = self
+            cell.selectedPhotos = selectedPhotos
+            cell.reviewImageCollectionView.reloadData()
+            
             return cell
         case 4:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewGuidelines.reuseIdentifier, for: indexPath) as! ReviewGuidelines
@@ -220,5 +240,29 @@ extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewD
             return footer
         }
         return UICollectionReusableView()
+    }
+}
+
+extension ReviewWriteViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+                
+        let group = DispatchGroup()
+        var newImages: [UIImage] = []
+        
+        for result in results {
+            group.enter()
+            result.itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                if let selectedImage = image as? UIImage {
+                    newImages.append(selectedImage)
+                }
+                group.leave()
+            }
+        }
+        
+        group.notify(queue: .main) {
+            self.selectedPhotos = newImages
+            self.reviewWriteCollectionView.reloadData()
+        }
     }
 }

@@ -31,6 +31,7 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
         $0.backgroundColor = .clear
         $0.layer.cornerRadius = 17 / 2
         $0.clipsToBounds = true
+        $0.isUserInteractionEnabled = false
     }
     
     private let addPhotoButton = UIButton().then {
@@ -50,6 +51,7 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
         config.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 25, bottom: 15, trailing: 25)
         
         $0.configuration = config
+        $0.isUserInteractionEnabled = false
     }
     
     // MARK: - Life Cycle
@@ -115,9 +117,9 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Configure PhotoCell
     
-    func configureAddPhotoCell(with image: String?) {
-        if let image = image, !image.isEmpty {
-            photoImageView.image = UIImage(named: image)
+    func configureAddPhotoCell(with image: UIImage?) {
+        if let image = image {
+            photoImageView.image = image
             photoContainerView.isHidden = false
             addPhotoButton.isHidden = true
         } else {
