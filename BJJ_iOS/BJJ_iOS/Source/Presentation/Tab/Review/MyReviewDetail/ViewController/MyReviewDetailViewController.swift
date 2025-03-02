@@ -13,6 +13,8 @@ final class MyReviewDetailViewController: UIViewController {
     
     // MARK: - Properties
     
+    private var myReviewData: MyReviewSection?
+    
     // MARK: - UI Components
     
     private let myReviewStackView = MyReviewDetailView()
@@ -50,6 +52,14 @@ final class MyReviewDetailViewController: UIViewController {
             $0.horizontalEdges.equalToSuperview().inset(20)
         }
     }
+    
+    // MARK: - Bind Data
+    
+    func bindMyReviewData(myReview: MyReviewSection) {
+        myReviewData = myReview
+    }
+    
+    // MARK: - Modal Function
     
     @objc func presentModalVC() {
         let modalVC = MyReviewDeleteModalViewController()

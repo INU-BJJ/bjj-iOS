@@ -14,6 +14,9 @@ final class MyReviewViewController: UIViewController {
     // MARK: - Properties
     
     private var myReviews: [String: [MyReviewSection]] = [:]
+    private var myReviewsKeys: [String] {
+        return Array(myReviews.keys)
+    }
     
     // MARK: - UI Components
     
@@ -122,7 +125,6 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let myReviewsKeys = Array(myReviews.keys)
         let sectionKey = myReviewsKeys[section]
         
         return myReviews[sectionKey]?.count ?? 0
@@ -133,7 +135,6 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let myReviewsKeys = Array(myReviews.keys)
         let sectionKey = myReviewsKeys[indexPath.section]
         
         if let reviews = myReviews[sectionKey] {
@@ -151,6 +152,19 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
         return 73
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let sectionKey = myReviewsKeys[indexPath.section]
+            
+        if let reviews = myReviews[sectionKey] {
+            let selectedReview = reviews[indexPath.row]
+            let myReviewDetailVC = MyReviewDetailViewController()
+            
+            myReviewDetailVC.bindMyReviewData(myReview: selectedReview)
+            myReviewDetailVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(myReviewDetailVC, animated: true)
+        }
+    }
+    
     //MARK: - TableView Header
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -158,9 +172,8 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
             return nil
         }
         
-        let myReviewsKeys = Array(myReviews.keys)
         let cafeteriaName = myReviewsKeys[section]
-        
+
         headerView.configureMyReviewHeaderView(with: cafeteriaName)
         
         return headerView
