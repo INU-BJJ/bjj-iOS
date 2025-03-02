@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MyReviewModel: Hashable {
+struct MyReviewSection: Hashable {
     let reviewID: Int
     let reviewComment: String
     let reviewRating: Int
@@ -23,8 +23,8 @@ struct MyReviewModel: Hashable {
 }
 
 struct MyReviews: Hashable {
-    let studentCafeteriaReviews: [MyReviewModel]
-    let staffCafeteriaReviews: [MyReviewModel]
+    let studentCafeteriaReviews: [MyReviewSection]
+    let staffCafeteriaReviews: [MyReviewSection]
 }
 
 // TODO: 더미 데이터 삭제
@@ -32,7 +32,7 @@ extension MyReviews {
     static let myReviews: MyReviews =
         MyReviews(
             studentCafeteriaReviews: [
-                MyReviewModel(
+                MyReviewSection(
                     reviewID: 1,
                     reviewComment: "굳굳",
                     reviewRating: 4,
@@ -48,7 +48,7 @@ extension MyReviews {
                 )
             ],
             staffCafeteriaReviews: [
-                MyReviewModel(
+                MyReviewSection(
                     reviewID: 2,
                     reviewComment: "눋눋",
                     reviewRating: 3,
@@ -62,7 +62,7 @@ extension MyReviews {
                     memberNickName: "고라니의 돌격",
                     memberImageName: nil
                 ),
-                MyReviewModel(
+                MyReviewSection(
                     reviewID: 3,
                     reviewComment: "둗둗",
                     reviewRating: 2,

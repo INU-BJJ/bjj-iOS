@@ -13,8 +13,7 @@ final class MyReviewViewController: UIViewController {
     
     // MARK: - Properties
     
-    // TODO: 서버 데이터로 교체
-    private let myReviews = MyReviews.myReviews
+    private var myReviews: [String: [MyReviewSection]] = [:]
     
     // MARK: - UI Components
     
@@ -39,6 +38,7 @@ final class MyReviewViewController: UIViewController {
         setUI()
         setAddView()
         setConstraints()
+        fetchMyReview()
     }
     
     // MARK: - Set UI
@@ -71,6 +71,45 @@ final class MyReviewViewController: UIViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(35.12)
         }
     }
+    
+    // MARK: - Fetch API
+    
+    private func fetchMyReview() {
+        MyReviewAPI.fetchMyReview() { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let myReviewList):
+                DispatchQueue.main.async {
+                    for (key, reviews) in myReviewList.myReviewList {
+                        let reviewSection = reviews.map { review in
+                            MyReviewSection(
+                                reviewID: review.reviewID,
+                                reviewComment: review.comment,
+                                reviewRating: review.reviewRating,
+                                reviewImages: review.reviewImage,
+                                reviewLikedCount: review.reviewLikeCount,
+                                reviewCreatedDate: review.reviewCreatedDate,
+                                menuPairID: review.menuPairID,
+                                mainMenuName: review.mainMenuName,
+                                subMenuName: review.subMenuName,
+                                memberID: review.memberID,
+                                memberNickName: review.memberNickname,
+                                memberImageName: review.memberImage
+                            )
+                        }
+                        self.myReviews[key] = reviewSection
+                    }
+                    self.myReviewTableView.reloadData()
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    // 에러 처리 (필요 시 UI에 에러 메시지 표시 가능)
+                    print("Error fetching menu data: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
 }
 
 extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
@@ -79,18 +118,14 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         // TODO: 사용자가 작성한 리뷰의 식당 개수에 따라 달라지도록 수정
-        return 2
+        return myReviews.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return myReviews.studentCafeteriaReviews.count
-        case 1:
-            return myReviews.staffCafeteriaReviews.count
-        default:
-            return 0
-        }
+        let myReviewsKeys = Array(myReviews.keys)
+        let sectionKey = myReviewsKeys[section]
+        
+        return myReviews[sectionKey]?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -98,8 +133,15 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let review = indexPath.section == 0 ? myReviews.studentCafeteriaReviews[indexPath.row] : myReviews.staffCafeteriaReviews[indexPath.row]
-        cell.configureMyReviewCell(with: review)
+        let myReviewsKeys = Array(myReviews.keys)
+        let sectionKey = myReviewsKeys[indexPath.section]
+        
+        if let reviews = myReviews[sectionKey] {
+            let review = reviews[indexPath.row]
+            cell.configureMyReviewCell(with: review)
+        }
+        
+        cell.selectionStyle = .none
         
         return cell
     }
@@ -116,16 +158,9 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
             return nil
         }
         
-        let cafeteriaName: String
+        let myReviewsKeys = Array(myReviews.keys)
+        let cafeteriaName = myReviewsKeys[section]
         
-        switch section {
-        case 0:
-            cafeteriaName = "학생식당"
-        case 1:
-            cafeteriaName = "2호관 교직원식당"
-        default:
-            cafeteriaName = ""
-        }
         headerView.configureMyReviewHeaderView(with: cafeteriaName)
         
         return headerView

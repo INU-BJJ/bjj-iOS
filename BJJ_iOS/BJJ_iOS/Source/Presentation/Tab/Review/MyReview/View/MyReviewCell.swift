@@ -96,7 +96,7 @@ final class MyReviewCell: UITableViewCell, ReuseIdentifying {
     
     // MARK: - Configure Cell
     
-    func configureMyReviewCell(with myReview: MyReviewModel) {
+    func configureMyReviewCell(with myReview: MyReviewSection) {
         menuLabel.text = "\(myReview.mainMenuName) * \(myReview.subMenuName)"
         dateLabel.text = myReview.reviewCreatedDate
         ratingLabel.text = "\(myReview.reviewRating)"
