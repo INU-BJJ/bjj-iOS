@@ -8,7 +8,7 @@
 import Foundation
 
 struct ReviewWriteMenuInfo: Hashable, Codable {
-    let menuPairID: String
+    let menuPairID: Int
     let mainMenuName: String
     
     enum CodingKeys: String, CodingKey {

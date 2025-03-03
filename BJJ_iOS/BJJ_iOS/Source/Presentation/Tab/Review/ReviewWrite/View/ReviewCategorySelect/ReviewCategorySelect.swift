@@ -13,10 +13,11 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
+    weak var delegate: ReviewCategorySelectDelegate?
     private var isCafeteriaTableViewExpanded = false
     private var isMenuTableViewExpanded = false
     private let cafeteriaData = ["학생식당", "2호관식당", "1기숙사식당", "27호관 식당", "사범대식당"]
-    private var menuData: [String] = []
+    private var menuData: [ReviewWriteSection] = []
     
     // MARK: - UI Components
     
@@ -179,36 +180,29 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
             self.dropDownMenuTableView.isHidden = !self.isMenuTableViewExpanded
         }
     }
+    
+    // MARK: - Update MenuData
+    
+    func updateMenuData(_ menuData: [ReviewWriteSection]) {
+        self.menuData = menuData
+        dropDownMenuTableView.reloadData()
+    }
 }
 
 extension ReviewCategorySelect: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch tableView {
-        case dropDownCafeteriaTableView:
-            return cafeteriaData.count
-            
-        case dropDownMenuTableView:
-            return menuData.count
-            
-        default:
-            fatalError("Unexpected section")
-        }
+        return tableView == dropDownCafeteriaTableView
+            ? cafeteriaData.count
+            : menuData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ReviewCategorySelectCell.reuseIdentifier, for: indexPath) as! ReviewCategorySelectCell
         cell.selectionStyle = .none
         
-        switch tableView {
-        case dropDownCafeteriaTableView:
-            cell.configureReviewCategorySelectCell(with: cafeteriaData[indexPath.row])
-            
-        case dropDownMenuTableView:
-            cell.configureReviewCategorySelectCell(with: menuData[indexPath.row])
-            
-        default:
-            fatalError("Unexpected section")
-        }
+        tableView == dropDownCafeteriaTableView
+            ? cell.configureReviewCategorySelectCell(with: cafeteriaData[indexPath.row])
+            : cell.configureReviewCategorySelectCell(with: menuData[indexPath.row].mainMenuName)
         
         return cell
     }
@@ -230,8 +224,10 @@ extension ReviewCategorySelect: UITableViewDelegate, UITableViewDataSource {
                 self.dropDownCafeteriaTableView.isHidden = true
             }
             
+            delegate?.didSelectCafeteria(selectedCafeteria, sender: self)
+            
         case dropDownMenuTableView:
-            let selectedMenu = menuData[indexPath.row]
+            let selectedMenu = menuData[indexPath.row].mainMenuName
             var newConfiguration = dropDownSelectMenuButton.configuration
             
             let attributes: [NSAttributedString.Key: Any] = [

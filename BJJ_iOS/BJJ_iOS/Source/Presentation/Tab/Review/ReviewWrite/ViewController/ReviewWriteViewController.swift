@@ -10,7 +10,11 @@ import SnapKit
 import Then
 import PhotosUI
 
-final class ReviewWriteViewController: UIViewController, ReviewAddPhotoDelegate {
+protocol ReviewCategorySelectDelegate: AnyObject {
+    func didSelectCafeteria(_ cafeteriaName: String, sender: ReviewCategorySelect)
+}
+
+final class ReviewWriteViewController: UIViewController, ReviewAddPhotoDelegate, ReviewCategorySelectDelegate {
     
     // MARK: - Properties
     
@@ -172,6 +176,37 @@ final class ReviewWriteViewController: UIViewController, ReviewAddPhotoDelegate 
         return section
     }
     
+    // MARK: - Fetch API
+    
+    private func fetchReviewWriteMenuData(cafeteriaName: String, completion: @escaping ([ReviewWriteSection]) -> Void) {
+        ReviewWriteAPI.fetchReviewWriteMenuInfo(cafeteriaName: cafeteriaName) { [weak self] result in
+            switch result {
+            case .success(let reviewMenuInfos):
+                let menuData = reviewMenuInfos.map { menu in
+                    ReviewWriteSection(
+                        menuPairID: menu.menuPairID,
+                        mainMenuName: menu.mainMenuName
+                    )
+                }
+                completion(menuData)
+                
+            case .failure(let error):
+                print("Error fetching menu data: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    // MARK: - Delegate Pattern Function
+    
+    func didSelectCafeteria(_ cafeteriaName: String, sender: ReviewCategorySelect) {
+        fetchReviewWriteMenuData(cafeteriaName: cafeteriaName) { [weak self] menuData in
+            // UI 업데이트를 수행하기 때문에 메인 스레드에서 실행
+            DispatchQueue.main.async {
+                sender.updateMenuData(menuData)
+            }
+        }
+    }
+    
     // MARK: - didTapAddPhoto
     
     func didTapAddPhoto() {
@@ -198,6 +233,7 @@ extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewD
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCategorySelect.reuseIdentifier, for: indexPath) as! ReviewCategorySelect
+            cell.delegate = self
             
             return cell
         case 1:
