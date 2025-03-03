@@ -98,11 +98,11 @@ extension UIViewController {
     }
     
     /// ReviewWriteVC로 push
-    func presentReviewWriteViewController() {
-        let reviewWriteVC = ReviewWriteViewController()
-        reviewWriteVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(reviewWriteVC, animated: true)
-    }
+//    func presentReviewWriteViewController() {
+//        let reviewWriteVC = ReviewWriteViewController()
+//        reviewWriteVC.hidesBottomBarWhenPushed = true
+//        self.navigationController?.pushViewController(reviewWriteVC, animated: true)
+//    }
     
     // MARK: - objc Function
     

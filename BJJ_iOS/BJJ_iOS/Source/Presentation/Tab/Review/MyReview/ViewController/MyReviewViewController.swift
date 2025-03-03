@@ -30,8 +30,11 @@ final class MyReviewViewController: UIViewController {
         $0.backgroundColor = .white
     }
     
-    // TODO: 플로팅 버튼 그림자 효과 
-    private let floatingButton = UIButton().makeFloatingButton()
+    // TODO: 플로팅 버튼 그림자 효과
+    // TODO: 상태가 터치로 바뀌었을 때 배경색 변경되는 것 수정?
+    private let floatingButton = UIButton().makeFloatingButton().then {
+        $0.addTarget(self, action: #selector(presentReviewWriteViewController), for: .touchUpInside)
+    }
     
     // MARK: - LifeCycle
     
@@ -112,6 +115,14 @@ final class MyReviewViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    // MARK: - objc Function
+    
+    @objc func presentReviewWriteViewController() {
+        let reviewWriteVC = ReviewWriteViewController()
+        reviewWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(reviewWriteVC, animated: true)
     }
 }
 
