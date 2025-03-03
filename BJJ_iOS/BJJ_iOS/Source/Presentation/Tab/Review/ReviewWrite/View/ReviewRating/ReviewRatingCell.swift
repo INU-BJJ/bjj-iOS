@@ -26,7 +26,7 @@ final class ReviewRatingCell: UICollectionViewCell, ReuseIdentifying {
         // TODO: 별 사이즈 커스텀 (34.58 x 32.27)로 리사이징
         $0.settings.starSize = 34.58
         $0.settings.starMargin = 11.53
-        $0.rating = 0
+        $0.rating = 5
         $0.settings.updateOnTouch = true
     }
     
