@@ -43,13 +43,13 @@ final class MyReviewDetailView: UIView {
     }
     
     private let nicknameLabel = UILabel().then {
-        $0.setLabelUI("떡볶이킬러나는최고야룰루", font: .pretendard_bold, size: 15, color: .black)
+        $0.setLabelUI("", font: .pretendard_bold, size: 15, color: .black)
     }
     
     private let reviewRatingView = ReviewHorizontalView()
     
     private let reviewDateLabel = UILabel().then {
-        $0.setLabelUI("2024.08.20", font: .pretendard, size: 13, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard, size: 13, color: .darkGray)
     }
     
     private let reviewLikeButton = UIButton().then {
@@ -57,13 +57,12 @@ final class MyReviewDetailView: UIView {
     }
     
     private let reviewLikeCountLabel = UILabel().then {
-        $0.setLabelUI("15004", font: .pretendard, size: 11, color: .black)
+        $0.setLabelUI("", font: .pretendard, size: 11, color: .black)
     }
     
-    // TODO: 서버 데이터 연결하기
     private let reviewTextView = UITextView().then {
         $0.textColor = .black
-        $0.text = "핫도그는 냉동인데\n떡볶이는 맛있음\n맛도 있고 가격도 착해서 떡볶이 땡길 때 추천"
+        $0.text = ""
         $0.font = .customFont(.pretendard_medium, 13)
         $0.isScrollEnabled = false
         $0.textContainerInset = UIEdgeInsets.zero
@@ -209,6 +208,19 @@ final class MyReviewDetailView: UIView {
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(25)
         }
+    }
+    
+    // MARK: - Configure Cell
+    
+    func configureMyDatailReview(with myReviewInfo: MyReviewSection) {
+        
+        // TODO: 리뷰 이미지도 넣기
+        
+        nicknameLabel.text = myReviewInfo.memberNickName
+        reviewRatingView.configureReviewStar(reviewRating: myReviewInfo.reviewRating, type: .small)
+        reviewDateLabel.text = myReviewInfo.reviewCreatedDate
+        reviewLikeCountLabel.text = String(myReviewInfo.reviewLikedCount)
+        reviewTextView.text = myReviewInfo.reviewComment
     }
     
     // MARK: - Create Layout

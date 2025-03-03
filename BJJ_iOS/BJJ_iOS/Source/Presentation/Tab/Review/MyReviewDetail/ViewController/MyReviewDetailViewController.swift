@@ -27,6 +27,7 @@ final class MyReviewDetailViewController: UIViewController {
         setUI()
         setAddView()
         setConstraints()
+        configureMyReviewDetailVC()
     }
     
     // MARK: - Set UI
@@ -57,6 +58,14 @@ final class MyReviewDetailViewController: UIViewController {
     
     func bindMyReviewData(myReview: MyReviewSection) {
         myReviewData = myReview
+    }
+    
+    // MARK: - Configure MyReviewDetailVC
+    
+    private func configureMyReviewDetailVC() {
+        if let myReviewData = myReviewData {
+            myReviewStackView.configureMyDatailReview(with: myReviewData)
+        }
     }
     
     // MARK: - Modal Function
