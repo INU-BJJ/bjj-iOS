@@ -21,6 +21,9 @@ final class MyReviewDeleteModalViewController: UIViewController {
         $0.layer.cornerRadius = 12
         $0.layer.masksToBounds = true
         $0.clipsToBounds = true
+        
+        // TODO: dismissModal을 버튼 터치가 아닌 view 터치로 바꾸기
+        $0.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
     }
     
     private let deleteLabel = UILabel().then {

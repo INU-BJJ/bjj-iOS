@@ -113,6 +113,9 @@ extension UIViewController {
     
     /// 더보기 버튼
     @objc func showMoreOptions() {
+        let modalVC = MyReviewDeleteModalViewController()
+        modalVC.modalPresentationStyle = .overCurrentContext
         
+        present(modalVC, animated: true)
     }
 }

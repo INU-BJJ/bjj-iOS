@@ -67,13 +67,4 @@ final class MyReviewDetailViewController: UIViewController {
             myReviewStackView.configureMyDatailReview(with: myReviewData)
         }
     }
-    
-    // MARK: - Modal Function
-    
-    @objc func presentModalVC() {
-        let modalVC = MyReviewDeleteModalViewController()
-        modalVC.modalPresentationStyle = .overCurrentContext
-        
-        present(modalVC, animated: true)
-    }
 }
