@@ -14,11 +14,11 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Properties
     
     private var isExpanded = false
-    private let cafeteriaData = ["학생식당", "2호관 교직원식당", "1기숙사식당", "2호관 교직원식당", "27호관 식당", "사범대식당"]
+    private let cafeteriaData = ["학생식당", "2호관식당", "1기숙사식당", "27호관 식당", "사범대식당"]
     
     // MARK: - UI Components
     
-    private let dropDownSelectButton = UIButton().then {
+    private let dropDownSelectCafeteriaButton = UIButton().then {
         var configuration = UIButton.Configuration.filled()
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.customFont(.pretendard_medium, 15),
@@ -78,7 +78,7 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     
     private func setAddView() {
         [
-            dropDownSelectButton,
+            dropDownSelectCafeteriaButton,
             dropDownTableView
         ].forEach(addSubview)
     }
@@ -86,14 +86,14 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        dropDownSelectButton.snp.makeConstraints {
+        dropDownSelectCafeteriaButton.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(45)
         }
         
         dropDownTableView.snp.makeConstraints {
-            $0.top.equalTo(dropDownSelectButton.snp.bottom).inset(6)
+            $0.top.equalTo(dropDownSelectCafeteriaButton.snp.bottom).inset(6)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(229)
         }
@@ -126,5 +126,21 @@ extension ReviewCategorySelect: UITableViewDelegate, UITableViewDataSource {
         cell.selectionStyle = .none
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedCafeteria = cafeteriaData[indexPath.row]
+        var newConfiguration = dropDownSelectCafeteriaButton.configuration
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.customFont(.pretendard_medium, 15),
+            .foregroundColor: UIColor.black
+        ]
+        newConfiguration?.attributedTitle = AttributedString(selectedCafeteria, attributes: AttributeContainer(attributes))
+        dropDownSelectCafeteriaButton.configuration = newConfiguration
+        
+        UIView.animate(withDuration: 0.5) {
+            self.dropDownTableView.isHidden = true
+        }
     }
 }
