@@ -42,6 +42,30 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
         $0.addTarget(self, action: #selector(showDropDown), for: .touchUpInside)
     }
     
+    private let dropDownSelectMenuButton = UIButton().then {
+        var configuration = UIButton.Configuration.filled()
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.customFont(.pretendard_medium, 15),
+            .foregroundColor: UIColor.black
+        ]
+        
+        configuration.baseBackgroundColor = .white
+        configuration.attributedTitle = AttributedString("메뉴 선택", attributes: AttributeContainer(attributes))
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 13, leading: 18, bottom: 13, trailing: 0)
+        configuration.image = UIImage(named: "DropDown")
+        configuration.imagePlacement = .trailing
+        // TODO: 타이틀라벨의 너비를 258 말고 딱 맞도록 해서 패딩 계산하기
+        configuration.imagePadding = 45
+        
+        $0.configuration = configuration
+        $0.contentHorizontalAlignment = .leading
+        $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
+        $0.layer.borderWidth = 0.5
+        $0.layer.cornerRadius = 3
+        $0.clipsToBounds = true
+//        $0.addTarget(self, action: #selector(showDropDown), for: .touchUpInside)
+    }
+    
     // TODO: 테이블뷰 드롭다운했을때 "식당 위치"버튼보다 뒤로 가도록
     // TODO: 테이블뷰셀 배경색 불투명으로 구현
     private lazy var dropDownTableView = UITableView().then {
@@ -79,6 +103,7 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     private func setAddView() {
         [
             dropDownSelectCafeteriaButton,
+            dropDownSelectMenuButton,
             dropDownTableView
         ].forEach(addSubview)
     }
@@ -88,6 +113,12 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     private func setConstraints() {
         dropDownSelectCafeteriaButton.snp.makeConstraints {
             $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(45)
+        }
+        
+        dropDownSelectMenuButton.snp.makeConstraints {
+            $0.top.equalTo(dropDownSelectCafeteriaButton.snp.bottom).offset(10)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(45)
         }
