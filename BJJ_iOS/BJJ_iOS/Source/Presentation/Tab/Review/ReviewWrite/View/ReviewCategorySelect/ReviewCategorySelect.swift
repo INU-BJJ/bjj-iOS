@@ -68,7 +68,7 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     
     // TODO: 테이블뷰 드롭다운했을때 "식당 위치"버튼보다 뒤로 가도록
     // TODO: 테이블뷰셀 배경색 불투명으로 구현
-    private lazy var dropDownTableView = UITableView().then {
+    private lazy var dropDownCafeteriaTableView = UITableView().then {
         $0.register(ReviewCategorySelectCell.self, forCellReuseIdentifier: ReviewCategorySelectCell.reuseIdentifier)
         $0.layer.cornerRadius = 3
         $0.layer.masksToBounds = true
@@ -104,7 +104,7 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
         [
             dropDownSelectCafeteriaButton,
             dropDownSelectMenuButton,
-            dropDownTableView
+            dropDownCafeteriaTableView
         ].forEach(addSubview)
     }
     
@@ -123,7 +123,7 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
             $0.height.equalTo(45)
         }
         
-        dropDownTableView.snp.makeConstraints {
+        dropDownCafeteriaTableView.snp.makeConstraints {
             $0.top.equalTo(dropDownSelectCafeteriaButton.snp.bottom).inset(6)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(229)
@@ -136,12 +136,12 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
         isExpanded.toggle()
         
         if isExpanded {
-            superview?.bringSubviewToFront(dropDownTableView)
+            superview?.bringSubviewToFront(dropDownCafeteriaTableView)
         }
         
         // TODO: Durationg 값 조절
         UIView.animate(withDuration: 0.5) {
-            self.dropDownTableView.isHidden = !self.isExpanded
+            self.dropDownCafeteriaTableView.isHidden = !self.isExpanded
         }
     }
 }
@@ -171,7 +171,7 @@ extension ReviewCategorySelect: UITableViewDelegate, UITableViewDataSource {
         dropDownSelectCafeteriaButton.configuration = newConfiguration
         
         UIView.animate(withDuration: 0.5) {
-            self.dropDownTableView.isHidden = true
+            self.dropDownCafeteriaTableView.isHidden = true
         }
     }
 }
