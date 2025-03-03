@@ -98,9 +98,6 @@ final class MyReviewDetailView: UIView {
         setUI()
         setAddView()
         setConstraints()
-        
-        // TODO: configure 함수로 빼기
-        reviewRatingView.configureReviewStar(reviewRating: 4, type: .small)
     }
     
     required init?(coder: NSCoder) {
@@ -176,6 +173,7 @@ final class MyReviewDetailView: UIView {
         myLikedView.snp.makeConstraints {
             $0.trailing.equalToSuperview()
             $0.verticalEdges.equalToSuperview()
+            $0.width.equalTo(33)
         }
         
         reviewRatingView.snp.makeConstraints {
@@ -195,7 +193,7 @@ final class MyReviewDetailView: UIView {
         
         reviewLikeCountLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(4)
-            $0.horizontalEdges.equalToSuperview()
+            $0.centerX.equalToSuperview()
         }
         
         reviewImageCollectionView.snp.makeConstraints {
@@ -215,12 +213,27 @@ final class MyReviewDetailView: UIView {
     func configureMyDatailReview(with myReviewInfo: MyReviewSection) {
         
         // TODO: 리뷰 이미지도 넣기
+        // TODO: 해시 태그 넣기
         
         nicknameLabel.text = myReviewInfo.memberNickName
         reviewRatingView.configureReviewStar(reviewRating: myReviewInfo.reviewRating, type: .small)
         reviewDateLabel.text = myReviewInfo.reviewCreatedDate
         reviewLikeCountLabel.text = String(myReviewInfo.reviewLikedCount)
         reviewTextView.text = myReviewInfo.reviewComment
+        
+        reviewImages = myReviewInfo.reviewImages ?? []
+        
+        // TODO: 더 좋은 방법 생각하기
+        if reviewImages.isEmpty {
+            reviewImageCollectionView.removeFromSuperview()
+        } else {
+            if reviewImageCollectionView.superview == nil {
+                myReviewStackView.addArrangedSubview(reviewImageCollectionView)
+            }
+        }
+        
+        
+        hashTags = [myReviewInfo.mainMenuName, myReviewInfo.subMenuName]
     }
     
     // MARK: - Create Layout
@@ -259,8 +272,7 @@ final class MyReviewDetailView: UIView {
                 absoluteGroupWidth = 301
             }
             
-            // TODO: absolute 없애기
-            let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(absoluteItemWidth), heightDimension: .absolute(250))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(absoluteItemWidth), heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(absoluteGroupWidth), heightDimension: .absolute(250))
@@ -326,6 +338,7 @@ extension MyReviewDetailView: UICollectionViewDataSource {
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyReviewDetailHashTagCell.reuseIdentifier, for: indexPath) as! MyReviewDetailHashTagCell
+            // TODO: 하이라이트 라벨 수정
             let isHighlighted = (indexPath.row == 0)
             cell.configureHashTag(with: hashTags[indexPath.row], isHighlighted: isHighlighted)
             
