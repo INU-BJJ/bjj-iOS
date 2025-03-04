@@ -10,16 +10,25 @@ import SnapKit
 import Then
 import PhotosUI
 
+// MARK: - Delegate Pattern
+
 protocol ReviewCategorySelectDelegate: AnyObject {
     func didSelectCafeteria(_ cafeteriaName: String, sender: ReviewCategorySelect)
+    func didSelectMenu(_ menuPairID: Int)
 }
 
-final class ReviewWriteViewController: UIViewController, ReviewAddPhotoDelegate, ReviewCategorySelectDelegate {
+protocol ReviewRatingDelegate: AnyObject {
+    func didSelectRating(_ rating: Int)
+}
+
+final class ReviewWriteViewController: UIViewController {
     
     // MARK: - Properties
     
     private var selectedPhotos: [UIImage] = []
     private let maxPhotoCount = 4
+    private var selectedMenuPairID: Int?
+    private var selectedRating: Int = 5
     
     // MARK: - UI Components
     
@@ -37,7 +46,9 @@ final class ReviewWriteViewController: UIViewController, ReviewAddPhotoDelegate,
         $0.dataSource = self
     }
     
-    private let submitReviewButton = UIButton().makeConfirmButton(type: .submitReview)
+    private let submitReviewButton = UIButton().makeConfirmButton(type: .submitReview).then {
+        $0.addTarget(self, action: #selector(didTapSubmitReview), for: .touchUpInside)
+    }
     
     // MARK: - LifeCycle
     
@@ -178,8 +189,8 @@ final class ReviewWriteViewController: UIViewController, ReviewAddPhotoDelegate,
     
     // MARK: - Fetch API
     
-    private func fetchReviewWriteMenuData(cafeteriaName: String, completion: @escaping ([ReviewWriteSection]) -> Void) {
-        ReviewWriteAPI.fetchReviewWriteMenuInfo(cafeteriaName: cafeteriaName) { [weak self] result in
+    private func fetchMenuList(cafeteriaName: String, completion: @escaping ([ReviewWriteSection]) -> Void) {
+        ReviewWriteAPI.fetchMenuList(cafeteriaName: cafeteriaName) { [weak self] result in
             switch result {
             case .success(let reviewMenuInfos):
                 let menuData = reviewMenuInfos.map { menu in
@@ -196,29 +207,32 @@ final class ReviewWriteViewController: UIViewController, ReviewAddPhotoDelegate,
         }
     }
     
-    // MARK: - Delegate Pattern Function
+    // MARK: - Objc Function
     
-    func didSelectCafeteria(_ cafeteriaName: String, sender: ReviewCategorySelect) {
-        fetchReviewWriteMenuData(cafeteriaName: cafeteriaName) { [weak self] menuData in
-            // UI 업데이트를 수행하기 때문에 메인 스레드에서 실행
-            DispatchQueue.main.async {
-                sender.updateMenuData(menuData)
+    @objc private func didTapSubmitReview() {
+        guard let menuPairID = selectedMenuPairID else { return }
+        
+        // TODO: comment, 이미지도 params에 넣기
+        let params: [String: Any] = [
+            "comment": "",
+            "rating": selectedRating,
+            "menuPairId": menuPairID
+        ]
+        
+        ReviewWriteAPI.postReview(params: params, images: []) { result in
+            switch result {
+            case .success:
+                print("✅ 리뷰 등록 성공")
+            case .failure(let error):
+                print("❌ 리뷰 등록 실패: \(error.localizedDescription)")
             }
         }
-    }
-    
-    // MARK: - didTapAddPhoto
-    
-    func didTapAddPhoto() {
-        var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = maxPhotoCount
-        configuration.filter = .images
         
-        let picker = PHPickerViewController(configuration: configuration)
-        picker.delegate = self
-        present(picker, animated: true)
+        dismiss(animated: true)
     }
 }
+
+// MARK: - UICollectionView Extension
 
 extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -278,6 +292,8 @@ extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewD
     }
 }
 
+// MARK: - PHPickerViewController Extension
+
 extension ReviewWriteViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
@@ -299,5 +315,44 @@ extension ReviewWriteViewController: PHPickerViewControllerDelegate {
             self.selectedPhotos = newImages
             self.reviewWriteCollectionView.reloadData()
         }
+    }
+}
+
+// MARK: - didTapAddPhoto
+
+extension ReviewWriteViewController: ReviewAddPhotoDelegate {
+    func didTapAddPhoto() {
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = maxPhotoCount
+        configuration.filter = .images
+        
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+}
+
+// MARK: - didTapCategorySelect
+
+extension ReviewWriteViewController: ReviewCategorySelectDelegate {
+    func didSelectCafeteria(_ cafeteriaName: String, sender: ReviewCategorySelect) {
+        fetchMenuList(cafeteriaName: cafeteriaName) { [weak self] menuData in
+            // UI 업데이트를 수행하기 때문에 메인 스레드에서 실행
+            DispatchQueue.main.async {
+                sender.updateMenuData(menuData)
+            }
+        }
+    }
+    
+    func didSelectMenu(_ menuPairID: Int) {
+        selectedMenuPairID = menuPairID
+    }
+}
+
+// MARK: - didTapReviewRating
+
+extension ReviewWriteViewController: ReviewRatingDelegate {
+    func didSelectRating(_ rating: Int) {
+        selectedRating = rating
     }
 }

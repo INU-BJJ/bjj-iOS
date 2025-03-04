@@ -9,11 +9,14 @@ import Foundation
 
 enum ReviewWriteAddress {
     case fetchMenuList
+    case postReview
     
     var url: String {
         switch self {
         case .fetchMenuList:
             return "today-diets/main-menus"
+        case .postReview:
+            return "reviews"
         }
     }
 }

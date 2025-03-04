@@ -81,6 +81,7 @@
 		3FC691612D1D57C5004643D2 /* HomeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC691602D1D57C5004643D2 /* HomeAPI.swift */; };
 		3FC691642D1D646A004643D2 /* IgnoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC691632D1D646A004643D2 /* IgnoreData.swift */; };
 		3FCA676B2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */; };
+		3FD8ACDB2D76E817009D4AA3 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD8ACDA2D76E817009D4AA3 /* Response.swift */; };
 		3FDC25602D6C7B3300ACBF8B /* MyReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDC255F2D6C7B3300ACBF8B /* MyReviewModel.swift */; };
 		3FDC25622D6C7B4600ACBF8B /* MyReviewAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDC25612D6C7B4600ACBF8B /* MyReviewAddress.swift */; };
 		3FDC25642D6C7B5600ACBF8B /* MyReviewAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDC25632D6C7B5600ACBF8B /* MyReviewAPI.swift */; };
@@ -193,6 +194,7 @@
 		3FC691602D1D57C5004643D2 /* HomeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAPI.swift; sourceTree = "<group>"; };
 		3FC691632D1D646A004643D2 /* IgnoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreData.swift; sourceTree = "<group>"; };
 		3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewSeparatingView.swift; sourceTree = "<group>"; };
+		3FD8ACDA2D76E817009D4AA3 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		3FDC255F2D6C7B3300ACBF8B /* MyReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewModel.swift; sourceTree = "<group>"; };
 		3FDC25612D6C7B4600ACBF8B /* MyReviewAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewAddress.swift; sourceTree = "<group>"; };
 		3FDC25632D6C7B5600ACBF8B /* MyReviewAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewAPI.swift; sourceTree = "<group>"; };
@@ -703,6 +705,7 @@
 				3FC691622D1D6447004643D2 /* Key */,
 				3FC691572D1D53B1004643D2 /* API */,
 				3FC691582D1D53D7004643D2 /* ServiceAPI.swift */,
+				3FD8ACDA2D76E817009D4AA3 /* Response.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1170,6 +1173,7 @@
 				3F25B3E92CB282D7005C0907 /* AppDelegate.swift in Sources */,
 				3F5617B82CF3312400B4912D /* MenuReviewImageCell.swift in Sources */,
 				3F876EB82D43750300C96096 /* ReUseIdentifying.swift in Sources */,
+				3FD8ACDB2D76E817009D4AA3 /* Response.swift in Sources */,
 				3F3265472D6C16F600AFC08E /* ReviewGuidelines.swift in Sources */,
 				3F16132D2CD8737500A30369 /* MenuReviewList.swift in Sources */,
 				3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */,

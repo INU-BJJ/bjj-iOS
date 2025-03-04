@@ -14,13 +14,15 @@ final class ReviewRatingCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
+    weak var delegate: ReviewRatingDelegate?
+    
     // MARK: - UI Components
     
     private let reviewRatingLabel = UILabel().then {
         $0.setLabelUI("음식 만족도를 평가해주세요", font: .pretendard_medium, size: 15, color: .black)
     }
     
-    private let reviewRatingView = CosmosView().then {
+    private lazy var reviewRatingView = CosmosView().then {
         $0.settings.filledImage = UIImage(named: "BigStar")
         $0.settings.emptyImage = UIImage(named: "EmptyBigStar")
         // TODO: 별 사이즈 커스텀 (34.58 x 32.27)로 리사이징
@@ -28,6 +30,7 @@ final class ReviewRatingCell: UICollectionViewCell, ReuseIdentifying {
         $0.settings.starMargin = 11.53
         $0.rating = 5
         $0.settings.updateOnTouch = true
+        $0.didFinishTouchingCosmos = { self.delegate?.didSelectRating(Int($0)) }
     }
     
     // MARK: - Life Cycle

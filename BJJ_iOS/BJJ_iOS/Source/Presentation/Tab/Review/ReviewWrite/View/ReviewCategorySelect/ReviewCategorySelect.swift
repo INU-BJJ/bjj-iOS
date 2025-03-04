@@ -189,6 +189,8 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     }
 }
 
+// MARK: - TableView Extension
+
 extension ReviewCategorySelect: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableView == dropDownCafeteriaTableView
@@ -227,20 +229,22 @@ extension ReviewCategorySelect: UITableViewDelegate, UITableViewDataSource {
             delegate?.didSelectCafeteria(selectedCafeteria, sender: self)
             
         case dropDownMenuTableView:
-            let selectedMenu = menuData[indexPath.row].mainMenuName
+            let selectedMenu = menuData[indexPath.row]
             var newConfiguration = dropDownSelectMenuButton.configuration
             
             let attributes: [NSAttributedString.Key: Any] = [
                 .font: UIFont.customFont(.pretendard_medium, 15),
                 .foregroundColor: UIColor.black
             ]
-            newConfiguration?.attributedTitle = AttributedString(selectedMenu, attributes: AttributeContainer(attributes))
+            newConfiguration?.attributedTitle = AttributedString(selectedMenu.mainMenuName, attributes: AttributeContainer(attributes))
             dropDownSelectMenuButton.configuration = newConfiguration
             
             UIView.animate(withDuration: 0.5) {
                 self.dropDownMenuTableView.isHidden = true
             }
             
+            delegate?.didSelectMenu(selectedMenu.menuPairID)
+
         default:
             fatalError("Unexpected section")
         }
