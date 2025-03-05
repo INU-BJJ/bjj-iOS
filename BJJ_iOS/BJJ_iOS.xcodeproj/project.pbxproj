@@ -51,6 +51,7 @@
 		3F43F0DA2D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0D92D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift */; };
 		3F43F0DC2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0DB2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift */; };
 		3F43F0DE2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0DD2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift */; };
+		3F43F0E02D783CAA0018E7E8 /* CafeteriaMyReviewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0DF2D783CAA0018E7E8 /* CafeteriaMyReviewSection.swift */; };
 		3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F47B9E72CD7716C00F8E2CB /* UIImage++Extensions.swift */; };
 		3F4AB2232D5A0819005D5D91 /* ReviewStarSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4AB2222D5A0819005D5D91 /* ReviewStarSize.swift */; };
 		3F4B09252CE1FC31005C56C2 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4B09242CE1FC31005C56C2 /* TabBarController.swift */; };
@@ -167,6 +168,7 @@
 		3F43F0D92D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewAddress.swift; sourceTree = "<group>"; };
 		3F43F0DB2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewModel.swift; sourceTree = "<group>"; };
 		3F43F0DD2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewAPI.swift; sourceTree = "<group>"; };
+		3F43F0DF2D783CAA0018E7E8 /* CafeteriaMyReviewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewSection.swift; sourceTree = "<group>"; };
 		3F47B9E72CD7716C00F8E2CB /* UIImage++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage++Extensions.swift"; sourceTree = "<group>"; };
 		3F4AB2222D5A0819005D5D91 /* ReviewStarSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewStarSize.swift; sourceTree = "<group>"; };
 		3F4B09242CE1FC31005C56C2 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -333,6 +335,7 @@
 		3F1BC3162D50D8C700B153BA /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3F43F0DF2D783CAA0018E7E8 /* CafeteriaMyReviewSection.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1202,6 +1205,7 @@
 				3F5617B82CF3312400B4912D /* MenuReviewImageCell.swift in Sources */,
 				3F876EB82D43750300C96096 /* ReUseIdentifying.swift in Sources */,
 				3FD8ACDB2D76E817009D4AA3 /* Response.swift in Sources */,
+				3F43F0E02D783CAA0018E7E8 /* CafeteriaMyReviewSection.swift in Sources */,
 				3F3265472D6C16F600AFC08E /* ReviewGuidelines.swift in Sources */,
 				3F16132D2CD8737500A30369 /* MenuReviewList.swift in Sources */,
 				3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */,
