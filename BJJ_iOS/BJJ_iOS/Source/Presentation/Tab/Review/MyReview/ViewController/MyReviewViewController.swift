@@ -93,7 +93,7 @@ final class MyReviewViewController: UIViewController {
                                 reviewID: review.reviewID,
                                 reviewComment: review.comment,
                                 reviewRating: review.reviewRating,
-                                reviewImages: review.reviewImage,
+                                reviewImages: review.reviewImages,
                                 reviewLikedCount: review.reviewLikeCount,
                                 reviewCreatedDate: review.reviewCreatedDate.convertDateFormat(),
                                 menuPairID: review.menuPairID,

@@ -11,7 +11,7 @@ struct MyReviewInfo: Hashable, Codable {
     let reviewID: Int
     let comment: String
     let reviewRating: Int
-    let reviewImage: [String]
+    let reviewImages: [String]
     let reviewLikeCount: Int
     let reviewCreatedDate: String
     let menuPairID: Int
@@ -25,7 +25,7 @@ struct MyReviewInfo: Hashable, Codable {
         case reviewID = "reviewId"
         case comment
         case reviewRating = "rating"
-        case reviewImage = "imageNames"
+        case reviewImages = "imageNames"
         case reviewLikeCount = "likeCount"
         case reviewCreatedDate = "createdDate"
         case menuPairID = "menuPairId"

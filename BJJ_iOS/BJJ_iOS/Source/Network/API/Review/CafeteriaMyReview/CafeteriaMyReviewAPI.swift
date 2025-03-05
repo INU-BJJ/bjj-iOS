@@ -8,13 +8,18 @@
 import Foundation
 
 final class CafeteriaMyReviewAPI {
-    static func fetchMyReview(completion: @escaping (Result<CafeteriaMyReviewList, Error>) -> Void) {
-            networkRequest(
-                urlStr: CafeteriaMyReviewAddress.fetchCafeteriaMyReview.url,
-                method: .get,
-                data: nil,
-                model: CafeteriaMyReviewList.self,
-                completion: completion
-            )
-        }
+    static func fetchMyReview(cafeteriaName: String, pageNumber: Int, pageSize: Int, completion: @escaping (Result<CafeteriaMyReviewList, Error>) -> Void) {
+        networkRequest(
+            urlStr: CafeteriaMyReviewAddress.fetchCafeteriaMyReview.url,
+            method: .get,
+            data: nil,
+            model: CafeteriaMyReviewList.self,
+            query: [
+                "cafeteriaName": cafeteriaName,
+                "pageNumber": pageNumber,
+                "pageSize": pageSize
+            ],
+            completion: completion
+        )
+    }
 }

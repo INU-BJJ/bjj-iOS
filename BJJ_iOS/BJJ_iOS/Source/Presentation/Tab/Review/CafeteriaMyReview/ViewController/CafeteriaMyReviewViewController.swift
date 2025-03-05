@@ -14,8 +14,7 @@ final class CafeteriaMyReviewViewController: UIViewController {
     // MARK: - Properties
     
     private let cafeteriaName: String
-    // TODO: 서버 데이터로 교체
-    private let myReviews = MyReviews.myReviews.studentCafeteriaReviews
+    private var myReviews: [CafeteriaMyReviewSection] = []
     
     // MARK: - UI Components
     
@@ -44,6 +43,8 @@ final class CafeteriaMyReviewViewController: UIViewController {
         setUI()
         setAddView()
         setConstraints()
+        // TODO: 무한 스크롤 구현
+        fetchCafeteriaMyReview(cafeteriaName: cafeteriaName, pageNumber: 0, pageSize: 10)
     }
     
     // MARK: - Set UI
@@ -70,6 +71,39 @@ final class CafeteriaMyReviewViewController: UIViewController {
             $0.bottom.equalToSuperview()
         }
     }
+    
+    // MARK: - Fetch API
+    private func fetchCafeteriaMyReview(cafeteriaName: String, pageNumber: Int, pageSize: Int) {
+        CafeteriaMyReviewAPI.fetchMyReview(cafeteriaName: cafeteriaName, pageNumber: pageNumber, pageSize: pageSize) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let cafeteriaMyreviewList):
+                DispatchQueue.main.async {
+                    self.myReviews = cafeteriaMyreviewList.myReviewList.map { review in
+                        CafeteriaMyReviewSection(
+                            reviewID: review.reviewID,
+                            reviewComment: review.comment,
+                            reviewRating: review.reviewRating,
+                            reviewImages: review.reviewImages,
+                            reviewLikedCount: review.reviewLikeCount,
+                            reviewCreatedDate: review.reviewCreatedDate.convertDateFormat(),
+                            menuPairID: review.menuPairID,
+                            mainMenuName: review.mainMenuName,
+                            subMenuName: review.subMenuName,
+                            memberID: review.memberID,
+                            memberNickName: review.memberNickname,
+                            memberImageName: review.memberImage
+                        )
+                    }
+                    self.myReviewTableView.reloadData()
+                }
+                
+            case .failure(let error):
+                print("Error fetching menu data: \(error.localizedDescription)")
+            }
+        }
+    }
 }
 
 extension CafeteriaMyReviewViewController: UITableViewDelegate, UITableViewDataSource {
@@ -81,8 +115,7 @@ extension CafeteriaMyReviewViewController: UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // TODO: 서버에서 받아오는 데이터 개수로 변경
-        return 1
+        return myReviews.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
