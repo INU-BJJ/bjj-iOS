@@ -48,6 +48,9 @@
 		3F3AF8CF2D75AB6300D6C28A /* ReviewWriteSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AF8CE2D75AB6300D6C28A /* ReviewWriteSection.swift */; };
 		3F3C74EC2D59D35C00D510A7 /* UIView++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3C74EB2D59D35C00D510A7 /* UIView++Extensions.swift */; };
 		3F3C74EF2D59E59D00D510A7 /* ReviewRatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3C74EE2D59E59D00D510A7 /* ReviewRatingCell.swift */; };
+		3F43F0DA2D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0D92D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift */; };
+		3F43F0DC2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0DB2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift */; };
+		3F43F0DE2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0DD2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift */; };
 		3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F47B9E72CD7716C00F8E2CB /* UIImage++Extensions.swift */; };
 		3F4AB2232D5A0819005D5D91 /* ReviewStarSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4AB2222D5A0819005D5D91 /* ReviewStarSize.swift */; };
 		3F4B09252CE1FC31005C56C2 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4B09242CE1FC31005C56C2 /* TabBarController.swift */; };
@@ -161,6 +164,9 @@
 		3F3AF8CE2D75AB6300D6C28A /* ReviewWriteSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteSection.swift; sourceTree = "<group>"; };
 		3F3C74EB2D59D35C00D510A7 /* UIView++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView++Extensions.swift"; sourceTree = "<group>"; };
 		3F3C74EE2D59E59D00D510A7 /* ReviewRatingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRatingCell.swift; sourceTree = "<group>"; };
+		3F43F0D92D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewAddress.swift; sourceTree = "<group>"; };
+		3F43F0DB2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewModel.swift; sourceTree = "<group>"; };
+		3F43F0DD2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewAPI.swift; sourceTree = "<group>"; };
 		3F47B9E72CD7716C00F8E2CB /* UIImage++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage++Extensions.swift"; sourceTree = "<group>"; };
 		3F4AB2222D5A0819005D5D91 /* ReviewStarSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewStarSize.swift; sourceTree = "<group>"; };
 		3F4B09242CE1FC31005C56C2 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -569,6 +575,24 @@
 			path = ReviewRating;
 			sourceTree = "<group>";
 		};
+		3F43F0D72D7838B30018E7E8 /* CafeteriaMyReview */ = {
+			isa = PBXGroup;
+			children = (
+				3F43F0D82D7838C70018E7E8 /* Model */,
+				3F43F0D92D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift */,
+				3F43F0DD2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift */,
+			);
+			path = CafeteriaMyReview;
+			sourceTree = "<group>";
+		};
+		3F43F0D82D7838C70018E7E8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F43F0DB2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		3F4AB2212D5A07F0005D5D91 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -808,6 +832,7 @@
 			isa = PBXGroup;
 			children = (
 				3FDC255D2D6C7B1300ACBF8B /* MyReview */,
+				3F43F0D72D7838B30018E7E8 /* CafeteriaMyReview */,
 				3F3AF8C42D75A52C00D6C28A /* ReviewWrite */,
 			);
 			path = Review;
@@ -1119,6 +1144,7 @@
 				3F1BC31A2D50DC7800B153BA /* CafeteriaMyReviewCell.swift in Sources */,
 				3F03EEA82D5643F4007B3505 /* ReviewWriteViewController.swift in Sources */,
 				3F61DF4D2CB31B1A00A019E8 /* HomeCafeteriaCell.swift in Sources */,
+				3F43F0DE2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift in Sources */,
 				3F4B09252CE1FC31005C56C2 /* TabBarController.swift in Sources */,
 				3F1613352CD87C1100A30369 /* ReviewHorizontalView.swift in Sources */,
 				3FFAB73C2CF1CF0B00D09749 /* UINavigationItem++Extensions.swift in Sources */,
@@ -1151,6 +1177,7 @@
 				3F61DF4B2CB3149600A019E8 /* HomeSection.swift in Sources */,
 				3FB984642D53918F0050D66A /* MyReviewDeleteModalViewController.swift in Sources */,
 				3F1613232CD8523400A30369 /* MenuItem.swift in Sources */,
+				3F43F0DC2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift in Sources */,
 				3F1BC3182D50D8EE00B153BA /* CafeteriaMyReviewViewController.swift in Sources */,
 				3F1613272CD8582D00A30369 /* MenuReviewCell.swift in Sources */,
 				3F2BE79A2D50ECD3005003CC /* MyReviewDetailModel.swift in Sources */,
@@ -1169,6 +1196,7 @@
 				3F3C74EC2D59D35C00D510A7 /* UIView++Extensions.swift in Sources */,
 				3F16132B2CD86D3B00A30369 /* MenuReviewSorting.swift in Sources */,
 				3F3AF8C72D75A54A00D6C28A /* ReviewWriteModel.swift in Sources */,
+				3F43F0DA2D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift in Sources */,
 				3F31AAE12D675C3100FDCC35 /* ReviewAddPhotoCell.swift in Sources */,
 				3F25B3E92CB282D7005C0907 /* AppDelegate.swift in Sources */,
 				3F5617B82CF3312400B4912D /* MenuReviewImageCell.swift in Sources */,
