@@ -131,7 +131,6 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - TableView Section
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        // TODO: 사용자가 작성한 리뷰의 식당 개수에 따라 달라지도록 수정
         return myReviews.count
     }
     
@@ -184,8 +183,10 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         let cafeteriaName = myReviewsKeys[section]
+        let reviewCountInSection = myReviews[cafeteriaName]?.count ?? 0
 
         headerView.configureMyReviewHeaderView(with: cafeteriaName)
+        headerView.setReviewMoreButtonVisibility(reviewCountInSection == 3)
         
         return headerView
     }

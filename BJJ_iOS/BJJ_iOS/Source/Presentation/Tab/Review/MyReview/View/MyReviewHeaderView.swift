@@ -17,6 +17,12 @@ final class MyReviewHeaderView: UITableViewHeaderFooterView, ReuseIdentifying {
         $0.setLabelUI("", font: .pretendard_medium, size: 15, color: .darkGray)
     }
     
+    private let reviewMoreButton = UIButton().then {
+        $0.setTitle("더보기", for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard, 11)
+        $0.setTitleColor(.customColor(.darkGray), for: .normal)
+    }
+    
     // MARK: - Initializer
     
     override init(reuseIdentifier: String?) {
@@ -34,7 +40,8 @@ final class MyReviewHeaderView: UITableViewHeaderFooterView, ReuseIdentifying {
     
     private func setAddView() {
         [
-            cafeteriaNameLabel
+            cafeteriaNameLabel,
+            reviewMoreButton
         ].forEach(contentView.addSubview)
     }
     
@@ -45,11 +52,20 @@ final class MyReviewHeaderView: UITableViewHeaderFooterView, ReuseIdentifying {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().offset(40)
         }
+        
+        reviewMoreButton.snp.makeConstraints {
+            $0.centerY.equalTo(cafeteriaNameLabel)
+            $0.trailing.equalToSuperview().inset(40)
+        }
     }
     
     // MARK: - Configure HeaderView
     
     func configureMyReviewHeaderView(with cafeteriaName: String) {
         cafeteriaNameLabel.text = cafeteriaName
+    }
+    
+    func setReviewMoreButtonVisibility(_ isVisible: Bool) {
+        reviewMoreButton.isHidden = !isVisible
     }
 }
