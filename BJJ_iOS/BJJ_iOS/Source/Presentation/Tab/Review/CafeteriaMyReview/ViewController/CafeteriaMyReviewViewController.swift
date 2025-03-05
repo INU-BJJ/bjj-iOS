@@ -14,7 +14,7 @@ final class CafeteriaMyReviewViewController: UIViewController {
     // MARK: - Properties
     
     private let cafeteriaName: String
-    private var myReviews: [CafeteriaMyReviewSection] = []
+    private var myReviews: [MyReviewSection] = []
     
     // MARK: - UI Components
     
@@ -81,7 +81,7 @@ final class CafeteriaMyReviewViewController: UIViewController {
             case .success(let cafeteriaMyreviewList):
                 DispatchQueue.main.async {
                     self.myReviews = cafeteriaMyreviewList.myReviewList.map { review in
-                        CafeteriaMyReviewSection(
+                        MyReviewSection(
                             reviewID: review.reviewID,
                             reviewComment: review.comment,
                             reviewRating: review.reviewRating,
@@ -125,6 +125,7 @@ extension CafeteriaMyReviewViewController: UITableViewDelegate, UITableViewDataS
         
         let review = myReviews[indexPath.row]
         cell.configureCafeteriaMyReviewCell(with: review)
+        cell.selectionStyle = .none
         
         return cell
     }
@@ -132,5 +133,14 @@ extension CafeteriaMyReviewViewController: UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         // 셀당 높이 + 셀 간 간격 (63 + 10)
         return 73
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedReview = myReviews[indexPath.row]
+        let myReviewDetailVC = MyReviewDetailViewController()
+        
+        myReviewDetailVC.bindMyReviewData(myReview: selectedReview)
+        myReviewDetailVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(myReviewDetailVC, animated: true)
     }
 }

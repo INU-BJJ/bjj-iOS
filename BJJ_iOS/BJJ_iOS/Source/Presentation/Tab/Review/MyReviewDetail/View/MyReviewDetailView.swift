@@ -220,8 +220,7 @@ final class MyReviewDetailView: UIView {
         reviewDateLabel.text = myReviewInfo.reviewCreatedDate
         reviewLikeCountLabel.text = String(myReviewInfo.reviewLikedCount)
         reviewTextView.text = myReviewInfo.reviewComment
-        
-        reviewImages = myReviewInfo.reviewImages ?? []
+        reviewImages = myReviewInfo.reviewImages
         
         // TODO: 더 좋은 방법 생각하기
         if reviewImages.isEmpty {
