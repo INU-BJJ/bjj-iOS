@@ -13,6 +13,7 @@ final class CafeteriaMyReviewViewController: UIViewController {
     
     // MARK: - Properties
     
+    private let cafeteriaName: String
     // TODO: 서버 데이터로 교체
     private let myReviews = MyReviews.myReviews.studentCafeteriaReviews
     
@@ -28,6 +29,15 @@ final class CafeteriaMyReviewViewController: UIViewController {
     
     // MARK: - LifeCycle
     
+    init(cafeteriaName: String) {
+        self.cafeteriaName = cafeteriaName
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,7 +50,7 @@ final class CafeteriaMyReviewViewController: UIViewController {
     
     private func setUI() {
         view.backgroundColor = .white
-        setBackNaviBar("학생 식당")
+        setBackNaviBar(cafeteriaName)
     }
     
     // MARK: - Set AddViews

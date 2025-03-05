@@ -84,8 +84,8 @@ extension UIViewController {
     }
     
     /// CafeteriaMyReviewVC로 push
-    func presentCafeteriaMyReviewViewController() {
-        let cafeteriaMyReviewVC = CafeteriaMyReviewViewController()
+    func presentCafeteriaMyReviewViewController(title: String) {
+        let cafeteriaMyReviewVC = CafeteriaMyReviewViewController(cafeteriaName: title)
         cafeteriaMyReviewVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(cafeteriaMyReviewVC, animated: true)
     }

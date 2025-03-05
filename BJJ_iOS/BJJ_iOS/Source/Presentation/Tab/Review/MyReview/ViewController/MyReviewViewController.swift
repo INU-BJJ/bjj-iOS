@@ -32,7 +32,7 @@ final class MyReviewViewController: UIViewController {
     
     // TODO: 플로팅 버튼 그림자 효과
     // TODO: 상태가 터치로 바뀌었을 때 배경색 변경되는 것 수정?
-    private let floatingButton = UIButton().makeFloatingButton().then {
+    private lazy var floatingButton = UIButton().makeFloatingButton().then {
         $0.addTarget(self, action: #selector(presentReviewWriteViewController), for: .touchUpInside)
     }
     
@@ -185,8 +185,9 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
         let cafeteriaName = myReviewsKeys[section]
         let reviewCountInSection = myReviews[cafeteriaName]?.count ?? 0
 
-        headerView.configureMyReviewHeaderView(with: cafeteriaName)
-        headerView.setReviewMoreButtonVisibility(reviewCountInSection == 3)
+        headerView.configureMyReviewHeaderView(with: cafeteriaName, section: section)
+        headerView.setReviewMoreButtonVisibility(reviewCountInSection >= 3)
+        headerView.delegate = self
         
         return headerView
     }
@@ -209,5 +210,12 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         // 섹션과 footer 사이의 간격 - 셀 간 간격 + 구분선 높이 + footer와 다음 섹션간의 간격 (24 - 10 + 7 + 22)
         return 43
+    }
+}
+
+extension MyReviewViewController: MyReviewHeaderViewDelegate {
+    func didTapReviewMoreButton(in section: Int) {
+        let cafeteriaName = myReviewsKeys[section]
+        presentCafeteriaMyReviewViewController(title: cafeteriaName)
     }
 }
