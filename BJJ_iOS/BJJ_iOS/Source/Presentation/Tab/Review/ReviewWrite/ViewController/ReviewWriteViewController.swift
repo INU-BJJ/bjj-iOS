@@ -363,18 +363,15 @@ extension ReviewWriteViewController {
     // MARK: Dismiss Keyboard
     // TODO: [UIKeyboardTaskQueue lockWhenReadyForMainThread] timeout waiting for task on queue 해결하기
     // TODO: 키보드에 textView가 가려지는 문제 해결하기
+    
     private func dismissKeyboard() {
-        DispatchQueue.main.async {
-            self.view.gestureRecognizers?.forEach { self.view.removeGestureRecognizer($0) }
-            
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.addDismissKeyboardGesture))
-            self.view.addGestureRecognizer(tapGesture)
-        }
+        self.view.gestureRecognizers?.forEach { self.view.removeGestureRecognizer($0) }
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.addDismissKeyboardGesture))
+        self.view.addGestureRecognizer(tapGesture)
     }
     
     @objc private func addDismissKeyboardGesture() {
-        DispatchQueue.main.async {
-            self.view.endEditing(true)
-        }
+        self.view.endEditing(true)
     }
 }
