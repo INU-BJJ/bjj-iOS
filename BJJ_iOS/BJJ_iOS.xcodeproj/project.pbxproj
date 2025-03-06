@@ -33,6 +33,7 @@
 		3F25B4002CB282D8005C0907 /* BJJ_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B3FF2CB282D8005C0907 /* BJJ_iOSTests.swift */; };
 		3F25B40A2CB282D8005C0907 /* BJJ_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B4092CB282D8005C0907 /* BJJ_iOSUITests.swift */; };
 		3F25B40C2CB282D8005C0907 /* BJJ_iOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B40B2CB282D8005C0907 /* BJJ_iOSUITestsLaunchTests.swift */; };
+		3F2B0EB32D7966E30059AA2B /* NoticeViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2B0EB22D7966E30059AA2B /* NoticeViewType.swift */; };
 		3F2BE7982D50E594005003CC /* MyReviewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2BE7972D50E594005003CC /* MyReviewDetailViewController.swift */; };
 		3F2BE79A2D50ECD3005003CC /* MyReviewDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2BE7992D50ECD3005003CC /* MyReviewDetailModel.swift */; };
 		3F2BE79C2D50F687005003CC /* MyReviewDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2BE79B2D50F687005003CC /* MyReviewDetailView.swift */; };
@@ -67,6 +68,7 @@
 		3F87423F2D4FD87A004DF204 /* MyReviewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F87423E2D4FD87A004DF204 /* MyReviewHeaderView.swift */; };
 		3F876EB62D43728700C96096 /* String++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F876EB52D43728700C96096 /* String++Extensions.swift */; };
 		3F876EB82D43750300C96096 /* ReUseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F876EB72D43750300C96096 /* ReUseIdentifying.swift */; };
+		3F8D58DA2D787936009356AE /* NoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D58D92D787936009356AE /* NoticeView.swift */; };
 		3F94C8142D27BECC00364D0F /* MenuDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */; };
 		3F94C8162D27BEDC00364D0F /* MenuDetailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */; };
 		3F94C8182D27BEE800364D0F /* MenuDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */; };
@@ -149,6 +151,7 @@
 		3F25B4052CB282D8005C0907 /* BJJ_iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BJJ_iOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F25B4092CB282D8005C0907 /* BJJ_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BJJ_iOSUITests.swift; sourceTree = "<group>"; };
 		3F25B40B2CB282D8005C0907 /* BJJ_iOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BJJ_iOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3F2B0EB22D7966E30059AA2B /* NoticeViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewType.swift; sourceTree = "<group>"; };
 		3F2BE7972D50E594005003CC /* MyReviewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailViewController.swift; sourceTree = "<group>"; };
 		3F2BE7992D50ECD3005003CC /* MyReviewDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailModel.swift; sourceTree = "<group>"; };
 		3F2BE79B2D50F687005003CC /* MyReviewDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailView.swift; sourceTree = "<group>"; };
@@ -183,6 +186,7 @@
 		3F87423E2D4FD87A004DF204 /* MyReviewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewHeaderView.swift; sourceTree = "<group>"; };
 		3F876EB52D43728700C96096 /* String++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String++Extensions.swift"; sourceTree = "<group>"; };
 		3F876EB72D43750300C96096 /* ReUseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReUseIdentifying.swift; sourceTree = "<group>"; };
+		3F8D58D92D787936009356AE /* NoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeView.swift; sourceTree = "<group>"; };
 		3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailModel.swift; sourceTree = "<group>"; };
 		3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailAddress.swift; sourceTree = "<group>"; };
 		3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailAPI.swift; sourceTree = "<group>"; };
@@ -300,6 +304,7 @@
 			children = (
 				3F1613342CD87C1100A30369 /* ReviewHorizontalView.swift */,
 				3F1A51AB2CD8C38900029E09 /* SeparatingLineView.swift */,
+				3F8D58D92D787936009356AE /* NoticeView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -589,6 +594,7 @@
 			isa = PBXGroup;
 			children = (
 				3F4AB2222D5A0819005D5D91 /* ReviewStarSize.swift */,
+				3F2B0EB22D7966E30059AA2B /* NoticeViewType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1178,6 +1184,7 @@
 				3F3AF8CF2D75AB6300D6C28A /* ReviewWriteSection.swift in Sources */,
 				3F31AAE32D675C5700FDCC35 /* ReviewAddPhoto.swift in Sources */,
 				3F375BAA2D577323005015C1 /* ReviewCategorySelect.swift in Sources */,
+				3F8D58DA2D787936009356AE /* NoticeView.swift in Sources */,
 				3F1613252CD8572E00A30369 /* MenuReview.swift in Sources */,
 				3F876EB62D43728700C96096 /* String++Extensions.swift in Sources */,
 				3FF1E92A2D66F9A300A237FA /* ReviewContentCell.swift in Sources */,
@@ -1190,6 +1197,7 @@
 				3F3AF8C72D75A54A00D6C28A /* ReviewWriteModel.swift in Sources */,
 				3F43F0DA2D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift in Sources */,
 				3F31AAE12D675C3100FDCC35 /* ReviewAddPhotoCell.swift in Sources */,
+				3F2B0EB32D7966E30059AA2B /* NoticeViewType.swift in Sources */,
 				3F25B3E92CB282D7005C0907 /* AppDelegate.swift in Sources */,
 				3F5617B82CF3312400B4912D /* MenuReviewImageCell.swift in Sources */,
 				3F876EB82D43750300C96096 /* ReUseIdentifying.swift in Sources */,

@@ -20,6 +20,8 @@ final class MyReviewViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private let noticeView = NoticeView(type: .review)
+    
     private lazy var myReviewTableView = UITableView(frame: .zero, style: .grouped).then {
         $0.register(MyReviewHeaderView.self, forHeaderFooterViewReuseIdentifier: MyReviewHeaderView.reuseIdentifier)
         $0.register(MyReviewCell.self, forCellReuseIdentifier: MyReviewCell.reuseIdentifier)
@@ -58,6 +60,7 @@ final class MyReviewViewController: UIViewController {
     
     private func setAddView() {
         [
+            noticeView,
             myReviewTableView,
             floatingButton
         ].forEach(view.addSubview)
@@ -66,6 +69,10 @@ final class MyReviewViewController: UIViewController {
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        noticeView.snp.makeConstraints {
+            $0.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+        
         myReviewTableView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(102)
             $0.horizontalEdges.equalToSuperview()
@@ -106,6 +113,11 @@ final class MyReviewViewController: UIViewController {
                         }
                         self.myReviews[key] = reviewSection
                     }
+                    
+                    let isMyReviewsEmpty = self.myReviews.isEmpty
+                    
+                    self.noticeView.setNoticeeViewVisibility(isMyReviewsEmpty)
+                    self.myReviewTableView.isHidden = isMyReviewsEmpty
                     self.myReviewTableView.reloadData()
                 }
             case .failure(let error):
