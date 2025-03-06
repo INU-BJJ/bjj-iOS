@@ -53,6 +53,7 @@ final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
         setUI()
         setAddView()
         setConstraints()
+        addKeyboardToolbar()
     }
     
     required init?(coder: NSCoder) {
@@ -125,5 +126,28 @@ final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
 extension ReviewContentCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         reviewTextViewPlaceholder.isHidden = !reviewTextView.text.isEmpty
+    }
+}
+
+extension ReviewContentCell {
+    
+    // MARK: - Dismiss Keyboard
+    
+    // TODO: 다른 방법도 고민해보기
+    // TODO: 메인 쓰레드에서 동작?
+    // TODO: 키보드에 textView가 가려지는 문제 해결
+    private func addKeyboardToolbar() {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+
+        let marginSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(dismissKeyboardWithToolbar))
+        toolbar.items = [marginSpace, doneButton]
+        
+        reviewTextView.inputAccessoryView = toolbar
+    }
+
+    @objc private func dismissKeyboardWithToolbar() {
+        reviewTextView.resignFirstResponder()
     }
 }

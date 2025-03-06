@@ -58,6 +58,7 @@ final class ReviewWriteViewController: UIViewController {
         setUI()
         setAddView()
         setConstraints()
+        dismissKeyboard()
     }
     
     // MARK: - Set UI
@@ -354,5 +355,22 @@ extension ReviewWriteViewController: ReviewCategorySelectDelegate {
 extension ReviewWriteViewController: ReviewRatingDelegate {
     func didSelectRating(_ rating: Int) {
         selectedRating = rating
+    }
+}
+
+extension ReviewWriteViewController {
+    
+    // MARK: Dismiss Keyboard
+    
+    // TODO: 메인 쓰레드에서 동작?
+    // TODO: 키보드에 textView가 가려지는 문제 해결
+    private func dismissKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addDismissKeyboardGesture))
+        tapGesture.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func addDismissKeyboardGesture() {
+        self.view.endEditing(true)
     }
 }
