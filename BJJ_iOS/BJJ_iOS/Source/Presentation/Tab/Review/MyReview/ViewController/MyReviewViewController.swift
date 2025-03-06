@@ -46,6 +46,11 @@ final class MyReviewViewController: UIViewController {
         setUI()
         setAddView()
         setConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         fetchMyReview()
     }
     

@@ -75,7 +75,18 @@ final class MyReviewDetailViewController: UIViewController {
     // MARK: - API Function
     
     private func deleteMyReview(reviewID: Int) {
-        MyReviewDetailAPI.deleteMyReview(reviewID: reviewID) { _ in }
+        MyReviewDetailAPI.deleteMyReview(reviewID: reviewID) { result in
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    self.dismiss(animated: false)
+                    self.presentMyReviewViewController()
+                }
+                
+            case .failure(let error):
+                print("<< [MyReviewDetailVC] \(error.localizedDescription)")
+            }
+        }
     }
 }
 

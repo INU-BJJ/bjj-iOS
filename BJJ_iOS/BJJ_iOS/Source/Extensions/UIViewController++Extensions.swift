@@ -83,6 +83,17 @@ extension UIViewController {
         self.navigationController?.pushViewController(menuDetailVC, animated: true)
     }
     
+    /// MyReviewVC로 push
+    func presentMyReviewViewController() {
+        guard let tabBarController = self.tabBarController else { return }
+            
+        tabBarController.selectedIndex = 2
+        
+        if let navigationController = tabBarController.selectedViewController as? UINavigationController {
+            navigationController.popToRootViewController(animated: true)
+        }
+    }
+    
     /// CafeteriaMyReviewVC로 push
     func presentCafeteriaMyReviewViewController(title: String) {
         let cafeteriaMyReviewVC = CafeteriaMyReviewViewController(cafeteriaName: title)

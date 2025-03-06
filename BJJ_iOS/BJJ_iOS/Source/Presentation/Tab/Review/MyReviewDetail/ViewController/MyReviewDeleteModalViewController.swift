@@ -89,7 +89,5 @@ final class MyReviewDeleteModalViewController: UIViewController {
     
     @objc private func didTapDeleteButton() {
         delegate?.didTapDeleteButton()
-        
-        // TODO: MyReviewVC로 이동 및 MyReviewVC의 tableView reloadData
     }
 }
