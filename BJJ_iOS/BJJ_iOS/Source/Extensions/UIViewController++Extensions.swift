@@ -114,6 +114,9 @@ extension UIViewController {
     /// 더보기 버튼
     @objc func showMoreOptions() {
         let modalVC = MyReviewDeleteModalViewController()
+        guard let delegateVC = self as? MyReviewDeleteDelegate else { return }
+
+        modalVC.delegate = delegateVC
         modalVC.modalPresentationStyle = .overCurrentContext
         
         present(modalVC, animated: true)

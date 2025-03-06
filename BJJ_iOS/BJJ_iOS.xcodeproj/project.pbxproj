@@ -34,6 +34,8 @@
 		3F25B40A2CB282D8005C0907 /* BJJ_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B4092CB282D8005C0907 /* BJJ_iOSUITests.swift */; };
 		3F25B40C2CB282D8005C0907 /* BJJ_iOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B40B2CB282D8005C0907 /* BJJ_iOSUITestsLaunchTests.swift */; };
 		3F2B0EB32D7966E30059AA2B /* NoticeViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2B0EB22D7966E30059AA2B /* NoticeViewType.swift */; };
+		3F2B0EB82D7997C80059AA2B /* MyReviewDetailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2B0EB72D7997C80059AA2B /* MyReviewDetailAddress.swift */; };
+		3F2B0EBA2D7997D80059AA2B /* MyReviewDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2B0EB92D7997D80059AA2B /* MyReviewDetailAPI.swift */; };
 		3F2BE7982D50E594005003CC /* MyReviewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2BE7972D50E594005003CC /* MyReviewDetailViewController.swift */; };
 		3F2BE79A2D50ECD3005003CC /* MyReviewDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2BE7992D50ECD3005003CC /* MyReviewDetailModel.swift */; };
 		3F2BE79C2D50F687005003CC /* MyReviewDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2BE79B2D50F687005003CC /* MyReviewDetailView.swift */; };
@@ -152,6 +154,8 @@
 		3F25B4092CB282D8005C0907 /* BJJ_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BJJ_iOSUITests.swift; sourceTree = "<group>"; };
 		3F25B40B2CB282D8005C0907 /* BJJ_iOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BJJ_iOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		3F2B0EB22D7966E30059AA2B /* NoticeViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewType.swift; sourceTree = "<group>"; };
+		3F2B0EB72D7997C80059AA2B /* MyReviewDetailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailAddress.swift; sourceTree = "<group>"; };
+		3F2B0EB92D7997D80059AA2B /* MyReviewDetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailAPI.swift; sourceTree = "<group>"; };
 		3F2BE7972D50E594005003CC /* MyReviewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailViewController.swift; sourceTree = "<group>"; };
 		3F2BE7992D50ECD3005003CC /* MyReviewDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailModel.swift; sourceTree = "<group>"; };
 		3F2BE79B2D50F687005003CC /* MyReviewDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailView.swift; sourceTree = "<group>"; };
@@ -490,6 +494,15 @@
 				3F61DF4A2CB3149600A019E8 /* HomeSection.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3F2B0EB42D7997360059AA2B /* MyReviewDetail */ = {
+			isa = PBXGroup;
+			children = (
+				3F2B0EB72D7997C80059AA2B /* MyReviewDetailAddress.swift */,
+				3F2B0EB92D7997D80059AA2B /* MyReviewDetailAPI.swift */,
+			);
+			path = MyReviewDetail;
 			sourceTree = "<group>";
 		};
 		3F2BE7932D50E55F005003CC /* MyReviewDetail */ = {
@@ -832,6 +845,7 @@
 				3FDC255D2D6C7B1300ACBF8B /* MyReview */,
 				3F43F0D72D7838B30018E7E8 /* CafeteriaMyReview */,
 				3F3AF8C42D75A52C00D6C28A /* ReviewWrite */,
+				3F2B0EB42D7997360059AA2B /* MyReviewDetail */,
 			);
 			path = Review;
 			sourceTree = "<group>";
@@ -1153,6 +1167,7 @@
 				3FC691642D1D646A004643D2 /* IgnoreData.swift in Sources */,
 				3F61DF532CB320A900A019E8 /* UIButton++Extensions.swift in Sources */,
 				3F3AB7D92CB3D59C0013FABA /* HomeTopView.swift in Sources */,
+				3F2B0EB82D7997C80059AA2B /* MyReviewDetailAddress.swift in Sources */,
 				3FDC25622D6C7B4600ACBF8B /* MyReviewAddress.swift in Sources */,
 				3F94C8182D27BEE800364D0F /* MenuDetailAPI.swift in Sources */,
 				3F94C8162D27BEDC00364D0F /* MenuDetailAddress.swift in Sources */,
@@ -1165,6 +1180,7 @@
 				3FB984622D5389710050D66A /* MyReviewDetailHashTagCell.swift in Sources */,
 				3F16131D2CD8487800A30369 /* MenuInfo.swift in Sources */,
 				3FF6CAC32D50A544006ED4F3 /* MyReviewFooterView.swift in Sources */,
+				3F2B0EBA2D7997D80059AA2B /* MyReviewDetailAPI.swift in Sources */,
 				3FC691592D1D53D7004643D2 /* ServiceAPI.swift in Sources */,
 				3F4AB2232D5A0819005D5D91 /* ReviewStarSize.swift in Sources */,
 				3FF1E92C2D67067000A237FA /* UITextView++Extensions.swift in Sources */,

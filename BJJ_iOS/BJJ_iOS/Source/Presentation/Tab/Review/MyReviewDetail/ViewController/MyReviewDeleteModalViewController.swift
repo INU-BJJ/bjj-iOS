@@ -9,6 +9,10 @@ import UIKit
 
 final class MyReviewDeleteModalViewController: UIViewController {
     
+    // MARK: - Properties
+    
+    weak var delegate: MyReviewDeleteDelegate?
+    
     // MARK: - UI Components
     
     // TODO: view는 lazy var로, button은 let으로 이벤트 감지함. 차이점 공부
@@ -79,11 +83,13 @@ final class MyReviewDeleteModalViewController: UIViewController {
     
     // MARK: - Objc Function
     
-    @objc func dismissModal() {
+    @objc private func dismissModal() {
         dismiss(animated: true)
     }
     
-    @objc func didTapDeleteButton() {
-        dismiss(animated: true)
+    @objc private func didTapDeleteButton() {
+        delegate?.didTapDeleteButton()
+        
+        // TODO: MyReviewVC로 이동 및 MyReviewVC의 tableView reloadData
     }
 }

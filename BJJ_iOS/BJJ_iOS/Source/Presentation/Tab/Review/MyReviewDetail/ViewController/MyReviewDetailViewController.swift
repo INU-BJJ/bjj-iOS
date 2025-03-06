@@ -9,6 +9,10 @@ import UIKit
 import SnapKit
 import Then
 
+protocol MyReviewDeleteDelegate: AnyObject {
+    func didTapDeleteButton()
+}
+
 final class MyReviewDetailViewController: UIViewController {
     
     // MARK: - Properties
@@ -65,6 +69,20 @@ final class MyReviewDetailViewController: UIViewController {
     private func configureMyReviewDetailVC() {
         if let myReviewData = myReviewData {
             myReviewStackView.configureMyDatailReview(with: myReviewData)
+        }
+    }
+    
+    // MARK: - API Function
+    
+    private func deleteMyReview(reviewID: Int) {
+        MyReviewDetailAPI.deleteMyReview(reviewID: reviewID) { _ in }
+    }
+}
+
+extension MyReviewDetailViewController: MyReviewDeleteDelegate {
+    func didTapDeleteButton() {
+        if let myReviewID = myReviewData?.reviewID {
+            deleteMyReview(reviewID: myReviewID)
         }
     }
 }
