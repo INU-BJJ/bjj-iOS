@@ -134,20 +134,25 @@ extension ReviewContentCell {
     // MARK: - Dismiss Keyboard
     
     // TODO: 다른 방법도 고민해보기
-    // TODO: 메인 쓰레드에서 동작?
-    // TODO: 키보드에 textView가 가려지는 문제 해결
+    // TODO: [UIKeyboardTaskQueue lockWhenReadyForMainThread] timeout waiting for task on queue 해결하기
+    // TODO: 키보드에 textView가 가려지는 문제 해결하기
     private func addKeyboardToolbar() {
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
+        DispatchQueue.main.async {
+            let toolbar = UIToolbar()
+            toolbar.sizeToFit()
 
-        let marginSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(dismissKeyboardWithToolbar))
-        toolbar.items = [marginSpace, doneButton]
-        
-        reviewTextView.inputAccessoryView = toolbar
+            let marginSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+            let doneButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(self.dismissKeyboardWithToolbar))
+            toolbar.items = [marginSpace, doneButton]
+            
+            self.reviewTextView.inputAccessoryView = toolbar
+        }
     }
 
     @objc private func dismissKeyboardWithToolbar() {
-        reviewTextView.resignFirstResponder()
+        DispatchQueue.main.async {
+//            self.reviewTextView.inputAccessoryView = nil
+            self.reviewTextView.resignFirstResponder()
+        }
     }
 }
