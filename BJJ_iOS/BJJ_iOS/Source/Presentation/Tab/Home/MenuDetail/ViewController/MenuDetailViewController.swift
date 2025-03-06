@@ -67,6 +67,11 @@ final class MenuDetailViewController: UIViewController {
         setAddView()
         setConstraints()
         configure()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         fetchReviewImage(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 3)
         fetchReviewInfo(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 5, sortingCriteria: "BEST_MATCH", isWithImage: false)
     }

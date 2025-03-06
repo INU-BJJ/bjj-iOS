@@ -43,6 +43,11 @@ final class CafeteriaMyReviewViewController: UIViewController {
         setUI()
         setAddView()
         setConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         // TODO: 무한 스크롤 구현
         fetchCafeteriaMyReview(cafeteriaName: cafeteriaName, pageNumber: 0, pageSize: 10)
     }
