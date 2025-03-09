@@ -9,15 +9,17 @@ import UIKit
 import SnapKit
 import Then
 
-protocol ReviewAddPhotoDelegate: AnyObject {
+protocol ReviewPhotoDelegate: AnyObject {
     func didTapAddPhoto()
+    func didTapDeselectPhoto(at indexPath: IndexPath)
 }
 
 final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
-    weak var delegate: ReviewAddPhotoDelegate?
+    weak var delegate: ReviewPhotoDelegate?
+    var indexPath: IndexPath?
     
     // MARK: - UI Components
     
@@ -34,12 +36,12 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
         $0.clipsToBounds = true
     }
     
-    private let deselectPhotoButton = UIButton().then {
+    private lazy var deselectPhotoButton = UIButton().then {
         $0.setImage(UIImage(named: "DeselectXButton"), for: .normal)
         $0.backgroundColor = .clear
         $0.layer.cornerRadius = 17 / 2
         $0.clipsToBounds = true
-        $0.isUserInteractionEnabled = false
+        $0.addTarget(self, action: #selector(didTapDeselectPhoto), for: .touchUpInside)
     }
     
     private lazy var addPhotoButton = UIButton().then {
@@ -158,5 +160,11 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
     
     @objc private func didTapAddPhoto() {
         delegate?.didTapAddPhoto()
+    }
+    
+    @objc private func didTapDeselectPhoto() {
+        guard let indexPath = indexPath else { return }
+        
+        delegate?.didTapDeselectPhoto(at: indexPath)
     }
 }

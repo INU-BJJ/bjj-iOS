@@ -314,14 +314,16 @@ extension ReviewWriteViewController: PHPickerViewControllerDelegate {
         
         group.notify(queue: .main) {
             self.selectedPhotos = newImages
-            self.reviewWriteCollectionView.reloadData()
+            UIView.performWithoutAnimation {
+                self.reviewWriteCollectionView.reloadItems(at: [IndexPath(item: 0, section: 3)])
+            }
         }
     }
 }
 
-// MARK: - didTapAddPhoto
+// MARK: - didTapPhoto
 
-extension ReviewWriteViewController: ReviewAddPhotoDelegate {
+extension ReviewWriteViewController: ReviewPhotoDelegate {
     func didTapAddPhoto() {
         var configuration = PHPickerConfiguration()
         configuration.selectionLimit = maxPhotoCount
@@ -330,6 +332,15 @@ extension ReviewWriteViewController: ReviewAddPhotoDelegate {
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
         present(picker, animated: true)
+    }
+    
+    func didTapDeselectPhoto(at indexPath: IndexPath) {
+        guard indexPath.item < selectedPhotos.count else { return }
+        
+        selectedPhotos.remove(at: indexPath.item)
+        UIView.performWithoutAnimation {
+            reviewWriteCollectionView.reloadItems(at: [IndexPath(item: 0, section: 3)])
+        }
     }
 }
 

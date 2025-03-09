@@ -13,7 +13,7 @@ final class ReviewAddPhoto: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
-    weak var delegate: ReviewAddPhotoDelegate?
+    weak var delegate: ReviewPhotoDelegate?
     var selectedPhotos: [UIImage] = []
     
     // MARK: - UI Components
@@ -96,6 +96,7 @@ extension ReviewAddPhoto: UICollectionViewDataSource, UICollectionViewDelegate {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewAddPhotoCell.reuseIdentifier, for: indexPath) as! ReviewAddPhotoCell
         
         cell.delegate = self
+        cell.indexPath = indexPath
         
         if indexPath.item < selectedPhotos.count {
             cell.configureAddPhotoCell(with: selectedPhotos[indexPath.item])
@@ -107,10 +108,14 @@ extension ReviewAddPhoto: UICollectionViewDataSource, UICollectionViewDelegate {
     }
 }
 
-// MARK: didTapAddPhoto
+// MARK: didTapPhoto
 
-extension ReviewAddPhoto: ReviewAddPhotoDelegate {
+extension ReviewAddPhoto: ReviewPhotoDelegate {
     func didTapAddPhoto() {
         delegate?.didTapAddPhoto()
+    }
+    
+    func didTapDeselectPhoto(at indexPath: IndexPath) {
+        delegate?.didTapDeselectPhoto(at: indexPath)
     }
 }
