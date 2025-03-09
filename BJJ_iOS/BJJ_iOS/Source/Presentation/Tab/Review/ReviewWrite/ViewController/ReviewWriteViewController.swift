@@ -313,7 +313,7 @@ extension ReviewWriteViewController: PHPickerViewControllerDelegate {
         }
         
         group.notify(queue: .main) {
-            self.selectedPhotos = newImages
+            self.selectedPhotos.append(contentsOf: newImages)
             UIView.performWithoutAnimation {
                 self.reviewWriteCollectionView.reloadItems(at: [IndexPath(item: 0, section: 3)])
             }
@@ -326,7 +326,7 @@ extension ReviewWriteViewController: PHPickerViewControllerDelegate {
 extension ReviewWriteViewController: ReviewPhotoDelegate {
     func didTapAddPhoto() {
         var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = maxPhotoCount
+        configuration.selectionLimit = maxPhotoCount - selectedPhotos.count
         configuration.filter = .images
         
         let picker = PHPickerViewController(configuration: configuration)
