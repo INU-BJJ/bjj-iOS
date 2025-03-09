@@ -368,6 +368,7 @@ extension ReviewWriteViewController {
         self.view.gestureRecognizers?.forEach { self.view.removeGestureRecognizer($0) }
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.addDismissKeyboardGesture))
+        tapGesture.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapGesture)
     }
     
