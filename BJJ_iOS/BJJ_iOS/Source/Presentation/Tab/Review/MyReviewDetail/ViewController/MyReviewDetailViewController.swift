@@ -21,7 +21,9 @@ final class MyReviewDetailViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let myReviewStackView = MyReviewDetailView()
+    private lazy var myReviewStackView = MyReviewDetailView().then {
+        $0.delegate = self
+    }
     
     // MARK: - LifeCycle
     
@@ -95,5 +97,11 @@ extension MyReviewDetailViewController: MyReviewDeleteDelegate {
         if let myReviewID = myReviewData?.reviewID {
             deleteMyReview(reviewID: myReviewID)
         }
+    }
+}
+
+extension MyReviewDetailViewController: MyReviewDetailDelegate {
+    func didTapReviewImage(with reviewImages: [String]) {
+        presentMyReviewImageDetailViewController()
     }
 }

@@ -108,6 +108,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(myReviewDetailVC, animated: true)
     }
     
+    /// MyReviewImageDetailVC로 push
+    func presentMyReviewImageDetailViewController() {
+        let myReviewImageDetailVC = MyReviewImageDetailViewController()
+        myReviewImageDetailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(myReviewImageDetailVC, animated: true)
+    }
+    
     /// ReviewWriteVC로 push
 //    func presentReviewWriteViewController() {
 //        let reviewWriteVC = ReviewWriteViewController()

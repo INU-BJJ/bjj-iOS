@@ -9,10 +9,15 @@ import UIKit
 import SnapKit
 import Then
 
+protocol MyReviewDetailDelegate: AnyObject {
+    func didTapReviewImage(with reviewImages: [String])
+}
+
 final class MyReviewDetailView: UIView {
     
     // MARK: - Properties
     
+    weak var delegate: MyReviewDetailDelegate?
     private var reviewImages: [String] = []
     private var hashTags: [String] = []
     
@@ -75,6 +80,7 @@ final class MyReviewDetailView: UIView {
     ).then {
         $0.register(MyReviewDetailImageCell.self, forCellWithReuseIdentifier: MyReviewDetailImageCell.reuseIdentifier)
         $0.dataSource = self
+        $0.delegate = self
         $0.showsHorizontalScrollIndicator = false
         $0.alwaysBounceVertical = false
     }
@@ -303,7 +309,7 @@ final class MyReviewDetailView: UIView {
     }
 }
 
-extension MyReviewDetailView: UICollectionViewDataSource {
+extension MyReviewDetailView: UICollectionViewDataSource, UICollectionViewDelegate {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -342,6 +348,12 @@ extension MyReviewDetailView: UICollectionViewDataSource {
             cell.configureHashTag(with: hashTags[indexPath.row], isHighlighted: isHighlighted)
             
             return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == reviewImageCollectionView {
+            delegate?.didTapReviewImage(with: reviewImages)
         }
     }
 }
