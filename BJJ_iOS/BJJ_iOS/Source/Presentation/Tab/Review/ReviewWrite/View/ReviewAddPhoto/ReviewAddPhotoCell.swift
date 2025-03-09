@@ -127,7 +127,7 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Configure PhotoCell
     
-    func configureAddPhotoCell(with image: UIImage?) {
+    func configureAddPhotoCell(with image: UIImage?, selectedPhotosCount: Int) {
         if let image = image {
             photoImageView.image = image
             photoContainerView.isHidden = false
@@ -135,6 +135,24 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
         } else {
             photoContainerView.isHidden = true
             addPhotoButton.isHidden = false
+            
+            // TODO: 타이틀만 고칠순 없나?
+            var config = UIButton.Configuration.plain()
+            let attributedString = NSAttributedString(
+                string: "\(selectedPhotosCount)/4",
+                attributes: [
+                    .font: UIFont.customFont(.pretendard_medium, 13),
+                    .foregroundColor: UIColor.customColor(.midGray)
+                ]
+            )
+            
+            config.image = UIImage(named: "Photo")?.resize(to: CGSize(width: 25, height: 20))
+            config.attributedTitle = AttributedString(attributedString)
+            config.imagePlacement = .top
+            config.imagePadding = 5
+            config.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 25, bottom: 15, trailing: 25)
+            
+            addPhotoButton.configuration = config
         }
     }
     

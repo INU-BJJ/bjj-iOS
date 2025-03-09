@@ -99,9 +99,9 @@ extension ReviewAddPhoto: UICollectionViewDataSource, UICollectionViewDelegate {
         cell.indexPath = indexPath
         
         if indexPath.item < selectedPhotos.count {
-            cell.configureAddPhotoCell(with: selectedPhotos[indexPath.item])
+            cell.configureAddPhotoCell(with: selectedPhotos[indexPath.item], selectedPhotosCount: selectedPhotos.count)
         } else {
-            cell.configureAddPhotoCell(with: nil)
+            cell.configureAddPhotoCell(with: nil, selectedPhotosCount: selectedPhotos.count)
         }
         
         return cell
