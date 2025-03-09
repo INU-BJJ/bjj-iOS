@@ -26,6 +26,7 @@ final class ReviewRatingCell: UICollectionViewCell, ReuseIdentifying {
         $0.settings.filledImage = UIImage(named: "BigStar")
         $0.settings.emptyImage = UIImage(named: "EmptyBigStar")
         // TODO: 별 사이즈 커스텀 (34.58 x 32.27)로 리사이징
+        // TODO: 같은 별을 한번 더 눌렀을 경우 동작?
         $0.settings.starSize = 34.58
         $0.settings.starMargin = 11.53
         $0.rating = 5
