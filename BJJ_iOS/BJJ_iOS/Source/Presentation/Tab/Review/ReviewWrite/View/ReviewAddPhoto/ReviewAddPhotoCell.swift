@@ -9,7 +9,15 @@ import UIKit
 import SnapKit
 import Then
 
+protocol ReviewAddPhotoDelegate: AnyObject {
+    func didTapAddPhoto()
+}
+
 final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
+    
+    // MARK: - Properties
+    
+    weak var delegate: ReviewAddPhotoDelegate?
     
     // MARK: - UI Components
     
@@ -34,7 +42,7 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
         $0.isUserInteractionEnabled = false
     }
     
-    private let addPhotoButton = UIButton().then {
+    private lazy var addPhotoButton = UIButton().then {
         var config = UIButton.Configuration.plain()
         let attributedString = NSAttributedString(
             string: "0/4",
@@ -51,7 +59,7 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
         config.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 25, bottom: 15, trailing: 25)
         
         $0.configuration = config
-        $0.isUserInteractionEnabled = false
+        $0.addTarget(self, action: #selector(didTapAddPhoto), for: .touchUpInside)
     }
     
     // MARK: - Life Cycle
@@ -144,5 +152,11 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
         
         button.layer.sublayers?.removeAll(where: { $0 is CAShapeLayer })
         button.layer.addSublayer(dashedBorder)
+    }
+    
+    // MARK: - Objc Function
+    
+    @objc private func didTapAddPhoto() {
+        delegate?.didTapAddPhoto()
     }
 }

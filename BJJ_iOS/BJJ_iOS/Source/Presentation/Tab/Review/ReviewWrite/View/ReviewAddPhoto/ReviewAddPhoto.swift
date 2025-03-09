@@ -9,10 +9,6 @@ import UIKit
 import SnapKit
 import Then
 
-protocol ReviewAddPhotoDelegate: AnyObject {
-    func didTapAddPhoto()
-}
-
 final class ReviewAddPhoto: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
@@ -99,6 +95,8 @@ extension ReviewAddPhoto: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewAddPhotoCell.reuseIdentifier, for: indexPath) as! ReviewAddPhotoCell
         
+        cell.delegate = self
+        
         if indexPath.item < selectedPhotos.count {
             cell.configureAddPhotoCell(with: selectedPhotos[indexPath.item])
         } else {
@@ -107,8 +105,12 @@ extension ReviewAddPhoto: UICollectionViewDataSource, UICollectionViewDelegate {
         
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+}
+
+// MARK: didTapAddPhoto
+
+extension ReviewAddPhoto: ReviewAddPhotoDelegate {
+    func didTapAddPhoto() {
         delegate?.didTapAddPhoto()
     }
 }

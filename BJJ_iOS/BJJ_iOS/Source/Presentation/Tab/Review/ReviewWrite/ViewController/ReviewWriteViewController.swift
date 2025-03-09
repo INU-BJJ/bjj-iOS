@@ -46,7 +46,7 @@ final class ReviewWriteViewController: UIViewController {
         $0.dataSource = self
     }
     
-    private let submitReviewButton = UIButton().makeConfirmButton(type: .submitReview).then {
+    private lazy var submitReviewButton = UIButton().makeConfirmButton(type: .submitReview).then {
         $0.addTarget(self, action: #selector(didTapSubmitReview), for: .touchUpInside)
     }
     
