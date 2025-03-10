@@ -78,9 +78,7 @@ final class MyReviewImageDetailViewController: UIViewController {
         }
         
         reviewImageView.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview()
-            $0.verticalEdges.equalToSuperview().inset(186)
-            $0.center.equalToSuperview()
+            $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
