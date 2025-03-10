@@ -29,6 +29,26 @@ extension UIViewController {
         self.navigationController?.navigationBar.standardAppearance = standardAppearance
     }
     
+    /// 투명 배경 + 흰색 Back 버튼 + X 버튼 Navigation Bar
+    func setClearWhiteBackTitleNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.setLabelUI(title, font: .pretendard_medium, size: 15, color: .white)
+        }
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "BackButton")
+        let xButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "XButton")
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItem = backButton
+        self.navigationItem.rightBarButtonItem = xButton
+        
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.backgroundColor = .clear
+        standardAppearance.shadowColor = .clear
+        standardAppearance.backgroundEffect = nil
+        
+        self.navigationController?.navigationBar.standardAppearance = standardAppearance
+    }
+    
     /// Back 버튼이 없는 Navigation Bar
     func setNaviBar(_ title: String) {
         let titleLabel = UILabel().then {
