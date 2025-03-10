@@ -18,7 +18,17 @@ final class MyReviewImageDetailViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let imageView = UIImageView()
+    private lazy var reviewImageScrollView = UIScrollView().then {
+        $0.maximumZoomScale = 3.0
+        $0.minimumZoomScale = 1.0
+        $0.showsVerticalScrollIndicator = false
+        $0.showsHorizontalScrollIndicator = false
+        $0.delegate = self
+    }
+    
+    private let reviewImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+    }
     
     // MARK: - Init
     
@@ -36,15 +46,15 @@ final class MyReviewImageDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUI()
+        setViewController()
         setAddView()
         setConstraints()
-        configureImage()
+        setImageView()
     }
     
-    // MARK: - Set UI
+    // MARK: - Set ViewController
     
-    private func setUI() {
+    private func setViewController() {
         view.backgroundColor = .black
     }
     
@@ -52,22 +62,39 @@ final class MyReviewImageDetailViewController: UIViewController {
     
     private func setAddView() {
         [
-            imageView
+            reviewImageScrollView
         ].forEach(view.addSubview)
+        
+        [
+            reviewImageView
+        ].forEach(reviewImageScrollView.addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        imageView.snp.makeConstraints {
+        reviewImageScrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        reviewImageView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.verticalEdges.equalToSuperview().inset(186)
+            $0.center.equalToSuperview()
         }
     }
     
-    // MARK: - Configure Image
+    // MARK: - Set ImageView
     
-    private func configureImage() {
-        imageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(reviewImage)"))
+    private func setImageView() {
+        reviewImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(reviewImage)"))
+    }
+}
+
+// MARK: - UIScrollView Delegate
+
+extension MyReviewImageDetailViewController: UIScrollViewDelegate {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return reviewImageView
     }
 }
