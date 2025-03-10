@@ -208,7 +208,7 @@ final class ReviewWriteViewController: UIViewController {
         }
     }
     
-    // MARK: - Objc Function
+    // MARK: - Post API Function
     
     @objc private func didTapSubmitReview() {
         guard let menuPairID = selectedMenuPairID else { return }

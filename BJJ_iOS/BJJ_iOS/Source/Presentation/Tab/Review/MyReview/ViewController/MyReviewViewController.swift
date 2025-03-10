@@ -51,6 +51,7 @@ final class MyReviewViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        myReviews.removeAll()
         fetchMyReview()
     }
     
