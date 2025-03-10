@@ -35,7 +35,9 @@ final class MyReviewImageDetailPageViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setNavigationBar()
         setViewController()
+        setScrollViewDelegate()
     }
     
     // MARK: - Set PageViewController
@@ -48,6 +50,23 @@ final class MyReviewImageDetailPageViewController: UIPageViewController {
         
         if let firstPage = pages.first {
             setViewControllers([firstPage], direction: .forward, animated: true)
+        }
+    }
+    
+    // MARK: - Set NavigationBAR
+    
+    private func setNavigationBar() {
+        setClearWhiteBackTitleNaviBar("\(currentIndex + 1) / \(reviewImages.count)")
+    }
+    
+    // MARK: - Set ScrollView Delegate
+        
+    private func setScrollViewDelegate() {
+        for subview in view.subviews {
+            if let scrollView = subview as? UIScrollView {
+                scrollView.delegate = self
+                break
+            }
         }
     }
 }
@@ -67,5 +86,18 @@ extension MyReviewImageDetailPageViewController: UIPageViewControllerDataSource,
             return nil
         }
         return pages[index + 1]
+    }
+}
+
+// MARK: - UIScrollView Delegate
+
+extension MyReviewImageDetailPageViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let currentVC = viewControllers?.first as? MyReviewImageDetailViewController,
+              let newIndex = pages.firstIndex(of: currentVC),
+              newIndex != currentIndex else { return }
+
+        currentIndex = newIndex
+        setNavigationBar()
     }
 }
