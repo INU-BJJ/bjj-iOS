@@ -850,8 +850,8 @@
 			children = (
 				3FDC255D2D6C7B1300ACBF8B /* MyReview */,
 				3F43F0D72D7838B30018E7E8 /* CafeteriaMyReview */,
-				3F3AF8C42D75A52C00D6C28A /* ReviewWrite */,
 				3F2B0EB42D7997360059AA2B /* MyReviewDetail */,
+				3F3AF8C42D75A52C00D6C28A /* ReviewWrite */,
 			);
 			path = Review;
 			sourceTree = "<group>";

@@ -20,15 +20,16 @@ final class ReviewWriteAPI {
     }
     
     static func postReview(params: [String: Any], images: [UIImage], completion: @escaping (Result<EmptyResponse, Error>) -> Void) {
-        let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+        let imageData: [Data]? = images.isEmpty ? nil : images.compactMap { $0.jpegData(compressionQuality: 1.0) }
         
-        // TODO: multi-part form data 함수로 변경
-        networkRequest(
+        uploadNetworkRequest(
             urlStr: ReviewWriteAddress.postReview.url,
             method: .post,
-            data: data,
+            imageData: imageData,
+            parameter: params,
             model: EmptyResponse.self,
             completion: completion
         )
     }
 }
+

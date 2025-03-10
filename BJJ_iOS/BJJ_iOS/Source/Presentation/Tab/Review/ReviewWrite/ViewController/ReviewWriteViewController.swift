@@ -212,24 +212,25 @@ final class ReviewWriteViewController: UIViewController {
     
     @objc private func didTapSubmitReview() {
         guard let menuPairID = selectedMenuPairID else { return }
+        let indexPath = IndexPath(item: 0, section: 2)
         
-        // TODO: comment, 이미지도 params에 넣기
-        let params: [String: Any] = [
-            "comment": "",
-            "rating": selectedRating,
-            "menuPairId": menuPairID
-        ]
-        
-        ReviewWriteAPI.postReview(params: params, images: []) { result in
-            switch result {
-            case .success:
-                print("✅ 리뷰 등록 성공")
-            case .failure(let error):
-                print("❌ 리뷰 등록 실패: \(error.localizedDescription)")
+        if let cell = reviewWriteCollectionView.cellForItem(at: indexPath) as? ReviewContentCell {
+            let reviewText = cell.getReviewText()
+            let params: [String: Any] = [
+                "comment": reviewText,
+                "rating": selectedRating,
+                "menuPairId": menuPairID
+            ]
+
+            ReviewWriteAPI.postReview(params: params, images: selectedPhotos) { result in
+                switch result {
+                case .success:
+                    self.presentMyReviewViewController()
+                case .failure(let error):
+                    print("<< [ReviewWriteVC] 리뷰 등록 실패: \(error.localizedDescription)")
+                }
             }
         }
-        
-        dismiss(animated: true)
     }
 }
 

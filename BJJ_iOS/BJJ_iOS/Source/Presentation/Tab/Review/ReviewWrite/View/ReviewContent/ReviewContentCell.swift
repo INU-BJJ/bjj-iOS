@@ -121,6 +121,12 @@ final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
             $0.trailing.equalToSuperview()
         }
     }
+    
+    // MARK: - Get Review Text
+    
+    func getReviewText() -> String {
+        return reviewTextView.text ?? ""
+    }
 }
 
 extension ReviewContentCell: UITextViewDelegate {
