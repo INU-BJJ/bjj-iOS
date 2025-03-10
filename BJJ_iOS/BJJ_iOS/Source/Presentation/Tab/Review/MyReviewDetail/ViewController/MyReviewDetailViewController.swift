@@ -102,6 +102,6 @@ extension MyReviewDetailViewController: MyReviewDeleteDelegate {
 
 extension MyReviewDetailViewController: MyReviewDetailDelegate {
     func didTapReviewImage(with reviewImages: [String]) {
-        presentMyReviewImageDetailViewController()
+        presentMyReviewImageDetailViewController(with: reviewImages)
     }
 }
