@@ -9,7 +9,17 @@ import UIKit
 import SnapKit
 import Then
 
+protocol ReviewPhotoDelegate: AnyObject {
+    func didTapAddPhoto()
+    func didTapDeselectPhoto(at indexPath: IndexPath)
+}
+
 final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
+    
+    // MARK: - Properties
+    
+    weak var delegate: ReviewPhotoDelegate?
+    var indexPath: IndexPath?
     
     // MARK: - UI Components
     
@@ -26,15 +36,15 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
         $0.clipsToBounds = true
     }
     
-    private let deselectPhotoButton = UIButton().then {
+    private lazy var deselectPhotoButton = UIButton().then {
         $0.setImage(UIImage(named: "DeselectXButton"), for: .normal)
         $0.backgroundColor = .clear
         $0.layer.cornerRadius = 17 / 2
         $0.clipsToBounds = true
-        $0.isUserInteractionEnabled = false
+        $0.addTarget(self, action: #selector(didTapDeselectPhoto), for: .touchUpInside)
     }
     
-    private let addPhotoButton = UIButton().then {
+    private lazy var addPhotoButton = UIButton().then {
         var config = UIButton.Configuration.plain()
         let attributedString = NSAttributedString(
             string: "0/4",
@@ -51,7 +61,7 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
         config.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 25, bottom: 15, trailing: 25)
         
         $0.configuration = config
-        $0.isUserInteractionEnabled = false
+        $0.addTarget(self, action: #selector(didTapAddPhoto), for: .touchUpInside)
     }
     
     // MARK: - Life Cycle
@@ -117,7 +127,7 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Configure PhotoCell
     
-    func configureAddPhotoCell(with image: UIImage?) {
+    func configureAddPhotoCell(with image: UIImage?, selectedPhotosCount: Int) {
         if let image = image {
             photoImageView.image = image
             photoContainerView.isHidden = false
@@ -125,6 +135,24 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
         } else {
             photoContainerView.isHidden = true
             addPhotoButton.isHidden = false
+            
+            // TODO: 타이틀만 고칠순 없나?
+            var config = UIButton.Configuration.plain()
+            let attributedString = NSAttributedString(
+                string: "\(selectedPhotosCount)/4",
+                attributes: [
+                    .font: UIFont.customFont(.pretendard_medium, 13),
+                    .foregroundColor: UIColor.customColor(.midGray)
+                ]
+            )
+            
+            config.image = UIImage(named: "Photo")?.resize(to: CGSize(width: 25, height: 20))
+            config.attributedTitle = AttributedString(attributedString)
+            config.imagePlacement = .top
+            config.imagePadding = 5
+            config.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 25, bottom: 15, trailing: 25)
+            
+            addPhotoButton.configuration = config
         }
     }
     
@@ -144,5 +172,17 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
         
         button.layer.sublayers?.removeAll(where: { $0 is CAShapeLayer })
         button.layer.addSublayer(dashedBorder)
+    }
+    
+    // MARK: - Objc Function
+    
+    @objc private func didTapAddPhoto() {
+        delegate?.didTapAddPhoto()
+    }
+    
+    @objc private func didTapDeselectPhoto() {
+        guard let indexPath = indexPath else { return }
+        
+        delegate?.didTapDeselectPhoto(at: indexPath)
     }
 }

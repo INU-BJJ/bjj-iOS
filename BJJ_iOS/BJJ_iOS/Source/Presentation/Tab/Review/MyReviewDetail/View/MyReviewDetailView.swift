@@ -9,10 +9,15 @@ import UIKit
 import SnapKit
 import Then
 
+protocol MyReviewDetailDelegate: AnyObject {
+    func didTapReviewImage(with reviewImages: [String])
+}
+
 final class MyReviewDetailView: UIView {
     
     // MARK: - Properties
     
+    weak var delegate: MyReviewDetailDelegate?
     private var reviewImages: [String] = []
     private var hashTags: [String] = []
     
@@ -43,13 +48,13 @@ final class MyReviewDetailView: UIView {
     }
     
     private let nicknameLabel = UILabel().then {
-        $0.setLabelUI("떡볶이킬러나는최고야룰루", font: .pretendard_bold, size: 15, color: .black)
+        $0.setLabelUI("", font: .pretendard_bold, size: 15, color: .black)
     }
     
     private let reviewRatingView = ReviewHorizontalView()
     
     private let reviewDateLabel = UILabel().then {
-        $0.setLabelUI("2024.08.20", font: .pretendard, size: 13, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard, size: 13, color: .darkGray)
     }
     
     private let reviewLikeButton = UIButton().then {
@@ -57,13 +62,12 @@ final class MyReviewDetailView: UIView {
     }
     
     private let reviewLikeCountLabel = UILabel().then {
-        $0.setLabelUI("15004", font: .pretendard, size: 11, color: .black)
+        $0.setLabelUI("", font: .pretendard, size: 11, color: .black)
     }
     
-    // TODO: 서버 데이터 연결하기
     private let reviewTextView = UITextView().then {
         $0.textColor = .black
-        $0.text = "핫도그는 냉동인데\n떡볶이는 맛있음\n맛도 있고 가격도 착해서 떡볶이 땡길 때 추천"
+        $0.text = ""
         $0.font = .customFont(.pretendard_medium, 13)
         $0.isScrollEnabled = false
         $0.textContainerInset = UIEdgeInsets.zero
@@ -76,6 +80,7 @@ final class MyReviewDetailView: UIView {
     ).then {
         $0.register(MyReviewDetailImageCell.self, forCellWithReuseIdentifier: MyReviewDetailImageCell.reuseIdentifier)
         $0.dataSource = self
+        $0.delegate = self
         $0.showsHorizontalScrollIndicator = false
         $0.alwaysBounceVertical = false
     }
@@ -99,9 +104,6 @@ final class MyReviewDetailView: UIView {
         setUI()
         setAddView()
         setConstraints()
-        
-        // TODO: configure 함수로 빼기
-        reviewRatingView.configureReviewStar(reviewRating: 4, type: .small)
     }
     
     required init?(coder: NSCoder) {
@@ -177,6 +179,7 @@ final class MyReviewDetailView: UIView {
         myLikedView.snp.makeConstraints {
             $0.trailing.equalToSuperview()
             $0.verticalEdges.equalToSuperview()
+            $0.width.equalTo(33)
         }
         
         reviewRatingView.snp.makeConstraints {
@@ -196,7 +199,7 @@ final class MyReviewDetailView: UIView {
         
         reviewLikeCountLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(4)
-            $0.horizontalEdges.equalToSuperview()
+            $0.centerX.equalToSuperview()
         }
         
         reviewImageCollectionView.snp.makeConstraints {
@@ -209,6 +212,33 @@ final class MyReviewDetailView: UIView {
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(25)
         }
+    }
+    
+    // MARK: - Configure Cell
+    
+    func configureMyDatailReview(with myReviewInfo: MyReviewSection) {
+        
+        // TODO: 리뷰 이미지도 넣기
+        // TODO: 해시 태그 넣기
+        
+        nicknameLabel.text = myReviewInfo.memberNickName
+        reviewRatingView.configureReviewStar(reviewRating: myReviewInfo.reviewRating, type: .small)
+        reviewDateLabel.text = myReviewInfo.reviewCreatedDate
+        reviewLikeCountLabel.text = String(myReviewInfo.reviewLikedCount)
+        reviewTextView.text = myReviewInfo.reviewComment
+        reviewImages = myReviewInfo.reviewImages
+        
+        // TODO: 더 좋은 방법 생각하기
+        if reviewImages.isEmpty {
+            reviewImageCollectionView.removeFromSuperview()
+        } else {
+            if reviewImageCollectionView.superview == nil {
+                myReviewStackView.addArrangedSubview(reviewImageCollectionView)
+            }
+        }
+        
+        
+        hashTags = [myReviewInfo.mainMenuName, myReviewInfo.subMenuName]
     }
     
     // MARK: - Create Layout
@@ -247,8 +277,7 @@ final class MyReviewDetailView: UIView {
                 absoluteGroupWidth = 301
             }
             
-            // TODO: absolute 없애기
-            let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(absoluteItemWidth), heightDimension: .absolute(250))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(absoluteItemWidth), heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(absoluteGroupWidth), heightDimension: .absolute(250))
@@ -280,7 +309,7 @@ final class MyReviewDetailView: UIView {
     }
 }
 
-extension MyReviewDetailView: UICollectionViewDataSource {
+extension MyReviewDetailView: UICollectionViewDataSource, UICollectionViewDelegate {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -314,10 +343,17 @@ extension MyReviewDetailView: UICollectionViewDataSource {
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyReviewDetailHashTagCell.reuseIdentifier, for: indexPath) as! MyReviewDetailHashTagCell
+            // TODO: 하이라이트 라벨 수정
             let isHighlighted = (indexPath.row == 0)
             cell.configureHashTag(with: hashTags[indexPath.row], isHighlighted: isHighlighted)
             
             return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == reviewImageCollectionView {
+            delegate?.didTapReviewImage(with: reviewImages)
         }
     }
 }

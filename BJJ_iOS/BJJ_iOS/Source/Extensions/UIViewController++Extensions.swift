@@ -29,6 +29,26 @@ extension UIViewController {
         self.navigationController?.navigationBar.standardAppearance = standardAppearance
     }
     
+    /// 투명 배경 + 흰색 Back 버튼 + X 버튼 Navigation Bar
+    func setClearWhiteBackTitleNaviBar(_ title: String) {
+        let titleLabel = UILabel().then {
+            $0.setLabelUI(title, font: .pretendard_medium, size: 15, color: .white)
+        }
+        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "BackButton")
+        let xButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "XButton")
+        
+        self.navigationItem.titleView = titleLabel
+        self.navigationItem.leftBarButtonItem = backButton
+        self.navigationItem.rightBarButtonItem = xButton
+        
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.backgroundColor = .clear
+        standardAppearance.shadowColor = .clear
+        standardAppearance.backgroundEffect = nil
+        
+        self.navigationController?.navigationBar.standardAppearance = standardAppearance
+    }
+    
     /// Back 버튼이 없는 Navigation Bar
     func setNaviBar(_ title: String) {
         let titleLabel = UILabel().then {
@@ -83,9 +103,20 @@ extension UIViewController {
         self.navigationController?.pushViewController(menuDetailVC, animated: true)
     }
     
+    /// MyReviewVC로 push
+    func presentMyReviewViewController() {
+        guard let tabBarController = self.tabBarController else { return }
+            
+        tabBarController.selectedIndex = 2
+        
+        if let navigationController = tabBarController.selectedViewController as? UINavigationController {
+            navigationController.popToRootViewController(animated: true)
+        }
+    }
+    
     /// CafeteriaMyReviewVC로 push
-    func presentCafeteriaMyReviewViewController() {
-        let cafeteriaMyReviewVC = CafeteriaMyReviewViewController()
+    func presentCafeteriaMyReviewViewController(title: String) {
+        let cafeteriaMyReviewVC = CafeteriaMyReviewViewController(cafeteriaName: title)
         cafeteriaMyReviewVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(cafeteriaMyReviewVC, animated: true)
     }
@@ -97,12 +128,19 @@ extension UIViewController {
         self.navigationController?.pushViewController(myReviewDetailVC, animated: true)
     }
     
-    /// ReviewWriteVC로 push
-    func presentReviewWriteViewController() {
-        let reviewWriteVC = ReviewWriteViewController()
-        reviewWriteVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(reviewWriteVC, animated: true)
+    /// MyReviewImageDetailVC로 push
+    func presentMyReviewImageDetailViewController(with reviewImages: [String]) {
+        let myReviewImageDetailVC = MyReviewImageDetailPageViewController(with: reviewImages)
+        myReviewImageDetailVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(myReviewImageDetailVC, animated: true)
     }
+    
+    /// ReviewWriteVC로 push
+//    func presentReviewWriteViewController() {
+//        let reviewWriteVC = ReviewWriteViewController()
+//        reviewWriteVC.hidesBottomBarWhenPushed = true
+//        self.navigationController?.pushViewController(reviewWriteVC, animated: true)
+//    }
     
     // MARK: - objc Function
     
@@ -113,6 +151,12 @@ extension UIViewController {
     
     /// 더보기 버튼
     @objc func showMoreOptions() {
+        let modalVC = MyReviewDeleteModalViewController()
+        guard let delegateVC = self as? MyReviewDeleteDelegate else { return }
+
+        modalVC.delegate = delegateVC
+        modalVC.modalPresentationStyle = .overCurrentContext
         
+        present(modalVC, animated: true)
     }
 }

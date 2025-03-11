@@ -9,9 +9,15 @@ import UIKit
 import SnapKit
 import Then
 
+protocol ReviewContentDelegate: AnyObject {
+    func didChangeReviewText(_ text: String)
+}
+
 final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
+    
+    weak var delegate: ReviewContentDelegate?
     
     // MARK: - UI Components
     
@@ -38,7 +44,7 @@ final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
     
     // TODO: 사용자 입력에 따라 동적으로 바꾸기
     private let currentCharacterLabel = UILabel().then {
-        $0.setLabelUI("258 ", font: .pretendard, size: 13, color: .black)
+        $0.setLabelUI("0 ", font: .pretendard, size: 13, color: .black)
     }
     
     private let characterLimitLabel = UILabel().then {
@@ -53,6 +59,7 @@ final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
         setUI()
         setAddView()
         setConstraints()
+        addKeyboardToolbar()
     }
     
     required init?(coder: NSCoder) {
@@ -120,10 +127,53 @@ final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
             $0.trailing.equalToSuperview()
         }
     }
+    
+    // MARK: - Get Review Text
+    
+    func getReviewText() -> String {
+        return reviewTextView.text ?? ""
+    }
 }
 
 extension ReviewContentCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        reviewTextViewPlaceholder.isHidden = !reviewTextView.text.isEmpty
+        DispatchQueue.main.async {
+            var characterCount = textView.text.count
+                    
+            let maxCharacterCount = 500
+            if characterCount > maxCharacterCount {
+                textView.text = String(textView.text.prefix(maxCharacterCount))
+                characterCount = maxCharacterCount
+            }
+
+            self.currentCharacterLabel.text = "\(characterCount) "
+            self.reviewTextViewPlaceholder.isHidden = !self.reviewTextView.text.isEmpty
+            self.delegate?.didChangeReviewText(self.reviewTextView.text)
+        }
+    }
+}
+
+extension ReviewContentCell {
+    
+    // MARK: - Dismiss Keyboard
+    
+    // TODO: 다른 방법도 고민해보기
+    // TODO: [UIKeyboardTaskQueue lockWhenReadyForMainThread] timeout waiting for task on queue 해결하기
+    // TODO: 키보드에 textView가 가려지는 문제 해결하기
+    
+    private func addKeyboardToolbar() {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+
+        let marginSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(self.dismissKeyboardWithToolbar))
+        toolbar.items = [marginSpace, doneButton]
+        
+        self.reviewTextView.inputAccessoryView = toolbar
+    }
+
+    @objc private func dismissKeyboardWithToolbar() {
+//        self.reviewTextView.inputAccessoryView = nil
+        self.reviewTextView.resignFirstResponder()
     }
 }
