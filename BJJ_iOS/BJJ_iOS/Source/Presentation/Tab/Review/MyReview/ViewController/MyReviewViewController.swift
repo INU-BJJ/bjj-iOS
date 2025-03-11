@@ -13,10 +13,14 @@ final class MyReviewViewController: UIViewController {
     
     // MARK: - Properties
     
-    // TODO: 서버 데이터로 교체
-    private let myReviews = MyReviews.myReviews
+    private var myReviews: [String: [MyReviewSection]] = [:]
+    private var myReviewsKeys: [String] {
+        return Array(myReviews.keys)
+    }
     
     // MARK: - UI Components
+    
+    private let noticeView = NoticeView(type: .review)
     
     private lazy var myReviewTableView = UITableView(frame: .zero, style: .grouped).then {
         $0.register(MyReviewHeaderView.self, forHeaderFooterViewReuseIdentifier: MyReviewHeaderView.reuseIdentifier)
@@ -28,8 +32,11 @@ final class MyReviewViewController: UIViewController {
         $0.backgroundColor = .white
     }
     
-    // TODO: 플로팅 버튼 그림자 효과 
-    private let floatingButton = UIButton().makeFloatingButton()
+    // TODO: 플로팅 버튼 그림자 효과
+    // TODO: 상태가 터치로 바뀌었을 때 배경색 변경되는 것 수정?
+    private lazy var floatingButton = UIButton().makeFloatingButton().then {
+        $0.addTarget(self, action: #selector(presentReviewWriteViewController), for: .touchUpInside)
+    }
     
     // MARK: - LifeCycle
     
@@ -39,6 +46,13 @@ final class MyReviewViewController: UIViewController {
         setUI()
         setAddView()
         setConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        myReviews.removeAll()
+        fetchMyReview()
     }
     
     // MARK: - Set UI
@@ -52,6 +66,7 @@ final class MyReviewViewController: UIViewController {
     
     private func setAddView() {
         [
+            noticeView,
             myReviewTableView,
             floatingButton
         ].forEach(view.addSubview)
@@ -60,6 +75,10 @@ final class MyReviewViewController: UIViewController {
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        noticeView.snp.makeConstraints {
+            $0.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+        
         myReviewTableView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(102)
             $0.horizontalEdges.equalToSuperview()
@@ -71,6 +90,58 @@ final class MyReviewViewController: UIViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(35.12)
         }
     }
+    
+    // MARK: - Fetch API
+    
+    private func fetchMyReview() {
+        MyReviewAPI.fetchMyReview() { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let myReviewList):
+                DispatchQueue.main.async {
+                    for (key, reviews) in myReviewList.myReviewList {
+                        let reviewSection = reviews.map { review in
+                            MyReviewSection(
+                                reviewID: review.reviewID,
+                                reviewComment: review.comment,
+                                reviewRating: review.reviewRating,
+                                reviewImages: review.reviewImages,
+                                reviewLikedCount: review.reviewLikeCount,
+                                reviewCreatedDate: review.reviewCreatedDate.convertDateFormat(),
+                                menuPairID: review.menuPairID,
+                                mainMenuName: review.mainMenuName,
+                                subMenuName: review.subMenuName,
+                                memberID: review.memberID,
+                                memberNickName: review.memberNickname,
+                                memberImageName: review.memberImage
+                            )
+                        }
+                        self.myReviews[key] = reviewSection
+                    }
+                    
+                    let isMyReviewsEmpty = self.myReviews.isEmpty
+                    
+                    self.noticeView.setNoticeeViewVisibility(isMyReviewsEmpty)
+                    self.myReviewTableView.isHidden = isMyReviewsEmpty
+                    self.myReviewTableView.reloadData()
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    // 에러 처리 (필요 시 UI에 에러 메시지 표시 가능)
+                    print("Error fetching menu data: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    // MARK: - objc Function
+    
+    @objc func presentReviewWriteViewController() {
+        let reviewWriteVC = ReviewWriteViewController()
+        reviewWriteVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(reviewWriteVC, animated: true)
+    }
 }
 
 extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
@@ -78,19 +149,13 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - TableView Section
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        // TODO: 사용자가 작성한 리뷰의 식당 개수에 따라 달라지도록 수정
-        return 2
+        return myReviews.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return myReviews.studentCafeteriaReviews.count
-        case 1:
-            return myReviews.staffCafeteriaReviews.count
-        default:
-            return 0
-        }
+        let sectionKey = myReviewsKeys[section]
+        
+        return myReviews[sectionKey]?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -98,8 +163,14 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let review = indexPath.section == 0 ? myReviews.studentCafeteriaReviews[indexPath.row] : myReviews.staffCafeteriaReviews[indexPath.row]
-        cell.configureMyReviewCell(with: review)
+        let sectionKey = myReviewsKeys[indexPath.section]
+        
+        if let reviews = myReviews[sectionKey] {
+            let review = reviews[indexPath.row]
+            cell.configureMyReviewCell(with: review)
+        }
+        
+        cell.selectionStyle = .none
         
         return cell
     }
@@ -109,6 +180,19 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
         return 73
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let sectionKey = myReviewsKeys[indexPath.section]
+            
+        if let reviews = myReviews[sectionKey] {
+            let selectedReview = reviews[indexPath.row]
+            let myReviewDetailVC = MyReviewDetailViewController()
+            
+            myReviewDetailVC.bindMyReviewData(myReview: selectedReview)
+            myReviewDetailVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(myReviewDetailVC, animated: true)
+        }
+    }
+    
     //MARK: - TableView Header
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -116,17 +200,12 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
             return nil
         }
         
-        let cafeteriaName: String
-        
-        switch section {
-        case 0:
-            cafeteriaName = "학생식당"
-        case 1:
-            cafeteriaName = "2호관 교직원식당"
-        default:
-            cafeteriaName = ""
-        }
-        headerView.configureMyReviewHeaderView(with: cafeteriaName)
+        let cafeteriaName = myReviewsKeys[section]
+        let reviewCountInSection = myReviews[cafeteriaName]?.count ?? 0
+
+        headerView.configureMyReviewHeaderView(with: cafeteriaName, section: section)
+        headerView.setReviewMoreButtonVisibility(reviewCountInSection >= 3)
+        headerView.delegate = self
         
         return headerView
     }
@@ -149,5 +228,12 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         // 섹션과 footer 사이의 간격 - 셀 간 간격 + 구분선 높이 + footer와 다음 섹션간의 간격 (24 - 10 + 7 + 22)
         return 43
+    }
+}
+
+extension MyReviewViewController: MyReviewHeaderViewDelegate {
+    func didTapReviewMoreButton(in section: Int) {
+        let cafeteriaName = myReviewsKeys[section]
+        presentCafeteriaMyReviewViewController(title: cafeteriaName)
     }
 }

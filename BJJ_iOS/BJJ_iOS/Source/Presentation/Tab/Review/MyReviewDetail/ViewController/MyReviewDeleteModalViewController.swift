@@ -9,9 +9,14 @@ import UIKit
 
 final class MyReviewDeleteModalViewController: UIViewController {
     
+    // MARK: - Properties
+    
+    weak var delegate: MyReviewDeleteDelegate?
+    
     // MARK: - UI Components
     
-    private let deleteModalView = UIView().then {
+    // TODO: view는 lazy var로, button은 let으로 이벤트 감지함. 차이점 공부
+    private lazy var deleteModalView = UIView().then {
         $0.backgroundColor = UIColor(white: 0, alpha: 0.5)
         $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissModal)))
     }
@@ -21,6 +26,7 @@ final class MyReviewDeleteModalViewController: UIViewController {
         $0.layer.cornerRadius = 12
         $0.layer.masksToBounds = true
         $0.clipsToBounds = true
+        $0.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
     }
     
     private let deleteLabel = UILabel().then {
@@ -75,7 +81,13 @@ final class MyReviewDeleteModalViewController: UIViewController {
         }
     }
     
-    @objc func dismissModal() {
+    // MARK: - Objc Function
+    
+    @objc private func dismissModal() {
         dismiss(animated: true)
+    }
+    
+    @objc private func didTapDeleteButton() {
+        delegate?.didTapDeleteButton()
     }
 }
