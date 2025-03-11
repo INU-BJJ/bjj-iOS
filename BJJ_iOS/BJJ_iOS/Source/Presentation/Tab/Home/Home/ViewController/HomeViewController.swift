@@ -40,6 +40,11 @@ final class HomeViewController: UIViewController {
         setUI()
         setAddView()
         setConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         fetchAllMenuData(cafeteriaName: "학생식당")
     }
     

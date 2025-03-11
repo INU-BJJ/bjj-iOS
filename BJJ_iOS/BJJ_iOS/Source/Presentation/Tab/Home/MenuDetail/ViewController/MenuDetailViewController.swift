@@ -67,6 +67,11 @@ final class MenuDetailViewController: UIViewController {
         setAddView()
         setConstraints()
         configure()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         fetchReviewImage(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 3)
         fetchReviewInfo(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 5, sortingCriteria: "BEST_MATCH", isWithImage: false)
     }
@@ -263,7 +268,7 @@ final class MenuDetailViewController: UIViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         
-        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(1))
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(0.5))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
         
         // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
@@ -285,7 +290,7 @@ final class MenuDetailViewController: UIViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         
-        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(1))
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(0.5))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
         
         // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
@@ -304,7 +309,7 @@ final class MenuDetailViewController: UIViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         
-        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(1))
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(0.5))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
         
         // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
@@ -323,7 +328,7 @@ final class MenuDetailViewController: UIViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         
-        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(1))
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(0.5))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
         
         // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
@@ -439,6 +444,9 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
                 withReuseIdentifier: SeparatingLineView.reuseIdentifier,
                 for: indexPath
             ) as! SeparatingLineView
+            
+            // footer Style 지정
+            footer.configureLineView(.menuDetail)
             
             // 마지막 섹션에는 구분선을 표시하지 않을 경우
             footer.isHidden = indexPath.section == 4

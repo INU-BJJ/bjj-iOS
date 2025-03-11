@@ -15,9 +15,7 @@ final class SeparatingLineView: UICollectionReusableView, ReuseIdentifying {
     
     // MARK: - UI Components
     
-    private let dividerView = UIView().then {
-        $0.backgroundColor = .customColor(.lineColor)
-    }
+    private let dividerView = UIView()
     
     // MARK: - Life Cycle
     
@@ -44,6 +42,16 @@ final class SeparatingLineView: UICollectionReusableView, ReuseIdentifying {
         dividerView.snp.makeConstraints {
             $0.horizontalEdges.equalTo(snp.horizontalEdges)
             $0.height.equalTo(1)
+        }
+    }
+    
+    // MARK: - Configure LineView
+    
+    func configureLineView(_ style: LineStyle) {
+        dividerView.backgroundColor = style.borderColor
+        
+        dividerView.snp.updateConstraints {
+            $0.height.equalTo(style.borderWidth)
         }
     }
 }
