@@ -10,12 +10,25 @@ import SnapKit
 import Then
 import PhotosUI
 
-final class ReviewWriteViewController: UIViewController, ReviewAddPhotoDelegate {
+// MARK: - Delegate Pattern
+
+protocol ReviewCategorySelectDelegate: AnyObject {
+    func didSelectCafeteria(_ cafeteriaName: String, sender: ReviewCategorySelect)
+    func didSelectMenu(_ menuPairID: Int)
+}
+
+protocol ReviewRatingDelegate: AnyObject {
+    func didSelectRating(_ rating: Int)
+}
+
+final class ReviewWriteViewController: UIViewController {
     
     // MARK: - Properties
     
     private var selectedPhotos: [UIImage] = []
     private let maxPhotoCount = 4
+    private var selectedMenuPairID: Int?
+    private var selectedRating: Int = 5
     
     // MARK: - UI Components
     
@@ -33,7 +46,9 @@ final class ReviewWriteViewController: UIViewController, ReviewAddPhotoDelegate 
         $0.dataSource = self
     }
     
-    private let submitReviewButton = UIButton().makeConfirmButton(type: .submitReview)
+    private lazy var submitReviewButton = UIButton().makeConfirmButton(type: .submitReview).then {
+        $0.addTarget(self, action: #selector(didTapSubmitReview), for: .touchUpInside)
+    }
     
     // MARK: - LifeCycle
     
@@ -43,6 +58,7 @@ final class ReviewWriteViewController: UIViewController, ReviewAddPhotoDelegate 
         setUI()
         setAddView()
         setConstraints()
+        dismissKeyboard()
     }
     
     // MARK: - Set UI
@@ -172,18 +188,76 @@ final class ReviewWriteViewController: UIViewController, ReviewAddPhotoDelegate 
         return section
     }
     
-    // MARK: - didTapAddPhoto
+    // MARK: - Fetch API
     
-    func didTapAddPhoto() {
-        var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = maxPhotoCount
-        configuration.filter = .images
+    private func fetchMenuList(cafeteriaName: String, completion: @escaping ([ReviewWriteSection]) -> Void) {
+        ReviewWriteAPI.fetchMenuList(cafeteriaName: cafeteriaName) { [weak self] result in
+            switch result {
+            case .success(let reviewMenuInfos):
+                let menuData = reviewMenuInfos.map { menu in
+                    ReviewWriteSection(
+                        menuPairID: menu.menuPairID,
+                        mainMenuName: menu.mainMenuName
+                    )
+                }
+                completion(menuData)
+                
+            case .failure(let error):
+                print("Error fetching menu data: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    // MARK: - Post API Function
+    
+    @objc private func didTapSubmitReview() {
+        guard let menuPairID = selectedMenuPairID else { return }
+        let indexPath = IndexPath(item: 0, section: 2)
         
-        let picker = PHPickerViewController(configuration: configuration)
-        picker.delegate = self
-        present(picker, animated: true)
+        if let cell = reviewWriteCollectionView.cellForItem(at: indexPath) as? ReviewContentCell {
+            let reviewText = cell.getReviewText()
+            let params: [String: Any] = [
+                "comment": reviewText,
+                "rating": selectedRating,
+                "menuPairId": menuPairID
+            ]
+
+            ReviewWriteAPI.postReview(params: params, images: selectedPhotos) { result in
+                switch result {
+                case .success:
+                    self.presentMyReviewViewController()
+                case .failure(let error):
+                    print("<< [ReviewWriteVC] 리뷰 등록 실패: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    // MARK: - Validate Review Inputs
+    
+    private var isValidReviewSubmit: Bool {
+        let isReviewTextEmpty: Bool
+        
+        if let indexPath = IndexPath(item: 0, section: 2) as IndexPath?,
+           let cell = reviewWriteCollectionView.cellForItem(at: indexPath) as? ReviewContentCell {
+            isReviewTextEmpty = cell.getReviewText().isEmpty
+        } else {
+            isReviewTextEmpty = true
+        }
+        
+        return selectedMenuPairID != nil && !isReviewTextEmpty && selectedRating > 0
+    }
+    
+    // MARK: - Set SubmitButton Color
+    
+    private func setSubmitButtonColor() {
+        submitReviewButton.backgroundColor = isValidReviewSubmit
+            ? UIColor.customColor(.mainColor)
+            : UIColor.customColor(.midGray)
     }
 }
+
+// MARK: - UICollectionView Extension
 
 extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -198,6 +272,7 @@ extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewD
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCategorySelect.reuseIdentifier, for: indexPath) as! ReviewCategorySelect
+            cell.delegate = self
             
             return cell
         case 1:
@@ -206,6 +281,7 @@ extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewD
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewContentCell.reuseIdentifier, for: indexPath) as! ReviewContentCell
+            cell.delegate = self
             
             return cell
         case 3:
@@ -242,6 +318,8 @@ extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewD
     }
 }
 
+// MARK: - PHPickerViewController Extension
+
 extension ReviewWriteViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
@@ -260,8 +338,87 @@ extension ReviewWriteViewController: PHPickerViewControllerDelegate {
         }
         
         group.notify(queue: .main) {
-            self.selectedPhotos = newImages
-            self.reviewWriteCollectionView.reloadData()
+            self.selectedPhotos.append(contentsOf: newImages)
+            UIView.performWithoutAnimation {
+                self.reviewWriteCollectionView.reloadItems(at: [IndexPath(item: 0, section: 3)])
+            }
         }
+    }
+}
+
+// MARK: - didTapPhoto
+
+extension ReviewWriteViewController: ReviewPhotoDelegate {
+    func didTapAddPhoto() {
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = maxPhotoCount - selectedPhotos.count
+        configuration.filter = .images
+        
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
+    func didTapDeselectPhoto(at indexPath: IndexPath) {
+        guard indexPath.item < selectedPhotos.count else { return }
+        
+        selectedPhotos.remove(at: indexPath.item)
+        UIView.performWithoutAnimation {
+            reviewWriteCollectionView.reloadItems(at: [IndexPath(item: 0, section: 3)])
+        }
+    }
+}
+
+// MARK: - didTapCategorySelect
+
+extension ReviewWriteViewController: ReviewCategorySelectDelegate {
+    func didSelectCafeteria(_ cafeteriaName: String, sender: ReviewCategorySelect) {
+        fetchMenuList(cafeteriaName: cafeteriaName) { [weak self] menuData in
+            // UI 업데이트를 수행하기 때문에 메인 스레드에서 실행
+            DispatchQueue.main.async {
+                sender.updateMenuData(menuData)
+            }
+        }
+    }
+    
+    func didSelectMenu(_ menuPairID: Int) {
+        selectedMenuPairID = menuPairID
+        setSubmitButtonColor()
+    }
+}
+
+// MARK: - didTapReviewRating
+
+extension ReviewWriteViewController: ReviewRatingDelegate {
+    func didSelectRating(_ rating: Int) {
+        selectedRating = rating
+        setSubmitButtonColor()
+    }
+}
+
+// MARK: - didChangeReviewText
+
+extension ReviewWriteViewController: ReviewContentDelegate {
+    func didChangeReviewText(_ text: String) {
+        setSubmitButtonColor()
+    }
+}
+
+extension ReviewWriteViewController {
+    
+    // MARK: Dismiss Keyboard
+    // TODO: [UIKeyboardTaskQueue lockWhenReadyForMainThread] timeout waiting for task on queue 해결하기
+    // TODO: 키보드에 textView가 가려지는 문제 해결하기
+    
+    private func dismissKeyboard() {
+        self.view.gestureRecognizers?.forEach { self.view.removeGestureRecognizer($0) }
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.addDismissKeyboardGesture))
+        tapGesture.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func addDismissKeyboardGesture() {
+        self.view.endEditing(true)
     }
 }

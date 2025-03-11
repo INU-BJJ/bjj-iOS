@@ -9,15 +9,11 @@ import UIKit
 import SnapKit
 import Then
 
-protocol ReviewAddPhotoDelegate: AnyObject {
-    func didTapAddPhoto()
-}
-
 final class ReviewAddPhoto: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
-    weak var delegate: ReviewAddPhotoDelegate?
+    weak var delegate: ReviewPhotoDelegate?
     var selectedPhotos: [UIImage] = []
     
     // MARK: - UI Components
@@ -99,16 +95,27 @@ extension ReviewAddPhoto: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewAddPhotoCell.reuseIdentifier, for: indexPath) as! ReviewAddPhotoCell
         
+        cell.delegate = self
+        cell.indexPath = indexPath
+        
         if indexPath.item < selectedPhotos.count {
-            cell.configureAddPhotoCell(with: selectedPhotos[indexPath.item])
+            cell.configureAddPhotoCell(with: selectedPhotos[indexPath.item], selectedPhotosCount: selectedPhotos.count)
         } else {
-            cell.configureAddPhotoCell(with: nil)
+            cell.configureAddPhotoCell(with: nil, selectedPhotosCount: selectedPhotos.count)
         }
         
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+}
+
+// MARK: didTapPhoto
+
+extension ReviewAddPhoto: ReviewPhotoDelegate {
+    func didTapAddPhoto() {
         delegate?.didTapAddPhoto()
+    }
+    
+    func didTapDeselectPhoto(at indexPath: IndexPath) {
+        delegate?.didTapDeselectPhoto(at: indexPath)
     }
 }

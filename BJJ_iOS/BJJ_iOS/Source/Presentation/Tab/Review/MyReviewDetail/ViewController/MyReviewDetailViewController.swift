@@ -9,13 +9,21 @@ import UIKit
 import SnapKit
 import Then
 
+protocol MyReviewDeleteDelegate: AnyObject {
+    func didTapDeleteButton()
+}
+
 final class MyReviewDetailViewController: UIViewController {
     
     // MARK: - Properties
     
+    private var myReviewData: MyReviewSection?
+    
     // MARK: - UI Components
     
-    private let myReviewStackView = MyReviewDetailView()
+    private lazy var myReviewStackView = MyReviewDetailView().then {
+        $0.delegate = self
+    }
     
     // MARK: - LifeCycle
     
@@ -25,6 +33,7 @@ final class MyReviewDetailViewController: UIViewController {
         setUI()
         setAddView()
         setConstraints()
+        configureMyReviewDetailVC()
     }
     
     // MARK: - Set UI
@@ -51,10 +60,48 @@ final class MyReviewDetailViewController: UIViewController {
         }
     }
     
-    @objc func presentModalVC() {
-        let modalVC = MyReviewDeleteModalViewController()
-        modalVC.modalPresentationStyle = .overCurrentContext
-        
-        present(modalVC, animated: true)
+    // MARK: - Bind Data
+    
+    func bindMyReviewData(myReview: MyReviewSection) {
+        myReviewData = myReview
+    }
+    
+    // MARK: - Configure MyReviewDetailVC
+    
+    private func configureMyReviewDetailVC() {
+        if let myReviewData = myReviewData {
+            myReviewStackView.configureMyDatailReview(with: myReviewData)
+        }
+    }
+    
+    // MARK: - API Function
+    
+    private func deleteMyReview(reviewID: Int) {
+        MyReviewDetailAPI.deleteMyReview(reviewID: reviewID) { result in
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    self.dismiss(animated: false)
+                    self.presentMyReviewViewController()
+                }
+                
+            case .failure(let error):
+                print("<< [MyReviewDetailVC] \(error.localizedDescription)")
+            }
+        }
+    }
+}
+
+extension MyReviewDetailViewController: MyReviewDeleteDelegate {
+    func didTapDeleteButton() {
+        if let myReviewID = myReviewData?.reviewID {
+            deleteMyReview(reviewID: myReviewID)
+        }
+    }
+}
+
+extension MyReviewDetailViewController: MyReviewDetailDelegate {
+    func didTapReviewImage(with reviewImages: [String]) {
+        presentMyReviewImageDetailViewController(with: reviewImages)
     }
 }
