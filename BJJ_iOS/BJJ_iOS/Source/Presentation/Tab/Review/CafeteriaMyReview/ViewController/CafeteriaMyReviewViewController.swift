@@ -13,8 +13,8 @@ final class CafeteriaMyReviewViewController: UIViewController {
     
     // MARK: - Properties
     
-    // TODO: 서버 데이터로 교체
-    private let myReviews = MyReviews.myReviews.studentCafeteriaReviews
+    private let cafeteriaName: String
+    private var myReviews: [MyReviewSection] = []
     
     // MARK: - UI Components
     
@@ -28,6 +28,15 @@ final class CafeteriaMyReviewViewController: UIViewController {
     
     // MARK: - LifeCycle
     
+    init(cafeteriaName: String) {
+        self.cafeteriaName = cafeteriaName
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,11 +45,18 @@ final class CafeteriaMyReviewViewController: UIViewController {
         setConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // TODO: 무한 스크롤 구현
+        fetchCafeteriaMyReview(cafeteriaName: cafeteriaName, pageNumber: 0, pageSize: 10)
+    }
+    
     // MARK: - Set UI
     
     private func setUI() {
         view.backgroundColor = .white
-        setBackNaviBar("학생 식당")
+        setBackNaviBar(cafeteriaName)
     }
     
     // MARK: - Set AddViews
@@ -60,6 +76,39 @@ final class CafeteriaMyReviewViewController: UIViewController {
             $0.bottom.equalToSuperview()
         }
     }
+    
+    // MARK: - Fetch API
+    private func fetchCafeteriaMyReview(cafeteriaName: String, pageNumber: Int, pageSize: Int) {
+        CafeteriaMyReviewAPI.fetchMyReview(cafeteriaName: cafeteriaName, pageNumber: pageNumber, pageSize: pageSize) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let cafeteriaMyreviewList):
+                DispatchQueue.main.async {
+                    self.myReviews = cafeteriaMyreviewList.myReviewList.map { review in
+                        MyReviewSection(
+                            reviewID: review.reviewID,
+                            reviewComment: review.comment,
+                            reviewRating: review.reviewRating,
+                            reviewImages: review.reviewImages,
+                            reviewLikedCount: review.reviewLikeCount,
+                            reviewCreatedDate: review.reviewCreatedDate.convertDateFormat(),
+                            menuPairID: review.menuPairID,
+                            mainMenuName: review.mainMenuName,
+                            subMenuName: review.subMenuName,
+                            memberID: review.memberID,
+                            memberNickName: review.memberNickname,
+                            memberImageName: review.memberImage
+                        )
+                    }
+                    self.myReviewTableView.reloadData()
+                }
+                
+            case .failure(let error):
+                print("Error fetching menu data: \(error.localizedDescription)")
+            }
+        }
+    }
 }
 
 extension CafeteriaMyReviewViewController: UITableViewDelegate, UITableViewDataSource {
@@ -71,8 +120,7 @@ extension CafeteriaMyReviewViewController: UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // TODO: 서버에서 받아오는 데이터 개수로 변경
-        return 1
+        return myReviews.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -82,6 +130,7 @@ extension CafeteriaMyReviewViewController: UITableViewDelegate, UITableViewDataS
         
         let review = myReviews[indexPath.row]
         cell.configureCafeteriaMyReviewCell(with: review)
+        cell.selectionStyle = .none
         
         return cell
     }
@@ -89,5 +138,14 @@ extension CafeteriaMyReviewViewController: UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         // 셀당 높이 + 셀 간 간격 (63 + 10)
         return 73
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedReview = myReviews[indexPath.row]
+        let myReviewDetailVC = MyReviewDetailViewController()
+        
+        myReviewDetailVC.bindMyReviewData(myReview: selectedReview)
+        myReviewDetailVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(myReviewDetailVC, animated: true)
     }
 }
