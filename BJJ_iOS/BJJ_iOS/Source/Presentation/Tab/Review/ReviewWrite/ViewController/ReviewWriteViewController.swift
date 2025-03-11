@@ -232,6 +232,29 @@ final class ReviewWriteViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - Validate Review Inputs
+    
+    private var isValidReviewSubmit: Bool {
+        let isReviewTextEmpty: Bool
+        
+        if let indexPath = IndexPath(item: 0, section: 2) as IndexPath?,
+           let cell = reviewWriteCollectionView.cellForItem(at: indexPath) as? ReviewContentCell {
+            isReviewTextEmpty = cell.getReviewText().isEmpty
+        } else {
+            isReviewTextEmpty = true
+        }
+        
+        return selectedMenuPairID != nil && !isReviewTextEmpty && selectedRating > 0
+    }
+    
+    // MARK: - Set SubmitButton Color
+    
+    private func setSubmitButtonColor() {
+        submitReviewButton.backgroundColor = isValidReviewSubmit
+            ? UIColor.customColor(.mainColor)
+            : UIColor.customColor(.midGray)
+    }
 }
 
 // MARK: - UICollectionView Extension
@@ -258,6 +281,7 @@ extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewD
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewContentCell.reuseIdentifier, for: indexPath) as! ReviewContentCell
+            cell.delegate = self
             
             return cell
         case 3:
@@ -359,6 +383,7 @@ extension ReviewWriteViewController: ReviewCategorySelectDelegate {
     
     func didSelectMenu(_ menuPairID: Int) {
         selectedMenuPairID = menuPairID
+        setSubmitButtonColor()
     }
 }
 
@@ -367,6 +392,15 @@ extension ReviewWriteViewController: ReviewCategorySelectDelegate {
 extension ReviewWriteViewController: ReviewRatingDelegate {
     func didSelectRating(_ rating: Int) {
         selectedRating = rating
+        setSubmitButtonColor()
+    }
+}
+
+// MARK: - didChangeReviewText
+
+extension ReviewWriteViewController: ReviewContentDelegate {
+    func didChangeReviewText(_ text: String) {
+        setSubmitButtonColor()
     }
 }
 

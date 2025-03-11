@@ -9,9 +9,15 @@ import UIKit
 import SnapKit
 import Then
 
+protocol ReviewContentDelegate: AnyObject {
+    func didChangeReviewText(_ text: String)
+}
+
 final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
+    
+    weak var delegate: ReviewContentDelegate?
     
     // MARK: - UI Components
     
@@ -142,6 +148,7 @@ extension ReviewContentCell: UITextViewDelegate {
 
             self.currentCharacterLabel.text = "\(characterCount) "
             self.reviewTextViewPlaceholder.isHidden = !self.reviewTextView.text.isEmpty
+            self.delegate?.didChangeReviewText(self.reviewTextView.text)
         }
     }
 }
