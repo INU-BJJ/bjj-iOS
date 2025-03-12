@@ -1,8 +1,8 @@
 ---
-name: Refactor
-about: 리팩토링 이슈 템플릿
-title: "[Refactor]"
-labels: "\U0001F6E0️Refactor"
+name: Fix
+about: 기능 수정 이슈 템플릿
+title: "[Fix]"
+labels: "\U0001FA93Fix"
 assignees: DIN-STUDIO
 
 ---

@@ -12,5 +12,3 @@ assignees: DIN-STUDIO
 
 # ✅ 체크리스트
 - [ ] TODO
-- [ ] TODO
-- [ ] TODO
