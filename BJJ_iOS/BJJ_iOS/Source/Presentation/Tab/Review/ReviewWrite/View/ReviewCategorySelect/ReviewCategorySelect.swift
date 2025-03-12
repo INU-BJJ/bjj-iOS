@@ -74,6 +74,8 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     private lazy var dropDownCafeteriaTableView = UITableView().then {
         $0.register(ReviewCategorySelectCell.self, forCellReuseIdentifier: ReviewCategorySelectCell.reuseIdentifier)
         $0.layer.cornerRadius = 3
+        $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
+        $0.layer.borderWidth = 0.5
         $0.layer.masksToBounds = true
         $0.isHidden = true
         $0.dataSource = self
@@ -85,6 +87,8 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     private lazy var dropDownMenuTableView = UITableView().then {
         $0.register(ReviewCategorySelectCell.self, forCellReuseIdentifier: ReviewCategorySelectCell.reuseIdentifier)
         $0.layer.cornerRadius = 3
+        $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
+        $0.layer.borderWidth = 0.5
         $0.layer.masksToBounds = true
         $0.isHidden = true
         $0.dataSource = self
@@ -104,6 +108,23 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        // 현재 뷰에서 터치 이벤트 감지
+        if let view = super.hitTest(point, with: event) {
+            return view //현재 뷰가 터치 가능하면 그대로 반환 (터치 가능 범위 확장 필요 x)
+        }
+
+        // 현재 뷰에서 터치 감지 실패 -> 내부 서브뷰 검사
+        for subview in subviews {
+            let convertedPoint = subview.convert(point, from: self)
+            if let hitView = subview.hitTest(convertedPoint, with: event) {
+                return hitView // 서브뷰가 터치 가능하면 반환
+            }
+        }
+
+        return nil // 터치된 곳이 없으면 nil 반환
     }
 
     // MARK: - Set UI
@@ -158,10 +179,6 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     @objc func showCafeteriaTableViewDropDown() {
         isCafeteriaTableViewExpanded.toggle()
         
-        if isCafeteriaTableViewExpanded {
-            superview?.bringSubviewToFront(dropDownCafeteriaTableView)
-        }
-        
         // TODO: Durationg 값 조절
         UIView.animate(withDuration: 0.5) {
             self.dropDownCafeteriaTableView.isHidden = !self.isCafeteriaTableViewExpanded
@@ -170,10 +187,6 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     
     @objc func showMenuTableViewDropDown() {
         isMenuTableViewExpanded.toggle()
-        
-        if isMenuTableViewExpanded {
-            superview?.bringSubviewToFront(dropDownMenuTableView)
-        }
         
         // TODO: Durationg 값 조절
         UIView.animate(withDuration: 0.5) {
