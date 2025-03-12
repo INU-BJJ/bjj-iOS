@@ -18,6 +18,7 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     private var isMenuTableViewExpanded = false
     private let cafeteriaData = ["학생식당", "2호관식당", "1기숙사식당", "27호관 식당", "사범대식당"]
     private var menuData: [ReviewWriteSection] = []
+    private var dropDownMenuTableViewHeightConstraint: Constraint?
     
     // MARK: - UI Components
     
@@ -162,15 +163,13 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
         dropDownCafeteriaTableView.snp.makeConstraints {
             $0.top.equalTo(dropDownSelectCafeteriaButton.snp.bottom).inset(6)
             $0.horizontalEdges.equalToSuperview()
-            // TODO: 식당 개수에 따라 높이 동적 할당
             $0.height.equalTo(229)
         }
         
         dropDownMenuTableView.snp.makeConstraints {
             $0.top.equalTo(dropDownSelectMenuButton.snp.bottom).inset(6)
             $0.horizontalEdges.equalToSuperview()
-            // TODO: 메뉴 개수에 따라 높이 동적 할당
-            $0.height.equalTo(229)
+            self.dropDownMenuTableViewHeightConstraint = $0.height.equalTo(0).constraint
         }
     }
     
@@ -186,6 +185,9 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     }
     
     @objc func showMenuTableViewDropDown() {
+        let height = CGFloat(menuData.count) * 45.8
+        
+        dropDownMenuTableViewHeightConstraint?.update(offset: height)
         isMenuTableViewExpanded.toggle()
         
         // TODO: Durationg 값 조절
@@ -209,6 +211,10 @@ extension ReviewCategorySelect: UITableViewDelegate, UITableViewDataSource {
         return tableView == dropDownCafeteriaTableView
             ? cafeteriaData.count
             : menuData.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 45.8
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

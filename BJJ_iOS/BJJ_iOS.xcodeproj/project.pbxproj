@@ -275,6 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				3F03EEA72D5643F4007B3505 /* ReviewWriteViewController.swift */,
+				3FCF9B072D803C8E00FB8252 /* ReviewWriteCollectionViewLayout.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -287,7 +288,6 @@
 				3FF1E9282D66F96B00A237FA /* ReviewContent */,
 				3F31AADF2D675BE800FDCC35 /* ReviewAddPhoto */,
 				3F3265452D6C16A800AFC08E /* ReviewGuidelines */,
-				3FCF9B072D803C8E00FB8252 /* ReviewWriteCollectionViewLayout.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
