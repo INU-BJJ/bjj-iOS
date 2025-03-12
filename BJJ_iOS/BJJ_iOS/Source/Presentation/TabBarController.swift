@@ -16,8 +16,8 @@ final class TabBarController: UITabBarController {
         $0.image = UIImage(named: "Home")
     }
     
-    private let tierTab = UITabBarItem().then {
-        $0.title = "티어표"
+    private let rankingTab = UITabBarItem().then {
+        $0.title = "랭킹"
         $0.image = UIImage(named: "Tier")
     }
     
@@ -50,9 +50,8 @@ extension TabBarController {
         let homeVC = HomeViewController()
         let homeNavigationVC = UINavigationController(rootViewController: homeVC)
         
-        // TODO: tierViewController로 교체
-        let tierVC = HomeViewController()
-        let tierNavigationVC = UINavigationController(rootViewController: tierVC)
+        let rankingVC = MenuRankingViewController()
+        let rankingNavigationVC = UINavigationController(rootViewController: rankingVC)
         
         let reviewVC = MyReviewViewController()
         let reviewNavigationVC = UINavigationController(rootViewController: reviewVC)
@@ -61,10 +60,10 @@ extension TabBarController {
         let myPageVC = HomeViewController()
         let myPageNavigationVC = UINavigationController(rootViewController: myPageVC)
         
-        viewControllers = [homeNavigationVC, tierNavigationVC, reviewNavigationVC, myPageNavigationVC]
+        viewControllers = [homeNavigationVC, rankingNavigationVC, reviewNavigationVC, myPageNavigationVC]
         
         homeNavigationVC.tabBarItem = homeTab
-        tierNavigationVC.tabBarItem = tierTab
+        rankingNavigationVC.tabBarItem = rankingTab
         reviewNavigationVC.tabBarItem = reviewTab
         myPageNavigationVC.tabBarItem = myPageTab
     }
