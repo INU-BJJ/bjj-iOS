@@ -44,6 +44,7 @@ final class ReviewWriteViewController: UIViewController {
         $0.register(SeparatingLineView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: SeparatingLineView.reuseIdentifier)
         $0.delegate = self
         $0.dataSource = self
+        $0.showsVerticalScrollIndicator = false
     }
     
     private lazy var submitReviewButton = UIButton().makeConfirmButton(type: .submitReview).then {
@@ -96,7 +97,7 @@ final class ReviewWriteViewController: UIViewController {
     // MARK: - Create Layout
     
     private func createLayout() -> UICollectionViewLayout {
-        return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+        return ReviewWriteCollectionViewLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             switch sectionIndex {
             case 0:
                 return self.createCategorySelectSection()
