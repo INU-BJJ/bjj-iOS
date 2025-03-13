@@ -48,6 +48,8 @@ final class MenuRankingViewController: UIViewController {
         $0.showsVerticalScrollIndicator = false
         $0.dataSource = self
         $0.delegate = self
+        $0.backgroundColor = .customColor(.backgroundGray)
+        $0.separatorStyle = .none
     }
     
     // MARK: - LifeCycle
@@ -64,7 +66,7 @@ final class MenuRankingViewController: UIViewController {
     // MARK: - Set ViewController
     
     private func setViewController() {
-        view.backgroundColor = .white
+        view.backgroundColor = .customColor(.backgroundGray)
     }
     
     // MARK: - Set AddViews
@@ -120,7 +122,7 @@ final class MenuRankingViewController: UIViewController {
 
 extension MenuRankingViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -129,7 +131,14 @@ extension MenuRankingViewController: UITableViewDataSource, UITableViewDelegate 
         }
         
         cell.selectionStyle = .none
+        cell.setMenuRankingCell()
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        // TODO: 터치할 때 아래의 간격도 터치되는 문제 해결하기
+        // 셀 높이 54 + 셀 간격 13
+        return 67
     }
 }

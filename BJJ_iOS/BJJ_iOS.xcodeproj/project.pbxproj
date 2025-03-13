@@ -44,7 +44,7 @@
 		3F31AAE32D675C5700FDCC35 /* ReviewAddPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F31AAE22D675C5700FDCC35 /* ReviewAddPhoto.swift */; };
 		3F3265472D6C16F600AFC08E /* ReviewGuidelines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3265462D6C16F600AFC08E /* ReviewGuidelines.swift */; };
 		3F375BAA2D577323005015C1 /* ReviewCategorySelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F375BA92D577323005015C1 /* ReviewCategorySelect.swift */; };
-		3F3AB7D72CB397F40013FABA /* HomeMenuRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AB7D62CB397F40013FABA /* HomeMenuRatingView.swift */; };
+		3F3AB7D72CB397F40013FABA /* MenuRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AB7D62CB397F40013FABA /* MenuRatingView.swift */; };
 		3F3AB7D92CB3D59C0013FABA /* HomeTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AB7D82CB3D59C0013FABA /* HomeTopView.swift */; };
 		3F3AF8C72D75A54A00D6C28A /* ReviewWriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AF8C62D75A54A00D6C28A /* ReviewWriteModel.swift */; };
 		3F3AF8C92D75A55E00D6C28A /* ReviewWriteAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AF8C82D75A55E00D6C28A /* ReviewWriteAddress.swift */; };
@@ -170,7 +170,7 @@
 		3F31AAE22D675C5700FDCC35 /* ReviewAddPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewAddPhoto.swift; sourceTree = "<group>"; };
 		3F3265462D6C16F600AFC08E /* ReviewGuidelines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewGuidelines.swift; sourceTree = "<group>"; };
 		3F375BA92D577323005015C1 /* ReviewCategorySelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCategorySelect.swift; sourceTree = "<group>"; };
-		3F3AB7D62CB397F40013FABA /* HomeMenuRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMenuRatingView.swift; sourceTree = "<group>"; };
+		3F3AB7D62CB397F40013FABA /* MenuRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRatingView.swift; sourceTree = "<group>"; };
 		3F3AB7D82CB3D59C0013FABA /* HomeTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTopView.swift; sourceTree = "<group>"; };
 		3F3AF8C62D75A54A00D6C28A /* ReviewWriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteModel.swift; sourceTree = "<group>"; };
 		3F3AF8C82D75A55E00D6C28A /* ReviewWriteAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteAddress.swift; sourceTree = "<group>"; };
@@ -322,6 +322,7 @@
 				3F1613342CD87C1100A30369 /* ReviewHorizontalView.swift */,
 				3F1A51AB2CD8C38900029E09 /* SeparatingLineView.swift */,
 				3F8D58D92D787936009356AE /* NoticeView.swift */,
+				3F3AB7D62CB397F40013FABA /* MenuRatingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -499,7 +500,6 @@
 				3F3AB7D82CB3D59C0013FABA /* HomeTopView.swift */,
 				3F61DF4C2CB31B1A00A019E8 /* HomeCafeteriaCell.swift */,
 				3F61DF4E2CB31B2E00A019E8 /* HomeMenuCell.swift */,
-				3F3AB7D62CB397F40013FABA /* HomeMenuRatingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1261,7 +1261,7 @@
 				3FFAB73C2CF1CF0B00D09749 /* UINavigationItem++Extensions.swift in Sources */,
 				3FB984602D5378A30050D66A /* MyReviewDetailImageCell.swift in Sources */,
 				3F663E1B2D82D1500070E6CC /* MenuRankingCell.swift in Sources */,
-				3F3AB7D72CB397F40013FABA /* HomeMenuRatingView.swift in Sources */,
+				3F3AB7D72CB397F40013FABA /* MenuRatingView.swift in Sources */,
 				3FA055AC2D6B26ED00C72029 /* ReviewCategorySelectCell.swift in Sources */,
 				3FDC25602D6C7B3300ACBF8B /* MyReviewModel.swift in Sources */,
 				3FC691642D1D646A004643D2 /* IgnoreData.swift in Sources */,

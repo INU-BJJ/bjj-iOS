@@ -65,7 +65,7 @@ final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
         $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
     }
     
-    private let menuRatingView = HomeMenuRatingView()
+    private let menuRatingView = MenuRatingView()
     
     // TODO: 하트 아이콘 눌렀을 때, 아이콘 변경하기 (UIButton에서 makeHeartButton 함수 만들기)
     private let menuLikeButton = UIButton(type: .custom).then {
