@@ -38,8 +38,16 @@ final class MenuRankingViewController: UIViewController {
         $0.setLabelUI("업데이트", font: .pretendard_medium, size: 11, color: .darkGray)
     }
     
+    // TODO: 안내 모달 창
     private let informationButton = UIButton().then {
         $0.setImage(UIImage(named: "Information"), for: .normal)
+    }
+    
+    private lazy var menuRankingTableView = UITableView().then {
+        $0.register(MenuRankingCell.self, forCellReuseIdentifier: MenuRankingCell.reuseIdentifier)
+        $0.showsVerticalScrollIndicator = false
+        $0.dataSource = self
+        $0.delegate = self
     }
     
     // MARK: - LifeCycle
@@ -65,7 +73,8 @@ final class MenuRankingViewController: UIViewController {
         [
             menuRankingTitleLabel,
             menuRankingIcon,
-            dateUpdateStackView
+            dateUpdateStackView,
+            menuRankingTableView
         ].forEach(view.addSubview)
         
         [
@@ -93,6 +102,12 @@ final class MenuRankingViewController: UIViewController {
             $0.leading.equalToSuperview().offset(254)
             $0.trailing.equalToSuperview().inset(20)
         }
+        
+        menuRankingTableView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(142)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.bottom.equalToSuperview()
+        }
     }
     
     // MARK: - Set StackView
@@ -100,5 +115,21 @@ final class MenuRankingViewController: UIViewController {
     private func setStackView() {
         dateUpdateStackView.setCustomSpacing(5, after: dateLabel)
         dateUpdateStackView.setCustomSpacing(4, after: updateLabel)
+    }
+}
+
+extension MenuRankingViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MenuRankingCell.reuseIdentifier, for: indexPath) as? MenuRankingCell else {
+            return UITableViewCell()
+        }
+        
+        cell.selectionStyle = .none
+        
+        return cell
     }
 }
