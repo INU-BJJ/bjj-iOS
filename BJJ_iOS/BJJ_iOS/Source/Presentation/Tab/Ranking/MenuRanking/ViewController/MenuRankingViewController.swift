@@ -25,7 +25,7 @@ final class MenuRankingViewController: UIViewController {
         setConstraints()
     }
     
-    // MARK: - Set UI
+    // MARK: - Set ViewController
     
     private func setViewController() {
         
