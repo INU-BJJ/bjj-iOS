@@ -19,6 +19,10 @@ final class MenuRankingViewController: UIViewController {
         $0.setLabelUI("Menu Ranking", font: .racingSansOne, size: 30, color: .mainColor)
     }
     
+    private let menuRankingIcon = UIImageView().then {
+        $0.image = UIImage(named: "Ranking")
+    }
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -39,7 +43,8 @@ final class MenuRankingViewController: UIViewController {
     
     private func setAddView() {
         [
-            menuRankingTitleLabel
+            menuRankingTitleLabel,
+            menuRankingIcon
         ].forEach(view.addSubview)
     }
     
@@ -49,6 +54,11 @@ final class MenuRankingViewController: UIViewController {
         menuRankingTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(62)
             $0.leading.equalToSuperview().offset(20)
+        }
+        
+        menuRankingIcon.snp.makeConstraints {
+            $0.leading.equalTo(menuRankingTitleLabel.snp.trailing).offset(11)
+            $0.centerY.equalTo(menuRankingTitleLabel)
         }
     }
 }
