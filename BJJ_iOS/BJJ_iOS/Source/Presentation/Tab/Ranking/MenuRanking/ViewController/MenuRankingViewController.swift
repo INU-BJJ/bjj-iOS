@@ -15,6 +15,10 @@ final class MenuRankingViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private let menuRankingTitleLabel = UILabel().then {
+        $0.setLabelUI("Menu Ranking", font: .racingSansOne, size: 30, color: .mainColor)
+    }
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -28,20 +32,23 @@ final class MenuRankingViewController: UIViewController {
     // MARK: - Set ViewController
     
     private func setViewController() {
-        
+        view.backgroundColor = .white
     }
     
     // MARK: - Set AddViews
     
     private func setAddView() {
         [
-            
+            menuRankingTitleLabel
         ].forEach(view.addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        
+        menuRankingTitleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(62)
+            $0.leading.equalToSuperview().offset(20)
+        }
     }
 }
