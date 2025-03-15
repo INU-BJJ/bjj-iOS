@@ -53,7 +53,6 @@ final class MenuTopRankingCell: UITableViewCell, ReuseIdentifying {
         setUI()
         setAddView()
         setConstraints()
-        setMenuTopRankingCell()
     }
     
     required init?(coder: NSCoder) {
@@ -119,8 +118,19 @@ final class MenuTopRankingCell: UITableViewCell, ReuseIdentifying {
     
     // MARK: - Configure Cell
     
-    func setMenuTopRankingCell() {
+    func setMenuTopRankingCell(indexPath: IndexPath) {
         menuRatingView.configureRatingLabel(with: 4.2)
+        
+        switch indexPath.row {
+        case 0:
+            medalIcon.image = UIImage(named: "GoldMedal")
+        case 1:
+            medalIcon.image = UIImage(named: "SilverMedal")
+        case 2:
+            medalIcon.image = UIImage(named: "BronzeMedal")
+        default:
+            medalIcon.image = nil
+        }
     }
 }
 

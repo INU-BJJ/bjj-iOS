@@ -134,7 +134,7 @@ extension MenuRankingViewController: UITableViewDataSource, UITableViewDelegate 
             }
             
             cell.selectionStyle = .none
-            cell.setMenuTopRankingCell()
+            cell.setMenuTopRankingCell(indexPath: indexPath)
             
             return cell
         } else {
