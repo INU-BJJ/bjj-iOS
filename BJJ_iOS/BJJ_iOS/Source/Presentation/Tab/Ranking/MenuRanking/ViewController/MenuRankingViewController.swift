@@ -44,7 +44,9 @@ final class MenuRankingViewController: UIViewController {
     }
     
     private lazy var menuRankingTableView = UITableView().then {
+        // TODO: 그림자 효과
         $0.register(MenuRankingCell.self, forCellReuseIdentifier: MenuRankingCell.reuseIdentifier)
+        $0.register(MenuTopRankingCell.self, forCellReuseIdentifier: MenuTopRankingCell.reuseIdentifier)
         $0.showsVerticalScrollIndicator = false
         $0.dataSource = self
         $0.delegate = self
@@ -126,19 +128,35 @@ extension MenuRankingViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MenuRankingCell.reuseIdentifier, for: indexPath) as? MenuRankingCell else {
-            return UITableViewCell()
+        if indexPath.row < 3 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MenuTopRankingCell.reuseIdentifier, for: indexPath) as? MenuTopRankingCell else {
+                return UITableViewCell()
+            }
+            
+            cell.selectionStyle = .none
+            cell.setMenuTopRankingCell()
+            
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MenuRankingCell.reuseIdentifier, for: indexPath) as? MenuRankingCell else {
+                return UITableViewCell()
+            }
+            
+            cell.selectionStyle = .none
+            cell.setMenuRankingCell()
+            
+            return cell
         }
-        
-        cell.selectionStyle = .none
-        cell.setMenuRankingCell()
-        
-        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         // TODO: 터치할 때 아래의 간격도 터치되는 문제 해결하기
-        // 셀 높이 54 + 셀 간격 13
-        return 67
+        if indexPath.row < 3 {
+            // 셀 높이 69 + 셀 간격 13
+            return 82
+        } else {
+            // 셀 높이 54 + 셀 간격 13
+            return 67
+        }
     }
 }

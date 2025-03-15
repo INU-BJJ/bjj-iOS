@@ -1,5 +1,5 @@
 //
-//  MenuRankingCell.swift
+//  MenuTopRankingCell.swift
 //  BJJ_iOS
 //
 //  Created by HyoTaek on 3/13/25.
@@ -9,29 +9,34 @@ import UIKit
 import SnapKit
 import Then
 
-final class MenuRankingCell: UITableViewCell, ReuseIdentifying {
+final class MenuTopRankingCell: UITableViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
     
-    private let menuRankingCellView = UIView().then {
+    private let menuTopRankingCellView = UIView().then {
         // TODO: 그림자 효과
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 3
     }
     
-    private let rankingLabel = UILabel().then {
-        $0.setLabelUI("1", font: .pretendard_bold, size: 18, color: .black)
+    private let medalIcon = UIImageView().then {
+        $0.image = UIImage(named: "GoldMedal")
+    }
+    
+    private let menuImageView = UIImageView().then {
+        $0.image = UIImage(named: "MenuImage1")
+        $0.layer.cornerRadius = 3
+        $0.clipsToBounds = true
     }
     
     private let menuNameLabel = UILabel().then {
-        $0.setLabelUI("우삼겹 비빔면", font: .pretendard_bold, size: 15, color: .black)
+        $0.setLabelUI("연어 초밥", font: .pretendard_bold, size: 15, color: .black)
     }
     
     private let menuInfoStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.alignment = .trailing
-        $0.distribution = .fill
-        $0.spacing = 5
+        $0.axis = .horizontal
+        $0.alignment = .fill
+        $0.distribution = .equalSpacing
     }
     
     private let menuRatingView = MenuRatingView()
@@ -48,6 +53,7 @@ final class MenuRankingCell: UITableViewCell, ReuseIdentifying {
         setUI()
         setAddView()
         setConstraints()
+        setMenuTopRankingCell()
     }
     
     required init?(coder: NSCoder) {
@@ -63,13 +69,14 @@ final class MenuRankingCell: UITableViewCell, ReuseIdentifying {
     // MARK: - Set AddView
     
     private func setAddView() {
-        contentView.addSubview(menuRankingCellView)
+        contentView.addSubview(menuTopRankingCellView)
         
         [
-            rankingLabel,
+            medalIcon,
+            menuImageView,
             menuNameLabel,
             menuInfoStackView
-        ].forEach(menuRankingCellView.addSubview)
+        ].forEach(menuTopRankingCellView.addSubview)
         
         [
             menuRatingView,
@@ -80,34 +87,40 @@ final class MenuRankingCell: UITableViewCell, ReuseIdentifying {
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        menuRankingCellView.snp.makeConstraints {
+        menuTopRankingCellView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 13, right: 0))
         }
         
-        rankingLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(16)
+        medalIcon.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(8.08)
             $0.centerY.equalToSuperview()
+        }
+        
+        menuImageView.snp.makeConstraints {
+            // TODO: 질문) 1등 cell만 13.08로 되어 있음
+            $0.leading.equalTo(medalIcon.snp.trailing).offset(14.08)
+            $0.centerY.equalToSuperview()
+            $0.width.equalTo(71)
+            $0.height.equalTo(53)
         }
         
         menuNameLabel.snp.makeConstraints {
-            $0.leading.equalTo(rankingLabel.snp.trailing).offset(22)
-            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(menuImageView.snp.trailing).offset(12)
+            $0.top.equalToSuperview().offset(13)
         }
         
         menuInfoStackView.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(13)
-            $0.centerY.equalToSuperview()
-        }
-        
-        menuRatingView.snp.makeConstraints {
-            $0.width.equalTo(53)
+            $0.leading.equalTo(menuNameLabel)
+            $0.bottom.equalToSuperview().inset(8)
             $0.height.equalTo(21)
+            $0.trailing.equalToSuperview().inset(13)
         }
     }
     
     // MARK: - Configure Cell
     
-    func setMenuRankingCell() {
+    func setMenuTopRankingCell() {
         menuRatingView.configureRatingLabel(with: 4.2)
     }
 }
+
