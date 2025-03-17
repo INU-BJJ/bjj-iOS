@@ -68,6 +68,7 @@
 		3F663E1D2D82E86D0070E6CC /* MenuTopRankingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F663E1C2D82E86D0070E6CC /* MenuTopRankingCell.swift */; };
 		3F6947D42D88146F0036BF2A /* ReviewModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6947D32D88146F0036BF2A /* ReviewModalViewController.swift */; };
 		3F6947D62D8818430036BF2A /* ReviewInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6947D52D8818430036BF2A /* ReviewInfoView.swift */; };
+		3F6947DA2D8833CD0036BF2A /* ReviewModalImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6947D92D8833CD0036BF2A /* ReviewModalImageCell.swift */; };
 		3F6F565E2CB2975C00A43EF6 /* UIFont++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */; };
 		3F8430272CE7208000B5A2F1 /* UITabBar++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8430262CE7208000B5A2F1 /* UITabBar++Extensions.swift */; };
 		3F87423B2D4FB08E004DF204 /* MyReviewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F87423A2D4FB08E004DF204 /* MyReviewSection.swift */; };
@@ -197,6 +198,7 @@
 		3F663E1C2D82E86D0070E6CC /* MenuTopRankingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTopRankingCell.swift; sourceTree = "<group>"; };
 		3F6947D32D88146F0036BF2A /* ReviewModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModalViewController.swift; sourceTree = "<group>"; };
 		3F6947D52D8818430036BF2A /* ReviewInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewInfoView.swift; sourceTree = "<group>"; };
+		3F6947D92D8833CD0036BF2A /* ReviewModalImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModalImageCell.swift; sourceTree = "<group>"; };
 		3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extensions.swift"; sourceTree = "<group>"; };
 		3F8430262CE7208000B5A2F1 /* UITabBar++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar++Extensions.swift"; sourceTree = "<group>"; };
 		3F87423A2D4FB08E004DF204 /* MyReviewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewSection.swift; sourceTree = "<group>"; };
@@ -876,6 +878,7 @@
 			isa = PBXGroup;
 			children = (
 				3F6947D52D8818430036BF2A /* ReviewInfoView.swift */,
+				3F6947D92D8833CD0036BF2A /* ReviewModalImageCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1353,6 +1356,7 @@
 				3F16131F2CD84D0E00A30369 /* MenuInfoCell.swift in Sources */,
 				3F1613212CD84E0800A30369 /* MenuInfoHeaderView.swift in Sources */,
 				3F996E572CD649C100910DE7 /* UIViewController++Extensions.swift in Sources */,
+				3F6947DA2D8833CD0036BF2A /* ReviewModalImageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

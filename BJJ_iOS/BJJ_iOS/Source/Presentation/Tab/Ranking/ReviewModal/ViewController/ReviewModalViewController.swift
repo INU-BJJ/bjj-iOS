@@ -27,6 +27,13 @@ final class ReviewModalViewController: UIViewController {
     
     private let reviewInfoView = ReviewInfoView()
     
+    private let reviewTextView = UITextView().then {
+        $0.setTextViewUI("떡볶이 맛있당", font: .pretendard_medium, size: 13, color: .black)
+        $0.isScrollEnabled = false
+        $0.textContainerInset = UIEdgeInsets.zero
+        $0.textContainer.lineFragmentPadding = 0
+    }
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -51,7 +58,8 @@ final class ReviewModalViewController: UIViewController {
         ].forEach(view.addSubview)
         
         [
-            reviewInfoView
+            reviewInfoView,
+            reviewTextView
         ].forEach(reviewModalStackView.addArrangedSubview)
     }
     
@@ -62,6 +70,10 @@ final class ReviewModalViewController: UIViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(132)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(108)
+        }
+        
+        reviewInfoView.snp.makeConstraints {
+            $0.height.equalTo(41)
         }
     }
 }
