@@ -15,6 +15,18 @@ final class ReviewModalViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private let reviewModalStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 12
+        $0.alignment = .fill
+        $0.distribution = .fill
+        $0.backgroundColor = .white
+        $0.layoutMargins = UIEdgeInsets(top: 17, left: 14, bottom: 17, right: 14)
+        $0.isLayoutMarginsRelativeArrangement = true
+    }
+    
+    private let reviewInfoView = ReviewInfoView()
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -35,13 +47,21 @@ final class ReviewModalViewController: UIViewController {
     
     private func setAddView() {
         [
-            
+            reviewModalStackView
         ].forEach(view.addSubview)
+        
+        [
+            reviewInfoView
+        ].forEach(reviewModalStackView.addArrangedSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        
+        reviewModalStackView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(132)
+            $0.horizontalEdges.equalToSuperview().inset(16)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(108)
+        }
     }
 }
