@@ -11,6 +11,7 @@ import Then
 import Kingfisher
 
 final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
+    
     // MARK: - UI Components
     
     private let menuStackView = UIStackView().then {
@@ -65,7 +66,7 @@ final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
         $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
     }
     
-    private let menuRatingView = HomeMenuRatingView()
+    private let menuRatingView = MenuRatingView()
     
     // TODO: 하트 아이콘 눌렀을 때, 아이콘 변경하기 (UIButton에서 makeHeartButton 함수 만들기)
     private let menuLikeButton = UIButton(type: .custom).then {
@@ -89,6 +90,12 @@ final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        setShadow()
     }
     
     // MARK: - Set UI
@@ -166,6 +173,17 @@ final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
         }
         cafeteriaLabel.text = "\(cafeteriaName) \(cafeteriaCorner)"
         menuRatingView.configureRatingLabel(with: menuRating)
+    }
+    
+    // MARK: - Set Shadow
+    
+    private func setShadow() {
+        self.clipsToBounds = false
+        self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: 3).cgPath
+        self.layer.shadowColor = UIColor(red: 0.047, green: 0.047, blue: 0.051, alpha: 0.05).cgColor
+        self.layer.shadowOpacity = 1
+        self.layer.shadowRadius = 4
+        self.layer.shadowOffset = CGSize(width: 0, height: 1)
     }
 }
 

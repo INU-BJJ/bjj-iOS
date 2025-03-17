@@ -30,6 +30,7 @@ final class HomeViewController: UIViewController {
         $0.backgroundColor = .customColor(.backgroundGray)
         $0.delegate = self
         $0.dataSource = self
+        $0.showsVerticalScrollIndicator = false
     }
     
     // MARK: - LifeCycle

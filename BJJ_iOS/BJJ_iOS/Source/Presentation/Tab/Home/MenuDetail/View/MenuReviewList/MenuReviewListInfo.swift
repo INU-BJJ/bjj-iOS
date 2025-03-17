@@ -49,8 +49,10 @@ final class MenuReviewListInfo: UICollectionViewCell, ReuseIdentifying {
         $0.setLabelUI("", font: .pretendard_bold, size: 15, color: .black)
     }
     
+    // TODO: bottom 제약 조건 다시 확인하기
     private let reviewRatingView = ReviewHorizontalView()
     
+    // TODO: bottom 제약 조건 다시 확인하기
     private let reviewDateLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 13, color: .darkGray)
     }
