@@ -44,7 +44,6 @@ final class MenuRankingViewController: UIViewController {
     }
     
     private lazy var menuRankingTableView = UITableView().then {
-        // TODO: 그림자 효과
         $0.register(MenuRankingCell.self, forCellReuseIdentifier: MenuRankingCell.reuseIdentifier)
         $0.register(MenuTopRankingCell.self, forCellReuseIdentifier: MenuTopRankingCell.reuseIdentifier)
         $0.showsVerticalScrollIndicator = false

@@ -14,7 +14,6 @@ final class MenuRankingCell: UITableViewCell, ReuseIdentifying {
     // MARK: - UI Components
     
     private let menuRankingCellView = UIView().then {
-        // TODO: 그림자 효과
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 3
     }
@@ -52,6 +51,12 @@ final class MenuRankingCell: UITableViewCell, ReuseIdentifying {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        setShadow(to: menuRankingCellView)
     }
     
     // MARK: - Set UI
@@ -109,5 +114,15 @@ final class MenuRankingCell: UITableViewCell, ReuseIdentifying {
     
     func setMenuRankingCell() {
         menuRatingView.configureRatingLabel(with: 4.2)
+    }
+    
+    // MARK: - Set Shadow
+    
+    private func setShadow(to view: UIView) {
+        view.layer.shadowPath = UIBezierPath(roundedRect: view.bounds, cornerRadius: 3).cgPath
+        view.layer.shadowColor = UIColor(red: 0.047, green: 0.047, blue: 0.051, alpha: 0.05).cgColor
+        view.layer.shadowOpacity = 1
+        view.layer.shadowRadius = 4
+        view.layer.shadowOffset = CGSize(width: 0, height: 1)
     }
 }
