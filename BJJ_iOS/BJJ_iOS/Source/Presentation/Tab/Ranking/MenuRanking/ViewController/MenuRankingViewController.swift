@@ -158,4 +158,11 @@ extension MenuRankingViewController: UITableViewDataSource, UITableViewDelegate 
             return 67
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let reviewModalVC = ReviewModalViewController()
+        reviewModalVC.modalPresentationStyle = .overCurrentContext
+        
+        present(reviewModalVC, animated: true)
+    }
 }
