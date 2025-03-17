@@ -11,6 +11,7 @@ import Then
 import Kingfisher
 
 final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
+    
     // MARK: - UI Components
     
     private let menuStackView = UIStackView().then {
@@ -91,6 +92,12 @@ final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        setShadow()
+    }
+    
     // MARK: - Set UI
         
     private func setUI() {
@@ -166,6 +173,17 @@ final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
         }
         cafeteriaLabel.text = "\(cafeteriaName) \(cafeteriaCorner)"
         menuRatingView.configureRatingLabel(with: menuRating)
+    }
+    
+    // MARK: - Set Shadow
+    
+    private func setShadow() {
+        self.clipsToBounds = false
+        self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: 3).cgPath
+        self.layer.shadowColor = UIColor(red: 0.047, green: 0.047, blue: 0.051, alpha: 0.05).cgColor
+        self.layer.shadowOpacity = 1
+        self.layer.shadowRadius = 4
+        self.layer.shadowOffset = CGSize(width: 0, height: 1)
     }
 }
 
