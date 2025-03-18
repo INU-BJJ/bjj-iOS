@@ -19,11 +19,11 @@ final class MenuRankingCell: UITableViewCell, ReuseIdentifying {
     }
     
     private let rankingLabel = UILabel().then {
-        $0.setLabelUI("1", font: .pretendard_bold, size: 18, color: .black)
+        $0.setLabelUI("", font: .pretendard_bold, size: 18, color: .black)
     }
     
     private let menuNameLabel = UILabel().then {
-        $0.setLabelUI("우삼겹 비빔면", font: .pretendard_bold, size: 15, color: .black)
+        $0.setLabelUI("", font: .pretendard_bold, size: 15, color: .black)
     }
     
     private let menuInfoStackView = UIStackView().then {
@@ -36,7 +36,7 @@ final class MenuRankingCell: UITableViewCell, ReuseIdentifying {
     private let menuRatingView = MenuRatingView()
     
     private let cafeteriaNameLabel = UILabel().then {
-        $0.setLabelUI("학생식당 2코너", font: .pretendard, size: 11, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard, size: 11, color: .darkGray)
     }
     
     // MARK: - Life Cycle
@@ -112,8 +112,11 @@ final class MenuRankingCell: UITableViewCell, ReuseIdentifying {
     
     // MARK: - Configure Cell
     
-    func setMenuRankingCell() {
-        menuRatingView.configureRatingLabel(with: 4.2)
+    func setMenuRankingCell(with menu: MenuRankingSection, indexPath: IndexPath) {
+        rankingLabel.text = "\(indexPath.row + 1)"
+        menuNameLabel.text = menu.menuName
+        menuRatingView.configureRatingLabel(with: menu.menuRating)
+        cafeteriaNameLabel.text = "\(menu.cafeteriaName) \(menu.cafeteriaCorner)"
     }
     
     // MARK: - Set Shadow
