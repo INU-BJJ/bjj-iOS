@@ -13,6 +13,7 @@ final class ReviewModalViewController: UIViewController {
     
     // MARK: - Properties
     
+    private var bestReviewID: Int
     private let reviewImages: [String] = ["MenuImage2"]
     
     // MARK: - UI Components
@@ -49,6 +50,15 @@ final class ReviewModalViewController: UIViewController {
     }
     
     // MARK: - LifeCycle
+    
+    init(bestReviewID: Int) {
+        self.bestReviewID = bestReviewID
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

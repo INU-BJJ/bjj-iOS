@@ -210,7 +210,7 @@ extension MenuRankingViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let reviewModalVC = ReviewModalViewController()
+        let reviewModalVC = ReviewModalViewController(bestReviewID: menuRankingData[indexPath.row].bestReviewID)
         reviewModalVC.modalPresentationStyle = .overCurrentContext
         
         present(reviewModalVC, animated: true)

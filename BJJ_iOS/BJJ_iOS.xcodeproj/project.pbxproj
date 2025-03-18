@@ -60,6 +60,9 @@
 		3F43F0DE2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0DD2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift */; };
 		3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F47B9E72CD7716C00F8E2CB /* UIImage++Extensions.swift */; };
 		3F4831E52D89610300B138A2 /* MenuRankingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4831E42D89610300B138A2 /* MenuRankingSection.swift */; };
+		3F4831EA2D897C2E00B138A2 /* ReviewModalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4831E92D897C2E00B138A2 /* ReviewModalModel.swift */; };
+		3F4831EC2D897C3B00B138A2 /* ReviewModalAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4831EB2D897C3B00B138A2 /* ReviewModalAddress.swift */; };
+		3F4831EE2D897C4B00B138A2 /* ReviewModalAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4831ED2D897C4B00B138A2 /* ReviewModalAPI.swift */; };
 		3F4AB2232D5A0819005D5D91 /* ReviewStarSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4AB2222D5A0819005D5D91 /* ReviewStarSize.swift */; };
 		3F4B09252CE1FC31005C56C2 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4B09242CE1FC31005C56C2 /* TabBarController.swift */; };
 		3F5617B82CF3312400B4912D /* MenuReviewImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5617B72CF3312400B4912D /* MenuReviewImageCell.swift */; };
@@ -194,6 +197,9 @@
 		3F43F0DD2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewAPI.swift; sourceTree = "<group>"; };
 		3F47B9E72CD7716C00F8E2CB /* UIImage++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage++Extensions.swift"; sourceTree = "<group>"; };
 		3F4831E42D89610300B138A2 /* MenuRankingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRankingSection.swift; sourceTree = "<group>"; };
+		3F4831E92D897C2E00B138A2 /* ReviewModalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModalModel.swift; sourceTree = "<group>"; };
+		3F4831EB2D897C3B00B138A2 /* ReviewModalAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModalAddress.swift; sourceTree = "<group>"; };
+		3F4831ED2D897C4B00B138A2 /* ReviewModalAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModalAPI.swift; sourceTree = "<group>"; };
 		3F4AB2222D5A0819005D5D91 /* ReviewStarSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewStarSize.swift; sourceTree = "<group>"; };
 		3F4B09242CE1FC31005C56C2 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		3F5617B72CF3312400B4912D /* MenuReviewImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewImageCell.swift; sourceTree = "<group>"; };
@@ -586,9 +592,8 @@
 		3F311D712D88600D00F8D803 /* Ranking */ = {
 			isa = PBXGroup;
 			children = (
-				3F311D722D88602100F8D803 /* Model */,
-				3F311D732D88603B00F8D803 /* RankingAddress.swift */,
-				3F311D752D88604400F8D803 /* RankingAPI.swift */,
+				3F4831E62D897B7C00B138A2 /* MenuRanking */,
+				3F4831E72D897BA400B138A2 /* ReviewModal */,
 			);
 			path = Ranking;
 			sourceTree = "<group>";
@@ -658,6 +663,34 @@
 			isa = PBXGroup;
 			children = (
 				3F43F0DB2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3F4831E62D897B7C00B138A2 /* MenuRanking */ = {
+			isa = PBXGroup;
+			children = (
+				3F311D722D88602100F8D803 /* Model */,
+				3F311D732D88603B00F8D803 /* RankingAddress.swift */,
+				3F311D752D88604400F8D803 /* RankingAPI.swift */,
+			);
+			path = MenuRanking;
+			sourceTree = "<group>";
+		};
+		3F4831E72D897BA400B138A2 /* ReviewModal */ = {
+			isa = PBXGroup;
+			children = (
+				3F4831E82D897BB700B138A2 /* Model */,
+				3F4831EB2D897C3B00B138A2 /* ReviewModalAddress.swift */,
+				3F4831ED2D897C4B00B138A2 /* ReviewModalAPI.swift */,
+			);
+			path = ReviewModal;
+			sourceTree = "<group>";
+		};
+		3F4831E82D897BB700B138A2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F4831E92D897C2E00B138A2 /* ReviewModalModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1303,6 +1336,7 @@
 				3F663E1B2D82D1500070E6CC /* MenuRankingCell.swift in Sources */,
 				3F3AB7D72CB397F40013FABA /* MenuRatingView.swift in Sources */,
 				3FA055AC2D6B26ED00C72029 /* ReviewCategorySelectCell.swift in Sources */,
+				3F4831EC2D897C3B00B138A2 /* ReviewModalAddress.swift in Sources */,
 				3FDC25602D6C7B3300ACBF8B /* MyReviewModel.swift in Sources */,
 				3FC691642D1D646A004643D2 /* IgnoreData.swift in Sources */,
 				3F61DF532CB320A900A019E8 /* UIButton++Extensions.swift in Sources */,
@@ -1319,6 +1353,7 @@
 				3FDC25642D6C7B5600ACBF8B /* MyReviewAPI.swift in Sources */,
 				3FB984622D5389710050D66A /* MyReviewDetailHashTagCell.swift in Sources */,
 				3F16131D2CD8487800A30369 /* MenuInfo.swift in Sources */,
+				3F4831EE2D897C4B00B138A2 /* ReviewModalAPI.swift in Sources */,
 				3FF6CAC32D50A544006ED4F3 /* MyReviewFooterView.swift in Sources */,
 				3F311D782D88609900F8D803 /* RankingModel.swift in Sources */,
 				3F2B0EBA2D7997D80059AA2B /* MyReviewDetailAPI.swift in Sources */,
@@ -1340,6 +1375,7 @@
 				3F61DF512CB31CCD00A019E8 /* UILabel++Extensions.swift in Sources */,
 				3F87423B2D4FB08E004DF204 /* MyReviewSection.swift in Sources */,
 				3F311D762D88604400F8D803 /* RankingAPI.swift in Sources */,
+				3F4831EA2D897C2E00B138A2 /* ReviewModalModel.swift in Sources */,
 				3F3AF8CF2D75AB6300D6C28A /* ReviewWriteSection.swift in Sources */,
 				3F31AAE32D675C5700FDCC35 /* ReviewAddPhoto.swift in Sources */,
 				3F375BAA2D577323005015C1 /* ReviewCategorySelect.swift in Sources */,
