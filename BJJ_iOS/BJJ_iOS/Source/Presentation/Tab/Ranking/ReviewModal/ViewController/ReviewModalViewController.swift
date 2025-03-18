@@ -14,6 +14,7 @@ final class ReviewModalViewController: UIViewController {
     // MARK: - Properties
     
     private var bestReviewID: Int
+    private var bestReviewData: BestReviewSection?
     private let reviewImages: [String] = ["MenuImage2"]
     
     // MARK: - UI Components
@@ -66,6 +67,7 @@ final class ReviewModalViewController: UIViewController {
         setViewController()
         setAddView()
         setConstraints()
+        fetchBestReview(bestReviewID: bestReviewID)
     }
     
     // MARK: - Set ViewController
@@ -163,6 +165,38 @@ final class ReviewModalViewController: UIViewController {
     
     @objc private func dismissModal() {
         dismiss(animated: true)
+    }
+    
+    // MARK: - API Function
+    
+    private func fetchBestReview(bestReviewID: Int) {
+        ReviewModalAPI.fetchBestReview(bestReviewID: bestReviewID) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let bestReview):
+                let bestReviewData = BestReviewSection(
+                    reviewID: bestReview.reviewID,
+                    comment: bestReview.comment,
+                    reviewRating: bestReview.reviewRating,
+                    reviewImages: bestReview.reviewImages,
+                    reviewLikeCount: bestReview.reviewLikeCount,
+                    reviewCreatedDate: bestReview.reviewCreatedDate,
+                    menuPairID: bestReview.menuPairID,
+                    mainMenuName: bestReview.mainMenuName,
+                    subMenuName: bestReview.subMenuName,
+                    memberID: bestReview.memberID,
+                    memberNickname: bestReview.memberNickname,
+                    memberImage: bestReview.memberImage ?? "",
+                    isOwned: bestReview.isOwned,
+                    isLiked: bestReview.isLiked
+                )
+                self.bestReviewData = bestReviewData
+                
+            case .failure(let error):
+                print("Error fetching menu data: \(error.localizedDescription)")
+            }
+        }
     }
 }
 
