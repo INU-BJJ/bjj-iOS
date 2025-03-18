@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Kingfisher
 
 final class MenuTopRankingCell: UITableViewCell, ReuseIdentifying {
     
@@ -18,18 +19,15 @@ final class MenuTopRankingCell: UITableViewCell, ReuseIdentifying {
         $0.layer.cornerRadius = 3
     }
     
-    private let medalIcon = UIImageView().then {
-        $0.image = UIImage(named: "GoldMedal")
-    }
+    private let medalIcon = UIImageView()
     
     private let menuImageView = UIImageView().then {
-        $0.image = UIImage(named: "MenuImage1")
         $0.layer.cornerRadius = 3
         $0.clipsToBounds = true
     }
     
     private let menuNameLabel = UILabel().then {
-        $0.setLabelUI("연어 초밥", font: .pretendard_bold, size: 15, color: .black)
+        $0.setLabelUI("", font: .pretendard_bold, size: 15, color: .black)
     }
     
     private let menuInfoStackView = UIStackView().then {
@@ -41,7 +39,7 @@ final class MenuTopRankingCell: UITableViewCell, ReuseIdentifying {
     private let menuRatingView = MenuRatingView()
     
     private let cafeteriaNameLabel = UILabel().then {
-        $0.setLabelUI("학생식당 2코너", font: .pretendard, size: 11, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard, size: 11, color: .darkGray)
     }
     
     // MARK: - Life Cycle
@@ -123,9 +121,7 @@ final class MenuTopRankingCell: UITableViewCell, ReuseIdentifying {
     
     // MARK: - Configure Cell
     
-    func setMenuTopRankingCell(indexPath: IndexPath) {
-        menuRatingView.configureRatingLabel(with: 4.2)
-        
+    func setMenuTopRankingCell(with menu: MenuRankingSection, indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
             medalIcon.image = UIImage(named: "GoldMedal")
@@ -136,6 +132,16 @@ final class MenuTopRankingCell: UITableViewCell, ReuseIdentifying {
         default:
             medalIcon.image = nil
         }
+        
+        if menu.reviewImage == "HomeDefaultMenuImage" {
+            menuImageView.image = UIImage(named: menu.reviewImage)
+        } else {
+            menuImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(menu.reviewImage)"))
+        }
+        
+        menuNameLabel.text = menu.menuName
+        menuRatingView.configureRatingLabel(with: menu.menuRating)
+        cafeteriaNameLabel.text = "\(menu.cafeteriaName) \(menu.cafeteriaCorner)"
     }
     
     // MARK: - Set Shadow

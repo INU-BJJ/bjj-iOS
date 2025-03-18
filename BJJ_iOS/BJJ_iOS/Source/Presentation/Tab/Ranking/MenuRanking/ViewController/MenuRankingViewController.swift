@@ -13,6 +13,12 @@ final class MenuRankingViewController: UIViewController {
     
     // MARK: - Properties
     
+    private var menuRankingData: [MenuRankingSection] = []
+    
+    // TODO: 무한 스크롤 되도록 구현
+    private var currentPageNumber = 0
+    private var currentPageSize = 10
+    
     // MARK: - UI Components
     
     private let menuRankingTitleLabel = UILabel().then {
@@ -62,6 +68,12 @@ final class MenuRankingViewController: UIViewController {
         setAddView()
         setConstraints()
         setStackView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchMenuRanking(pageNumber: currentPageNumber, pageSize: currentPageSize)
     }
     
     // MARK: - Set ViewController
@@ -119,11 +131,48 @@ final class MenuRankingViewController: UIViewController {
         dateUpdateStackView.setCustomSpacing(5, after: dateLabel)
         dateUpdateStackView.setCustomSpacing(4, after: updateLabel)
     }
+    
+    // MARK: - API Function
+    
+    private func fetchMenuRanking(pageNumber: Int, pageSize: Int) {
+        RankingAPI.fetchRankingList(
+            pageNumber: pageNumber,
+            pageSize: pageSize) { [weak self] result in
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let menuRanking):
+                    let menuRankingListData = MenuRankingListSection(
+                        menuRankingList: menuRanking.menuRankingList.map { menu in
+                            MenuRankingSection(
+                                menuID: menu.menuID,
+                                menuName: menu.menuName,
+                                menuRating: menu.menuRating,
+                                cafeteriaName: menu.cafeteriaName,
+                                cafeteriaCorner: menu.cafeteriaCorner,
+                                bestReviewID: menu.bestReviewID,
+                                reviewImage: menu.reviewImage ?? "HomeDefaultMenuImage",
+                                updatedDate: menu.updatedDate
+                            )
+                        },
+                        isLastPage: menuRanking.isLastPage
+                    )
+                    
+                    DispatchQueue.main.async {
+                        self.menuRankingData = menuRankingListData.menuRankingList
+                        self.menuRankingTableView.reloadData()
+                    }
+                 
+                case .failure(let error):
+                    print("Error fetching menu data: \(error.localizedDescription)")
+                }
+            }
+    }
 }
 
 extension MenuRankingViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        menuRankingData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -133,7 +182,7 @@ extension MenuRankingViewController: UITableViewDataSource, UITableViewDelegate 
             }
             
             cell.selectionStyle = .none
-            cell.setMenuTopRankingCell(indexPath: indexPath)
+            cell.setMenuTopRankingCell(with: menuRankingData[indexPath.row], indexPath: indexPath)
             
             return cell
         } else {

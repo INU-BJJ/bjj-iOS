@@ -14,7 +14,7 @@ struct MenuRankingInfo: Hashable, Codable {
     let cafeteriaName: String
     let cafeteriaCorner: String
     let bestReviewID: Int
-    let reviewImage: String
+    let reviewImage: String?
     let updatedDate: String
     
     enum CodingKeys: String, CodingKey {
