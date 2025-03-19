@@ -72,9 +72,11 @@ final class ReviewModalViewController: UIViewController {
     // MARK: - Set ViewController
     
     private func setViewController() {
+        let tapGestureInView = UITapGestureRecognizer(target: self, action: #selector(dismissModal))
+        tapGestureInView.cancelsTouchesInView = false
+        
+        view.addGestureRecognizer(tapGestureInView)
         view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
-        // TODO: 현재 VC의 어느 부분을 눌러도 dismissModal이 실행됨.
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissModal)))
     }
     
     // MARK: - Set AddViews
@@ -163,8 +165,12 @@ final class ReviewModalViewController: UIViewController {
     
     // MARK: - Objc Function
     
-    @objc private func dismissModal() {
-        dismiss(animated: true)
+    @objc private func dismissModal(_ sender: UITapGestureRecognizer) {
+        let touchPoint = sender.location(in: view)
+            
+        if !reviewModalStackView.frame.contains(touchPoint) {
+            dismiss(animated: true)
+        }
     }
     
     // MARK: - API Function
