@@ -14,6 +14,7 @@ enum Fonts {
     case pretendard_medium      // 500
     case pretendard // pretendard_regular와 같음. 400
     case pretendard_light       // 300
+    case racingSansOne
 }
 
 extension UIFont {
@@ -29,6 +30,8 @@ extension UIFont {
             return .pretendard(ofSize: size, weight: .regular)
         case .pretendard_light:
             return .pretendard(ofSize: size, weight: .light)
+        case .racingSansOne:
+            return UIFont(name: "RacingSansOne-Regular", size: size) ?? .pretendard(ofSize: size, weight: .medium)
         }
     }
 }

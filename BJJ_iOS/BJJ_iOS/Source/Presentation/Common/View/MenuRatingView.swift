@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class HomeMenuRatingView: UIView {
+final class MenuRatingView: UIView {
     
     // MARK: Properties
     
@@ -62,6 +62,7 @@ final class HomeMenuRatingView: UIView {
         
         ratingLabel.snp.makeConstraints {
             $0.leading.equalTo(starIcon.snp.trailing).offset(5)
+            $0.trailing.equalToSuperview().inset(6)
             $0.centerY.equalToSuperview()
         }
     }
