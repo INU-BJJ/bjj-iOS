@@ -10,9 +10,8 @@ import SnapKit
 import Then
 
 final class HomeCafeteriaCell: UICollectionViewCell, ReuseIdentifying {
-    // MARK: - UI Components
     
-    // TODO: 선택 여부에 따라 텍스트 색 변경하기
+    // MARK: - UI Components
     
     private let cafeteriaCellView = UIView().then {
         $0.layer.cornerRadius = 33 / 2

@@ -46,6 +46,8 @@ final class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // TODO: 홈 탭으로 돌아올 때마다 무조건 학생식당 메뉴로 돌아옴. 이전에 선택한 식당으로 돌아가도록 설계 변경?
+        reloadCafeteriaSection()
         fetchAllMenuData(cafeteriaName: "학생식당")
     }
     
@@ -171,6 +173,13 @@ final class HomeViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - Reload CafeteriaSection
+    
+    private func reloadCafeteriaSection() {
+        presentCafeteriaIndex = 0
+        collectionView.reloadSections(IndexSet(integer: 0))
+    }
 }
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -213,6 +222,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // TODO: 색 변환 애니메이션 넣을지 말지
+        
         let selectedSection = indexPath.section
         
         if selectedSection == 0 { // 식당 섹션에서 선택 시
