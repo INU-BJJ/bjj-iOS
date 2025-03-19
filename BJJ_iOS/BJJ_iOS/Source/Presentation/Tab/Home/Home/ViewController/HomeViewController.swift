@@ -86,7 +86,7 @@ final class HomeViewController: UIViewController {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(homeTopView.snp.bottom).offset(18)
             $0.horizontalEdges.equalToSuperview().inset(21)
-            $0.bottom.equalToSuperview().offset(-265)
+            $0.bottom.equalToSuperview()
         }
     }
     
@@ -106,7 +106,7 @@ final class HomeViewController: UIViewController {
     }
     
     private func createCafeteriaSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(124), heightDimension: .absolute(33))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(124), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(2.0), heightDimension: .absolute(33))
@@ -121,10 +121,10 @@ final class HomeViewController: UIViewController {
     }
     
     private func createMenuSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(240))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
