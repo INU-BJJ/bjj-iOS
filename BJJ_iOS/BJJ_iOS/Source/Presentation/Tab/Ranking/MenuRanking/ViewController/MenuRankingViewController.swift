@@ -14,10 +14,10 @@ final class MenuRankingViewController: UIViewController {
     // MARK: - Properties
     
     private var menuRankingData: [MenuRankingSection] = []
-    
-    // TODO: 무한 스크롤 되도록 구현
     private var currentPageNumber = 0
-    private var currentPageSize = 10
+    private var pageSize = 10
+    private var isFetching = false
+    private var isLastPage = false
     
     // MARK: - UI Components
     
@@ -74,7 +74,7 @@ final class MenuRankingViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        fetchMenuRanking(pageNumber: currentPageNumber, pageSize: currentPageSize)
+        fetchMenuRanking(pageNumber: currentPageNumber, pageSize: pageSize)
     }
     
     // MARK: - Set ViewController
@@ -136,6 +136,9 @@ final class MenuRankingViewController: UIViewController {
     // MARK: - API Function
     
     private func fetchMenuRanking(pageNumber: Int, pageSize: Int) {
+        guard !isFetching, !isLastPage else { return }
+        isFetching = true
+        
         RankingAPI.fetchRankingList(
             pageNumber: pageNumber,
             pageSize: pageSize) { [weak self] result in
@@ -160,10 +163,12 @@ final class MenuRankingViewController: UIViewController {
                     )
                     
                     DispatchQueue.main.async {
-                        self.menuRankingData = menuRankingListData.menuRankingList
+                        self.menuRankingData.append(contentsOf: menuRankingListData.menuRankingList)
+                        self.isLastPage = menuRankingListData.isLastPage
                         self.menuRankingTableView.reloadData()
+                        self.isFetching = false
                     }
-                 
+                    
                 case .failure(let error):
                     print("Error fetching menu data: \(error.localizedDescription)")
                 }
@@ -214,5 +219,18 @@ extension MenuRankingViewController: UITableViewDataSource, UITableViewDelegate 
         reviewModalVC.modalPresentationStyle = .overCurrentContext
         
         present(reviewModalVC, animated: true)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !isFetching, !isLastPage else { return }
+        
+        let currentScrollLoacation = scrollView.contentOffset.y            // 현재 스크롤 위치
+        let contentHeight = scrollView.contentSize.height   // 스크롤 가능한 전체 콘텐츠 높이
+        let frameHeight = scrollView.frame.size.height      // 스크롤뷰가 차지하는 실제 UI 높이
+        
+        if currentScrollLoacation > contentHeight - frameHeight - UIScreen.main.bounds.height * 0.1 && !isLastPage {
+            currentPageNumber += 1
+            fetchMenuRanking(pageNumber: currentPageNumber, pageSize: pageSize)
+        }
     }
 }
