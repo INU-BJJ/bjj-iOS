@@ -55,9 +55,7 @@ final class ReviewModalImageCell: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Configure Cell
     
     func configureReviewImageCell(with imageName: String, cornerStyle: UIRectCorner) {
-        // TODO: 서버 이미지로 교체
-//        reviewImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(imageName)"))
-        reviewImageView.image = UIImage(named: imageName)
+        reviewImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(imageName)"))
         applyCorners(cornerStyle: cornerStyle)
     }
     

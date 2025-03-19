@@ -14,8 +14,7 @@ final class ReviewModalViewController: UIViewController {
     // MARK: - Properties
     
     private var bestReviewID: Int
-    private var bestReviewData: BestReviewSection?
-    private let reviewImages: [String] = ["MenuImage2"]
+    private var reviewImages: [String] = []
     
     // MARK: - UI Components
     
@@ -33,7 +32,7 @@ final class ReviewModalViewController: UIViewController {
     private let reviewInfoView = ReviewInfoView()
     
     private let reviewTextLabel = UILabel().then {
-        $0.setLabelUI("핫도그는 냉동인데\n떡볶이는 맛있음\n맛도 있고 가격도 착해서 떡볶이 땡길 때 추천", font: .pretendard_medium, size: 13, color: .black)
+        $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
         $0.setLineSpacing(kernValue: 0.13, lineHeightMultiple: 1.1)
         $0.numberOfLines = 0
         $0.lineBreakMode = .byWordWrapping
@@ -74,6 +73,7 @@ final class ReviewModalViewController: UIViewController {
     
     private func setViewController() {
         view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+        // TODO: 현재 VC의 어느 부분을 눌러도 dismissModal이 실행됨.
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissModal)))
     }
     
@@ -191,7 +191,13 @@ final class ReviewModalViewController: UIViewController {
                     isOwned: bestReview.isOwned,
                     isLiked: bestReview.isLiked
                 )
-                self.bestReviewData = bestReviewData
+                
+                DispatchQueue.main.async {
+                    self.reviewInfoView.setView(with: bestReviewData)
+                    self.reviewTextLabel.text = bestReviewData.comment
+                    self.reviewImages = bestReviewData.reviewImages
+                    self.reviewImageCollectionView.reloadData()
+                }
                 
             case .failure(let error):
                 print("Error fetching menu data: \(error.localizedDescription)")
