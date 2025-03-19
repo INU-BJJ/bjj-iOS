@@ -20,13 +20,13 @@ final class ReviewInfoView: UIView {
     }
     
     private let nicknameLabel = UILabel().then {
-        $0.setLabelUI("떡볶이킬러나는최고야룰루", font: .pretendard_bold, size: 15, color: .black)
+        $0.setLabelUI("", font: .pretendard_bold, size: 15, color: .black)
     }
     
     private let reviewRatingView = ReviewHorizontalView()
     
     private let reviewDateLabel = UILabel().then {
-        $0.setLabelUI("2025.03.17", font: .pretendard, size: 13, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard, size: 13, color: .darkGray)
     }
     
     private let bestReviewLabel = UILabel().then {
@@ -44,7 +44,6 @@ final class ReviewInfoView: UIView {
         
         setAddView()
         setConstraints()
-        setView()
     }
     
     required init?(coder: NSCoder) {
@@ -96,7 +95,9 @@ final class ReviewInfoView: UIView {
     
     // MARK: - Set View
     
-    private func setView() {
-        reviewRatingView.configureReviewStar(reviewRating: 4, type: .small)
+    func setView(with bestReview: BestReviewSection) {
+        nicknameLabel.text = bestReview.memberNickname
+        reviewRatingView.configureReviewStar(reviewRating: bestReview.reviewRating, type: .small)
+        reviewDateLabel.text = bestReview.reviewCreatedDate
     }
 }

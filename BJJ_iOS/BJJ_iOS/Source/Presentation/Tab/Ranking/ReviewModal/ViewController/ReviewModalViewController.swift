@@ -13,7 +13,8 @@ final class ReviewModalViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let reviewImages: [String] = ["MenuImage2"]
+    private var bestReviewID: Int
+    private var reviewImages: [String] = []
     
     // MARK: - UI Components
     
@@ -31,7 +32,7 @@ final class ReviewModalViewController: UIViewController {
     private let reviewInfoView = ReviewInfoView()
     
     private let reviewTextLabel = UILabel().then {
-        $0.setLabelUI("핫도그는 냉동인데\n떡볶이는 맛있음\n맛도 있고 가격도 착해서 떡볶이 땡길 때 추천", font: .pretendard_medium, size: 13, color: .black)
+        $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
         $0.setLineSpacing(kernValue: 0.13, lineHeightMultiple: 1.1)
         $0.numberOfLines = 0
         $0.lineBreakMode = .byWordWrapping
@@ -50,19 +51,32 @@ final class ReviewModalViewController: UIViewController {
     
     // MARK: - LifeCycle
     
+    init(bestReviewID: Int) {
+        self.bestReviewID = bestReviewID
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setViewController()
         setAddView()
         setConstraints()
+        fetchBestReview(bestReviewID: bestReviewID)
     }
     
     // MARK: - Set ViewController
     
     private func setViewController() {
+        let tapGestureInView = UITapGestureRecognizer(target: self, action: #selector(dismissModal))
+        tapGestureInView.cancelsTouchesInView = false
+        
+        view.addGestureRecognizer(tapGestureInView)
         view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissModal)))
     }
     
     // MARK: - Set AddViews
@@ -151,8 +165,50 @@ final class ReviewModalViewController: UIViewController {
     
     // MARK: - Objc Function
     
-    @objc private func dismissModal() {
-        dismiss(animated: true)
+    @objc private func dismissModal(_ sender: UITapGestureRecognizer) {
+        let touchPoint = sender.location(in: view)
+            
+        if !reviewModalStackView.frame.contains(touchPoint) {
+            dismiss(animated: true)
+        }
+    }
+    
+    // MARK: - API Function
+    
+    private func fetchBestReview(bestReviewID: Int) {
+        ReviewModalAPI.fetchBestReview(bestReviewID: bestReviewID) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let bestReview):
+                let bestReviewData = BestReviewSection(
+                    reviewID: bestReview.reviewID,
+                    comment: bestReview.comment,
+                    reviewRating: bestReview.reviewRating,
+                    reviewImages: bestReview.reviewImages,
+                    reviewLikeCount: bestReview.reviewLikeCount,
+                    reviewCreatedDate: bestReview.reviewCreatedDate,
+                    menuPairID: bestReview.menuPairID,
+                    mainMenuName: bestReview.mainMenuName,
+                    subMenuName: bestReview.subMenuName,
+                    memberID: bestReview.memberID,
+                    memberNickname: bestReview.memberNickname,
+                    memberImage: bestReview.memberImage ?? "",
+                    isOwned: bestReview.isOwned,
+                    isLiked: bestReview.isLiked
+                )
+                
+                DispatchQueue.main.async {
+                    self.reviewInfoView.setView(with: bestReviewData)
+                    self.reviewTextLabel.text = bestReviewData.comment
+                    self.reviewImages = bestReviewData.reviewImages
+                    self.reviewImageCollectionView.reloadData()
+                }
+                
+            case .failure(let error):
+                print("Error fetching menu data: \(error.localizedDescription)")
+            }
+        }
     }
 }
 

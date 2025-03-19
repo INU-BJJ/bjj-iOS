@@ -13,6 +13,12 @@ final class MenuRankingViewController: UIViewController {
     
     // MARK: - Properties
     
+    private var menuRankingData: [MenuRankingSection] = []
+    private var currentPageNumber = 0
+    private var pageSize = 10
+    private var isFetching = false
+    private var isLastPage = false
+    
     // MARK: - UI Components
     
     private let menuRankingTitleLabel = UILabel().then {
@@ -31,6 +37,7 @@ final class MenuRankingViewController: UIViewController {
     
     private let dateLabel = UILabel().then {
         // TODO: 서버 정보 fetch
+        // TODO: 서버에서 menu마다 업데이트 날짜를 주고 있는데, 어짜피 메뉴 랭킹은 매일마다 업데이트 되니까 따로 보내달라고 요청
         $0.setLabelUI("2024.12.26", font: .pretendard_medium, size: 11, color: .darkGray)
     }
     
@@ -62,6 +69,12 @@ final class MenuRankingViewController: UIViewController {
         setAddView()
         setConstraints()
         setStackView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchMenuRanking(pageNumber: currentPageNumber, pageSize: pageSize)
     }
     
     // MARK: - Set ViewController
@@ -119,11 +132,53 @@ final class MenuRankingViewController: UIViewController {
         dateUpdateStackView.setCustomSpacing(5, after: dateLabel)
         dateUpdateStackView.setCustomSpacing(4, after: updateLabel)
     }
+    
+    // MARK: - API Function
+    
+    private func fetchMenuRanking(pageNumber: Int, pageSize: Int) {
+        guard !isFetching, !isLastPage else { return }
+        isFetching = true
+        
+        RankingAPI.fetchRankingList(
+            pageNumber: pageNumber,
+            pageSize: pageSize) { [weak self] result in
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let menuRanking):
+                    let menuRankingListData = MenuRankingListSection(
+                        menuRankingList: menuRanking.menuRankingList.map { menu in
+                            MenuRankingSection(
+                                menuID: menu.menuID,
+                                menuName: menu.menuName,
+                                menuRating: menu.menuRating,
+                                cafeteriaName: menu.cafeteriaName,
+                                cafeteriaCorner: menu.cafeteriaCorner,
+                                bestReviewID: menu.bestReviewID,
+                                reviewImage: menu.reviewImage ?? "HomeDefaultMenuImage",
+                                updatedDate: menu.updatedDate
+                            )
+                        },
+                        isLastPage: menuRanking.isLastPage
+                    )
+                    
+                    DispatchQueue.main.async {
+                        self.menuRankingData.append(contentsOf: menuRankingListData.menuRankingList)
+                        self.isLastPage = menuRankingListData.isLastPage
+                        self.menuRankingTableView.reloadData()
+                        self.isFetching = false
+                    }
+                    
+                case .failure(let error):
+                    print("Error fetching menu data: \(error.localizedDescription)")
+                }
+            }
+    }
 }
 
 extension MenuRankingViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        menuRankingData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -133,7 +188,7 @@ extension MenuRankingViewController: UITableViewDataSource, UITableViewDelegate 
             }
             
             cell.selectionStyle = .none
-            cell.setMenuTopRankingCell(indexPath: indexPath)
+            cell.setMenuTopRankingCell(with: menuRankingData[indexPath.row], indexPath: indexPath)
             
             return cell
         } else {
@@ -142,7 +197,7 @@ extension MenuRankingViewController: UITableViewDataSource, UITableViewDelegate 
             }
             
             cell.selectionStyle = .none
-            cell.setMenuRankingCell()
+            cell.setMenuRankingCell(with: menuRankingData[indexPath.row], indexPath: indexPath)
             
             return cell
         }
@@ -160,9 +215,22 @@ extension MenuRankingViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let reviewModalVC = ReviewModalViewController()
+        let reviewModalVC = ReviewModalViewController(bestReviewID: menuRankingData[indexPath.row].bestReviewID)
         reviewModalVC.modalPresentationStyle = .overCurrentContext
         
         present(reviewModalVC, animated: true)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !isFetching, !isLastPage else { return }
+        
+        let currentScrollLoacation = scrollView.contentOffset.y            // 현재 스크롤 위치
+        let contentHeight = scrollView.contentSize.height   // 스크롤 가능한 전체 콘텐츠 높이
+        let frameHeight = scrollView.frame.size.height      // 스크롤뷰가 차지하는 실제 UI 높이
+        
+        if currentScrollLoacation > contentHeight - frameHeight - UIScreen.main.bounds.height * 0.1 && !isLastPage {
+            currentPageNumber += 1
+            fetchMenuRanking(pageNumber: currentPageNumber, pageSize: pageSize)
+        }
     }
 }
