@@ -429,7 +429,7 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             return cell
         case 4:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.reuseIdentifier, for: indexPath) as! MenuReviewList
-            cell.configureMenuReviewList(with: reviewData)
+            cell.configureMenuReviewList(with: reviewData[indexPath.item])
             
             return cell
         default:
