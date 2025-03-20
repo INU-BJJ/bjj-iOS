@@ -89,7 +89,6 @@ final class MenuReviewListContent: UICollectionViewCell, ReuseIdentifying {
         let layout = UICollectionViewCompositionalLayout {
             (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             
-            // TODO: absolute 없애기
             let absoluteItemWidth: CGFloat
             let absoluteGroupWidth: CGFloat
             
@@ -101,25 +100,17 @@ final class MenuReviewListContent: UICollectionViewCell, ReuseIdentifying {
                 absoluteItemWidth = 149.5
                 absoluteGroupWidth = 301
             case 3:
-//                fractionalWidth = 0.4738047138
                 absoluteItemWidth = 140.72
                 absoluteGroupWidth = 426.16
             case 4:
-//                fractionalWidth = 0.4738047138
                 absoluteItemWidth = 140.72
                 absoluteGroupWidth = 568.88
-            case 5:
-//                fractionalWidth = 0.4738047138
-                absoluteItemWidth = 140.72
-                absoluteGroupWidth = 711.59
             default:
-//                absoluteItemWidth = 1.0
-                absoluteItemWidth = 140.72
+                absoluteItemWidth = 301
                 absoluteGroupWidth = 301
             }
             
-            // TODO: absolute 없애기
-            let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(absoluteItemWidth), heightDimension: .absolute(250))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(absoluteItemWidth), heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(absoluteGroupWidth), heightDimension: .absolute(250))
