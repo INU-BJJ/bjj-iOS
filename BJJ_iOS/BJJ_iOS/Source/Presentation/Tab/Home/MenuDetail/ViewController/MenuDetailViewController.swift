@@ -144,7 +144,7 @@ final class MenuDetailViewController: UIViewController {
         }
         
         menuReviewCollectionView.snp.makeConstraints {
-            $0.height.equalTo(300)
+            $0.height.equalTo(1000)
         }
     }
     

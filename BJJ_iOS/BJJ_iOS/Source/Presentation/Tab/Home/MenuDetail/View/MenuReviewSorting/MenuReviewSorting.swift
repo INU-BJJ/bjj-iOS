@@ -19,6 +19,8 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
     
     weak var delegate: MenuReviewSortingDelegate?
     private var isChecked = false
+    private let sortingCriteria = ["메뉴일치순", "좋아요순", "최신순"]
+    private var isReviewSortingExpanded = false
     
     // MARK: - UI Components
 
@@ -37,10 +39,11 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
         $0.setLabelUI("포토 리뷰만", font: .pretendard_medium, size: 13, color: .darkGray)
     }
     
-    private let reviewToggleButton = UIStackView().then {
+    private lazy var reviewToggleButton = UIStackView().then {
         $0.axis = .horizontal
         $0.alignment = .center
         $0.spacing = 5
+        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapReviewSorting)))
     }
     
     private let toggleLabel = UILabel().then {
@@ -49,6 +52,12 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
     
     private let toggleImage = UIImageView().then {
         $0.image = UIImage(named: "toggle")
+    }
+    
+    private lazy var reviewSortingTableView = UITableView().then {
+        $0.register(MenuReviewSortingCell.self, forCellReuseIdentifier: MenuReviewSortingCell.reuseIdentifier)
+        $0.dataSource = self
+        $0.isHidden = true
     }
     
     // MARK: - Life Cycle
@@ -69,7 +78,8 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
     private func setAddView() {
         [
             onlyPhotoReviewStackView,
-            reviewToggleButton
+            reviewToggleButton,
+            reviewSortingTableView
         ].forEach(addSubview)
         
         [
@@ -95,6 +105,13 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
             $0.centerY.equalTo(onlyPhotoReviewStackView)
             $0.trailing.equalToSuperview().offset(-22)
         }
+        
+        reviewSortingTableView.snp.makeConstraints {
+            $0.top.equalTo(reviewToggleButton.snp.bottom).offset(10)
+            $0.centerX.equalTo(reviewToggleButton)
+            $0.width.equalTo(134)
+            $0.height.equalTo(92)
+        }
     }
     
     // MARK: - Objc Function
@@ -105,4 +122,29 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
         onlyPhotoReviewCheckBox.image = UIImage(named: checkBox)
         delegate?.didTapOnlyPhotoReview(isTapped: isChecked)
     }
+    
+    @objc private func didTapReviewSorting() {
+        isReviewSortingExpanded.toggle()
+        
+        UIView.animate(withDuration: 0.5) {
+            self.reviewSortingTableView.isHidden = !self.isReviewSortingExpanded
+        }
+    }
 }
+
+// MARK: - UITableView
+
+extension MenuReviewSorting: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sortingCriteria.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: MenuReviewSortingCell.reuseIdentifier, for: indexPath) as! MenuReviewSortingCell
+        cell.selectionStyle = .none
+        cell.configureMenuReviewSortingCell(with: sortingCriteria[indexPath.row])
+        
+        return cell
+    }
+}
+
