@@ -57,7 +57,9 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
     private lazy var reviewSortingTableView = UITableView().then {
         $0.register(MenuReviewSortingCell.self, forCellReuseIdentifier: MenuReviewSortingCell.reuseIdentifier)
         $0.dataSource = self
+        $0.delegate = self
         $0.isHidden = true
+        $0.separatorStyle = .none
     }
     
     // MARK: - Life Cycle
@@ -110,7 +112,7 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
             $0.top.equalTo(reviewToggleButton.snp.bottom).offset(10)
             $0.centerX.equalTo(reviewToggleButton)
             $0.width.equalTo(134)
-            $0.height.equalTo(92)
+            $0.height.equalTo(93)
         }
     }
     
@@ -134,17 +136,24 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
 
 // MARK: - UITableView
 
-extension MenuReviewSorting: UITableViewDataSource {
+extension MenuReviewSorting: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sortingCriteria.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MenuReviewSortingCell.reuseIdentifier, for: indexPath) as! MenuReviewSortingCell
+        let isLastCell = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
+        
         cell.selectionStyle = .none
         cell.configureMenuReviewSortingCell(with: sortingCriteria[indexPath.row])
+        cell.hideSeparator(isLastCell)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 31
     }
 }
 

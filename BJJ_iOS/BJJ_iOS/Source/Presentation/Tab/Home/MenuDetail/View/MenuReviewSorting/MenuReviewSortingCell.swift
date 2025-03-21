@@ -19,6 +19,10 @@ final class MenuReviewSortingCell: UITableViewCell, ReuseIdentifying {
         $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
     }
     
+    private let separatingView = UIView().then {
+        $0.backgroundColor = .customColor(.midGray)
+    }
+    
     // MARK: - Life Cycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -43,7 +47,8 @@ final class MenuReviewSortingCell: UITableViewCell, ReuseIdentifying {
     
     private func setAddView() {
         [
-            sortingLabel
+            sortingLabel,
+            separatingView
         ].forEach(addSubview)
     }
     
@@ -51,7 +56,14 @@ final class MenuReviewSortingCell: UITableViewCell, ReuseIdentifying {
     
     private func setConstraints() {
         sortingLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().offset(15.13)
+        }
+        
+        separatingView.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(0.5)
         }
     }
     
@@ -59,6 +71,12 @@ final class MenuReviewSortingCell: UITableViewCell, ReuseIdentifying {
     
     func configureMenuReviewSortingCell(with sortingCriteria: String) {
         sortingLabel.text = sortingCriteria
+    }
+    
+    // MARK: - Hide Separator
+    
+    func hideSeparator(_ isHidden: Bool) {
+        separatingView.isHidden = isHidden
     }
 }
 
