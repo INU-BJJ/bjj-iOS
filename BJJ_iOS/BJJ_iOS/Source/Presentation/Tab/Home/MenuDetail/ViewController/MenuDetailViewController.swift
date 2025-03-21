@@ -239,7 +239,7 @@ final class MenuDetailViewController: UIViewController {
     // MARK: - Create Layout
     
     private func createLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+        return MenuDetailCollectionViewLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             switch sectionIndex {
             case 0:
                 return self.createMenuHeaderSection()    // 메뉴 정보 섹션
