@@ -14,6 +14,7 @@ enum Colors {
     case darkGray
     case midGray
     case lightGray
+    case dropDownGray
     case red
     case blue
     case black
@@ -44,6 +45,9 @@ extension UIColor {
             
         case .lightGray:
             return UIColor(hexCode: "D9D9D9")
+            
+        case .dropDownGray:
+            return UIColor(hexCode: "EEEEEE")
             
         case .red:
             return UIColor(hexCode: "FF0000")

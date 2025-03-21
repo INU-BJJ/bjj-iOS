@@ -36,7 +36,7 @@ final class MenuReviewSortingCell: UITableViewCell, ReuseIdentifying {
     // MARK: - Set UI
     
     private func setUI() {
-        backgroundColor = .customColor(.midGray)
+        backgroundColor = .customColor(.dropDownGray)
     }
     
     // MARK: - Set AddView
