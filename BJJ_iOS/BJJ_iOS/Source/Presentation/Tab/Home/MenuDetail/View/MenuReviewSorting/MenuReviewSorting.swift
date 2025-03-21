@@ -9,10 +9,15 @@ import UIKit
 import SnapKit
 import Then
 
+protocol MenuReviewSortingDelegate: AnyObject {
+    func didTapOnlyPhotoReview(isTapped: Bool)
+}
+
 final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
+    weak var delegate: MenuReviewSortingDelegate?
     private var isChecked = false
     
     // MARK: - UI Components
@@ -98,7 +103,6 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
         isChecked.toggle()
         let checkBox = isChecked ? "CheckedBox" : "checkBox"
         onlyPhotoReviewCheckBox.image = UIImage(named: checkBox)
+        delegate?.didTapOnlyPhotoReview(isTapped: isChecked)
     }
 }
-
-

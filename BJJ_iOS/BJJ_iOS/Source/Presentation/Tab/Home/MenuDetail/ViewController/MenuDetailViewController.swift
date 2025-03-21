@@ -410,6 +410,7 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             return cell
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSorting.reuseIdentifier, for: indexPath) as! MenuReviewSorting
+            cell.delegate = self
             
             return cell
         case 4:
@@ -439,5 +440,11 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             return footer
         }
         return UICollectionReusableView()
+    }
+}
+
+extension MenuDetailViewController: MenuReviewSortingDelegate {
+    func didTapOnlyPhotoReview(isTapped: Bool) {
+        fetchReviewInfo(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 5, sortingCriteria: "BEST_MATCH", isWithImage: isTapped)
     }
 }
