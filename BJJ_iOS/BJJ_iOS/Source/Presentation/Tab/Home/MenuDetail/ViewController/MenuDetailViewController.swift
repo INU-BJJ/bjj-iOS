@@ -144,7 +144,7 @@ final class MenuDetailViewController: UIViewController {
         }
         
         menuReviewCollectionView.snp.makeConstraints {
-            $0.height.equalTo(1)
+            $0.height.equalTo(300)
         }
     }
     
@@ -339,26 +339,11 @@ final class MenuDetailViewController: UIViewController {
     }
     
     private func createReviewListSection() -> NSCollectionLayoutSection {
-        var calculatedHeight: CGFloat = 122.0
-
-        for review in reviewData {
-            // 리뷰의 줄 개수 계산
-            let reviewLines = review.reviewComment.reduce(0) { $0 + ($1 == "\n" ? 1 : 0) } + 1
-            
-            // 리뷰의 이미지 개수에 따라 높이 계산
-            if let images = review.reviewImage, images.isEmpty {
-                // 이미지가 없을 때
-                calculatedHeight += CGFloat(17 * reviewLines + 12)
-            } else {
-                // 이미지가 있을 때
-                calculatedHeight += CGFloat(17 * reviewLines + 250 + 24)
-            }
-        }
-        
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(calculatedHeight))
+        // TODO: 리뷰 글의 줄 수에 따라 높이 동적 조절
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(413))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -429,7 +414,7 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             return cell
         case 4:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.reuseIdentifier, for: indexPath) as! MenuReviewList
-            cell.configureMenuReviewList(with: reviewData)
+            cell.configureMenuReviewList(with: reviewData[indexPath.item])
             
             return cell
         default:

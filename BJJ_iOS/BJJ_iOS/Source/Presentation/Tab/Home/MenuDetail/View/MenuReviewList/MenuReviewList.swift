@@ -13,7 +13,19 @@ final class MenuReviewList: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
-    private var menuReview: [MenuDetailModel] = []
+    private var menuReview: MenuDetailModel =
+        MenuDetailModel(
+            reviewComment: "",
+            reviewRating: 0,
+            reviewImage: nil,
+            reviewLikedCount: 0,
+            reviewCreatedDate: "",
+            mainMenuName: "",
+            subMenuName: "",
+            memberNickname: "",
+            memberImage: "",
+            isMemberLikedReview: false
+        )
     
     // MARK: - UI Components
     
@@ -68,9 +80,12 @@ final class MenuReviewList: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Configure Cell
     
-    func configureMenuReviewList(with menuReview: [MenuDetailModel]) {
+    func configureMenuReviewList(with menuReview: MenuDetailModel) {
         self.menuReview = menuReview
-        reviewCollectionView.reloadData()
+        
+        DispatchQueue.main.async {
+            self.reviewCollectionView.reloadData()
+        }
     }
     
     // MARK: - Create Layout
@@ -108,18 +123,15 @@ final class MenuReviewList: UICollectionViewCell, ReuseIdentifying {
     private func createMenuReviewListContentSection() -> NSCollectionLayoutSection {
         var calculatedHeight: CGFloat = 0.0
 
-        for review in menuReview {
-            // 리뷰의 줄 개수 계산
-            let reviewLines = review.reviewComment.reduce(0) { $0 + ($1 == "\n" ? 1 : 0) } + 1
-            
-            // 리뷰의 이미지 개수에 따라 높이 계산
-            if let images = review.reviewImage, images.isEmpty {
-                // 이미지가 없을 때
-                calculatedHeight += CGFloat(17 * reviewLines + 12)
-            } else {
-                // 이미지가 있을 때
-                calculatedHeight += CGFloat(17 * reviewLines + 250 + 24)
-            }
+        let reviewLines = menuReview.reviewComment.reduce(0) { $0 + ($1 == "\n" ? 1 : 0) } + 1
+        
+        // 리뷰의 이미지 개수에 따라 높이 계산
+        if let images = menuReview.reviewImage, images.isEmpty {
+            // 이미지가 없을 때
+            calculatedHeight = CGFloat(17 * reviewLines + 12)
+        } else {
+            // 이미지가 있을 때
+            calculatedHeight = CGFloat(17 * reviewLines + 250 + 24)
         }
         
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
@@ -185,19 +197,19 @@ extension MenuReviewList: UICollectionViewDataSource {
         // 프로필 이미지, 닉네임, 평점, 날짜, 좋아요 섹션
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListInfo.reuseIdentifier, for: indexPath) as! MenuReviewListInfo
-            cell.configureReviewListInfo(with: menuReview[indexPath.row])
+            cell.configureReviewListInfo(with: menuReview)
             
             return cell
         // 리뷰 글, 사진 섹션
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListContent.reuseIdentifier, for: indexPath) as! MenuReviewListContent
-            cell.configureReviewListContent(with: menuReview[indexPath.row])
+            cell.configureReviewListContent(with: menuReview)
             
             return cell
         // 메뉴 해시태그 섹션
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListHashTag.reuseIdentifier, for: indexPath) as! MenuReviewListHashTag
-            cell.bindHashTagData(with: [menuReview[indexPath.row].mainMenuName, menuReview[indexPath.row].subMenuName])
+            cell.bindHashTagData(with: [menuReview.mainMenuName, menuReview.subMenuName])
             
             return cell
         // 구분선 섹션
