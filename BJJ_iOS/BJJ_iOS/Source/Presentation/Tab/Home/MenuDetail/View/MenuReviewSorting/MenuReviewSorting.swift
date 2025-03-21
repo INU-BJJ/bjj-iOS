@@ -13,12 +13,15 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
+    private var isChecked = false
+    
     // MARK: - UI Components
 
-    private let onlyPhotoReviewStackView = UIStackView().then {
+    private lazy var onlyPhotoReviewStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.alignment = .center
         $0.spacing = 5
+        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapOnlyPhotoCheckBox)))
     }
     
     private let onlyPhotoReviewCheckBox = UIImageView().then {
@@ -87,6 +90,14 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
             $0.centerY.equalTo(onlyPhotoReviewStackView)
             $0.trailing.equalToSuperview().offset(-22)
         }
+    }
+    
+    // MARK: - Objc Function
+    
+    @objc private func didTapOnlyPhotoCheckBox() {
+        isChecked.toggle()
+        let checkBox = isChecked ? "CheckedBox" : "checkBox"
+        onlyPhotoReviewCheckBox.image = UIImage(named: checkBox)
     }
 }
 
