@@ -105,12 +105,12 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
         
         reviewToggleButton.snp.makeConstraints {
             $0.centerY.equalTo(onlyPhotoReviewStackView)
-            $0.trailing.equalToSuperview().offset(-22)
+            $0.trailing.equalToSuperview().inset(24)
         }
         
         reviewSortingTableView.snp.makeConstraints {
-            $0.top.equalTo(reviewToggleButton.snp.bottom).offset(10)
-            $0.centerX.equalTo(reviewToggleButton)
+            $0.top.equalTo(reviewToggleButton.snp.bottom).offset(11)
+            $0.trailing.equalTo(reviewToggleButton.snp.trailing).offset(3)
             $0.width.equalTo(134)
             $0.height.equalTo(93)
         }
