@@ -48,6 +48,7 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
     
     private let toggleLabel = UILabel().then {
         $0.setLabelUI("메뉴일치순", font: .pretendard_medium, size: 13, color: .black)
+        $0.setLineSpacing(kernValue: 0.13, lineHeightMultiple: 1.1)
     }
     
     private let toggleImage = UIImageView().then {
