@@ -444,7 +444,11 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
 }
 
 extension MenuDetailViewController: MenuReviewSortingDelegate {
-    func didTapOnlyPhotoReview(isTapped: Bool) {
-        fetchReviewInfo(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 5, sortingCriteria: "BEST_MATCH", isWithImage: isTapped)
+    func didTapOnlyPhotoReview(isOnlyPhotoChecked: Bool) {
+        fetchReviewInfo(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 5, sortingCriteria: "BEST_MATCH", isWithImage: isOnlyPhotoChecked)
+    }
+    
+    func didReviewSort(isOnlyPhotoChecked: Bool, sortingCriteria: String) {
+        fetchReviewInfo(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 5, sortingCriteria: sortingCriteria, isWithImage: isOnlyPhotoChecked)
     }
 }

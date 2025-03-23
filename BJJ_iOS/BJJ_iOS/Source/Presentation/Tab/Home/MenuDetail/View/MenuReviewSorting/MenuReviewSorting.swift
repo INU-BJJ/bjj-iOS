@@ -10,7 +10,8 @@ import SnapKit
 import Then
 
 protocol MenuReviewSortingDelegate: AnyObject {
-    func didTapOnlyPhotoReview(isTapped: Bool)
+    func didTapOnlyPhotoReview(isOnlyPhotoChecked: Bool)
+    func didReviewSort(isOnlyPhotoChecked: Bool, sortingCriteria: String)
 }
 
 final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
@@ -189,7 +190,7 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
         isChecked.toggle()
         let checkBox = isChecked ? "CheckedBox" : "checkBox"
         onlyPhotoReviewCheckBox.image = UIImage(named: checkBox)
-        delegate?.didTapOnlyPhotoReview(isTapped: isChecked)
+        delegate?.didTapOnlyPhotoReview(isOnlyPhotoChecked: isChecked)
     }
     
     @objc private func didTapReviewSorting() {
@@ -240,6 +241,19 @@ extension MenuReviewSorting: UITableViewDataSource, UITableViewDelegate {
         toggleLabel.text = sortingCriteria[indexPath.row]
         toggleTableView()
         selectedSortingIndex = indexPath.row
+        
+        let sortingCriteria: String
+        
+        switch selectedSortingIndex {
+        case 0:
+            sortingCriteria = "BEST_MATCH"
+        case 1:
+            sortingCriteria = "MOST_LIKED"
+        default:
+            sortingCriteria = "NEWEST_FIRST"
+        }
+        
+        delegate?.didReviewSort(isOnlyPhotoChecked: isChecked, sortingCriteria: sortingCriteria)
         tableView.reloadData()
     }
 }
