@@ -29,43 +29,43 @@ extension UIColor {
         
         switch color {
         case .mainColor:
-            return UIColor(hexCode: "FF7800")
+            return #colorLiteral(red: 1.0, green: 0.47058824, blue: 0.0, alpha: 1)
 
         case .subColor:
-            return UIColor(hexCode: "FFF4DF")
+            return #colorLiteral(red: 1.0, green: 0.95686275, blue: 0.8745098, alpha: 1)
             
         case .backgroundGray:
-            return UIColor(hexCode: "F6F6F8")
+            return #colorLiteral(red: 0.96470588, green: 0.96470588, blue: 0.97254902, alpha: 1)
             
         case .darkGray:
-            return UIColor(hexCode: "999999")
+            return #colorLiteral(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
             
         case .midGray:
-            return UIColor(hexCode: "B9B9B9")
+            return #colorLiteral(red: 0.7254902, green: 0.7254902, blue: 0.7254902, alpha: 1)
             
         case .lightGray:
-            return UIColor(hexCode: "D9D9D9")
+            return #colorLiteral(red: 0.85098039, green: 0.85098039, blue: 0.85098039, alpha: 1)
             
         case .dropDownGray:
-            return UIColor(hexCode: "EEEEEE")
+            return #colorLiteral(red: 0.93333333, green: 0.93333333, blue: 0.93333333, alpha: 1)
             
         case .red:
-            return UIColor(hexCode: "FF0000")
+            return #colorLiteral(red: 1.0, green: 0.0, blue: 0.0, alpha: 1)
             
         case .blue:
-            return UIColor(hexCode: "0066FF")
+            return #colorLiteral(red: 0.0, green: 0.4, blue: 1.0, alpha: 1)
             
         case .black:
-            return UIColor(hexCode: "000000")
+            return #colorLiteral(red: 0.0, green: 0.0, blue: 0.0, alpha: 1)
             
         case .white:
-            return UIColor(hexCode: "FFFFFF")
+            return #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1)
             
         case .lineColor:
-            return UIColor(hexCode: "A9A9A9")
+            return #colorLiteral(red: 0.6627451, green: 0.6627451, blue: 0.6627451, alpha: 1)
             
         case .warningRed:
-            return UIColor(hexCode: "FF3916")
+            return #colorLiteral(red: 1.0, green: 0.22352941, blue: 0.08627451, alpha: 1)
         }
     }
 }
