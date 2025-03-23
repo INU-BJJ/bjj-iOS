@@ -69,8 +69,9 @@ final class MenuReviewSortingCell: UITableViewCell, ReuseIdentifying {
     
     // MARK: - Configure Cell
     
-    func configureMenuReviewSortingCell(with sortingCriteria: String) {
+    func configureMenuReviewSortingCell(sortingCriteria: String, isSelected: Bool) {
         sortingLabel.text = sortingCriteria
+        sortingLabel.textColor = isSelected ? .black : .customColor(.darkGray)
     }
     
     // MARK: - Hide Separator

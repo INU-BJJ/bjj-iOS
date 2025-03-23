@@ -21,6 +21,7 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
     private var isChecked = false
     private let sortingCriteria = ["메뉴일치순", "좋아요순", "최신순"]
     private var isReviewSortingExpanded = false
+    private var selectedSortingIndex: Int = 0
     
     // MARK: - UI Components
 
@@ -96,6 +97,23 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        // 현재 뷰에서 터치 이벤트 감지
+        if let view = super.hitTest(point, with: event) {
+            return view //현재 뷰가 터치 가능하면 그대로 반환 (터치 가능 범위 확장 필요 x)
+        }
+
+        // 현재 뷰에서 터치 감지 실패 -> 내부 서브뷰 검사
+        for subview in subviews {
+            let convertedPoint = subview.convert(point, from: self)
+            if let hitView = subview.hitTest(convertedPoint, with: event) {
+                return hitView // 서브뷰가 터치 가능하면 반환
+            }
+        }
+
+        return nil // 터치된 곳이 없으면 nil 반환
     }
     
     // MARK: - Set AddView
@@ -175,14 +193,20 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
     }
     
     @objc private func didTapReviewSorting() {
+        toggleTableView()
+        
+        if isReviewSortingExpanded {
+            setShadow()
+        }
+    }
+    
+    // MARK: - TableView Toggle
+    
+    private func toggleTableView() {
         isReviewSortingExpanded.toggle()
         
         UIView.animate(withDuration: 0.5) {
             self.shadowContainerView.isHidden = !self.isReviewSortingExpanded
-        }
-        
-        if isReviewSortingExpanded {
-            setShadow()
         }
     }
 }
@@ -199,7 +223,10 @@ extension MenuReviewSorting: UITableViewDataSource, UITableViewDelegate {
         let isLastCell = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
         
         cell.selectionStyle = .none
-        cell.configureMenuReviewSortingCell(with: sortingCriteria[indexPath.row])
+        cell.configureMenuReviewSortingCell(
+            sortingCriteria: sortingCriteria[indexPath.row],
+            isSelected: indexPath.row == selectedSortingIndex
+        )
         cell.hideSeparator(isLastCell)
         
         return cell
@@ -207,6 +234,13 @@ extension MenuReviewSorting: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 31
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        toggleLabel.text = sortingCriteria[indexPath.row]
+        toggleTableView()
+        selectedSortingIndex = indexPath.row
+        tableView.reloadData()
     }
 }
 
