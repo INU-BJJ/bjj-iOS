@@ -15,38 +15,7 @@ final class MenuDetailViewController: UIViewController {
     // MARK: - Properties
 
     private var menuData: HomeMenuModel?
-//    private var reviewData: [MenuDetailModel] = []
-    
-    private var reviewData: [MenuDetailModel] = [
-        MenuDetailModel(
-            reviewComment: "good",
-            reviewRating: 1,
-            reviewImage: nil,
-            reviewLikedCount: 111,
-            reviewCreatedDate: "2025.03.22",
-            mainMenuName: "고라니다리구이",
-            subMenuName: "고라니회무침",
-            memberNickname: "고라니의불꽃킥",
-            memberImage: "",
-            isMemberLikedReview: false
-        ),
-        MenuDetailModel(
-            reviewComment: "nood",
-            reviewRating: 2,
-            reviewImage: nil,
-            reviewLikedCount: 222,
-            reviewCreatedDate: "2025.03.22",
-            mainMenuName: "노라니다리구이",
-            subMenuName: "노라니회무침",
-            memberNickname: "노라니의불꽃킥",
-            memberImage: "",
-            isMemberLikedReview: false
-        ),
-    ]
-    
-    
-    
-    
+    private var reviewData: [MenuDetailModel] = []
     private var reviewImages: [String] = []
     
     // TODO: 네비바 숨김 방식 고민하기
@@ -100,12 +69,12 @@ final class MenuDetailViewController: UIViewController {
         configure()
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        
-//        fetchReviewImage(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 3)
-//        fetchReviewInfo(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 5, sortingCriteria: "BEST_MATCH", isWithImage: false)
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchReviewImage(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 3)
+        fetchReviewInfo(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 5, sortingCriteria: "BEST_MATCH", isWithImage: false)
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
