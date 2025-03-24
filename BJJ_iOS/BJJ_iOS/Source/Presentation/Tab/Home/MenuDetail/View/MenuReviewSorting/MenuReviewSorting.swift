@@ -11,7 +11,7 @@ import Then
 
 protocol MenuReviewSortingDelegate: AnyObject {
     func didTapOnlyPhotoReview(isOnlyPhotoChecked: Bool)
-    func didReviewSort(isOnlyPhotoChecked: Bool, sortingCriteria: String)
+    func didReviewSort(sortingCriteria: String)
 }
 
 final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
@@ -253,7 +253,7 @@ extension MenuReviewSorting: UITableViewDataSource, UITableViewDelegate {
             sortingCriteria = "NEWEST_FIRST"
         }
         
-        delegate?.didReviewSort(isOnlyPhotoChecked: isChecked, sortingCriteria: sortingCriteria)
+        delegate?.didReviewSort(sortingCriteria: sortingCriteria)
         tableView.reloadData()
     }
 }

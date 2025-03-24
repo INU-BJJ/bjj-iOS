@@ -21,6 +21,13 @@ final class MenuDetailViewController: UIViewController {
     // TODO: 네비바 숨김 방식 고민하기
     private var isNavigationBarHidden = false
     
+    private var currentPageNumber = 0
+    private var pageSize = 5
+    private var isFetching = false
+    private var isLastPage = false
+    private var isOnlyPhotoChecked = false
+    private var sortingCriteria = "BEST_MATCH"
+    
     // MARK: - UI Components
     
     private lazy var menuReviewScrollView = UIScrollView().then {
@@ -72,23 +79,26 @@ final class MenuDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        fetchReviewImage(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 3)
-        fetchReviewInfo(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 5, sortingCriteria: "BEST_MATCH", isWithImage: false)
+        fetchReviewImage(
+            menuPairID: menuData?.menuPairID ?? 0,
+            pageNumber: 0,
+            pageSize: 3
+        )
+        fetchReviewInfo(
+            menuPairID: menuData?.menuPairID ?? 0,
+            pageNumber: 0,
+            pageSize: pageSize,
+            sortingCriteria: "BEST_MATCH",
+            isWithImage: false
+        )
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        // 레이아웃 계산을 강제
+        // 즉시 레이아웃(frame, bounds, contentSize 등) 계산
         menuReviewCollectionView.layoutIfNeeded()
-        
-        // 콘텐츠 크기 기반으로 높이 계산
-        let collectionViewContentHeight = menuReviewCollectionView.collectionViewLayout.collectionViewContentSize.height
-        
-        // 컬렉션 뷰 높이 업데이트
-        menuReviewCollectionView.snp.updateConstraints {
-            $0.height.equalTo(collectionViewContentHeight)
-        }
+        updateCollectionView()
     }
     
     // MARK: - Bind
@@ -154,6 +164,18 @@ final class MenuDetailViewController: UIViewController {
         self.menuData = menu
     }
     
+    // MARK: - Update UICollectionView
+    
+    private func updateCollectionView() {
+        // 콘텐츠 크기 기반으로 높이 계산
+        let collectionViewContentHeight = menuReviewCollectionView.collectionViewLayout.collectionViewContentSize.height
+        
+        // 컬렉션 뷰 높이 업데이트
+        menuReviewCollectionView.snp.updateConstraints {
+            $0.height.equalTo(collectionViewContentHeight)
+        }
+    }
+    
     // MARK: - Configure CollectionView
     
     private func configure() {
@@ -167,16 +189,32 @@ final class MenuDetailViewController: UIViewController {
     // MARK: - UIScrollView Function
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offsetY = scrollView.contentOffset.y
+        guard !isFetching, !isLastPage else { return }
+        
+        let currentScrollLoacation = scrollView.contentOffset.y     // 현재 스크롤 위치
+        let contentHeight = scrollView.contentSize.height           // 스크롤 가능한 전체 콘텐츠 높이
+        let frameHeight = scrollView.frame.size.height              // 스크롤뷰가 차지하는 실제 UI 높이
                 
-        if offsetY > 50, !isNavigationBarHidden {
+        if currentScrollLoacation > 50, !isNavigationBarHidden {
             // 아래로 스크롤하면 네비게이션 바 숨김
             navigationController?.setNavigationBarHidden(true, animated: true)
             isNavigationBarHidden = true
-        } else if offsetY <= 50, isNavigationBarHidden {
+        } else if currentScrollLoacation <= 50, isNavigationBarHidden {
             // 위로 스크롤하거나 초기 상태로 돌아오면 네비게이션 바 표시
             navigationController?.setNavigationBarHidden(false, animated: true)
             isNavigationBarHidden = false
+        }
+        
+        // 현재 스크롤 위치와 로드해놓은 콘텐츠의 아랫면과 가까워지면
+        if currentScrollLoacation > contentHeight - frameHeight - UIScreen.main.bounds.height * 0.1 && !isLastPage {
+            currentPageNumber += 1
+            fetchReviewInfo(
+                menuPairID: menuData?.menuPairID ?? 0,
+                pageNumber: currentPageNumber,
+                pageSize: pageSize,
+                sortingCriteria: sortingCriteria,
+                isWithImage: isOnlyPhotoChecked
+            )
         }
     }
     
@@ -191,7 +229,9 @@ final class MenuDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                     // 서버 데이터를 reviewImage에 저장
                     self.reviewImages = reviewInfo.reviewImageDetailList.map { $0.reviewImage }
+                    self.menuReviewCollectionView.reloadSections(IndexSet([2]))
                 }
+                
             case .failure(let error):
                 DispatchQueue.main.async {
                     // 에러 처리 (필요 시 UI에 에러 메시지 표시 가능)
@@ -209,24 +249,28 @@ final class MenuDetailViewController: UIViewController {
             case .success(let reviewInfo):
                 DispatchQueue.main.async {
                     // 서버 데이터를 reviewData에 저장
-                    self.reviewData = reviewInfo.reviewList.map { review in
-                        MenuDetailModel(
-                            reviewComment: review.comment,
-                            reviewRating: review.reviewRating,
-                            reviewImage: review.reviewImage,
-                            reviewLikedCount: review.reviewLikeCount,
-                            reviewCreatedDate: review.reviewCreatedDate.convertDateFormat(),
-                            mainMenuName: review.mainMenuName,
-                            subMenuName: review.subMenuName,
-                            memberNickname: review.memberNickname,
-                            memberImage: review.memberImage ?? "MenuDefaultImage",
-                            isMemberLikedReview: review.isMemberLikedReview
-                        )
-                    }
-                    
-                    // 컬렉션 뷰 업데이트
-                    self.menuReviewCollectionView.reloadSections(IndexSet([2, 4]))
+                    self.reviewData.append(contentsOf: reviewInfo.reviewList.map { review in
+                            MenuDetailModel(
+                                reviewComment: review.comment,
+                                reviewRating: review.reviewRating,
+                                reviewImage: review.reviewImage,
+                                reviewLikedCount: review.reviewLikeCount,
+                                reviewCreatedDate: review.reviewCreatedDate.convertDateFormat(),
+                                mainMenuName: review.mainMenuName,
+                                subMenuName: review.subMenuName,
+                                memberNickname: review.memberNickname,
+                                memberImage: review.memberImage ?? "MenuDefaultImage",
+                                isMemberLikedReview: review.isMemberLikedReview
+                            )
+                        }
+                    )
+                    self.isLastPage = reviewInfo.isLastPage
+                    self.menuReviewCollectionView.layoutIfNeeded() // 즉시 레이아웃(frame, bounds, contentSize 등) 계산
+                    self.updateCollectionView()
+                    self.menuReviewCollectionView.reloadSections(IndexSet([4])) // 컬렉션 뷰 업데이트
+                    self.isFetching = false
                 }
+                
             case .failure(let error):
                 DispatchQueue.main.async {
                     // 에러 처리 (필요 시 UI에 에러 메시지 표시 가능)
@@ -445,10 +489,26 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
 
 extension MenuDetailViewController: MenuReviewSortingDelegate {
     func didTapOnlyPhotoReview(isOnlyPhotoChecked: Bool) {
-        fetchReviewInfo(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 5, sortingCriteria: "BEST_MATCH", isWithImage: isOnlyPhotoChecked)
+        self.isOnlyPhotoChecked = isOnlyPhotoChecked
+        
+        fetchReviewInfo(
+            menuPairID: menuData?.menuPairID ?? 0,
+            pageNumber: currentPageNumber,
+            pageSize: pageSize,
+            sortingCriteria: sortingCriteria,
+            isWithImage: isOnlyPhotoChecked
+        )
     }
     
-    func didReviewSort(isOnlyPhotoChecked: Bool, sortingCriteria: String) {
-        fetchReviewInfo(menuPairID: menuData?.menuPairID ?? 0, pageNumber: 0, pageSize: 5, sortingCriteria: sortingCriteria, isWithImage: isOnlyPhotoChecked)
+    func didReviewSort(sortingCriteria: String) {
+        self.sortingCriteria = sortingCriteria
+        
+        fetchReviewInfo(
+            menuPairID: menuData?.menuPairID ?? 0,
+            pageNumber: currentPageNumber,
+            pageSize: pageSize,
+            sortingCriteria: sortingCriteria,
+            isWithImage: isOnlyPhotoChecked
+        )
     }
 }
