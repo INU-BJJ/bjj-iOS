@@ -30,7 +30,6 @@ final class MenuHeader: UICollectionViewCell, ReuseIdentifying {
     }
     
     private let menuLikeButton = UIButton().then {
-        $0.setImage(UIImage(named: "Heart")?.resize(to: CGSize(width: 24.77, height: 23)), for: .normal)
         $0.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
         $0.layer.shadowOpacity = 1
         $0.layer.shadowRadius = 2
@@ -90,8 +89,9 @@ final class MenuHeader: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Configure Cell
     
-    func configureMenuHeader(menuName: String, menuPrice: String) {
+    func configureMenuHeader(menuName: String, menuPrice: String, isMemberLikedReview: Bool) {
         menuNameLabel.text = menuName
         menuPriceLabel.text = menuPrice
+        menuLikeButton.setImage(UIImage(named: isMemberLikedReview ? "BigHeart" : "EmptyBigHeart"), for: .normal)
     }
 }

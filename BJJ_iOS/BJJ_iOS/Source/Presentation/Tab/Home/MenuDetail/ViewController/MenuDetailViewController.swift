@@ -390,7 +390,11 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuHeader.reuseIdentifier, for: indexPath) as! MenuHeader
-            cell.configureMenuHeader(menuName: menuData?.menuName ?? "", menuPrice: menuData?.menuPrice ?? "")
+            cell.configureMenuHeader(
+                menuName: menuData?.menuName ?? "",
+                menuPrice: menuData?.menuPrice ?? "",
+                isMemberLikedReview: menuData?.isLikedMenu ?? false
+            )
             
             return cell
         case 1:
