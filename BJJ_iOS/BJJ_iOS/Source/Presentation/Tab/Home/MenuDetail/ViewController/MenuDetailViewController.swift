@@ -228,6 +228,7 @@ final class MenuDetailViewController: UIViewController {
                                 subMenuName: review.subMenuName,
                                 memberNickname: review.memberNickname,
                                 memberImage: review.memberImage ?? "MenuDefaultImage",
+                                isOwned: review.isOwned,
                                 isMemberLikedReview: review.isMemberLikedReview
                             )
                         }

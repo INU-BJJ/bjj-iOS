@@ -20,6 +20,7 @@ struct MenuDetailReviewInfo: Hashable, Codable {
     let memberID: Int
     let memberNickname: String
     let memberImage: String?
+    let isOwned: Bool
     let isMemberLikedReview: Bool
     
     enum CodingKeys: String, CodingKey {
@@ -35,6 +36,7 @@ struct MenuDetailReviewInfo: Hashable, Codable {
         case memberID = "memberId"
         case memberNickname
         case memberImage = "memberImageName"
+        case isOwned = "owned"
         case isMemberLikedReview = "liked"
     }
 }

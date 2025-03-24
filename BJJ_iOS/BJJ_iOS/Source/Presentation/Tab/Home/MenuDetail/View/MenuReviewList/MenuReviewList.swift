@@ -24,6 +24,7 @@ final class MenuReviewList: UICollectionViewCell, ReuseIdentifying {
             subMenuName: "",
             memberNickname: "",
             memberImage: "",
+            isOwned: false,
             isMemberLikedReview: false
         )
     
