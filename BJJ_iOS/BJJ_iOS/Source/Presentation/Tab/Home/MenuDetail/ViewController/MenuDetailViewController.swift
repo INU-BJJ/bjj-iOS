@@ -494,6 +494,8 @@ extension MenuDetailViewController: UIScrollViewDelegate {
     }
 }
 
+// MARK: - MenuReviewSorting Delegate
+
 extension MenuDetailViewController: MenuReviewSortingDelegate {
     func didTapOnlyPhotoReview(isOnlyPhotoChecked: Bool) {
         self.isOnlyPhotoChecked = isOnlyPhotoChecked

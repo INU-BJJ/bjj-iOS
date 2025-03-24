@@ -10,6 +10,7 @@ import Foundation
 enum MenuDetailAddress {
     case fetchReviewInfo
     case fetchReviewImageList
+    case postIsMenuLiked(Int)
     
     var url: String {
         switch self {
@@ -17,6 +18,8 @@ enum MenuDetailAddress {
             return "reviews"
         case .fetchReviewImageList:
             return "reviews/images"
+        case .postIsMenuLiked(let menuID):
+            return "menus/\(menuID)/like"
         }
     }
 }

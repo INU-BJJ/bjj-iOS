@@ -39,4 +39,17 @@ final class MenuDetailAPI {
                 completion: completion
             )
         }
+    
+    static func postIsMenuLiked(menuID: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
+            networkRequest(
+                urlStr: MenuDetailAddress.postIsMenuLiked(menuID).url,
+                method: .post,
+                data: nil,
+                model: Bool.self,
+                query: [
+                    "menuId": menuID
+                ],
+                completion: completion
+            )
+        }
 }
