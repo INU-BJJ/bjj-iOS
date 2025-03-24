@@ -9,9 +9,15 @@ import UIKit
 import SnapKit
 import Then
 
+protocol MenuHeaderDelegate: AnyObject {
+    func didTapMenuLikeButton()
+}
+
 final class MenuHeader: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
+    
+    weak var delegate: MenuHeaderDelegate?
     
     // MARK: - UI Components
     
@@ -29,12 +35,13 @@ final class MenuHeader: UICollectionViewCell, ReuseIdentifying {
         $0.setLabelUI("", font: .pretendard, size: 20, color: .black)
     }
     
-    private let menuLikeButton = UIButton().then {
+    private lazy var menuLikeButton = UIButton().then {
         $0.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
         $0.layer.shadowOpacity = 1
         $0.layer.shadowRadius = 2
         $0.layer.shadowOffset = CGSize(width: 1, height: 2)
         $0.layer.masksToBounds = false
+        $0.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
     }
     
     // MARK: - Life Cycle
@@ -89,9 +96,23 @@ final class MenuHeader: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Configure Cell
     
-    func configureMenuHeader(menuName: String, menuPrice: String, isMemberLikedReview: Bool) {
+    func configureMenuHeader(menuName: String, menuPrice: String) {
         menuNameLabel.text = menuName
         menuPriceLabel.text = menuPrice
-        menuLikeButton.setImage(UIImage(named: isMemberLikedReview ? "BigHeart" : "EmptyBigHeart"), for: .normal)
+    }
+    
+    // MARK: - Update MenuLikeButton
+    
+    func updateMenuLikeButton(isMemberLikedReview: Bool) {
+        let heartIconName = isMemberLikedReview ? "BigHeart" : "EmptyBigHeart"
+        let heartIcon = UIImage(named: heartIconName)
+        
+        menuLikeButton.setImage(heartIcon, for: .normal)
+    }
+    
+    // MARK: - Objc Function
+    
+    @objc private func didTapLikeButton() {
+        delegate?.didTapMenuLikeButton()
     }
 }

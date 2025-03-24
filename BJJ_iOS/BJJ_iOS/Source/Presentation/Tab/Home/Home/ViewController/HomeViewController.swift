@@ -155,7 +155,8 @@ final class HomeViewController: UIViewController {
                             isLikedMenu: menu.likedMenu,
                             restMenu: menu.restMenu?.components(separatedBy: " ") ?? [],
                             reviewCount: menu.reviewCount,
-                            menuPairID: menu.menuPairID
+                            menuPairID: menu.menuPairID,
+                            mainMenuID: menu.mainMenuID
                         )
                     }
                     // 메뉴 섹션 애니메이션 효과 없이 새로고침 

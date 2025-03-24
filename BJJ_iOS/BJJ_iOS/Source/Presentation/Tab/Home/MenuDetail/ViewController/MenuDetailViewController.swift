@@ -248,6 +248,24 @@ final class MenuDetailViewController: UIViewController {
         }
     }
     
+    // MARK: - Post API
+    
+    private func postIsMenuLike() {
+        MenuDetailAPI.postIsMenuLiked(menuID: menuData?.mainMenuID ?? 0) { result in
+            switch result {
+            case .success(let isLiked):
+                DispatchQueue.main.async {
+                    self.menuData?.isLikedMenu = isLiked
+                    
+                    if let cell = self.menuReviewCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? MenuHeader {
+                        cell.updateMenuLikeButton(isMemberLikedReview: isLiked)
+                    }
+                }
+            case .failure(let error):
+                print("<< [MenuDetailVC] 메뉴 좋아요 실패: \(error.localizedDescription)")
+            }
+        }
+    }
     // MARK: - Create Layout
     
     private func createLayout() -> UICollectionViewCompositionalLayout {
@@ -390,11 +408,12 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuHeader.reuseIdentifier, for: indexPath) as! MenuHeader
+            cell.delegate = self
             cell.configureMenuHeader(
                 menuName: menuData?.menuName ?? "",
-                menuPrice: menuData?.menuPrice ?? "",
-                isMemberLikedReview: menuData?.isLikedMenu ?? false
+                menuPrice: menuData?.menuPrice ?? ""
             )
+            cell.updateMenuLikeButton(isMemberLikedReview: menuData?.isLikedMenu ?? false)
             
             return cell
         case 1:
@@ -418,7 +437,8 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
                         isLikedMenu: false,
                         restMenu: [],
                         reviewCount: 0,
-                        menuPairID: 0
+                        menuPairID: 0,
+                        mainMenuID: 0
                     ),
                 reviewImages: reviewImages
             )
@@ -491,6 +511,14 @@ extension MenuDetailViewController: UIScrollViewDelegate {
                 )
             }
         }
+    }
+}
+
+// MARK: - MenuHeader Delegate
+
+extension MenuDetailViewController: MenuHeaderDelegate {
+    func didTapMenuLikeButton() {
+        postIsMenuLike()
     }
 }
 
