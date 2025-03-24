@@ -459,8 +459,6 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
 
 extension MenuDetailViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard !isFetching, !isLastPage else { return }
-        
         let currentScrollLoacation = scrollView.contentOffset.y     // 현재 스크롤 위치
         let contentHeight = scrollView.contentSize.height           // 스크롤 가능한 전체 콘텐츠 높이
         let frameHeight = scrollView.frame.size.height              // 스크롤뷰가 차지하는 실제 UI 높이
@@ -475,16 +473,19 @@ extension MenuDetailViewController: UIScrollViewDelegate {
             isNavigationBarHidden = false
         }
         
-        // 현재 스크롤 위치와 로드해놓은 콘텐츠의 아랫면과 가까워지면
-        if currentScrollLoacation > contentHeight - frameHeight - UIScreen.main.bounds.height * 0.1 && !isLastPage {
-            currentPageNumber += 1
-            fetchReviewInfo(
-                menuPairID: menuData?.menuPairID ?? 0,
-                pageNumber: currentPageNumber,
-                pageSize: pageSize,
-                sortingCriteria: sortingCriteria,
-                isWithImage: isOnlyPhotoChecked
-            )
+        // 서버 데이터 fetch하고 있지 않고, 마지막 페이지가 아닐 때만 데이터 재요청
+        if !isFetching, !isLastPage {
+            // 현재 스크롤 위치와 로드해놓은 콘텐츠의 아랫면과 가까워지면
+            if currentScrollLoacation > contentHeight - frameHeight - UIScreen.main.bounds.height * 0.1 && !isLastPage {
+                currentPageNumber += 1
+                fetchReviewInfo(
+                    menuPairID: menuData?.menuPairID ?? 0,
+                    pageNumber: currentPageNumber,
+                    pageSize: pageSize,
+                    sortingCriteria: sortingCriteria,
+                    isWithImage: isOnlyPhotoChecked
+                )
+            }
         }
     }
 }
