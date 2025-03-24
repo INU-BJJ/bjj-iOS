@@ -141,4 +141,13 @@ final class MenuReviewListInfo: UICollectionViewCell, ReuseIdentifying {
         reviewDateLabel.text = reviewListInfo.reviewCreatedDate
         reviewLikeCountLabel.text = "\(reviewListInfo.reviewLikedCount)"
     }
+    
+    // MARK: - Update ReviewLikeButton
+    
+    func updateReviewLikeButton(isReviewLiked: Bool) {
+        let likeIconName = isReviewLiked ? "FilledLike" : "Like"
+        let likeIcon = UIImage(named: likeIconName)
+        
+        reviewLikeButton.setImage(likeIcon, for: .normal)
+    }
 }
