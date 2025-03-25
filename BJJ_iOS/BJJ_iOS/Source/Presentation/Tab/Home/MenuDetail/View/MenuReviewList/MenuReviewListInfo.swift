@@ -24,7 +24,7 @@ final class MenuReviewListInfo: UICollectionViewCell, ReuseIdentifying {
     private let reviewListStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.alignment = .fill
-        $0.spacing = 53
+        $0.spacing = 63
     }
     
     private let reviewListLeftStackView = UIStackView().then {
@@ -55,6 +55,7 @@ final class MenuReviewListInfo: UICollectionViewCell, ReuseIdentifying {
     // TODO: bottom 제약 조건 다시 확인하기
     private let reviewDateLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 13, color: .darkGray)
+        $0.setLineSpacing(kernValue: 0.13, lineHeightMultiple: 1.1)
     }
     
     private let reviewLikeButton = UIButton().then {

@@ -199,6 +199,7 @@ extension MenuReviewList: UICollectionViewDataSource {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListInfo.reuseIdentifier, for: indexPath) as! MenuReviewListInfo
             cell.configureReviewListInfo(with: menuReview)
+            cell.updateReviewLikeButton(isReviewLiked: menuReview.isMemberLikedReview)
             
             return cell
         // 리뷰 글, 사진 섹션
