@@ -219,6 +219,7 @@ final class MenuDetailViewController: UIViewController {
                     // 서버 데이터를 reviewData에 저장
                     self.reviewData.append(contentsOf: reviewInfo.reviewList.map { review in
                             MenuDetailModel(
+                                reviewID: review.reviewID,
                                 reviewComment: review.comment,
                                 reviewRating: review.reviewRating,
                                 reviewImage: review.reviewImage,
@@ -267,6 +268,42 @@ final class MenuDetailViewController: UIViewController {
             }
         }
     }
+    
+    private func postIsReviewLike(at indexPath: IndexPath) {
+        MenuDetailAPI.postIsReviewLiked(reviewID: reviewData[indexPath.item].reviewID) { result in
+            switch result {
+            case .success(let isLiked):
+                // TODO: 리뷰 좋아요 카운팅 손보기
+                // TODO: 서버 요청 함수와 UI 업데이트 함수 분리하기
+                DispatchQueue.main.async {
+                    self.reviewData[indexPath.item].isMemberLikedReview = isLiked
+                    
+                    if isLiked {
+                        self.reviewData[indexPath.item].reviewLikedCount += 1
+                    } else {
+                        self.reviewData[indexPath.item].reviewLikedCount = max(0, self.reviewData[indexPath.item].reviewLikedCount - 1)
+                    }
+                    let reviewLikeCount = self.reviewData[indexPath.item].reviewLikedCount
+                    
+                    if let reviewListCell = self.menuReviewCollectionView.cellForItem(at: indexPath) as? MenuReviewList {
+                        let innerIndexPath = IndexPath(item: 0, section: 0)
+                        
+                        if let reviewListInfoCell = reviewListCell.reviewCollectionView.cellForItem(at: innerIndexPath) as? MenuReviewListInfo {
+                            reviewListInfoCell.updateReviewLikeButton(
+                                isReviewLiked: isLiked
+                            )
+                            reviewListInfoCell.updateReviewLikeCountLabel(reviewLikedCount: reviewLikeCount)
+                        }
+                    }
+                }
+                
+            case .failure(let error):
+                print("[MenuDetailVC] 리뷰 좋아요 실패: \(error.localizedDescription)")
+            }
+            
+        }
+    }
+    
     // MARK: - Create Layout
     
     private func createLayout() -> UICollectionViewCompositionalLayout {
@@ -452,7 +489,8 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             return cell
         case 4:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.reuseIdentifier, for: indexPath) as! MenuReviewList
-            cell.configureMenuReviewList(with: reviewData[indexPath.item])
+            cell.configureMenuReviewList(with: reviewData[indexPath.item], indexPath: indexPath)
+            cell.delegate = self
             
             return cell
         default:
@@ -548,5 +586,13 @@ extension MenuDetailViewController: MenuReviewSortingDelegate {
             sortingCriteria: sortingCriteria,
             isWithImage: isOnlyPhotoChecked
         )
+    }
+}
+
+// MARK: - MenuReviewList Delegate
+
+extension MenuDetailViewController: MenuReviewListInfoDelegate {
+    func didTapReviewLike(at indexPath: IndexPath) {
+        postIsReviewLike(at: indexPath)
     }
 }

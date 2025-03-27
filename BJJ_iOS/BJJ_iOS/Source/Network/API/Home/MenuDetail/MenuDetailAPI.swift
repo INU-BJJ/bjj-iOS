@@ -52,4 +52,17 @@ final class MenuDetailAPI {
                 completion: completion
             )
         }
+    
+    static func postIsReviewLiked(reviewID: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
+            networkRequest(
+                urlStr: MenuDetailAddress.postIsReviewLiked(reviewID).url,
+                method: .post,
+                data: nil,
+                model: Bool.self,
+                query: [
+                    "reviewId": reviewID
+                ],
+                completion: completion
+            )
+        }
 }

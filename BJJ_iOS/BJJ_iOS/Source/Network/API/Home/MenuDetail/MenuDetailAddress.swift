@@ -11,6 +11,7 @@ enum MenuDetailAddress {
     case fetchReviewInfo
     case fetchReviewImageList
     case postIsMenuLiked(Int)
+    case postIsReviewLiked(Int)
     
     var url: String {
         switch self {
@@ -20,6 +21,8 @@ enum MenuDetailAddress {
             return "reviews/images"
         case .postIsMenuLiked(let menuID):
             return "menus/\(menuID)/like"
+        case .postIsReviewLiked(let reviewID):
+            return "reviews/\(reviewID)/like"
         }
     }
 }

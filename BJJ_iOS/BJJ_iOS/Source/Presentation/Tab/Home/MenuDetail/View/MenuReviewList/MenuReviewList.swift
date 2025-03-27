@@ -13,8 +13,10 @@ final class MenuReviewList: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
+    weak var delegate: MenuReviewListInfoDelegate?
     private var menuReview: MenuDetailModel =
         MenuDetailModel(
+            reviewID: 0,
             reviewComment: "",
             reviewRating: 0,
             reviewImage: nil,
@@ -30,7 +32,7 @@ final class MenuReviewList: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
     
-    private lazy var reviewCollectionView = UICollectionView(
+    lazy var reviewCollectionView = UICollectionView(
             frame: .zero,
             collectionViewLayout: createLayout()
         ).then {
@@ -81,10 +83,13 @@ final class MenuReviewList: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Configure Cell
     
-    func configureMenuReviewList(with menuReview: MenuDetailModel) {
+    func configureMenuReviewList(with menuReview: MenuDetailModel, indexPath: IndexPath) {
         self.menuReview = menuReview
         
         DispatchQueue.main.async {
+            if let infoCell = self.reviewCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? MenuReviewListInfo {
+                infoCell.setIndexPath(indexPath: indexPath)
+            }
             self.reviewCollectionView.reloadData()
         }
     }
@@ -199,7 +204,11 @@ extension MenuReviewList: UICollectionViewDataSource {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListInfo.reuseIdentifier, for: indexPath) as! MenuReviewListInfo
             cell.configureReviewListInfo(with: menuReview)
-            cell.updateReviewLikeButton(isReviewLiked: menuReview.isMemberLikedReview)
+            cell.updateReviewLikeButton(
+                isReviewLiked: menuReview.isMemberLikedReview
+            )
+            cell.updateReviewLikeCountLabel(reviewLikedCount: menuReview.reviewLikedCount)
+            cell.delegate = self
             
             return cell
         // 리뷰 글, 사진 섹션
@@ -222,5 +231,11 @@ extension MenuReviewList: UICollectionViewDataSource {
         default:
             fatalError("Unexpected section")
         }
+    }
+}
+
+extension MenuReviewList: MenuReviewListInfoDelegate {
+    func didTapReviewLike(at indexPath: IndexPath) {
+        delegate?.didTapReviewLike(at: indexPath)
     }
 }
