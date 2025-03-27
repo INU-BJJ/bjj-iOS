@@ -16,6 +16,8 @@ struct MenuDetailModel: Hashable {
     let reviewCreatedDate: String
     let mainMenuName: String
     let subMenuName: String
+    let mainMenuID: Int
+    let subMenuID: Int
     let memberNickname: String
     let memberImage: String
     let isOwned: Bool

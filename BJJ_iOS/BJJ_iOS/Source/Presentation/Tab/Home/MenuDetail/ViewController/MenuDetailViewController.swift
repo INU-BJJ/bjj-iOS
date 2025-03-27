@@ -227,6 +227,8 @@ final class MenuDetailViewController: UIViewController {
                                 reviewCreatedDate: review.reviewCreatedDate.convertDateFormat(),
                                 mainMenuName: review.mainMenuName,
                                 subMenuName: review.subMenuName,
+                                mainMenuID: review.mainMenuID,
+                                subMenuID: review.subMenuID,
                                 memberNickname: review.memberNickname,
                                 memberImage: review.memberImage ?? "MenuDefaultImage",
                                 isOwned: review.isOwned,
