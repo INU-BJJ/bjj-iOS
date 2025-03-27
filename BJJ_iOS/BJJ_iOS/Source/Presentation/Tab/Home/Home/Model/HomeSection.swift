@@ -23,6 +23,7 @@ struct HomeMenuModel: Hashable {
     let reviewCount: Int
     let menuPairID: Int
     let mainMenuID: Int
+    let subMenuID: Int
 }
 
 extension HomeCafeteriaModel {

@@ -156,7 +156,8 @@ final class HomeViewController: UIViewController {
                             restMenu: menu.restMenu?.components(separatedBy: " ") ?? [],
                             reviewCount: menu.reviewCount,
                             menuPairID: menu.menuPairID,
-                            mainMenuID: menu.mainMenuID
+                            mainMenuID: menu.mainMenuID,
+                            subMenuID: menu.subMenuID
                         )
                     }
                     // 메뉴 섹션 애니메이션 효과 없이 새로고침 

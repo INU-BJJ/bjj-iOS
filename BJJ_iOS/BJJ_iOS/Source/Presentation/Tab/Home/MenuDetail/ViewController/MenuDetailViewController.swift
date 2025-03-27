@@ -478,7 +478,8 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
                         restMenu: [],
                         reviewCount: 0,
                         menuPairID: 0,
-                        mainMenuID: 0
+                        mainMenuID: 0,
+                        subMenuID: 0
                     ),
                 reviewImages: reviewImages
             )
