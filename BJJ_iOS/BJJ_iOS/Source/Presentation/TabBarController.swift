@@ -14,21 +14,25 @@ final class TabBarController: UITabBarController {
     private let homeTab = UITabBarItem().then {
         $0.title = "홈"
         $0.image = UIImage(named: "Home")
+        $0.imageInsets = UIEdgeInsets(top: 4.7, left: 0, bottom: -4.7, right: 0)
     }
     
     private let rankingTab = UITabBarItem().then {
         $0.title = "랭킹"
         $0.image = UIImage(named: "Tier")
+        $0.imageInsets = UIEdgeInsets(top: 4.7, left: 0, bottom: -4.7, right: 0)
     }
     
     private let reviewTab = UITabBarItem().then {
         $0.title = "리뷰"
         $0.image = UIImage(named: "Review")
+        $0.imageInsets = UIEdgeInsets(top: 4.7, left: 0, bottom: -4.7, right: 0)
     }
     
     private let myPageTab = UITabBarItem().then {
         $0.title = "마이페이지"
         $0.image = UIImage(named: "MyPage")
+        $0.imageInsets = UIEdgeInsets(top: 4.7, left: 0, bottom: -4.7, right: 0)
     }
     
     // MARK: - Life Cycle

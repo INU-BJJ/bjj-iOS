@@ -25,6 +25,9 @@ extension UITabBar {
         appearance.backgroundColor = .white
         appearance.stackedLayoutAppearance.normal.titleTextAttributes = normalAttributes
         appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributes
+        appearance.stackedLayoutAppearance.normal.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 3.7)
+        appearance.stackedLayoutAppearance.selected.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 3.7)
+        
         
         self.tintColor = .customColor(.mainColor)
         self.scrollEdgeAppearance = appearance
