@@ -122,7 +122,7 @@ final class MyReviewViewController: UIViewController {
                     
                     let isMyReviewsEmpty = self.myReviews.isEmpty
                     
-                    self.noticeView.setNoticeeViewVisibility(isMyReviewsEmpty)
+                    self.noticeView.setNoticeViewVisibility(isMyReviewsEmpty)
                     self.myReviewTableView.isHidden = isMyReviewsEmpty
                     self.myReviewTableView.reloadData()
                 }

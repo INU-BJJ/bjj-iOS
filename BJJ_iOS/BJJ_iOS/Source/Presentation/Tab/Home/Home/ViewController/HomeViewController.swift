@@ -33,6 +33,11 @@ final class HomeViewController: UIViewController {
         $0.showsVerticalScrollIndicator = false
     }
     
+    private let noticeView = NoticeView(type: .home).then {
+        $0.isHidden = true
+        $0.isUserInteractionEnabled = false
+    }
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -72,7 +77,8 @@ final class HomeViewController: UIViewController {
     private func setAddView() {
         [
             homeTopView,
-            collectionView
+            collectionView,
+            noticeView
         ].forEach(view.addSubview)
     }
     
@@ -89,6 +95,10 @@ final class HomeViewController: UIViewController {
             $0.top.equalTo(homeTopView.snp.bottom).offset(18)
             $0.horizontalEdges.equalToSuperview().inset(21)
             $0.bottom.equalToSuperview()
+        }
+        
+        noticeView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
     
@@ -164,6 +174,8 @@ final class HomeViewController: UIViewController {
                     UIView.performWithoutAnimation {
                         self.collectionView.reloadSections(IndexSet(integer: 1))
                     }
+                    
+                    self.noticeView.setNoticeViewVisibility(self.currentMenus.isEmpty)
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
