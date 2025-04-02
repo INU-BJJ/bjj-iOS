@@ -14,6 +14,7 @@ final class MenuReviewListHashTag: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Properties
     
     private var hashTags: [String] = []
+    private var isHashTagsHighlighted: [Bool] = []
     
     // MARK: - UI Components
     
@@ -66,8 +67,9 @@ final class MenuReviewListHashTag: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Bind Data
     
-    func bindHashTagData(with hashTags: [String]) {
+    func bindHashTagData(hashTags: [String], isHighlighted: [Bool]) {
         self.hashTags = hashTags
+        self.isHashTagsHighlighted = isHighlighted
     }
     
     // MARK: - Create Layout
@@ -101,8 +103,11 @@ extension MenuReviewListHashTag: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewHashTagCell.reuseIdentifier, for: indexPath) as! MenuReviewHashTagCell
-        let isHighlighted = (indexPath.row == 0)
-        cell.configureHashTag(with: hashTags[indexPath.row], isHighlighted: isHighlighted)
+
+        cell.configureHashTag(
+            with: hashTags[indexPath.row],
+            isHighlighted: isHashTagsHighlighted[indexPath.row]
+        )
         return cell
     }
 }

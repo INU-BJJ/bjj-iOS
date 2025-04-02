@@ -492,6 +492,22 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             return cell
         case 4:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.reuseIdentifier, for: indexPath) as! MenuReviewList
+            cell.configureMenuData(
+                with: menuData ?? HomeMenuModel(
+                    menuName: "",
+                    menuImage: "DefaultMenuImage",
+                    menuPrice: "",
+                    menuRating: 0.0,
+                    cafeteriaName: "",
+                    cafeteriaCorner: "",
+                    isLikedMenu: false,
+                    restMenu: [],
+                    reviewCount: 0,
+                    menuPairID: 0,
+                    mainMenuID: 0,
+                    subMenuID: 0
+                )
+            )
             cell.configureMenuReviewList(with: reviewData[indexPath.item], indexPath: indexPath)
             cell.delegate = self
             

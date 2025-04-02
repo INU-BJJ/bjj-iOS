@@ -14,6 +14,7 @@ final class MenuReviewList: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Properties
     
     weak var delegate: MenuReviewListInfoDelegate?
+    private var menuData: HomeMenuModel?
     private var menuReview: MenuDetailModel =
         MenuDetailModel(
             reviewID: 0,
@@ -84,6 +85,10 @@ final class MenuReviewList: UICollectionViewCell, ReuseIdentifying {
     }
     
     // MARK: - Configure Cell
+    
+    func configureMenuData(with menuData: HomeMenuModel) {
+        self.menuData = menuData
+    }
     
     func configureMenuReviewList(with menuReview: MenuDetailModel, indexPath: IndexPath) {
         self.menuReview = menuReview
@@ -222,7 +227,15 @@ extension MenuReviewList: UICollectionViewDataSource {
         // 메뉴 해시태그 섹션
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListHashTag.reuseIdentifier, for: indexPath) as! MenuReviewListHashTag
-            cell.bindHashTagData(with: [menuReview.mainMenuName, menuReview.subMenuName])
+            let isHighlighted: [Bool] = [
+                menuData?.mainMenuID == menuReview.mainMenuID,
+                menuData?.subMenuID == menuReview.subMenuID
+            ]
+            
+            cell.bindHashTagData(
+                hashTags: [menuReview.mainMenuName, menuReview.subMenuName],
+                isHighlighted: isHighlighted
+            )
             
             return cell
         // 구분선 섹션
