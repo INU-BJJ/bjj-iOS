@@ -33,6 +33,11 @@ final class HomeViewController: UIViewController {
         $0.showsVerticalScrollIndicator = false
     }
     
+    private let noticeView = NoticeView(type: .home).then {
+        $0.isHidden = true
+        $0.isUserInteractionEnabled = false
+    }
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -46,6 +51,8 @@ final class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // TODO: 홈 탭으로 돌아올 때마다 무조건 학생식당 메뉴로 돌아옴. 이전에 선택한 식당으로 돌아가도록 설계 변경?
+        reloadCafeteriaSection()
         fetchAllMenuData(cafeteriaName: "학생식당")
     }
     
@@ -70,7 +77,8 @@ final class HomeViewController: UIViewController {
     private func setAddView() {
         [
             homeTopView,
-            collectionView
+            collectionView,
+            noticeView
         ].forEach(view.addSubview)
     }
     
@@ -86,7 +94,11 @@ final class HomeViewController: UIViewController {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(homeTopView.snp.bottom).offset(18)
             $0.horizontalEdges.equalToSuperview().inset(21)
-            $0.bottom.equalToSuperview().offset(-265)
+            $0.bottom.equalToSuperview()
+        }
+        
+        noticeView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
     
@@ -106,7 +118,7 @@ final class HomeViewController: UIViewController {
     }
     
     private func createCafeteriaSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(124), heightDimension: .absolute(33))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(124), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(2.0), heightDimension: .absolute(33))
@@ -121,10 +133,10 @@ final class HomeViewController: UIViewController {
     }
     
     private func createMenuSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(240))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -162,6 +174,8 @@ final class HomeViewController: UIViewController {
                     UIView.performWithoutAnimation {
                         self.collectionView.reloadSections(IndexSet(integer: 1))
                     }
+                    
+                    self.noticeView.setNoticeViewVisibility(self.currentMenus.isEmpty)
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -170,6 +184,13 @@ final class HomeViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    // MARK: - Reload CafeteriaSection
+    
+    private func reloadCafeteriaSection() {
+        presentCafeteriaIndex = 0
+        collectionView.reloadSections(IndexSet(integer: 0))
     }
 }
 
@@ -213,6 +234,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // TODO: 색 변환 애니메이션 넣을지 말지
+        
         let selectedSection = indexPath.section
         
         if selectedSection == 0 { // 식당 섹션에서 선택 시

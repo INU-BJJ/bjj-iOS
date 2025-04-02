@@ -52,10 +52,9 @@ final class NoticeView: UIView {
         noticeImageView.snp.removeConstraints()
         
         switch type {
-        // TODO: 홈 탭의 noticeView 제약 재설정
         case .home:
             noticeImageView.snp.makeConstraints {
-                $0.top.equalToSuperview().offset(278)
+                $0.top.equalToSuperview().offset(342)
                 $0.centerX.equalToSuperview()
             }
             
@@ -78,7 +77,7 @@ final class NoticeView: UIView {
     
     // MARK: - Public Method
     
-    func setNoticeeViewVisibility(_ isVisible: Bool) {
+    func setNoticeViewVisibility(_ isVisible: Bool) {
         self.isHidden = !isVisible
     }
 }
