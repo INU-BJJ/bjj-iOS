@@ -28,9 +28,11 @@ extension UITabBar {
         appearance.stackedLayoutAppearance.normal.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 3.7)
         appearance.stackedLayoutAppearance.selected.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 3.7)
         
-        
         self.tintColor = .customColor(.mainColor)
         self.scrollEdgeAppearance = appearance
+        
+        // 그림자 효과
+        self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: 0).cgPath
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowOpacity = 0.1
         self.layer.shadowRadius = 10
