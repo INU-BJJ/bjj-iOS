@@ -13,8 +13,11 @@ final class MenuReviewList: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
     
+    weak var delegate: MenuReviewListInfoDelegate?
+    private var menuData: HomeMenuModel?
     private var menuReview: MenuDetailModel =
         MenuDetailModel(
+            reviewID: 0,
             reviewComment: "",
             reviewRating: 0,
             reviewImage: nil,
@@ -22,14 +25,17 @@ final class MenuReviewList: UICollectionViewCell, ReuseIdentifying {
             reviewCreatedDate: "",
             mainMenuName: "",
             subMenuName: "",
+            mainMenuID: 0,
+            subMenuID: 0,
             memberNickname: "",
             memberImage: "",
+            isOwned: false,
             isMemberLikedReview: false
         )
     
     // MARK: - UI Components
     
-    private lazy var reviewCollectionView = UICollectionView(
+    lazy var reviewCollectionView = UICollectionView(
             frame: .zero,
             collectionViewLayout: createLayout()
         ).then {
@@ -80,10 +86,17 @@ final class MenuReviewList: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Configure Cell
     
-    func configureMenuReviewList(with menuReview: MenuDetailModel) {
+    func configureMenuData(with menuData: HomeMenuModel) {
+        self.menuData = menuData
+    }
+    
+    func configureMenuReviewList(with menuReview: MenuDetailModel, indexPath: IndexPath) {
         self.menuReview = menuReview
         
         DispatchQueue.main.async {
+            if let infoCell = self.reviewCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? MenuReviewListInfo {
+                infoCell.setIndexPath(indexPath: indexPath)
+            }
             self.reviewCollectionView.reloadData()
         }
     }
@@ -198,6 +211,11 @@ extension MenuReviewList: UICollectionViewDataSource {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListInfo.reuseIdentifier, for: indexPath) as! MenuReviewListInfo
             cell.configureReviewListInfo(with: menuReview)
+            cell.updateReviewLikeButton(
+                isReviewLiked: menuReview.isMemberLikedReview
+            )
+            cell.updateReviewLikeCountLabel(reviewLikedCount: menuReview.reviewLikedCount)
+            cell.delegate = self
             
             return cell
         // 리뷰 글, 사진 섹션
@@ -209,7 +227,15 @@ extension MenuReviewList: UICollectionViewDataSource {
         // 메뉴 해시태그 섹션
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListHashTag.reuseIdentifier, for: indexPath) as! MenuReviewListHashTag
-            cell.bindHashTagData(with: [menuReview.mainMenuName, menuReview.subMenuName])
+            let isHighlighted: [Bool] = [
+                menuData?.mainMenuID == menuReview.mainMenuID,
+                menuData?.subMenuID == menuReview.subMenuID
+            ]
+            
+            cell.bindHashTagData(
+                hashTags: [menuReview.mainMenuName, menuReview.subMenuName],
+                isHighlighted: isHighlighted
+            )
             
             return cell
         // 구분선 섹션
@@ -220,5 +246,11 @@ extension MenuReviewList: UICollectionViewDataSource {
         default:
             fatalError("Unexpected section")
         }
+    }
+}
+
+extension MenuReviewList: MenuReviewListInfoDelegate {
+    func didTapReviewLike(at indexPath: IndexPath) {
+        delegate?.didTapReviewLike(at: indexPath)
     }
 }

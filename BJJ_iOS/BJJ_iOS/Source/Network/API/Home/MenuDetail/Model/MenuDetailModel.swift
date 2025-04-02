@@ -17,9 +17,12 @@ struct MenuDetailReviewInfo: Hashable, Codable {
     let menuPairID: Int
     let mainMenuName: String
     let subMenuName: String
+    let mainMenuID: Int
+    let subMenuID: Int
     let memberID: Int
     let memberNickname: String
     let memberImage: String?
+    let isOwned: Bool
     let isMemberLikedReview: Bool
     
     enum CodingKeys: String, CodingKey {
@@ -32,9 +35,12 @@ struct MenuDetailReviewInfo: Hashable, Codable {
         case menuPairID = "menuPairId"
         case mainMenuName
         case subMenuName
+        case mainMenuID = "mainMenuId"
+        case subMenuID = "subMenuId"
         case memberID = "memberId"
         case memberNickname
         case memberImage = "memberImageName"
+        case isOwned = "owned"
         case isMemberLikedReview = "liked"
     }
 }

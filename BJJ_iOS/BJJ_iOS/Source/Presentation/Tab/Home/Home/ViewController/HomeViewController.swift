@@ -167,7 +167,9 @@ final class HomeViewController: UIViewController {
                             isLikedMenu: menu.likedMenu,
                             restMenu: menu.restMenu?.components(separatedBy: " ") ?? [],
                             reviewCount: menu.reviewCount,
-                            menuPairID: menu.menuPairID
+                            menuPairID: menu.menuPairID,
+                            mainMenuID: menu.mainMenuID,
+                            subMenuID: menu.subMenuID
                         )
                     }
                     // 메뉴 섹션 애니메이션 효과 없이 새로고침 
@@ -227,7 +229,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 imageName: menu.menuImage ?? "DefaultMenuImage",
                 cafeteriaName: menu.cafeteriaName,
                 cafeteriaCorner: menu.cafeteriaCorner,
-                menuRating: menu.menuRating
+                menuRating: menu.menuRating,
+                isLikedMenu: menu.isLikedMenu
             )
             return cell
         }

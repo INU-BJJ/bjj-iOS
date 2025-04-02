@@ -68,10 +68,7 @@ final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
     
     private let menuRatingView = MenuRatingView()
     
-    // TODO: 하트 아이콘 눌렀을 때, 아이콘 변경하기 (UIButton에서 makeHeartButton 함수 만들기)
-    private let menuLikeButton = UIButton(type: .custom).then {
-        $0.setImage(UIImage(named: "EmptyHeart"), for: .normal)
-    }
+    private let menuLikedImageView = UIImageView()
     
     private let cafeteriaLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 11, color: .black)
@@ -123,7 +120,7 @@ final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
         
         [
          menuInnerStackView,
-         menuLikeButton
+         menuLikedImageView
         ].forEach(menuHeaderStackView.addArrangedSubview)
         
         [
@@ -152,7 +149,7 @@ final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
             $0.height.greaterThanOrEqualTo(21)
         }
         
-        menuLikeButton.snp.makeConstraints {
+        menuLikedImageView.snp.makeConstraints {
             $0.trailing.equalToSuperview()
         }
         
@@ -163,7 +160,7 @@ final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Configuration
     
-    func configureCell(menuName: String, menuPrice: String, imageName: String, cafeteriaName: String, cafeteriaCorner: String, menuRating: Double) {
+    func configureCell(menuName: String, menuPrice: String, imageName: String, cafeteriaName: String, cafeteriaCorner: String, menuRating: Double, isLikedMenu: Bool) {
         menuNameLabel.text = menuName
         menuPriceLabel.text = menuPrice
         if imageName == "DefaultMenuImage" {
@@ -173,6 +170,7 @@ final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
         }
         cafeteriaLabel.text = "\(cafeteriaName) \(cafeteriaCorner)"
         menuRatingView.configureRatingLabel(with: menuRating)
+        menuLikedImageView.image = UIImage(named: isLikedMenu ? "Heart" : "EmptyHeart")
     }
     
     // MARK: - Set Shadow

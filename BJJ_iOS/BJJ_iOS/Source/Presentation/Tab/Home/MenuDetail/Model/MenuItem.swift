@@ -8,14 +8,18 @@
 import Foundation
 
 struct MenuDetailModel: Hashable {
+    let reviewID: Int
     let reviewComment: String
     let reviewRating: Int
     let reviewImage: [String]?
-    let reviewLikedCount: Int
+    var reviewLikedCount: Int
     let reviewCreatedDate: String
     let mainMenuName: String
     let subMenuName: String
+    let mainMenuID: Int
+    let subMenuID: Int
     let memberNickname: String
     let memberImage: String
-    let isMemberLikedReview: Bool
+    let isOwned: Bool
+    var isMemberLikedReview: Bool
 }

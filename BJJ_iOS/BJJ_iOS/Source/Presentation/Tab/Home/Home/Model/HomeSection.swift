@@ -18,10 +18,12 @@ struct HomeMenuModel: Hashable {
     let menuRating: Double
     let cafeteriaName: String
     let cafeteriaCorner: String
-    let isLikedMenu: Bool
+    var isLikedMenu: Bool
     let restMenu: [String]?
     let reviewCount: Int
     let menuPairID: Int
+    let mainMenuID: Int
+    let subMenuID: Int
 }
 
 extension HomeCafeteriaModel {

@@ -9,9 +9,16 @@ import UIKit
 import SnapKit
 import Then
 
+protocol MenuReviewListInfoDelegate: AnyObject {
+    func didTapReviewLike(at indexPath: IndexPath)
+}
+
 final class MenuReviewListInfo: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - Properties
+    
+    weak var delegate: MenuReviewListInfoDelegate?
+    private var indexPath: IndexPath?
     
     // MARK: - UI Components
     
@@ -24,7 +31,7 @@ final class MenuReviewListInfo: UICollectionViewCell, ReuseIdentifying {
     private let reviewListStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.alignment = .fill
-        $0.spacing = 53
+        $0.spacing = 63
     }
     
     private let reviewListLeftStackView = UIStackView().then {
@@ -55,10 +62,11 @@ final class MenuReviewListInfo: UICollectionViewCell, ReuseIdentifying {
     // TODO: bottom 제약 조건 다시 확인하기
     private let reviewDateLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 13, color: .darkGray)
+        $0.setLineSpacing(kernValue: 0.13, lineHeightMultiple: 1.1)
     }
     
-    private let reviewLikeButton = UIButton().then {
-        $0.setImage(UIImage(named: "Like")?.resize(to: CGSize(width: 17, height: 17)), for: .normal)
+    private lazy var reviewLikeButton = UIButton().then {
+        $0.addTarget(self, action: #selector(didToggleReviewLike), for: .touchUpInside)
     }
     
     private let reviewLikeCountLabel = UILabel().then {
@@ -140,5 +148,32 @@ final class MenuReviewListInfo: UICollectionViewCell, ReuseIdentifying {
         reviewRatingView.configureReviewStar(reviewRating: reviewListInfo.reviewRating, type: .small)
         reviewDateLabel.text = reviewListInfo.reviewCreatedDate
         reviewLikeCountLabel.text = "\(reviewListInfo.reviewLikedCount)"
+    }
+    
+    func setIndexPath(indexPath: IndexPath) {
+        self.indexPath = indexPath
+    }
+    
+    // MARK: - Update ReviewLikeButton
+    
+    func updateReviewLikeButton(isReviewLiked: Bool) {
+        let likeIconName = isReviewLiked ? "FilledLike" : "Like"
+        let likeIcon = UIImage(named: likeIconName)
+        
+        reviewLikeButton.setImage(likeIcon, for: .normal)
+    }
+    
+    // MARK: - Update ReviewLikeCountLabel
+    
+    func updateReviewLikeCountLabel(reviewLikedCount: Int) {
+        reviewLikeCountLabel.text = "\(reviewLikedCount)"
+    }
+    
+    // MARK: - Objc Function
+    
+    @objc private func didToggleReviewLike() {
+        if let indexPath = indexPath {
+            delegate?.didTapReviewLike(at: indexPath)
+        }
     }
 }
