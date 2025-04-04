@@ -23,7 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = TabBarController()
         
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = tabBarController
+//        window?.rootViewController = tabBarController
+        window?.rootViewController = LoginViewController()
         window?.makeKeyAndVisible()
     }
 

@@ -8,13 +8,15 @@
 import UIKit
 import SnapKit
 import Then
-import WebKit
+@preconcurrency import WebKit
 
+@MainActor
 final class LoginViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let naverLoginURL = "https://bjj.inuappcenter.kr/oauth2/authorization/naver"
+    private let LOGIN_URL = "https://bjj.inuappcenter.kr/oauth2/authorization/"
+    private let NAVER = "naver"
     
     // MARK: - UI Components
     
@@ -68,10 +70,10 @@ final class LoginViewController: UIViewController {
     @objc private func didTapNaverLogin() {
         let webViewConfig = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero, configuration: webViewConfig)
-//        webView.navigationDelegate = self
+        webView.navigationDelegate = self
         self.loginWebView = webView
         
-        guard let url = URL(string: naverLoginURL) else { return }
+        guard let url = URL(string: LOGIN_URL + NAVER) else { return }
         
         let request = URLRequest(url: url)
         let webVC = UIViewController()
@@ -79,5 +81,56 @@ final class LoginViewController: UIViewController {
         webView.load(request)
         webVC.view = webView
         present(webVC, animated: true)
+    }
+}
+
+// MARK: - WKNavigationDelegate
+
+extension LoginViewController: WKNavigationDelegate {
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
+                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if let url = navigationAction.request.url?.absoluteString {
+            
+            // 이미 회원가입이 되어 있는 경우 (로그인 진행)
+            if url.starts(with: "https://bjj.inuappcenter.kr/api/members/success") {
+                if let components = URLComponents(string: url) {
+                    let queryItems = components.queryItems ?? []
+                    let token = queryItems.first(where: { $0.name == "token" })?.value
+                    
+                    if let token = token {
+                        print("🔐 Token: \(token)")
+                    }
+                }
+                
+                decisionHandler(.cancel)
+                dismiss(animated: true)
+                return
+            }
+            
+            // 처음 회원가입하는 경우 (회원가입 진행)
+            if url.starts(with: "https://bjj.inuappcenter.kr/api/members/sign-up") {
+                if let components = URLComponents(string: url) {
+                    let queryItems = components.queryItems ?? []
+                    
+                    let email = queryItems.first(where: { $0.name == "email" })?.value
+                    let token = queryItems.first(where: { $0.name == "token" })?.value
+                    
+                    if let email = email {
+                        print("✅ Email: \(email)")
+                    }
+                    
+                    if let token = token {
+                        print("🔐 Token: \(token)")
+                    }
+                }
+                
+                decisionHandler(.cancel)
+                dismiss(animated: true)
+                return
+            }
+        }
+        
+        decisionHandler(.allow)
     }
 }
