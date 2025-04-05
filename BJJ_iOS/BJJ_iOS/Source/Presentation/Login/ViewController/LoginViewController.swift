@@ -92,11 +92,18 @@ extension LoginViewController: WKNavigationDelegate {
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let url = navigationAction.request.url?.absoluteString {
             
-            // 이미 회원가입이 되어 있는 경우 (로그인 진행)
-            if url.starts(with: "https://bjj.inuappcenter.kr/api/members/success") {
+            // 처음 회원가입하는 경우 (회원가입 진행)
+            if url.starts(with: "https://bjj.inuappcenter.kr/api/members/sign-up") {
                 if let components = URLComponents(string: url) {
                     let queryItems = components.queryItems ?? []
+                    
+                    let email = queryItems.first(where: { $0.name == "email" })?.value
                     let token = queryItems.first(where: { $0.name == "token" })?.value
+                    
+                    // TODO: email, token을 signUpVC로 넘겨준 뒤 회원가입 진행
+                    if let email = email {
+                        print("✅ Email: \(email)")
+                    }
                     
                     if let token = token {
                         print("🔐 Token: \(token)")
@@ -108,21 +115,17 @@ extension LoginViewController: WKNavigationDelegate {
                 return
             }
             
-            // 처음 회원가입하는 경우 (회원가입 진행)
-            if url.starts(with: "https://bjj.inuappcenter.kr/api/members/sign-up") {
+            // 이미 회원가입이 되어 있는 경우 (로그인 진행)
+            if url.starts(with: "https://bjj.inuappcenter.kr/api/members/success") {
                 if let components = URLComponents(string: url) {
                     let queryItems = components.queryItems ?? []
-                    
-                    let email = queryItems.first(where: { $0.name == "email" })?.value
                     let token = queryItems.first(where: { $0.name == "token" })?.value
-                    
-                    if let email = email {
-                        print("✅ Email: \(email)")
-                    }
                     
                     if let token = token {
                         print("🔐 Token: \(token)")
                     }
+                    
+                    // TODO: token을 KeyChainManager를 통해 저장 및 메인 페이지로 이동
                 }
                 
                 decisionHandler(.cancel)
