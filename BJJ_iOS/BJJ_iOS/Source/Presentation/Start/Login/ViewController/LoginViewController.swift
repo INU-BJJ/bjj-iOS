@@ -100,13 +100,15 @@ extension LoginViewController: WKNavigationDelegate {
                     let email = queryItems.first(where: { $0.name == "email" })?.value
                     let token = queryItems.first(where: { $0.name == "token" })?.value
                     
-                    // TODO: email, token을 signUpVC로 넘겨준 뒤 회원가입 진행
-                    if let email = email {
-                        print("✅ Email: \(email)")
-                    }
-                    
-                    if let token = token {
-                        print("🔐 Token: \(token)")
+                    if let email = email, let token = token {
+                        decisionHandler(.cancel)
+                        dismiss(animated: true) { [weak self] in
+                            guard let self = self else { return }
+                            let signUpVC = SignUpViewController(email: email, token: token)
+                            
+                            self.navigationController?.pushViewController(signUpVC, animated: true)
+                        }
+                        return
                     }
                 }
                 

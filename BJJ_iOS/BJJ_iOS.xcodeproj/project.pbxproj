@@ -80,6 +80,7 @@
 		3F6947D62D8818430036BF2A /* ReviewInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6947D52D8818430036BF2A /* ReviewInfoView.swift */; };
 		3F6947DA2D8833CD0036BF2A /* ReviewModalImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6947D92D8833CD0036BF2A /* ReviewModalImageCell.swift */; };
 		3F6F565E2CB2975C00A43EF6 /* UIFont++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */; };
+		3F7CC2D32DA2491B00062EF9 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7CC2D22DA2491B00062EF9 /* SignUpViewController.swift */; };
 		3F8430272CE7208000B5A2F1 /* UITabBar++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8430262CE7208000B5A2F1 /* UITabBar++Extensions.swift */; };
 		3F87423B2D4FB08E004DF204 /* MyReviewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F87423A2D4FB08E004DF204 /* MyReviewSection.swift */; };
 		3F87423D2D4FC1E3004DF204 /* MyReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F87423C2D4FC1E3004DF204 /* MyReviewCell.swift */; };
@@ -224,6 +225,7 @@
 		3F6947D52D8818430036BF2A /* ReviewInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewInfoView.swift; sourceTree = "<group>"; };
 		3F6947D92D8833CD0036BF2A /* ReviewModalImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModalImageCell.swift; sourceTree = "<group>"; };
 		3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extensions.swift"; sourceTree = "<group>"; };
+		3F7CC2D22DA2491B00062EF9 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		3F8430262CE7208000B5A2F1 /* UITabBar++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar++Extensions.swift"; sourceTree = "<group>"; };
 		3F87423A2D4FB08E004DF204 /* MyReviewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewSection.swift; sourceTree = "<group>"; };
 		3F87423C2D4FC1E3004DF204 /* MyReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewCell.swift; sourceTree = "<group>"; };
@@ -488,7 +490,7 @@
 			isa = PBXGroup;
 			children = (
 				3F1613322CD87BB800A30369 /* Common */,
-				3FE1862F2D9FCB200086EC6C /* Login */,
+				3F7CC2CF2DA248F800062EF9 /* Start */,
 				3F25B41D2CB2842C005C0907 /* Tab */,
 				3F4B09242CE1FC31005C56C2 /* TabBarController.swift */,
 			);
@@ -717,6 +719,31 @@
 				3F2B0EB22D7966E30059AA2B /* NoticeViewType.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3F7CC2CF2DA248F800062EF9 /* Start */ = {
+			isa = PBXGroup;
+			children = (
+				3FE1862F2D9FCB200086EC6C /* Login */,
+				3F7CC2D02DA2490400062EF9 /* SignUp */,
+			);
+			path = Start;
+			sourceTree = "<group>";
+		};
+		3F7CC2D02DA2490400062EF9 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				3F7CC2D12DA2490E00062EF9 /* ViewController */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		3F7CC2D12DA2490E00062EF9 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F7CC2D22DA2491B00062EF9 /* SignUpViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		3F94C8112D27BEAD00364D0F /* MenuDetail */ = {
@@ -1051,8 +1078,8 @@
 			isa = PBXGroup;
 			children = (
 				3FDC255D2D6C7B1300ACBF8B /* MyReview */,
-				3F43F0D72D7838B30018E7E8 /* CafeteriaMyReview */,
 				3F2B0EB42D7997360059AA2B /* MyReviewDetail */,
+				3F43F0D72D7838B30018E7E8 /* CafeteriaMyReview */,
 				3F3AF8C42D75A52C00D6C28A /* ReviewWrite */,
 			);
 			path = Review;
@@ -1479,6 +1506,7 @@
 				3FCA676B2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift in Sources */,
 				3FCA25442D818E1B00BF56C2 /* MenuRankingViewController.swift in Sources */,
 				3FC6915F2D1D57B0004643D2 /* HomeModel.swift in Sources */,
+				3F7CC2D32DA2491B00062EF9 /* SignUpViewController.swift in Sources */,
 				3F16131F2CD84D0E00A30369 /* MenuInfoCell.swift in Sources */,
 				3F1613212CD84E0800A30369 /* MenuInfoHeaderView.swift in Sources */,
 				3F1FAD552D8D71C500570681 /* MenuDetailCollectionViewLayout.swift in Sources */,
