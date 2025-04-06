@@ -8,14 +8,14 @@
 import UIKit
 
 final class LoginAPI {
-    static func postLoginToken(params: [String: String], completion: @escaping (Result<LoginModel, Error>) -> Void) {
+    static func postLoginToken(params: [String: String], completion: @escaping (Result<SignUpModel, Error>) -> Void) {
         let data = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
         
         networkRequest(
-            urlStr: LoginAddress.signUp.url,
+            urlStr: SignUpAddress.signUp.url,
             method: .post,
             data: data,
-            model: LoginModel.self,
+            model: SignUpModel.self,
             completion: completion
         )
     }

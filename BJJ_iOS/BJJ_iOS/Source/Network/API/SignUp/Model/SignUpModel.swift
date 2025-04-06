@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct LoginModel: Hashable, Codable {
-    let loginToken: String
+struct SignUpModel: Hashable, Codable {
+    let accessToken: String
     
     enum CodingKeys: String, CodingKey {
-        case loginToken = "token"
+        case accessToken = "token"
     }
 }

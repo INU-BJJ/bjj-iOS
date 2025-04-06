@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum LoginAddress {
+enum SignUpAddress {
     case signUp
     
     var url: String {
