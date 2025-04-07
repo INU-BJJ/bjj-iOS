@@ -64,6 +64,13 @@ final class SignUpViewController: UIViewController {
         $0.isHidden = true
     }
     
+    private lazy var testSignUpButton = UIButton().then {
+        $0.setTitle("밥점줘 시작하기", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.backgroundColor = .customColor(.midGray)
+        $0.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
+    }
+    
     // MARK: - LifeCycle
     
     init(email: String) {
@@ -102,7 +109,8 @@ final class SignUpViewController: UIViewController {
             testNickNameLabel,
             testNickNameTextField,
             testIsDupliCateButton,
-            testIsValidLabel
+            testIsValidLabel,
+            testSignUpButton
         ].forEach(testStackView.addArrangedSubview)
     }
     
@@ -117,36 +125,57 @@ final class SignUpViewController: UIViewController {
             $0.width.equalTo(200)
             $0.height.equalTo(50)
         }
+        
+        testSignUpButton.snp.makeConstraints {
+            $0.width.equalTo(200)
+            $0.height.equalTo(50)
+        }
     }
     
     // MARK: Objc Functions
     
     @objc private func didTapDupplicateButton() {
-        // TODO: 아무것도 입력하지 않고 중복 확인 눌렀을 경우 UI 디자인
-        postNickname(nickname: testNickNameTextField.text ?? "")
+        postNickname(nickname: testNickNameTextField.text)
+    }
+    
+    @objc private func didTapSignUpButton() {
+        
     }
     
     // MARK: Post API
     
-    private func postNickname(nickname: String) {
-        SignUpAPI.postNickname(nickname: nickname) { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    self.testIsValidLabel.isHidden = false
-                    self.testIsValidLabel.text = "✅ 사용 가능한 닉네임입니다."
-                }
+    private func postNickname(nickname: String?) {
+        // 닉네임을 입력한 경우
+        if let nickname = nickname, !nickname.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            SignUpAPI.postNickname(nickname: nickname) { [weak self] result in
+                guard let self = self else { return }
                 
-            case .failure(let error):
-                // TODO: 에러 처리 상세히 하기
-                DispatchQueue.main.async {
-                    self.testIsValidLabel.isHidden = false
-                    self.testIsValidLabel.text = "❌이미 존재하는 닉네임입니다."
+                switch result {
+                case .success:
+                    DispatchQueue.main.async {
+                        self.testIsValidLabel.isHidden = false
+                        self.testIsValidLabel.text = "✅ 사용 가능한 닉네임입니다."
+                        self.testSignUpButton.backgroundColor = .customColor(.mainColor)
+                    }
+                    
+                case .failure(let error):
+                    // TODO: 에러 처리 상세히 하기
+                    DispatchQueue.main.async {
+                        self.testIsValidLabel.isHidden = false
+                        self.testIsValidLabel.text = "❌이미 존재하는 닉네임입니다."
+                    }
+                    print("[SignUpVC] error: \(error.localizedDescription)")
                 }
-                print("[SignUpVC] error: \(error.localizedDescription)")
             }
+        }
+        // 닉네임을 입력하지 않은 경우
+        // TODO: 아무것도 입력하지 않고 중복 확인 눌렀을 경우 UI 디자인
+        else {
+            DispatchQueue.main.async {
+                self.testIsValidLabel.isHidden = false
+                self.testIsValidLabel.text = "❌ 닉네임을 입력해주세요."
+            }
+            return
         }
     }
 }
