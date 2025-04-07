@@ -14,6 +14,7 @@ final class SignUpViewController: UIViewController {
     // MARK: - Properties
     
     private let email: String
+    private let provider: String
     
     // MARK: - UI Components
     
@@ -68,13 +69,15 @@ final class SignUpViewController: UIViewController {
         $0.setTitle("밥점줘 시작하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .customColor(.midGray)
+        $0.isEnabled = false
         $0.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
     }
     
     // MARK: - LifeCycle
     
-    init(email: String) {
+    init(email: String, provider: String) {
         self.email = email
+        self.provider = provider
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -139,7 +142,7 @@ final class SignUpViewController: UIViewController {
     }
     
     @objc private func didTapSignUpButton() {
-        
+        postLoginToken()
     }
     
     // MARK: Post API
@@ -156,6 +159,8 @@ final class SignUpViewController: UIViewController {
                         self.testIsValidLabel.isHidden = false
                         self.testIsValidLabel.text = "✅ 사용 가능한 닉네임입니다."
                         self.testSignUpButton.backgroundColor = .customColor(.mainColor)
+                        // TODO: 중복 확인 안하고 회원가입 버튼 눌렀을 경우 UI 디자인
+                        self.testSignUpButton.isEnabled = true
                     }
                     
                 case .failure(let error):
@@ -176,6 +181,25 @@ final class SignUpViewController: UIViewController {
                 self.testIsValidLabel.text = "❌ 닉네임을 입력해주세요."
             }
             return
+        }
+    }
+    
+    private func postLoginToken() {
+        let userSignUpInfo: [String: String] = [
+            "nickname": testNickNameTextField.text!,    // TODO: 강제 언래핑 없애기
+            "email": email,
+            "provider": provider
+        ]
+        
+        SignUpAPI.postLoginToken(params: userSignUpInfo) { result in
+            switch result {
+            case .success(let token):
+                print("🔐Token: \(token)")
+                
+            case .failure(let error):
+                // TODO: 에러 처리 상세하게
+                print("[SignUpVC] Error: \(error.localizedDescription)")
+            }
         }
     }
 }

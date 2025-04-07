@@ -16,7 +16,7 @@ final class LoginViewController: UIViewController {
     // MARK: - Properties
     
     private let LOGIN_URL = "https://bjj.inuappcenter.kr/oauth2/authorization/"
-    private let NAVER = "naver"
+    private var provider = ""
     
     // MARK: - UI Components
     
@@ -26,7 +26,8 @@ final class LoginViewController: UIViewController {
         $0.layer.borderColor = UIColor.green.cgColor
         $0.layer.borderWidth = 1
         $0.layer.cornerRadius = 10
-        $0.addTarget(self, action: #selector(didTapNaverLogin), for: .touchUpInside)
+        $0.tag = 1
+        $0.addTarget(self, action: #selector(didTapNaverLogin(_:)), for: .touchUpInside)
     }
     
     private var loginWebView: WKWebView?
@@ -67,13 +68,27 @@ final class LoginViewController: UIViewController {
     
     // MARK: - Objc Functions
     
-    @objc private func didTapNaverLogin() {
+    @objc private func didTapNaverLogin(_ sender: UIButton) {
         let webViewConfig = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero, configuration: webViewConfig)
         webView.navigationDelegate = self
         self.loginWebView = webView
         
-        guard let url = URL(string: LOGIN_URL + NAVER) else { return }
+        // TODO: 소셜 로그인 enum으로 깔끔하게 처리하기
+        switch sender.tag {
+        case 0:
+            provider = "kakao"
+        case 1:
+            provider = "naver"
+        case 2:
+            provider = "google"
+        case 3:
+            provider = "apple"
+        default:
+            break
+        }
+        
+        guard let url = URL(string: LOGIN_URL + provider) else { return }
         
         let request = URLRequest(url: url)
         let webVC = UIViewController()
@@ -104,7 +119,7 @@ extension LoginViewController: WKNavigationDelegate {
                         decisionHandler(.cancel)
                         dismiss(animated: true) { [weak self] in
                             guard let self = self else { return }
-                            let signUpVC = SignUpViewController(email: email)
+                            let signUpVC = SignUpViewController(email: email, provider: provider)
                             
                             self.navigationController?.pushViewController(signUpVC, animated: true)
                         }
