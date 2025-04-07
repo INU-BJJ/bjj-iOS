@@ -104,7 +104,7 @@ extension LoginViewController: WKNavigationDelegate {
                         decisionHandler(.cancel)
                         dismiss(animated: true) { [weak self] in
                             guard let self = self else { return }
-                            let signUpVC = SignUpViewController(email: email, token: token)
+                            let signUpVC = SignUpViewController(email: email)
                             
                             self.navigationController?.pushViewController(signUpVC, animated: true)
                         }

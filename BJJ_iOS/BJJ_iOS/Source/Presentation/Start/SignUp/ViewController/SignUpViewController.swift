@@ -14,7 +14,6 @@ final class SignUpViewController: UIViewController {
     // MARK: - Properties
     
     private let email: String
-    private let token: String
     
     // MARK: - UI Components
     
@@ -60,11 +59,15 @@ final class SignUpViewController: UIViewController {
         $0.addTarget(self, action: #selector(didTapDupplicateButton), for: .touchUpInside)
     }
     
+    private let testIsValidLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard, size: 15, color: .black)
+        $0.isHidden = true
+    }
+    
     // MARK: - LifeCycle
     
-    init(email: String, token: String) {
+    init(email: String) {
         self.email = email
-        self.token = token
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -98,7 +101,8 @@ final class SignUpViewController: UIViewController {
             testEmailTextField,
             testNickNameLabel,
             testNickNameTextField,
-            testIsDupliCateButton
+            testIsDupliCateButton,
+            testIsValidLabel
         ].forEach(testStackView.addArrangedSubview)
     }
     
@@ -118,6 +122,31 @@ final class SignUpViewController: UIViewController {
     // MARK: Objc Functions
     
     @objc private func didTapDupplicateButton() {
-        
+        // TODO: 아무것도 입력하지 않고 중복 확인 눌렀을 경우 UI 디자인
+        postNickname(nickname: testNickNameTextField.text ?? "")
+    }
+    
+    // MARK: Post API
+    
+    private func postNickname(nickname: String) {
+        SignUpAPI.postNickname(nickname: nickname) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    self.testIsValidLabel.isHidden = false
+                    self.testIsValidLabel.text = "✅ 사용 가능한 닉네임입니다."
+                }
+                
+            case .failure(let error):
+                // TODO: 에러 처리 상세히 하기
+                DispatchQueue.main.async {
+                    self.testIsValidLabel.isHidden = false
+                    self.testIsValidLabel.text = "❌이미 존재하는 닉네임입니다."
+                }
+                print("[SignUpVC] error: \(error.localizedDescription)")
+            }
+        }
     }
 }
