@@ -140,10 +140,18 @@ extension LoginViewController: WKNavigationDelegate {
                     let token = queryItems.first(where: { $0.name == "token" })?.value
                     
                     if let token = token {
-                        print("🔐 Token: \(token)")
+                        KeychainManager.create(token: token)
+                        decisionHandler(.cancel)
+                        dismiss(animated: true) { [weak self] in
+                            guard let self = self else { return }
+                            
+                            DispatchQueue.main.async {
+                                let tabBarController = TabBarController()
+                                self.navigationController?.setViewControllers([tabBarController], animated: true)
+                            }
+                        }
+                        return
                     }
-                    
-                    // TODO: token을 KeyChainManager를 통해 저장 및 메인 페이지로 이동
                 }
                 
                 decisionHandler(.cancel)
