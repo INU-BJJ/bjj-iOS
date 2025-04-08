@@ -116,6 +116,7 @@ extension LoginViewController: WKNavigationDelegate {
                     let token = queryItems.first(where: { $0.name == "token" })?.value
                     
                     if let email = email, let token = token {
+                        KeychainManager.create(token: token)
                         decisionHandler(.cancel)
                         dismiss(animated: true) { [weak self] in
                             guard let self = self else { return }

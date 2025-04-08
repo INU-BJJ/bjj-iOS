@@ -164,7 +164,7 @@ final class SignUpViewController: UIViewController {
                     }
                     
                 case .failure(let error):
-                    // TODO: 에러 처리 상세히 하기
+                    // TODO: 에러 처리 상세히 하기 - 인증정보 없음(토큰이 없는 경우(물론 여기 페이지까지 오면 토큰이 없는 경우는 없지만)에도 이미 존재하는 닉네임입니다로 뜸)
                     DispatchQueue.main.async {
                         self.testIsValidLabel.isHidden = false
                         self.testIsValidLabel.text = "❌이미 존재하는 닉네임입니다."
@@ -194,8 +194,9 @@ final class SignUpViewController: UIViewController {
         SignUpAPI.postLoginToken(params: userSignUpInfo) { result in
             switch result {
             case .success(let token):
-                print("🔐Token: \(token)")
-                
+                let token = token.accessToken
+                KeychainManager.create(token: token)
+            
             case .failure(let error):
                 // TODO: 에러 처리 상세하게
                 print("[SignUpVC] Error: \(error.localizedDescription)")

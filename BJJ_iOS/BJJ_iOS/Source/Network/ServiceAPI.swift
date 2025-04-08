@@ -11,6 +11,7 @@ enum NetworkError: Error {
     case invalidParameters
     case invalidURL
     case invalidResponse
+    case invalidToken
     case decodingError
     case unknownError
 }
@@ -39,11 +40,16 @@ public func networkRequest<T: Decodable>(
         return
     }
     
+    guard let token = KeychainManager.read() else {
+        completion(.failure(NetworkError.invalidToken))
+        return
+    }
+    
     var request = URLRequest(url: url)
 
     request.allHTTPHeaderFields = [
         "Content-Type": "application/json",
-        "Authorization": "Bearer \(Key.JWT_Token)"
+        "Authorization": "Bearer \(token)"
     ]
     request.httpBody = data
     request.method = method
@@ -79,10 +85,15 @@ public func uploadNetworkRequest<T: Decodable>(
         completion(.failure(NetworkError.invalidURL))
         return
     }
+    
+    guard let token = KeychainManager.read() else {
+        completion(.failure(NetworkError.invalidToken))
+        return
+    }
 
     let headers: HTTPHeaders = [
         "Content-Type": "multipart/form-data",
-        "Authorization": "Bearer \(Key.JWT_Token)"
+        "Authorization": "Bearer \(token)"
     ]
     
     AF.upload(multipartFormData: { multipartFormData in
