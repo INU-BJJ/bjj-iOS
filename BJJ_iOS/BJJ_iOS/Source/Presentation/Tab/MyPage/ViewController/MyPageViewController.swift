@@ -29,6 +29,12 @@ final class MyPageViewController: UIViewController {
         setConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchMemberInfo()
+    }
+    
     // MARK: - Set ViewController
     
     private func setViewController() {
@@ -48,6 +54,26 @@ final class MyPageViewController: UIViewController {
     private func setConstraints() {
         testMyNicknameLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
+        }
+    }
+    
+    // MARK: - Fetch API Functions
+    
+    private func fetchMemberInfo() {
+        MemberAPI.fetchMemberInfo() { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let member):
+                DispatchQueue.main.async {
+                    let nickname = member.nickname
+                    
+                    self.testMyNicknameLabel.text = nickname
+                }
+                
+            case .failure(let error):
+                print("[MyPageVC] Fetching Error: \(error.localizedDescription)")
+            }
         }
     }
 }

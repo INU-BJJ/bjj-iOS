@@ -106,6 +106,9 @@
 		3FC0A66B2DA0379C00FBFAEE /* SignUpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC0A66A2DA0379C00FBFAEE /* SignUpModel.swift */; };
 		3FC0A66D2DA037B000FBFAEE /* SignUpAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC0A66C2DA037B000FBFAEE /* SignUpAPI.swift */; };
 		3FC123252DA5219800676A09 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC123242DA5219800676A09 /* MyPageViewController.swift */; };
+		3FC123292DA5245100676A09 /* MemberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC123282DA5245100676A09 /* MemberModel.swift */; };
+		3FC1232B2DA5246000676A09 /* MemberAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC1232A2DA5246000676A09 /* MemberAddress.swift */; };
+		3FC1232D2DA5246B00676A09 /* MemberAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC1232C2DA5246B00676A09 /* MemberAPI.swift */; };
 		3FC691592D1D53D7004643D2 /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC691582D1D53D7004643D2 /* ServiceAPI.swift */; };
 		3FC6915C2D1D5795004643D2 /* HomeAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC6915B2D1D5795004643D2 /* HomeAddress.swift */; };
 		3FC6915F2D1D57B0004643D2 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC6915E2D1D57B0004643D2 /* HomeModel.swift */; };
@@ -253,6 +256,9 @@
 		3FC0A66A2DA0379C00FBFAEE /* SignUpModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpModel.swift; sourceTree = "<group>"; };
 		3FC0A66C2DA037B000FBFAEE /* SignUpAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpAPI.swift; sourceTree = "<group>"; };
 		3FC123242DA5219800676A09 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		3FC123282DA5245100676A09 /* MemberModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberModel.swift; sourceTree = "<group>"; };
+		3FC1232A2DA5246000676A09 /* MemberAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAddress.swift; sourceTree = "<group>"; };
+		3FC1232C2DA5246B00676A09 /* MemberAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAPI.swift; sourceTree = "<group>"; };
 		3FC691582D1D53D7004643D2 /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
 		3FC6915B2D1D5795004643D2 /* HomeAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAddress.swift; sourceTree = "<group>"; };
 		3FC6915E2D1D57B0004643D2 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
@@ -904,6 +910,7 @@
 		3FC123222DA5216A00676A09 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				3FC1232E2DA5263900676A09 /* View */,
 				3FC123232DA5218600676A09 /* ViewController */,
 			);
 			path = MyPage;
@@ -915,6 +922,31 @@
 				3FC123242DA5219800676A09 /* MyPageViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3FC123262DA5243900676A09 /* Member */ = {
+			isa = PBXGroup;
+			children = (
+				3FC123272DA5244300676A09 /* Model */,
+				3FC1232A2DA5246000676A09 /* MemberAddress.swift */,
+				3FC1232C2DA5246B00676A09 /* MemberAPI.swift */,
+			);
+			path = Member;
+			sourceTree = "<group>";
+		};
+		3FC123272DA5244300676A09 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3FC123282DA5245100676A09 /* MemberModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3FC1232E2DA5263900676A09 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		3FC691562D1D539B004643D2 /* Network */ = {
@@ -932,6 +964,7 @@
 			isa = PBXGroup;
 			children = (
 				3FC0A6662DA0376300FBFAEE /* SignUp */,
+				3FC123262DA5243900676A09 /* Member */,
 				3FDC255B2D6C7AB300ACBF8B /* Home */,
 				3F311D712D88600D00F8D803 /* Ranking */,
 				3FDC255C2D6C7AFD00ACBF8B /* Review */,
@@ -1462,6 +1495,7 @@
 				3FC123252DA5219800676A09 /* MyPageViewController.swift in Sources */,
 				3F1A51AC2CD8C38900029E09 /* SeparatingLineView.swift in Sources */,
 				3F8430272CE7208000B5A2F1 /* UITabBar++Extensions.swift in Sources */,
+				3FC1232D2DA5246B00676A09 /* MemberAPI.swift in Sources */,
 				3FDC25642D6C7B5600ACBF8B /* MyReviewAPI.swift in Sources */,
 				3FB984622D5389710050D66A /* MyReviewDetailHashTagCell.swift in Sources */,
 				3F16131D2CD8487800A30369 /* MenuInfo.swift in Sources */,
@@ -1503,6 +1537,7 @@
 				3F2BE7982D50E594005003CC /* MyReviewDetailViewController.swift in Sources */,
 				3FE186322D9FCB650086EC6C /* LoginViewController.swift in Sources */,
 				3F2BE79C2D50F687005003CC /* MyReviewDetailView.swift in Sources */,
+				3FC123292DA5245100676A09 /* MemberModel.swift in Sources */,
 				3FA1D3232D7EDAAB00010931 /* MyReviewImageDetailViewController.swift in Sources */,
 				3FBA45B12CD749730038960A /* MenuHeader.swift in Sources */,
 				3F3C74EC2D59D35C00D510A7 /* UIView++Extensions.swift in Sources */,
@@ -1525,6 +1560,7 @@
 				3F1FAD532D8D681C00570681 /* MenuReviewSortingCell.swift in Sources */,
 				3F1613292CD8584100A30369 /* MenuReviewHeaderView.swift in Sources */,
 				3FC691612D1D57C5004643D2 /* HomeAPI.swift in Sources */,
+				3FC1232B2DA5246000676A09 /* MemberAddress.swift in Sources */,
 				3F87423F2D4FD87A004DF204 /* MyReviewHeaderView.swift in Sources */,
 				3F6947D62D8818430036BF2A /* ReviewInfoView.swift in Sources */,
 				3F1A51AA2CD8941200029E09 /* MenuReviewHashTagCell.swift in Sources */,
