@@ -41,7 +41,7 @@ final class SignUpViewController: UIViewController {
         $0.setLabelUI("닉네임", font: .pretendard, size: 15, color: .black)
     }
     
-    private let testNickNameTextField = UITextField().then {
+    private lazy var testNickNameTextField = UITextField().then {
         $0.attributedPlaceholder = NSAttributedString(
             string: "닉네임",
             attributes: [
@@ -50,6 +50,7 @@ final class SignUpViewController: UIViewController {
         )
         $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
         $0.layer.borderWidth = 1
+        $0.addTarget(self, action: #selector(didNicknameChange(_:)), for: .editingChanged)
     }
     
     private lazy var testIsDupliCateButton = UIButton().then {
@@ -136,6 +137,12 @@ final class SignUpViewController: UIViewController {
     }
     
     // MARK: Objc Functions
+    
+    @objc private func didNicknameChange(_ textField: UITextField) {
+        testSignUpButton.isEnabled = false
+        testSignUpButton.backgroundColor = .customColor(.midGray)
+        testIsValidLabel.isHidden = true
+    }
     
     @objc private func didTapDupplicateButton() {
         postNickname(nickname: testNickNameTextField.text)
