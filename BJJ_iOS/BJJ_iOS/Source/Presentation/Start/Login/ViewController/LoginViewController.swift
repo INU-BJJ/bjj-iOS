@@ -20,6 +20,22 @@ final class LoginViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private let testLoginStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 30
+        $0.alignment = .center
+    }
+    
+    private lazy var kakaoLoginButton = UIButton().then {
+        $0.setTitle("카카오", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.layer.borderColor = UIColor.yellow.cgColor
+        $0.layer.borderWidth = 1
+        $0.layer.cornerRadius = 10
+        $0.tag = 0
+        $0.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
+    }
+    
     private lazy var naverLoginButton = UIButton().then {
         $0.setTitle("네이버", for: .normal)
         $0.setTitleColor(.black, for: .normal)
@@ -27,7 +43,17 @@ final class LoginViewController: UIViewController {
         $0.layer.borderWidth = 1
         $0.layer.cornerRadius = 10
         $0.tag = 1
-        $0.addTarget(self, action: #selector(didTapNaverLogin(_:)), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
+    }
+    
+    private lazy var googleLoginButton = UIButton().then {
+        $0.setTitle("구글", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.layer.borderColor = UIColor.gray.cgColor
+        $0.layer.borderWidth = 1
+        $0.layer.cornerRadius = 10
+        $0.tag = 2
+        $0.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
     }
     
     private var loginWebView: WKWebView?
@@ -52,15 +78,34 @@ final class LoginViewController: UIViewController {
     
     private func setAddView() {
         [
-            naverLoginButton
+            testLoginStackView
         ].forEach(view.addSubview)
+        
+        [
+            kakaoLoginButton,
+            naverLoginButton,
+            googleLoginButton
+        ].forEach(testLoginStackView.addArrangedSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        naverLoginButton.snp.makeConstraints {
+        testLoginStackView.snp.makeConstraints {
             $0.center.equalToSuperview()
+        }
+        
+        kakaoLoginButton.snp.makeConstraints {
+            $0.width.equalTo(200)
+            $0.height.equalTo(50)
+        }
+        
+        naverLoginButton.snp.makeConstraints {
+            $0.width.equalTo(200)
+            $0.height.equalTo(50)
+        }
+        
+        googleLoginButton.snp.makeConstraints {
             $0.width.equalTo(200)
             $0.height.equalTo(50)
         }
@@ -68,7 +113,7 @@ final class LoginViewController: UIViewController {
     
     // MARK: - Objc Functions
     
-    @objc private func didTapNaverLogin(_ sender: UIButton) {
+    @objc private func didTapLoginButton(_ sender: UIButton) {
         let webViewConfig = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero, configuration: webViewConfig)
         webView.navigationDelegate = self
