@@ -203,6 +203,11 @@ final class SignUpViewController: UIViewController {
             case .success(let token):
                 let token = token.accessToken
                 KeychainManager.create(token: token)
+                
+                DispatchQueue.main.async {
+                    let tabBarController = TabBarController()
+                    self.navigationController?.setViewControllers([tabBarController], animated: true)
+                }
             
             case .failure(let error):
                 // TODO: 에러 처리 상세하게
