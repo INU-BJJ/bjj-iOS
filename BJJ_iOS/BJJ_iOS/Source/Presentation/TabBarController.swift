@@ -60,8 +60,7 @@ extension TabBarController {
         let reviewVC = MyReviewViewController()
         let reviewNavigationVC = UINavigationController(rootViewController: reviewVC)
         
-        // TODO: myPageViewController로 교체
-        let myPageVC = HomeViewController()
+        let myPageVC = MyPageViewController()
         let myPageNavigationVC = UINavigationController(rootViewController: myPageVC)
         
         viewControllers = [homeNavigationVC, rankingNavigationVC, reviewNavigationVC, myPageNavigationVC]
