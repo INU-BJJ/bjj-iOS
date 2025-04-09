@@ -19,6 +19,12 @@ final class MyPageViewController: UIViewController {
         $0.setLabelUI("", font: .pretendard, size: 15, color: .black)
     }
     
+    private lazy var testLogoutButton = UIButton().then {
+        $0.setTitle("로그아웃", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.addTarget(self, action: #selector(didTapLogoutButton), for: .touchUpInside)
+    }
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -45,7 +51,8 @@ final class MyPageViewController: UIViewController {
     
     private func setAddView() {
         [
-            testMyNicknameLabel
+            testMyNicknameLabel,
+            testLogoutButton
         ].forEach(view.addSubview)
     }
     
@@ -54,6 +61,13 @@ final class MyPageViewController: UIViewController {
     private func setConstraints() {
         testMyNicknameLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
+        }
+        
+        testLogoutButton.snp.makeConstraints {
+            $0.top.equalTo(testMyNicknameLabel.snp.bottom).offset(20)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(200)
+            $0.height.equalTo(50)
         }
     }
     
@@ -74,6 +88,22 @@ final class MyPageViewController: UIViewController {
             case .failure(let error):
                 print("[MyPageVC] Fetching Error: \(error.localizedDescription)")
             }
+        }
+    }
+    
+    // MARK: - Objc Functions
+    
+    @objc private func didTapLogoutButton() {
+        KeychainManager.delete()
+        
+        guard let sceneDelegate = UIApplication.shared.connectedScenes
+                .first(where: { $0.activationState == .foregroundActive })?.delegate as? SceneDelegate else {
+            return
+        }
+
+        DispatchQueue.main.async {
+            // TODO: 로그아웃 전환 애니메이션 추가
+            sceneDelegate.setRootViewController()
         }
     }
 }

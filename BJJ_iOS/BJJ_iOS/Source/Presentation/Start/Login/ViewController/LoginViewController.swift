@@ -194,6 +194,8 @@ extension LoginViewController: WKNavigationDelegate {
                             guard let self = self else { return }
                             
                             DispatchQueue.main.async {
+                                // TODO: 로그인 후 TabBarController로 안 넘어가는 버그 발생중
+                                // TODO: rootViewController를 TabBarController로 바꾸기
                                 let tabBarController = TabBarController()
                                 self.navigationController?.setViewControllers([tabBarController], animated: true)
                             }
