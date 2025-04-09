@@ -116,6 +116,8 @@ final class LoginViewController: UIViewController {
     @objc private func didTapLoginButton(_ sender: UIButton) {
         let webViewConfig = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero, configuration: webViewConfig)
+//        webViewConfig.applicationNameForUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+//        https://sweetcoding.tistory.com/71
         webView.navigationDelegate = self
         // TODO: userAgent 바꾸는 방법 말고 다른 방법 찾아보기
 //        https://velog.io/@jijiseong/웹뷰에서-소셜-로그인시-문제-해결하기

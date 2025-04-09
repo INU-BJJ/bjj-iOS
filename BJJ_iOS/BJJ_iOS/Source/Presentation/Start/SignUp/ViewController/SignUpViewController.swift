@@ -205,6 +205,7 @@ final class SignUpViewController: UIViewController {
                 KeychainManager.create(token: token)
                 
                 DispatchQueue.main.async {
+                    // TODO: rootViewController 바꾸는 방법으로 전환
                     let tabBarController = TabBarController()
                     self.navigationController?.setViewControllers([tabBarController], animated: true)
                 }
