@@ -15,6 +15,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
+        PretendardKit.register()
+        
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
@@ -58,7 +60,6 @@ extension SceneDelegate {
     // 로그인 기록에 따른 첫 뷰컨트롤러 설정
     
     func setRootViewController() {
-        PretendardKit.register()
         
         let token = KeychainManager.read()
         
