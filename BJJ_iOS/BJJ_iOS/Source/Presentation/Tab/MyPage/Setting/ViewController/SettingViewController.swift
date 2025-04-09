@@ -15,10 +15,6 @@ final class SettingViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let testMyNicknameLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 15, color: .black)
-    }
-    
     private lazy var testLogoutButton = UIButton().then {
         $0.setTitle("로그아웃", for: .normal)
         $0.setTitleColor(.black, for: .normal)
@@ -35,12 +31,6 @@ final class SettingViewController: UIViewController {
         setConstraints()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        fetchMemberInfo()
-    }
-    
     // MARK: - Set ViewController
     
     private func setViewController() {
@@ -51,7 +41,6 @@ final class SettingViewController: UIViewController {
     
     private func setAddView() {
         [
-            testMyNicknameLabel,
             testLogoutButton
         ].forEach(view.addSubview)
     }
@@ -59,35 +48,10 @@ final class SettingViewController: UIViewController {
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        testMyNicknameLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
-        }
-        
         testLogoutButton.snp.makeConstraints {
-            $0.top.equalTo(testMyNicknameLabel.snp.bottom).offset(20)
-            $0.centerX.equalToSuperview()
+            $0.center.equalToSuperview()
             $0.width.equalTo(200)
             $0.height.equalTo(50)
-        }
-    }
-    
-    // MARK: - Fetch API Functions
-    
-    private func fetchMemberInfo() {
-        MemberAPI.fetchMemberInfo() { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let member):
-                DispatchQueue.main.async {
-                    let nickname = member.nickname
-                    
-                    self.testMyNicknameLabel.text = nickname
-                }
-                
-            case .failure(let error):
-                print("[MyPageVC] Fetching Error: \(error.localizedDescription)")
-            }
         }
     }
     

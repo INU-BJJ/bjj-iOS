@@ -15,6 +15,10 @@ final class MyPageViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private let testMyNicknameLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard, size: 15, color: .black)
+    }
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -23,6 +27,12 @@ final class MyPageViewController: UIViewController {
         setViewController()
         setAddView()
         setConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchMemberInfo()
     }
     
     // MARK: - Set ViewController
@@ -35,13 +45,36 @@ final class MyPageViewController: UIViewController {
     
     private func setAddView() {
         [
-            
+            testMyNicknameLabel
         ].forEach(view.addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        
+        testMyNicknameLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(100)
+            $0.centerX.equalToSuperview()
+        }
+    }
+    
+    // MARK: - Fetch API Functions
+    
+    private func fetchMemberInfo() {
+        MemberAPI.fetchMemberInfo() { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let member):
+                DispatchQueue.main.async {
+                    let nickname = member.nickname
+                    
+                    self.testMyNicknameLabel.text = "\(nickname)의 공간"
+                }
+                
+            case .failure(let error):
+                print("[MyPageVC] Fetching Error: \(error.localizedDescription)")
+            }
+        }
     }
 }
