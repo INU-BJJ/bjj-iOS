@@ -38,12 +38,29 @@ class KeychainManager {
         var readData: AnyObject?
         let status = SecItemCopyMatching(query, &readData)
 
-        assert(status == errSecSuccess, "토큰 읽기 실패")
-        
         if status == errSecSuccess, let data = readData as? Data {
             return String(data: data, encoding: .utf8)
-        } else {
+        } else if status == errSecItemNotFound {
+            // accessToken을 찾지 못한 경우 (회원 가입하기 이전 상황)
             return nil
+        } else {
+            assert(status == errSecSuccess, "토큰 읽기 실패")
+            return nil
+        }
+    }
+    
+    static func delete() {
+        let query: NSDictionary = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrAccount: "accessToken"
+        ]
+        
+        let status = SecItemDelete(query)
+        
+        if status == errSecItemNotFound {
+            print("삭제 가능 토큰 없음")
+        } else {
+            assert(status == errSecSuccess, "토큰 삭제 실패")
         }
     }
 }
