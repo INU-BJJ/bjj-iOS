@@ -14,17 +14,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        PretendardKit.register()
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        let tabBarController = TabBarController()
         
         window = UIWindow(windowScene: windowScene)
-//        window?.rootViewController = tabBarController
-        window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
+        setRootViewController()
         window?.makeKeyAndVisible()
     }
 
@@ -59,3 +53,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+extension SceneDelegate {
+    
+    // 로그인 기록에 따른 첫 뷰컨트롤러 설정
+    
+    func setRootViewController() {
+        PretendardKit.register()
+        
+        let token = KeychainManager.read()
+        
+        if token != nil {
+            // 토큰이 존재하는 경우: 홈 화면으로 이동
+            
+            let tabBarController = TabBarController()
+            window?.rootViewController = tabBarController
+        } else {
+            // 토큰이 없는 경우: 로그인 화면으로 이동
+            
+            let loginVC = LoginViewController()
+            window?.rootViewController = loginVC
+        }
+    }
+}
