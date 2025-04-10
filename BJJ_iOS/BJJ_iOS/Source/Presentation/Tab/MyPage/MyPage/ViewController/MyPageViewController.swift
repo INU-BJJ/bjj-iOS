@@ -65,7 +65,7 @@ final class MyPageViewController: UIViewController {
     
     private func setUI() {
         DispatchQueue.main.async {
-            self.testMyNicknameLabel.text = self.myPageViewData?.nickname
+            self.testMyNicknameLabel.text = "\(self.myPageViewData?.nickname ?? "")의 공간"
         }
     }
     
