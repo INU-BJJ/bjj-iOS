@@ -9,11 +9,14 @@ import Foundation
 
 enum MyPageAddress {
     case fetchMyPageInfo
+    case patchItem(Int)
     
     var url: String {
         switch self {
         case .fetchMyPageInfo:
             return "items/my"
+        case .patchItem(let itemID):
+            return "items/\(itemID)"
         }
     }
 }

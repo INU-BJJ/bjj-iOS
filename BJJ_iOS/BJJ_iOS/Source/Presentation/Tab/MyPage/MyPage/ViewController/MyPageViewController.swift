@@ -66,6 +66,8 @@ final class MyPageViewController: UIViewController {
     private func setUI() {
         DispatchQueue.main.async {
             self.testMyNicknameLabel.text = "\(self.myPageViewData?.nickname ?? "")의 공간"
+            
+            // TODO: 캐릭터, 배경 svg 적용
         }
     }
     
@@ -85,11 +87,48 @@ final class MyPageViewController: UIViewController {
                     backgroundID: myPageInfo.backgroundID,
                     backgroundImage: myPageInfo.backgroundImage
                 )
-                setUI()
+                
+                // TODO: items/{itemId} 부분 json 형태로 빈 응답이라도 반환해달라고 건의
+                // TODO: characterID, backgroundID가 null값으로 들어올 경우 기본 캐릭터 어떤걸 착용할건지 논의
+                patchMyItem(
+                    characterID: myPageViewData?.characterID ?? 1,
+                    backgroundID: myPageViewData?.backgroundID ?? 1
+                ) {
+                    self.setUI()
+                }
                 
             case .failure(let error):
                 print("[MyPageVC] Error: \(error.localizedDescription)")
             }
+        }
+    }
+    
+    private func patchMyItem(characterID: Int, backgroundID: Int, completion: @escaping () -> Void) {
+        let dispatchGroup = DispatchGroup()
+        
+        // 캐릭터 착용
+        dispatchGroup.enter()
+        
+        MyPageAPI.patchItem(itemType: "CHARACTER", itemID: characterID) { result in
+            if case .failure(let error) = result {
+                print("[MyPageVC] Error: \(error.localizedDescription)")
+            }
+            dispatchGroup.leave()
+        }
+        
+        // 배경 착용
+        dispatchGroup.enter()
+        
+        MyPageAPI.patchItem(itemType: "BACKGROUND", itemID: backgroundID) { result in
+            if case .failure(let error) = result {
+                print("[MyPageVC] Error: \(error.localizedDescription)")
+            }
+            dispatchGroup.leave()
+        }
+        
+        // 캐릭터, 배경 착용 완료 후 completion 실행
+        dispatchGroup.notify(queue: .main) {
+            completion()
         }
     }
 }

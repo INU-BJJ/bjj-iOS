@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 final class MyPageAPI {
     static func fetchMyPageInfo(completion: @escaping (Result<MyPage, Error>) -> Void) {
@@ -14,6 +15,17 @@ final class MyPageAPI {
             method: .get,
             data: nil,
             model: MyPage.self,
+            completion: completion
+        )
+    }
+    
+    static func patchItem(itemType: String, itemID: Int, completion: @escaping (Result<Empty, Error>) -> Void) {
+        networkRequest(
+            urlStr: MyPageAddress.patchItem(itemID).url,
+            method: .patch,
+            data: nil,
+            model: Empty.self,
+            query: ["itemType": itemType],
             completion: completion
         )
     }
