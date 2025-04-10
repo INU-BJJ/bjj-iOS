@@ -8,12 +8,12 @@
 import Foundation
 
 final class MyPageAPI {
-    static func fetchMyPageInfo(completion: @escaping (Result<MyPageModel, Error>) -> Void) {
+    static func fetchMyPageInfo(completion: @escaping (Result<MyPage, Error>) -> Void) {
         networkRequest(
             urlStr: MyPageAddress.fetchMyPageInfo.url,
             method: .get,
             data: nil,
-            model: MyPageModel.self,
+            model: MyPage.self,
             completion: completion
         )
     }

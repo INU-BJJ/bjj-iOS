@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MyPageModel: Hashable, Codable {
+struct MyPage: Codable {
     let nickname: String
     let characterID: Int?
     let characterImage: String?
