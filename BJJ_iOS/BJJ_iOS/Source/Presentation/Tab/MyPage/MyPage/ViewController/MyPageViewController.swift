@@ -32,7 +32,8 @@ final class MyPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        fetchMemberInfo()
+        // TODO: 닉네임을 자주 바꾸진 않으니까 닉네임만 조회하는 API 따로 요청?
+        fetchMyPageInfo()
     }
     
     // MARK: - Set ViewController
@@ -60,20 +61,19 @@ final class MyPageViewController: UIViewController {
     
     // MARK: - Fetch API Functions
     
-    private func fetchMemberInfo() {
-        MemberAPI.fetchMemberInfo() { [weak self] result in
+    private func fetchMyPageInfo() {
+        MyPageAPI.fetchMyPageInfo() { [weak self] result in
             guard let self = self else { return }
             
             switch result {
-            case .success(let member):
+            case .success(let myPageInfo):
                 DispatchQueue.main.async {
-                    let nickname = member.nickname
-                    
+                    let nickname = myPageInfo.nickname
                     self.testMyNicknameLabel.text = "\(nickname)의 공간"
                 }
                 
             case .failure(let error):
-                print("[MyPageVC] Fetching Error: \(error.localizedDescription)")
+                print("[MyPageVC] Error: \(error.localizedDescription)")
             }
         }
     }
