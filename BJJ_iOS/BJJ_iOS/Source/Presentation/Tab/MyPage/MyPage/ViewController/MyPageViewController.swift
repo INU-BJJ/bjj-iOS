@@ -13,6 +13,8 @@ final class MyPageViewController: UIViewController {
     
     // MARK: - Properties
     
+    private var myPageViewData: MyPageSection?
+    
     // MARK: - UI Components
     
     private let testMyNicknameLabel = UILabel().then {
@@ -59,6 +61,14 @@ final class MyPageViewController: UIViewController {
         }
     }
     
+    // MARK: - Set UI
+    
+    private func setUI() {
+        DispatchQueue.main.async {
+            self.testMyNicknameLabel.text = self.myPageViewData?.nickname
+        }
+    }
+    
     // MARK: - Fetch API Functions
     
     private func fetchMyPageInfo() {
@@ -67,10 +77,15 @@ final class MyPageViewController: UIViewController {
             
             switch result {
             case .success(let myPageInfo):
-                DispatchQueue.main.async {
-                    let nickname = myPageInfo.nickname
-                    self.testMyNicknameLabel.text = "\(nickname)의 공간"
-                }
+                // self.myPageViewData = MyPageSection()과 같은 의미
+                myPageViewData = MyPageSection(
+                    nickname: myPageInfo.nickname,
+                    characterID: myPageInfo.characterID,
+                    characterImage: myPageInfo.characterImage,
+                    backgroundID: myPageInfo.backgroundID,
+                    backgroundImage: myPageInfo.backgroundImage
+                )
+                setUI()
                 
             case .failure(let error):
                 print("[MyPageVC] Error: \(error.localizedDescription)")
