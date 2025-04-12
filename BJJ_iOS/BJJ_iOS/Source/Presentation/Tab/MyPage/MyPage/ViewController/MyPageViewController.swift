@@ -19,12 +19,12 @@ final class MyPageViewController: UIViewController {
     // MARK: - UI Components
     
     private let testMyNicknameLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 15, color: .black)
+        $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
     }
     
     private let testCharacterImage = UIImageView()
     
-//    private let testBackgroundImage = UIImageView()
+    private let testBackgroundImage = UIImageView()
     
     // MARK: - LifeCycle
     
@@ -55,9 +55,9 @@ final class MyPageViewController: UIViewController {
     
     private func setAddView() {
         [
+            testBackgroundImage,
             testMyNicknameLabel,
-            testCharacterImage,
-//            testBackgroundImage
+            testCharacterImage
         ].forEach(view.addSubview)
     }
     
@@ -76,11 +76,9 @@ final class MyPageViewController: UIViewController {
             $0.height.equalTo(98 * 1.5)
         }
         
-//        testBackgroundImage.snp.makeConstraints {
-//            $0.top.equalToSuperview().offset(50)
-//            $0.width.equalToSuperview()
-//            $0.bottom.equalToSuperview()
-//        }
+        testBackgroundImage.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
     
     // MARK: - Set UI
@@ -90,18 +88,18 @@ final class MyPageViewController: UIViewController {
             self.testMyNicknameLabel.text = "\(self.myPageViewData?.nickname ?? "")의 공간"
             // TODO: postIsMenuLiked, postIsReviewLiked의 쿼리 부분 주석 처리하기(메모 참고)
             guard let characterURL = URL(string: baseURL.characterImageURL + (self.myPageViewData?.characterImage ?? "")) else { return }
-//            guard let backgroundURL = URL(string: baseURL.backgroundImageURL + (self.myPageViewData?.backgroundImage ?? "")) else { return }
+            guard let backgroundURL = URL(string: baseURL.backgroundImageURL + (self.myPageViewData?.backgroundImage ?? "")) else { return }
             
             self.testCharacterImage.sd_setImage(
                 with: characterURL,
                 placeholderImage: nil,
                 options: [.retryFailed, .continueInBackground]
             )
-//            self.testBackgroundImage.sd_setImage(
-//                with: backgroundURL,
-//                placeholderImage: nil,
-//                options: [.retryFailed, .continueInBackground]
-//            )
+            self.testBackgroundImage.sd_setImage(
+                with: backgroundURL,
+                placeholderImage: nil,
+                options: [.retryFailed, .continueInBackground]
+            )
         }
     }
     
