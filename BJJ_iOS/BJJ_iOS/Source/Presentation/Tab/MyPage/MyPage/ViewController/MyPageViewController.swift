@@ -85,11 +85,10 @@ final class MyPageViewController: UIViewController {
     
     private func setUI() {
         DispatchQueue.main.async {
-            self.testMyNicknameLabel.text = "\(self.myPageViewData?.nickname ?? "")의 공간"
-            // TODO: postIsMenuLiked, postIsReviewLiked의 쿼리 부분 주석 처리하기(메모 참고)
             guard let characterURL = URL(string: baseURL.characterImageURL + (self.myPageViewData?.characterImage ?? "")) else { return }
             guard let backgroundURL = URL(string: baseURL.backgroundImageURL + (self.myPageViewData?.backgroundImage ?? "")) else { return }
             
+            self.testMyNicknameLabel.text = "\(self.myPageViewData?.nickname ?? "")의 공간"
             self.testCharacterImage.sd_setImage(
                 with: characterURL,
                 placeholderImage: nil,
