@@ -131,7 +131,8 @@ final class MyPageViewController: UIViewController {
                     characterID: myPageInfo.characterID,
                     characterImage: myPageInfo.characterImage,
                     backgroundID: myPageInfo.backgroundID,
-                    backgroundImage: myPageInfo.backgroundImage
+                    backgroundImage: myPageInfo.backgroundImage,
+                    point: myPageInfo.point
                 )
                 
                 // TODO: patch items/{itemId} 부분 json 형태로 빈 응답이라도 반환해달라고 건의
@@ -150,6 +151,6 @@ final class MyPageViewController: UIViewController {
     // MARK: - Objc Functions
     
     @objc private func didTapStoreButton() {
-        presentStoreViewController()
+        presentStoreViewController(point: myPageViewData?.point ?? 0)
     }
 }

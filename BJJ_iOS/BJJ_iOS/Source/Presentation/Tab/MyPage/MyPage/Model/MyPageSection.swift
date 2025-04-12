@@ -13,4 +13,5 @@ struct MyPageSection: Hashable {
     let characterImage: String?
     let backgroundID: Int?
     let backgroundImage: String?
+    let point: Int
 }
