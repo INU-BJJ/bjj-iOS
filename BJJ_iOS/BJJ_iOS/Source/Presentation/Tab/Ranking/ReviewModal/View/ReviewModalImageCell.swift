@@ -55,7 +55,7 @@ final class ReviewModalImageCell: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Configure Cell
     
     func configureReviewImageCell(with imageName: String, cornerStyle: UIRectCorner) {
-        reviewImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(imageName)"))
+        reviewImageView.kf.setImage(with: URL(string: "\(baseURL.reviewImageURL)\(imageName)"))
         applyCorners(cornerStyle: cornerStyle)
     }
     

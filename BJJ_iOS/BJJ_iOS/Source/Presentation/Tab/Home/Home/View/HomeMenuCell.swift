@@ -166,7 +166,7 @@ final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
         if imageName == "DefaultMenuImage" {
             menuImageView.image = UIImage(named: "HomeDefaultMenuImage")
         } else {
-            menuImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(imageName)"))
+            menuImageView.kf.setImage(with: URL(string: "\(baseURL.reviewImageURL)\(imageName)"))
         }
         cafeteriaLabel.text = "\(cafeteriaName) \(cafeteriaCorner)"
         menuRatingView.configureRatingLabel(with: menuRating)
