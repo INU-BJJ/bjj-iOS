@@ -88,6 +88,7 @@
 		3F6F565E2CB2975C00A43EF6 /* UIFont++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */; };
 		3F7CC2D32DA2491B00062EF9 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7CC2D22DA2491B00062EF9 /* SignUpViewController.swift */; };
 		3F8430272CE7208000B5A2F1 /* UITabBar++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8430262CE7208000B5A2F1 /* UITabBar++Extensions.swift */; };
+		3F858F412DAA532400F6C7F5 /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F858F402DAA532400F6C7F5 /* StoreViewController.swift */; };
 		3F87423B2D4FB08E004DF204 /* MyReviewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F87423A2D4FB08E004DF204 /* MyReviewSection.swift */; };
 		3F87423D2D4FC1E3004DF204 /* MyReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F87423C2D4FC1E3004DF204 /* MyReviewCell.swift */; };
 		3F87423F2D4FD87A004DF204 /* MyReviewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F87423E2D4FD87A004DF204 /* MyReviewHeaderView.swift */; };
@@ -243,6 +244,7 @@
 		3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extensions.swift"; sourceTree = "<group>"; };
 		3F7CC2D22DA2491B00062EF9 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		3F8430262CE7208000B5A2F1 /* UITabBar++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar++Extensions.swift"; sourceTree = "<group>"; };
+		3F858F402DAA532400F6C7F5 /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
 		3F87423A2D4FB08E004DF204 /* MyReviewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewSection.swift; sourceTree = "<group>"; };
 		3F87423C2D4FC1E3004DF204 /* MyReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewCell.swift; sourceTree = "<group>"; };
 		3F87423E2D4FD87A004DF204 /* MyReviewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewHeaderView.swift; sourceTree = "<group>"; };
@@ -828,6 +830,22 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		3F858F3E2DAA52EC00F6C7F5 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				3F858F3F2DAA52FF00F6C7F5 /* ViewController */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		3F858F3F2DAA52FF00F6C7F5 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F858F402DAA532400F6C7F5 /* StoreViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		3F94C8112D27BEAD00364D0F /* MenuDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -973,6 +991,7 @@
 			isa = PBXGroup;
 			children = (
 				3F6125262DA6A7F5003B5851 /* MyPage */,
+				3F858F3E2DAA52EC00F6C7F5 /* Store */,
 				3F6125232DA6A693003B5851 /* Setting */,
 			);
 			path = MyPage;
@@ -1610,6 +1629,7 @@
 				3F16132B2CD86D3B00A30369 /* MenuReviewSorting.swift in Sources */,
 				3F3AF8C72D75A54A00D6C28A /* ReviewWriteModel.swift in Sources */,
 				3F43F0DA2D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift in Sources */,
+				3F858F412DAA532400F6C7F5 /* StoreViewController.swift in Sources */,
 				3F31AAE12D675C3100FDCC35 /* ReviewAddPhotoCell.swift in Sources */,
 				3F2B0EB32D7966E30059AA2B /* NoticeViewType.swift in Sources */,
 				3F25B3E92CB282D7005C0907 /* AppDelegate.swift in Sources */,

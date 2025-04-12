@@ -142,6 +142,13 @@ extension UIViewController {
 //        self.navigationController?.pushViewController(reviewWriteVC, animated: true)
 //    }
     
+    /// StoreVC로 push
+    func presentStoreViewController() {
+        let storeVC = StoreViewController()
+        storeVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(storeVC, animated: true)
+    }
+    
     // MARK: - objc Function
     
     /// popVC

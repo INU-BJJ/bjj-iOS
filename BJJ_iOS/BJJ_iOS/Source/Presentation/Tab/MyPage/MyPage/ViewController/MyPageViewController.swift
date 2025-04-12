@@ -26,6 +26,14 @@ final class MyPageViewController: UIViewController {
     
     private let testBackgroundImage = UIImageView()
     
+    private lazy var testStoreButton = UIButton().then {
+        $0.setTitle("상점", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.layer.borderColor = UIColor.customColor(.mainColor).cgColor
+        $0.layer.borderWidth = 1
+        $0.addTarget(self, action: #selector(didTapStoreButton), for: .touchUpInside)
+    }
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -57,7 +65,8 @@ final class MyPageViewController: UIViewController {
         [
             testBackgroundImage,
             testMyNicknameLabel,
-            testCharacterImage
+            testCharacterImage,
+            testStoreButton
         ].forEach(view.addSubview)
     }
     
@@ -78,6 +87,12 @@ final class MyPageViewController: UIViewController {
         
         testBackgroundImage.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        testStoreButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(130)
+            $0.leading.equalToSuperview().offset(20)
+            $0.width.height.equalTo(60)
         }
     }
     
@@ -130,5 +145,11 @@ final class MyPageViewController: UIViewController {
                 print("[MyPageVC] Error: \(error.localizedDescription)")
             }
         }
+    }
+    
+    // MARK: - Objc Functions
+    
+    @objc private func didTapStoreButton() {
+        presentStoreViewController()
     }
 }
