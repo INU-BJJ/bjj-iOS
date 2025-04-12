@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import SDWebImage
 
 final class MyPageViewController: UIViewController {
     
@@ -20,6 +21,10 @@ final class MyPageViewController: UIViewController {
     private let testMyNicknameLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 15, color: .black)
     }
+    
+    private let testCharacterImage = UIImageView()
+    
+//    private let testBackgroundImage = UIImageView()
     
     // MARK: - LifeCycle
     
@@ -35,7 +40,9 @@ final class MyPageViewController: UIViewController {
         super.viewWillAppear(animated)
         
         // TODO: 닉네임을 자주 바꾸진 않으니까 닉네임만 조회하는 API 따로 요청?
-        fetchMyPageInfo()
+        fetchMyPageInfo() {
+            self.setUI()
+        }
     }
     
     // MARK: - Set ViewController
@@ -48,7 +55,9 @@ final class MyPageViewController: UIViewController {
     
     private func setAddView() {
         [
-            testMyNicknameLabel
+            testMyNicknameLabel,
+            testCharacterImage,
+//            testBackgroundImage
         ].forEach(view.addSubview)
     }
     
@@ -59,6 +68,19 @@ final class MyPageViewController: UIViewController {
             $0.top.equalToSuperview().offset(100)
             $0.centerX.equalToSuperview()
         }
+        
+        testCharacterImage.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(150)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(112 * 1.5)
+            $0.height.equalTo(98 * 1.5)
+        }
+        
+//        testBackgroundImage.snp.makeConstraints {
+//            $0.top.equalToSuperview().offset(50)
+//            $0.width.equalToSuperview()
+//            $0.bottom.equalToSuperview()
+//        }
     }
     
     // MARK: - Set UI
@@ -66,14 +88,26 @@ final class MyPageViewController: UIViewController {
     private func setUI() {
         DispatchQueue.main.async {
             self.testMyNicknameLabel.text = "\(self.myPageViewData?.nickname ?? "")의 공간"
+            // TODO: postIsMenuLiked, postIsReviewLiked의 쿼리 부분 주석 처리하기(메모 참고)
+            guard let characterURL = URL(string: baseURL.characterImageURL + (self.myPageViewData?.characterImage ?? "")) else { return }
+//            guard let backgroundURL = URL(string: baseURL.backgroundImageURL + (self.myPageViewData?.backgroundImage ?? "")) else { return }
             
-            // TODO: 캐릭터, 배경 svg 적용
+            self.testCharacterImage.sd_setImage(
+                with: characterURL,
+                placeholderImage: nil,
+                options: [.retryFailed, .continueInBackground]
+            )
+//            self.testBackgroundImage.sd_setImage(
+//                with: backgroundURL,
+//                placeholderImage: nil,
+//                options: [.retryFailed, .continueInBackground]
+//            )
         }
     }
     
     // MARK: - Fetch API Functions
     
-    private func fetchMyPageInfo() {
+    private func fetchMyPageInfo(completion: @escaping () -> Void) {
         MyPageAPI.fetchMyPageInfo() { [weak self] result in
             guard let self = self else { return }
             
@@ -88,47 +122,16 @@ final class MyPageViewController: UIViewController {
                     backgroundImage: myPageInfo.backgroundImage
                 )
                 
-                // TODO: items/{itemId} 부분 json 형태로 빈 응답이라도 반환해달라고 건의
+                // TODO: patch items/{itemId} 부분 json 형태로 빈 응답이라도 반환해달라고 건의
                 // TODO: characterID, backgroundID가 null값으로 들어올 경우 기본 캐릭터 어떤걸 착용할건지 논의
-                patchMyItem(
-                    characterID: myPageViewData?.characterID ?? 1,
-                    backgroundID: myPageViewData?.backgroundID ?? 1
-                ) {
-                    self.setUI()
+                
+                DispatchQueue.main.async {
+                    completion()
                 }
                 
             case .failure(let error):
                 print("[MyPageVC] Error: \(error.localizedDescription)")
             }
-        }
-    }
-    
-    private func patchMyItem(characterID: Int, backgroundID: Int, completion: @escaping () -> Void) {
-        let dispatchGroup = DispatchGroup()
-        
-        // 캐릭터 착용
-        dispatchGroup.enter()
-        
-        MyPageAPI.patchItem(itemType: "CHARACTER", itemID: characterID) { result in
-            if case .failure(let error) = result {
-                print("[MyPageVC] Error: \(error.localizedDescription)")
-            }
-            dispatchGroup.leave()
-        }
-        
-        // 배경 착용
-        dispatchGroup.enter()
-        
-        MyPageAPI.patchItem(itemType: "BACKGROUND", itemID: backgroundID) { result in
-            if case .failure(let error) = result {
-                print("[MyPageVC] Error: \(error.localizedDescription)")
-            }
-            dispatchGroup.leave()
-        }
-        
-        // 캐릭터, 배경 착용 완료 후 completion 실행
-        dispatchGroup.notify(queue: .main) {
-            completion()
         }
     }
 }

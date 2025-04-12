@@ -9,6 +9,10 @@ target 'BJJ_iOS' do
   pod 'Alamofire'
   pod 'Kingfisher'
   pod 'Cosmos'
+  pod 'SVGKit'
+  pod 'SDWebImage'
+  pod 'SDWebImageSVGKitPlugin'
+  pod 'SDWebImageSVGCoder'
 
   use_frameworks!
 
