@@ -79,10 +79,8 @@ final class MyPageViewController: UIViewController {
         }
         
         testCharacterImage.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(150)
+            $0.bottom.equalToSuperview().inset(170)
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(112 * 1.5)
-            $0.height.equalTo(98 * 1.5)
         }
         
         testBackgroundImage.snp.makeConstraints {
@@ -108,7 +106,13 @@ final class MyPageViewController: UIViewController {
                 with: characterURL,
                 placeholderImage: nil,
                 options: [.retryFailed, .continueInBackground]
-            )
+            ) { _, _, _, _ in
+                // TODO: 이미지 크기 변경
+                // 이미지 로드 완료 후 크기 확대
+                UIView.animate(withDuration: 0) {
+                    self.testCharacterImage.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+                }
+            }
             self.testBackgroundImage.sd_setImage(
                 with: backgroundURL,
                 placeholderImage: nil,
