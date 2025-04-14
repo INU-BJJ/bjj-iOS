@@ -18,6 +18,20 @@ final class GachaResultViewController: UIViewController {
     
     private let testDrawnCharacter = UIImageView()
     
+    private let testGachaPopUpView = UIView().then {
+        $0.backgroundColor = .white
+    }
+    
+    private let testGachaLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
+    }
+    
+    private lazy var testItemWearButton = UIButton().then {
+        $0.setTitle("착용하기", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.backgroundColor = .customColor(.mainColor)
+    }
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -33,15 +47,21 @@ final class GachaResultViewController: UIViewController {
     // MARK: - Set ViewController
     
     private func setViewController() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemGreen
     }
     
     // MARK: - Set AddViews
     
     private func setAddView() {
         [
-            testDrawnCharacter
+            testDrawnCharacter,
+            testGachaPopUpView
         ].forEach(view.addSubview)
+        
+        [
+            testGachaLabel,
+            testItemWearButton
+        ].forEach(testGachaPopUpView.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -50,14 +70,32 @@ final class GachaResultViewController: UIViewController {
         testDrawnCharacter.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
+        
+        testGachaPopUpView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(600)
+            $0.width.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+        
+        testGachaLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(43)
+            $0.centerX.equalToSuperview()
+        }
+        
+        testItemWearButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(173)
+            $0.bottom.equalToSuperview().inset(40)
+            $0.leading.equalToSuperview().offset(185)
+            $0.trailing.equalToSuperview().inset(20)
+        }
     }
     
     // MARK: - Set UI
     
-    private func setUI(_ itemImage: String) {
+    private func setUI(_ itemInfo: GachaResultModel) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            guard let characterURL = URL(string: baseURL.characterImageURL + itemImage) else { return }
+            guard let characterURL = URL(string: baseURL.characterImageURL + itemInfo.itemImage) else { return }
             
             self.testDrawnCharacter.sd_setImage(
                 with: characterURL,
@@ -70,16 +108,17 @@ final class GachaResultViewController: UIViewController {
                     self.testDrawnCharacter.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
                 }
             }
+            self.testGachaLabel.text = "\(itemInfo.itemName) 등장!"
         }
     }
     
     // MARK: - Post API
     
-    private func postItemGacha(itemType: String, completion: @escaping (_ itemImage: String) -> Void) {
+    private func postItemGacha(itemType: String, completion: @escaping (_ itemInfo: GachaResultModel) -> Void) {
         GachaResultAPI.postItemGacha(itemType: itemType) { result in
             switch result {
             case .success(let itemInfo):
-                completion(itemInfo.itemImage)
+                completion(itemInfo)
                 
             case .failure(let error):
                 print("[GachaResultVC] Error: \(error.localizedDescription)")
