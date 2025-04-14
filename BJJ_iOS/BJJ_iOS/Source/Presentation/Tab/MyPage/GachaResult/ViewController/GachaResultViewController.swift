@@ -14,6 +14,8 @@ final class GachaResultViewController: UIViewController {
     
     // MARK: - Properties
     
+    private var drawnItemInfo: GachaResultSection?
+    
     // MARK: - UI Components
     
     private let testDrawnCharacter = UIImageView()
@@ -30,6 +32,7 @@ final class GachaResultViewController: UIViewController {
         $0.setTitle("착용하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .customColor(.mainColor)
+        $0.addTarget(self, action: #selector(didTapItemWearButton), for: .touchUpInside)
     }
     
     // MARK: - LifeCycle
@@ -112,12 +115,36 @@ final class GachaResultViewController: UIViewController {
         }
     }
     
+    // MARK: - Objc Functions
+    
+    @objc private func didTapItemWearButton() {
+        // TODO: 캐릭터인지 배경인지 구분해서 PATCH 요청 보내기
+        // TODO: itemType, itemID가 없을 경우 빈 문자열과 0 보내지 말고 다른 방법 고민하기
+        GachaResultAPI.patchItem(itemType: drawnItemInfo?.itemType ?? "", itemID: drawnItemInfo?.itemID ?? 0) { result in
+            switch result {
+            case .success:
+                // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
+                DispatchQueue.main.async {
+                    self.presentMyPageViewController()
+                }
+                
+            case .failure(let error):
+                // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
+                DispatchQueue.main.async {
+                    self.presentMyPageViewController()
+                }
+                print("[GachaResultVC] Error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     // MARK: - Post API
     
     private func postItemGacha(itemType: String, completion: @escaping (_ itemInfo: GachaResultModel) -> Void) {
         GachaResultAPI.postItemGacha(itemType: itemType) { result in
             switch result {
             case .success(let itemInfo):
+                self.drawnItemInfo = GachaResultSection(itemID: itemInfo.itemID, itemType: itemInfo.itemType)
                 completion(itemInfo)
                 
             case .failure(let error):

@@ -9,11 +9,14 @@ import Foundation
 
 enum GachaResultAddress {
     case postItemGacha
+    case patchItem(Int)
     
     var url: String {
         switch self {
         case .postItemGacha:
             return "items"
+        case .patchItem(let itemID):
+            return "items/\(itemID)"
         }
     }
 }

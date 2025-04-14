@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 final class GachaResultAPI {
     static func postItemGacha(itemType: String, completion: @escaping (Result<GachaResultModel, Error>) -> Void) {
@@ -14,6 +15,17 @@ final class GachaResultAPI {
             method: .post,
             data: nil,
             model: GachaResultModel.self,
+            query: ["itemType": itemType],
+            completion: completion
+        )
+    }
+    
+    static func patchItem(itemType: String, itemID: Int, completion: @escaping (Result<Empty, Error>) -> Void) {
+        networkRequest(
+            urlStr: GachaResultAddress.patchItem(itemID).url,
+            method: .patch,
+            data: nil,
+            model: Empty.self,
             query: ["itemType": itemType],
             completion: completion
         )

@@ -142,6 +142,13 @@ extension UIViewController {
 //        self.navigationController?.pushViewController(reviewWriteVC, animated: true)
 //    }
     
+    /// MyPageVC로 push
+    func presentMyPageViewController() {
+        let myPageVC = MyPageViewController()
+        myPageVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(myPageVC, animated: true)
+    }
+    
     /// StoreVC로 push
     func presentStoreViewController(point: Int) {
         let storeVC = StoreViewController(point: point)
