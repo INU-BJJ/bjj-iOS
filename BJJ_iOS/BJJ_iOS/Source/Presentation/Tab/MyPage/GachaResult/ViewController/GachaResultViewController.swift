@@ -63,7 +63,13 @@ final class GachaResultViewController: UIViewController {
                 with: characterURL,
                 placeholderImage: nil,
                 options: [.retryFailed, .continueInBackground]
-            )
+            ) { _, _, _, _ in
+                // TODO: 이미지 크기 변경
+                // 이미지 로드 완료 후 크기 확대
+                UIView.animate(withDuration: 0) {
+                    self.testDrawnCharacter.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+                }
+            }
         }
     }
     
