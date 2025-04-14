@@ -152,8 +152,17 @@ extension UIViewController {
     /// GachaVC로 push
     func presentGachaViewController() {
         let gachaVC = GachaViewController()
-        gachaVC.modalPresentationStyle = .overCurrentContext
-        present(gachaVC, animated: true)
+        let gachaNavigation = UINavigationController(rootViewController: gachaVC)
+        
+        gachaNavigation.modalPresentationStyle = .overFullScreen
+        present(gachaNavigation, animated: true)
+    }
+    
+    /// GachaResultVC로 push
+    func presentGachaResultViewController() {
+        let gachaResultVC = GachaResultViewController()
+        gachaResultVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(gachaResultVC, animated: true)
     }
     
     // MARK: - objc Function

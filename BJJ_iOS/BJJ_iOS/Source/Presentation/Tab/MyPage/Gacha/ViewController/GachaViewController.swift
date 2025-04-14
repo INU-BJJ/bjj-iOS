@@ -27,6 +27,7 @@ final class GachaViewController: UIViewController {
         $0.setTitle("50", for: .normal)
         $0.setTitleColor(.black, for: .normal)
         $0.backgroundColor = .yellow
+        $0.addTarget(self, action: #selector(didTapGachaButton), for: .touchUpInside)
     }
     
     // MARK: - LifeCycle
@@ -90,8 +91,7 @@ final class GachaViewController: UIViewController {
     
     @objc private func didTapGachaButton() {
         DispatchQueue.main.async {
-            
+            self.presentGachaResultViewController()
         }
     }
 }
-

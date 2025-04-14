@@ -37,6 +37,7 @@
 		3F25B40A2CB282D8005C0907 /* BJJ_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B4092CB282D8005C0907 /* BJJ_iOSUITests.swift */; };
 		3F25B40C2CB282D8005C0907 /* BJJ_iOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B40B2CB282D8005C0907 /* BJJ_iOSUITestsLaunchTests.swift */; };
 		3F27E9412DACA15100CD2554 /* GachaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F27E9402DACA15100CD2554 /* GachaViewController.swift */; };
+		3F27E9452DACAA1800CD2554 /* GachaResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F27E9442DACAA1800CD2554 /* GachaResultViewController.swift */; };
 		3F2B0EB32D7966E30059AA2B /* NoticeViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2B0EB22D7966E30059AA2B /* NoticeViewType.swift */; };
 		3F2B0EB82D7997C80059AA2B /* MyReviewDetailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2B0EB72D7997C80059AA2B /* MyReviewDetailAddress.swift */; };
 		3F2B0EBA2D7997D80059AA2B /* MyReviewDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2B0EB92D7997D80059AA2B /* MyReviewDetailAPI.swift */; };
@@ -194,6 +195,7 @@
 		3F25B4092CB282D8005C0907 /* BJJ_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BJJ_iOSUITests.swift; sourceTree = "<group>"; };
 		3F25B40B2CB282D8005C0907 /* BJJ_iOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BJJ_iOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		3F27E9402DACA15100CD2554 /* GachaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GachaViewController.swift; sourceTree = "<group>"; };
+		3F27E9442DACAA1800CD2554 /* GachaResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GachaResultViewController.swift; sourceTree = "<group>"; };
 		3F2B0EB22D7966E30059AA2B /* NoticeViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewType.swift; sourceTree = "<group>"; };
 		3F2B0EB72D7997C80059AA2B /* MyReviewDetailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailAddress.swift; sourceTree = "<group>"; };
 		3F2B0EB92D7997D80059AA2B /* MyReviewDetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailAPI.swift; sourceTree = "<group>"; };
@@ -603,8 +605,17 @@
 		3F27E9422DACA20D00CD2554 /* GachaResult */ = {
 			isa = PBXGroup;
 			children = (
+				3F27E9432DACAA0800CD2554 /* ViewController */,
 			);
 			path = GachaResult;
+			sourceTree = "<group>";
+		};
+		3F27E9432DACAA0800CD2554 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F27E9442DACAA1800CD2554 /* GachaResultViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		3F2B0EB42D7997360059AA2B /* MyReviewDetail */ = {
@@ -1626,6 +1637,7 @@
 				3FB984642D53918F0050D66A /* MyReviewDeleteModalViewController.swift in Sources */,
 				3FC0A6692DA0378100FBFAEE /* SignUpAddress.swift in Sources */,
 				3F1613232CD8523400A30369 /* MenuItem.swift in Sources */,
+				3F27E9452DACAA1800CD2554 /* GachaResultViewController.swift in Sources */,
 				3F43F0DC2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift in Sources */,
 				3F1BC3182D50D8EE00B153BA /* CafeteriaMyReviewViewController.swift in Sources */,
 				3FADD2222D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift in Sources */,
