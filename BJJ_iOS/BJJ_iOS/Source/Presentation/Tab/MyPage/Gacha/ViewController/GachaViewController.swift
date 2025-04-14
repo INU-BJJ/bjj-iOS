@@ -15,7 +15,6 @@ final class GachaViewController: UIViewController {
     
     // MARK: - UI Components
     
-    // TODO: 다른 부분 터치하면 다시 숨기기
     private let testGachaView = UIView().then {
         $0.backgroundColor = .white
     }
@@ -44,6 +43,7 @@ final class GachaViewController: UIViewController {
     
     private func setViewController() {
         view.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissModal)))
     }
     
     // MARK: - Set AddViews
@@ -82,9 +82,15 @@ final class GachaViewController: UIViewController {
     
     // MARK: - Objc Functions
     
+    @objc private func dismissModal() {
+        DispatchQueue.main.async {
+            self.dismiss(animated: true)
+        }
+    }
+    
     @objc private func didTapGachaButton() {
         DispatchQueue.main.async {
-            self.presentGachaViewController()
+            
         }
     }
 }
