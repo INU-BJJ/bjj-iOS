@@ -127,7 +127,7 @@ final class StoreViewController: UIViewController {
     
     @objc private func didTapGachaMachine() {
         DispatchQueue.main.async {
-            self.testGachaView.isHidden = false
+            self.testGachaView.isHidden.toggle()
         }
     }
 }
