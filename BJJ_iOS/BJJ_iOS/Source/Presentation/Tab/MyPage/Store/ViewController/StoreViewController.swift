@@ -14,6 +14,7 @@ final class StoreViewController: UIViewController {
     // MARK: - Properties
     
     private var point: Int
+    private var allItems: StoreSection?
     
     // MARK: - UI Components
     
@@ -45,6 +46,12 @@ final class StoreViewController: UIViewController {
         setAddView()
         setConstraints()
         setUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchAllItems(itemType: "CHARACTER")
     }
     
     // MARK: - Set ViewController
@@ -89,6 +96,20 @@ final class StoreViewController: UIViewController {
         DispatchQueue.main.async {
             // TODO: 백그라운드에서 포인트를 받아와서(마이아이템 API 호출) 뽑기하기 버튼 누를 때 포인트 UI 업데이트
             self.presentGachaViewController()
+        }
+    }
+    
+    // MARK: - Fetch API Functions
+    
+    private func fetchAllItems(itemType: String) {
+        StoreAPI.fetchAllItems(itemType: itemType) { result in
+            switch result {
+            case .success(let allItems):
+                print(allItems)
+                
+            case .failure(let error):
+                print("[StoreVC] Error: \(error.localizedDescription)")
+            }
         }
     }
 }

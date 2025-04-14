@@ -140,6 +140,7 @@ final class GachaResultViewController: UIViewController {
     
     // MARK: - Post API
     
+    // TODO: GachaResultModel말고 GachaResultSection사용할지 말지 고민
     private func postItemGacha(itemType: String, completion: @escaping (_ itemInfo: GachaResultModel) -> Void) {
         GachaResultAPI.postItemGacha(itemType: itemType) { result in
             switch result {

@@ -13,7 +13,7 @@ struct GachaResultModel: Codable {
     let itemType: String
     let itemRarity: String
     let itemImage: String
-    let validPeriod: String
+    let validPeriod: String?
     let isWearing: Bool
     let isOwned: Bool
     

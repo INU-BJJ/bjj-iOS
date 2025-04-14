@@ -8,12 +8,13 @@
 import Foundation
 
 final class StoreAPI {
-    static func fetchAllItems(completion: @escaping (Result<[StoreModel], Error>) -> Void) {
+    static func fetchAllItems(itemType: String, completion: @escaping (Result<[StoreModel], Error>) -> Void) {
         networkRequest(
             urlStr: StoreAddress.fetchAllItems.url,
             method: .get,
             data: nil,
             model: [StoreModel].self,
+            query: ["itemType": itemType],
             completion: completion
         )
     }
