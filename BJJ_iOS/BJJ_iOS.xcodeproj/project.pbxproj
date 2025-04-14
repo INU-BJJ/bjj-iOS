@@ -36,6 +36,7 @@
 		3F25B4002CB282D8005C0907 /* BJJ_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B3FF2CB282D8005C0907 /* BJJ_iOSTests.swift */; };
 		3F25B40A2CB282D8005C0907 /* BJJ_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B4092CB282D8005C0907 /* BJJ_iOSUITests.swift */; };
 		3F25B40C2CB282D8005C0907 /* BJJ_iOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B40B2CB282D8005C0907 /* BJJ_iOSUITestsLaunchTests.swift */; };
+		3F27E9412DACA15100CD2554 /* GachaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F27E9402DACA15100CD2554 /* GachaViewController.swift */; };
 		3F2B0EB32D7966E30059AA2B /* NoticeViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2B0EB22D7966E30059AA2B /* NoticeViewType.swift */; };
 		3F2B0EB82D7997C80059AA2B /* MyReviewDetailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2B0EB72D7997C80059AA2B /* MyReviewDetailAddress.swift */; };
 		3F2B0EBA2D7997D80059AA2B /* MyReviewDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2B0EB92D7997D80059AA2B /* MyReviewDetailAPI.swift */; };
@@ -192,6 +193,7 @@
 		3F25B4052CB282D8005C0907 /* BJJ_iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BJJ_iOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F25B4092CB282D8005C0907 /* BJJ_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BJJ_iOSUITests.swift; sourceTree = "<group>"; };
 		3F25B40B2CB282D8005C0907 /* BJJ_iOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BJJ_iOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3F27E9402DACA15100CD2554 /* GachaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GachaViewController.swift; sourceTree = "<group>"; };
 		3F2B0EB22D7966E30059AA2B /* NoticeViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewType.swift; sourceTree = "<group>"; };
 		3F2B0EB72D7997C80059AA2B /* MyReviewDetailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailAddress.swift; sourceTree = "<group>"; };
 		3F2B0EB92D7997D80059AA2B /* MyReviewDetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailAPI.swift; sourceTree = "<group>"; };
@@ -580,6 +582,29 @@
 				3F61DF4A2CB3149600A019E8 /* HomeSection.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3F27E93E2DACA13700CD2554 /* Gacha */ = {
+			isa = PBXGroup;
+			children = (
+				3F27E93F2DACA14300CD2554 /* ViewController */,
+			);
+			path = Gacha;
+			sourceTree = "<group>";
+		};
+		3F27E93F2DACA14300CD2554 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F27E9402DACA15100CD2554 /* GachaViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3F27E9422DACA20D00CD2554 /* GachaResult */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = GachaResult;
 			sourceTree = "<group>";
 		};
 		3F2B0EB42D7997360059AA2B /* MyReviewDetail */ = {
@@ -992,6 +1017,8 @@
 			children = (
 				3F6125262DA6A7F5003B5851 /* MyPage */,
 				3F858F3E2DAA52EC00F6C7F5 /* Store */,
+				3F27E93E2DACA13700CD2554 /* Gacha */,
+				3F27E9422DACA20D00CD2554 /* GachaResult */,
 				3F6125232DA6A693003B5851 /* Setting */,
 			);
 			path = MyPage;
@@ -1661,6 +1688,7 @@
 				3FCA676B2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift in Sources */,
 				3F6125292DA6A80E003B5851 /* MyPageViewController.swift in Sources */,
 				3FCA25442D818E1B00BF56C2 /* MenuRankingViewController.swift in Sources */,
+				3F27E9412DACA15100CD2554 /* GachaViewController.swift in Sources */,
 				3FC6915F2D1D57B0004643D2 /* HomeModel.swift in Sources */,
 				3F7CC2D32DA2491B00062EF9 /* SignUpViewController.swift in Sources */,
 				3F16131F2CD84D0E00A30369 /* MenuInfoCell.swift in Sources */,

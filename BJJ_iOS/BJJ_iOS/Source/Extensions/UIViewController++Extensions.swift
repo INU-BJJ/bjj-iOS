@@ -149,6 +149,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(storeVC, animated: true)
     }
     
+    /// GachaVC로 push
+    func presentGachaViewController() {
+        let gachaVC = GachaViewController()
+        gachaVC.modalPresentationStyle = .overCurrentContext
+        present(gachaVC, animated: true)
+    }
+    
     // MARK: - objc Function
     
     /// popVC
