@@ -32,6 +32,7 @@
 		3F1BC3182D50D8EE00B153BA /* CafeteriaMyReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1BC3172D50D8EE00B153BA /* CafeteriaMyReviewViewController.swift */; };
 		3F1BC31A2D50DC7800B153BA /* CafeteriaMyReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1BC3192D50DC7800B153BA /* CafeteriaMyReviewCell.swift */; };
 		3F1C2B1E2DAE5E5C00AC3A36 /* LikedMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1C2B1D2DAE5E5C00AC3A36 /* LikedMenuViewController.swift */; };
+		3F1C2B212DAE614B00AC3A36 /* LikedMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1C2B202DAE614B00AC3A36 /* LikedMenuCell.swift */; };
 		3F1FAD532D8D681C00570681 /* MenuReviewSortingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FAD522D8D681C00570681 /* MenuReviewSortingCell.swift */; };
 		3F1FAD552D8D71C500570681 /* MenuDetailCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FAD542D8D71C500570681 /* MenuDetailCollectionViewLayout.swift */; };
 		3F25B3E92CB282D7005C0907 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B3E82CB282D7005C0907 /* AppDelegate.swift */; };
@@ -200,6 +201,7 @@
 		3F1BC3172D50D8EE00B153BA /* CafeteriaMyReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewViewController.swift; sourceTree = "<group>"; };
 		3F1BC3192D50DC7800B153BA /* CafeteriaMyReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewCell.swift; sourceTree = "<group>"; };
 		3F1C2B1D2DAE5E5C00AC3A36 /* LikedMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedMenuViewController.swift; sourceTree = "<group>"; };
+		3F1C2B202DAE614B00AC3A36 /* LikedMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedMenuCell.swift; sourceTree = "<group>"; };
 		3F1FAD522D8D681C00570681 /* MenuReviewSortingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewSortingCell.swift; sourceTree = "<group>"; };
 		3F1FAD542D8D71C500570681 /* MenuDetailCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailCollectionViewLayout.swift; sourceTree = "<group>"; };
 		3F25B3E52CB282D7005C0907 /* BJJ_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BJJ_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -489,6 +491,7 @@
 		3F1C2B1B2DAE5DD400AC3A36 /* LikedMenu */ = {
 			isa = PBXGroup;
 			children = (
+				3F1C2B1F2DAE613E00AC3A36 /* View */,
 				3F1C2B1C2DAE5E4C00AC3A36 /* ViewController */,
 			);
 			path = LikedMenu;
@@ -500,6 +503,14 @@
 				3F1C2B1D2DAE5E5C00AC3A36 /* LikedMenuViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3F1C2B1F2DAE613E00AC3A36 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F1C2B202DAE614B00AC3A36 /* LikedMenuCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		3F25B3DC2CB282D7005C0907 = {
@@ -1748,6 +1759,7 @@
 				3F03EEA82D5643F4007B3505 /* ReviewWriteViewController.swift in Sources */,
 				3F61DF4D2CB31B1A00A019E8 /* HomeCafeteriaCell.swift in Sources */,
 				3FC0A66D2DA037B000FBFAEE /* SignUpAPI.swift in Sources */,
+				3F1C2B212DAE614B00AC3A36 /* LikedMenuCell.swift in Sources */,
 				3F43F0DE2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift in Sources */,
 				3F4B09252CE1FC31005C56C2 /* TabBarController.swift in Sources */,
 				3F1613352CD87C1100A30369 /* ReviewHorizontalView.swift in Sources */,
