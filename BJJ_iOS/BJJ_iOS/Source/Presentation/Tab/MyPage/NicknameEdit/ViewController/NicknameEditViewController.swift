@@ -55,6 +55,7 @@ final class NicknameEditViewController: UIViewController {
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .customColor(.midGray)
         $0.isEnabled = false
+        $0.addTarget(self, action: #selector(didTapEditNicknameButton), for: .touchUpInside)
     }
     
     // MARK: - LifeCycle
@@ -119,6 +120,10 @@ final class NicknameEditViewController: UIViewController {
         postNickname(nickname: testNickNameTextField.text)
     }
     
+    @objc private func didTapEditNicknameButton() {
+        patchNickname(nickname: testNickNameTextField.text)
+    }
+    
     // MARK: Post API
     
     private func postNickname(nickname: String?) {
@@ -155,6 +160,26 @@ final class NicknameEditViewController: UIViewController {
                 self.testIsValidLabel.text = "❌ 닉네임을 입력해주세요."
             }
             return
+        }
+    }
+    
+    // MARK: - Patch API Functions
+    
+    private func patchNickname(nickname: String?) {
+        if let nickname = nickname, !nickname.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            SettingAPI.patchNickname(nickname: nickname) { [weak self] result in
+                guard let self = self else { return }
+                
+                switch result {
+                case .success:
+                    DispatchQueue.main.async {
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                    
+                case .failure(let error):
+                    print("[NicknameEditVC] Error: \(error.localizedDescription)")
+                }
+            }
         }
     }
 }
