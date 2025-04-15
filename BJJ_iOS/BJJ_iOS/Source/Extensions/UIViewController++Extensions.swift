@@ -142,6 +142,36 @@ extension UIViewController {
 //        self.navigationController?.pushViewController(reviewWriteVC, animated: true)
 //    }
     
+    /// MyPageVC로 push
+    func presentMyPageViewController() {
+        let myPageVC = MyPageViewController()
+        myPageVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(myPageVC, animated: true)
+    }
+    
+    /// StoreVC로 push
+    func presentStoreViewController(point: Int) {
+        let storeVC = StoreViewController(point: point)
+        storeVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(storeVC, animated: true)
+    }
+    
+    /// GachaVC로 push
+    func presentGachaViewController() {
+        let gachaVC = GachaViewController()
+        let gachaNavigation = UINavigationController(rootViewController: gachaVC)
+        
+        gachaNavigation.modalPresentationStyle = .overFullScreen
+        present(gachaNavigation, animated: true)
+    }
+    
+    /// GachaResultVC로 push
+    func presentGachaResultViewController() {
+        let gachaResultVC = GachaResultViewController()
+        gachaResultVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(gachaResultVC, animated: true)
+    }
+    
     // MARK: - objc Function
     
     /// popVC

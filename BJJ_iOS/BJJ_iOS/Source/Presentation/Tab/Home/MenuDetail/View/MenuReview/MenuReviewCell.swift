@@ -49,7 +49,7 @@ final class MenuReviewCell: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Configure Cell
     
     func configureReviewCell(reviewImage: String) {
-        imageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(reviewImage)"))
+        imageView.kf.setImage(with: URL(string: "\(baseURL.reviewImageURL)\(reviewImage)"))
     }
     
     func configureAddButton() {

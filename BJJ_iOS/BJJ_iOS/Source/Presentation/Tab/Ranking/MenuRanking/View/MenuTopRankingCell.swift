@@ -136,7 +136,7 @@ final class MenuTopRankingCell: UITableViewCell, ReuseIdentifying {
         if menu.reviewImage == "HomeDefaultMenuImage" {
             menuImageView.image = UIImage(named: menu.reviewImage)
         } else {
-            menuImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(menu.reviewImage)"))
+            menuImageView.kf.setImage(with: URL(string: "\(baseURL.reviewImageURL)\(menu.reviewImage)"))
         }
         
         menuNameLabel.text = menu.menuName
