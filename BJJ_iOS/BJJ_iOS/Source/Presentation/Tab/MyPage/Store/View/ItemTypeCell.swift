@@ -68,7 +68,10 @@ final class ItemTypeCell: UICollectionViewCell, ReuseIdentifying {
     
     func setUI(itemInfo: StoreSection) {
         DispatchQueue.main.async {
-            if itemInfo.validPeriod != nil {
+            if itemInfo.isOwned {
+                if itemInfo.isWearing {
+                    self.contentView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+                }
                 guard let characterURL = URL(string: baseURL.characterImageURL + (itemInfo.itemImage)) else { return }
                 
                 self.testItemImage.sd_setImage(
