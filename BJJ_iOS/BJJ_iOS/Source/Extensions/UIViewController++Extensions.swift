@@ -186,6 +186,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(nicknameEditVC, animated: true)
     }
     
+    /// LikedMenuVC로 push
+    func presentLikedMenuViewController() {
+        let likedMenuVC = LikedMenuViewController()
+        likedMenuVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(likedMenuVC, animated: true)
+    }
+    
     // MARK: - objc Function
     
     /// popVC

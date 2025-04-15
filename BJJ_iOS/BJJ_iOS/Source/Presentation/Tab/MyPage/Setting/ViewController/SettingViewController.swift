@@ -21,6 +21,12 @@ final class SettingViewController: UIViewController {
         $0.addTarget(self, action: #selector(didTapEditNicknameButton), for: .touchUpInside)
     }
     
+    private lazy var testGoToLikedMenuVCButton = UIButton().then {
+        $0.setTitle("좋아요한 메뉴", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.addTarget(self, action: #selector(didTapGoToLikedMenuVCButton), for: .touchUpInside)
+    }
+    
     private lazy var testLogoutButton = UIButton().then {
         $0.setTitle("로그아웃", for: .normal)
         $0.setTitleColor(.black, for: .normal)
@@ -48,6 +54,7 @@ final class SettingViewController: UIViewController {
     private func setAddView() {
         [
             testEditNicknameButton,
+            testGoToLikedMenuVCButton,
             testLogoutButton
         ].forEach(view.addSubview)
     }
@@ -57,6 +64,13 @@ final class SettingViewController: UIViewController {
     private func setConstraints() {
         testEditNicknameButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            $0.leading.equalToSuperview()
+            $0.width.equalTo(200)
+            $0.height.equalTo(50)
+        }
+        
+        testGoToLikedMenuVCButton.snp.makeConstraints {
+            $0.top.equalTo(testEditNicknameButton.snp.bottom).offset(30)
             $0.leading.equalToSuperview()
             $0.width.equalTo(200)
             $0.height.equalTo(50)
@@ -75,6 +89,12 @@ final class SettingViewController: UIViewController {
     @objc private func didTapEditNicknameButton() {
         DispatchQueue.main.async {
             self.presentNicknameEditViewController()
+        }
+    }
+    
+    @objc private func didTapGoToLikedMenuVCButton() {
+        DispatchQueue.main.async {
+            self.presentLikedMenuViewController()
         }
     }
     
