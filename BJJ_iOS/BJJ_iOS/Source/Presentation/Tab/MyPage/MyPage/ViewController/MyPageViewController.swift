@@ -18,6 +18,14 @@ final class MyPageViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private lazy var testSettingButton = UIButton().then {
+        $0.setTitle("설정", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.layer.borderColor = UIColor.customColor(.mainColor).cgColor
+        $0.layer.borderWidth = 1
+        $0.addTarget(self, action: #selector(didTapSettingButton), for: .touchUpInside)
+    }
+    
     private let testMyNicknameLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
     }
@@ -64,6 +72,7 @@ final class MyPageViewController: UIViewController {
     private func setAddView() {
         [
             testBackgroundImage,
+            testSettingButton,
             testMyNicknameLabel,
             testCharacterImage,
             testStoreButton
@@ -73,6 +82,12 @@ final class MyPageViewController: UIViewController {
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        testSettingButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.width.height.equalTo(60)
+            $0.trailing.equalToSuperview().inset(20)
+        }
+        
         testMyNicknameLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(100)
             $0.centerX.equalToSuperview()
@@ -155,6 +170,14 @@ final class MyPageViewController: UIViewController {
     // MARK: - Objc Functions
     
     @objc private func didTapStoreButton() {
-        presentStoreViewController(point: myPageViewData?.point ?? 0)
+        DispatchQueue.main.async {
+            self.presentStoreViewController(point: self.myPageViewData?.point ?? 0)
+        }
+    }
+    
+    @objc private func didTapSettingButton() {
+        DispatchQueue.main.async {
+            self.presentSettingViewController()
+        }
     }
 }

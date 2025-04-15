@@ -172,6 +172,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(gachaResultVC, animated: true)
     }
     
+    /// SettingVC로 push
+    func presentSettingViewController() {
+        let settingVC = SettingViewController()
+        settingVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(settingVC, animated: true)
+    }
+    
     // MARK: - objc Function
     
     /// popVC
