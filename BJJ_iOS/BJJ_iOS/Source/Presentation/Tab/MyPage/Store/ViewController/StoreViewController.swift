@@ -143,6 +143,30 @@ final class StoreViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - Patch API Functions
+    
+    private func patchItem(itemType: String, itemID: Int) {
+        // TODO: 캐릭터인지 배경인지 구분해서 PATCH 요청 보내기
+        // TODO: itemType, itemID가 없을 경우 빈 문자열과 0 보내지 말고 다른 방법 고민하기
+        GachaResultAPI.patchItem(itemType: itemType, itemID: itemID) { result in
+            switch result {
+            case .success:
+                // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
+                DispatchQueue.main.async {
+                    // TODO: 계속 아이템을 착용하다보면 네비게이션 스택이 엄청 쌓여서 뒤로가기 한 없이 눌러야됨. 네비게이션 스택을 MyPageVC로 초기화하는 방법 고민
+                    self.presentMyPageViewController()
+                }
+                
+            case .failure(let error):
+                // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
+                DispatchQueue.main.async {
+                    self.presentMyPageViewController()
+                }
+                print("[GachaResultVC] Error: \(error.localizedDescription)")
+            }
+        }
+    }
 }
 
 extension StoreViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -165,5 +189,9 @@ extension StoreViewController: UICollectionViewDataSource, UICollectionViewDeleg
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width / 5, height: 100)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        patchItem(itemType: allItems[indexPath.item].itemType, itemID: allItems[indexPath.item].itemID)
     }
 }
