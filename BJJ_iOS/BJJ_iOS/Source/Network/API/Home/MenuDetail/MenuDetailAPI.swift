@@ -46,9 +46,6 @@ final class MenuDetailAPI {
                 method: .post,
                 data: nil,
                 model: Bool.self,
-                query: [
-                    "menuId": menuID
-                ],
                 completion: completion
             )
         }
@@ -59,9 +56,6 @@ final class MenuDetailAPI {
                 method: .post,
                 data: nil,
                 model: Bool.self,
-                query: [
-                    "reviewId": reviewID
-                ],
                 completion: completion
             )
         }

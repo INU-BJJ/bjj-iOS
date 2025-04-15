@@ -85,7 +85,7 @@ final class MyReviewImageDetailViewController: UIViewController {
     // MARK: - Set ImageView
     
     private func setImageView() {
-        reviewImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(reviewImage)"))
+        reviewImageView.kf.setImage(with: URL(string: "\(baseURL.reviewImageURL)\(reviewImage)"))
     }
 }
 

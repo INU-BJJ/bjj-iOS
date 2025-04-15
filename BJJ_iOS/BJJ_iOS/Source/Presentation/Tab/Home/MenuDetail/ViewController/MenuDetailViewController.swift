@@ -180,7 +180,7 @@ final class MenuDetailViewController: UIViewController {
     
     private func configure() {
         if let imageName = menuData?.menuImage, imageName != "DefaultMenuImage" {
-            menuDefaultImageView.kf.setImage(with: URL(string: "\(baseURL.imageURL)\(imageName)"))
+            menuDefaultImageView.kf.setImage(with: URL(string: "\(baseURL.reviewImageURL)\(imageName)"))
         } else {
             menuDefaultImageView.image = UIImage(named: "MenuDetailDefaultMenuImage")
         }
