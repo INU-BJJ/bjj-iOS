@@ -26,4 +26,28 @@ extension String {
         dateFormatter.dateFormat = toFormat
         return dateFormatter.string(from: date)
     }
+    
+    func calculateItemValidPeriod() -> String? {
+        let formatter = DateFormatter()
+        
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+        
+        guard let validDate = formatter.date(from: self) else { return nil }
+        
+        let now = Date()
+        let components = Calendar.current.dateComponents([.day, .hour, .minute], from: now, to: validDate)
+
+        guard let day = components.day, let hour = components.hour, let minute = components.minute else { return nil }
+        
+        switch (day, hour, minute) {
+        case (let day, _, _) where day > 0:
+            return "\(day)d"
+        case (_, let hour, _) where hour > 0:
+            return "\(hour)h"
+        default:
+            return "\(minute)m"
+        }
+    }
 }

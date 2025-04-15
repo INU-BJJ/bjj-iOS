@@ -129,7 +129,7 @@ final class StoreViewController: UIViewController {
                         itemType: $0.itemType,
                         itemRarity: $0.itemRarity,
                         itemImage: $0.itemImage,
-                        validPeriod: $0.validPeriod,
+                        validPeriod: $0.validPeriod?.calculateItemValidPeriod(),
                         isWearing: $0.isWearing,
                         isOwned: $0.isOwned
                     )
