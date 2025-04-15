@@ -18,6 +18,8 @@ final class SettingViewController: UIViewController {
     private lazy var testLogoutButton = UIButton().then {
         $0.setTitle("로그아웃", for: .normal)
         $0.setTitleColor(.black, for: .normal)
+        $0.layer.borderColor = UIColor.black.cgColor
+        $0.layer.borderWidth = 1
         $0.addTarget(self, action: #selector(didTapLogoutButton), for: .touchUpInside)
     }
     
@@ -49,7 +51,8 @@ final class SettingViewController: UIViewController {
     
     private func setConstraints() {
         testLogoutButton.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.leading.equalToSuperview().offset(0)
+            $0.bottom.equalToSuperview().inset(50)
             $0.width.equalTo(200)
             $0.height.equalTo(50)
         }
