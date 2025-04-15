@@ -10,3 +10,13 @@ import Foundation
 struct NicknameEditModel: Codable {
     let nickname: String
 }
+
+struct LikedMenuModel: Codable {
+    let menuID: Int
+    let menuName: String
+    
+    enum CodingKeys: String, CodingKey {
+        case menuID = "menuId"
+        case menuName
+    }
+}

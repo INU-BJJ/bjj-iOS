@@ -13,6 +13,8 @@ final class LikedMenuViewController: UIViewController {
     
     // MARK: - Properties
     
+    private var likedMenuList: [LikedMenuSection] = []
+    
     // MARK: - UI Components
     
     private let testLikedMenuNotifiLabel = UILabel().then {
@@ -33,6 +35,12 @@ final class LikedMenuViewController: UIViewController {
         setViewController()
         setAddView()
         setConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchLikedMenu()
     }
     
     // MARK: - Set ViewController
@@ -64,11 +72,27 @@ final class LikedMenuViewController: UIViewController {
             $0.bottom.equalToSuperview()
         }
     }
+    
+    // MARK: - Fetch API Functions
+    
+    private func fetchLikedMenu() {
+        SettingAPI.fetchLikedMenu() { result in
+            switch result {
+            case .success(let likedMenuList):
+                self.likedMenuList = likedMenuList.map {
+                    LikedMenuSection(menuID: $0.menuID, menuName: $0.menuName)
+                }
+                
+            case .failure(let error):
+                print("[LikedMenuVC] Error: \(error.localizedDescription)")
+            }
+        }
+    }
 }
 
 extension LikedMenuViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        likedMenuList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

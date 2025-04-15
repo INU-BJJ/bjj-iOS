@@ -18,4 +18,14 @@ final class SettingAPI {
             completion: completion
         )
     }
+    
+    static func fetchLikedMenu(completion: @escaping (Result<[LikedMenuModel], Error>) -> Void) {
+        networkRequest(
+            urlStr: SettingAddress.fetchLikedMenu.url,
+            method: .get,
+            data: nil,
+            model: [LikedMenuModel].self,
+            completion: completion
+        )
+    }
 }
