@@ -15,11 +15,15 @@ final class SettingViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private lazy var testEditNicknameButton = UIButton().then {
+        $0.setTitle("닉네임 변경하기", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.addTarget(self, action: #selector(didTapEditNicknameButton), for: .touchUpInside)
+    }
+    
     private lazy var testLogoutButton = UIButton().then {
         $0.setTitle("로그아웃", for: .normal)
         $0.setTitleColor(.black, for: .normal)
-        $0.layer.borderColor = UIColor.black.cgColor
-        $0.layer.borderWidth = 1
         $0.addTarget(self, action: #selector(didTapLogoutButton), for: .touchUpInside)
     }
     
@@ -43,6 +47,7 @@ final class SettingViewController: UIViewController {
     
     private func setAddView() {
         [
+            testEditNicknameButton,
             testLogoutButton
         ].forEach(view.addSubview)
     }
@@ -50,8 +55,15 @@ final class SettingViewController: UIViewController {
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        testEditNicknameButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            $0.leading.equalToSuperview()
+            $0.width.equalTo(200)
+            $0.height.equalTo(50)
+        }
+        
         testLogoutButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(0)
+            $0.leading.equalToSuperview()
             $0.bottom.equalToSuperview().inset(50)
             $0.width.equalTo(200)
             $0.height.equalTo(50)
@@ -59,6 +71,12 @@ final class SettingViewController: UIViewController {
     }
     
     // MARK: - Objc Functions
+    
+    @objc private func didTapEditNicknameButton() {
+        DispatchQueue.main.async {
+            self.presentNicknameEditViewController()
+        }
+    }
     
     @objc private func didTapLogoutButton() {
         KeychainManager.delete()

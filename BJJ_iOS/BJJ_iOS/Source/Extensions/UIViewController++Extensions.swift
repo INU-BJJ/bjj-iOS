@@ -179,6 +179,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(settingVC, animated: true)
     }
     
+    /// NicknameEditVC로 push
+    func presentNicknameEditViewController() {
+        let nicknameEditVC = NicknameEditViewController()
+        nicknameEditVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(nicknameEditVC, animated: true)
+    }
+    
     // MARK: - objc Function
     
     /// popVC
