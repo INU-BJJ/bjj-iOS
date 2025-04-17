@@ -13,6 +13,10 @@ final class LikedMenuCell: UITableViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
     
+    private let testMenuNameLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard, size: 15, color: .black)
+    }
+    
     // MARK: - Life Cycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -30,19 +34,21 @@ final class LikedMenuCell: UITableViewCell, ReuseIdentifying {
     
     private func setAddView() {
         [
-            
+            testMenuNameLabel
         ].forEach(contentView.addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        
+        testMenuNameLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
     }
     
     // MARK: - Set Cell UI
     
-    func setCellUI() {
-        
+    func setCellUI(with likedMenu: LikedMenuSection) {
+        testMenuNameLabel.text = likedMenu.menuName
     }
 }

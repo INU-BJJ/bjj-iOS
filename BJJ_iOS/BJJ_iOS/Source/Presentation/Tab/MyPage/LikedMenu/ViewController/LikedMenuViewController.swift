@@ -76,11 +76,17 @@ final class LikedMenuViewController: UIViewController {
     // MARK: - Fetch API Functions
     
     private func fetchLikedMenu() {
-        SettingAPI.fetchLikedMenu() { result in
+        SettingAPI.fetchLikedMenu() { [weak self] result in
+            guard let self = self else { return }
+            
             switch result {
             case .success(let likedMenuList):
                 self.likedMenuList = likedMenuList.map {
                     LikedMenuSection(menuID: $0.menuID, menuName: $0.menuName)
+                }
+                
+                DispatchQueue.main.async {
+                    self.testLikedMenuTableView.reloadData()
                 }
                 
             case .failure(let error):
@@ -99,7 +105,7 @@ extension LikedMenuViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: LikedMenuCell.reuseIdentifier, for: indexPath) as? LikedMenuCell else {
             return UITableViewCell()
         }
-        cell.setCellUI()
+        cell.setCellUI(with: likedMenuList[indexPath.row])
         
         return cell
     }
