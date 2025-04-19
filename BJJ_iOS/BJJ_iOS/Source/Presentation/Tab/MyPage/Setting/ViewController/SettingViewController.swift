@@ -33,6 +33,12 @@ final class SettingViewController: UIViewController {
         $0.addTarget(self, action: #selector(didTapLogoutButton), for: .touchUpInside)
     }
     
+    private lazy var testDeleteAccountButton = UIButton().then {
+        $0.setTitle("탈퇴하기", for: .normal)
+        $0.setTitleColor(.red, for: .normal)
+        $0.addTarget(self, action: #selector(didTapDeleteAccountButton), for: .touchUpInside)
+    }
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -55,7 +61,8 @@ final class SettingViewController: UIViewController {
         [
             testEditNicknameButton,
             testGoToLikedMenuVCButton,
-            testLogoutButton
+            testLogoutButton,
+            testDeleteAccountButton
         ].forEach(view.addSubview)
     }
     
@@ -77,6 +84,13 @@ final class SettingViewController: UIViewController {
         }
         
         testLogoutButton.snp.makeConstraints {
+            $0.leading.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(100)
+            $0.width.equalTo(200)
+            $0.height.equalTo(50)
+        }
+        
+        testDeleteAccountButton.snp.makeConstraints {
             $0.leading.equalToSuperview()
             $0.bottom.equalToSuperview().inset(50)
             $0.width.equalTo(200)
@@ -100,6 +114,22 @@ final class SettingViewController: UIViewController {
     
     @objc private func didTapLogoutButton() {
         KeychainManager.delete()
+        
+        guard let sceneDelegate = UIApplication.shared.connectedScenes
+                .first(where: { $0.activationState == .foregroundActive })?.delegate as? SceneDelegate else {
+            return
+        }
+
+        DispatchQueue.main.async {
+            // TODO: 로그아웃 전환 애니메이션 추가
+            sceneDelegate.setRootViewController()
+        }
+    }
+    
+    @objc private func didTapDeleteAccountButton() {
+        KeychainManager.delete()
+        
+        // TODO: 계정 탈퇴 API 연동
         
         guard let sceneDelegate = UIApplication.shared.connectedScenes
                 .first(where: { $0.activationState == .foregroundActive })?.delegate as? SceneDelegate else {
