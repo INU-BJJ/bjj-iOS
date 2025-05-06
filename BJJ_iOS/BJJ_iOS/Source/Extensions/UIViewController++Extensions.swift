@@ -172,6 +172,27 @@ extension UIViewController {
         self.navigationController?.pushViewController(gachaResultVC, animated: true)
     }
     
+    /// SettingVC로 push
+    func presentSettingViewController() {
+        let settingVC = SettingViewController()
+        settingVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(settingVC, animated: true)
+    }
+    
+    /// NicknameEditVC로 push
+    func presentNicknameEditViewController() {
+        let nicknameEditVC = NicknameEditViewController()
+        nicknameEditVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(nicknameEditVC, animated: true)
+    }
+    
+    /// LikedMenuVC로 push
+    func presentLikedMenuViewController() {
+        let likedMenuVC = LikedMenuViewController()
+        likedMenuVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(likedMenuVC, animated: true)
+    }
+    
     // MARK: - objc Function
     
     /// popVC

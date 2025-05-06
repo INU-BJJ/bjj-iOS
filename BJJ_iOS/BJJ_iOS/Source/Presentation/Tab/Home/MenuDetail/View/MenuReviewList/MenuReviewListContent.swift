@@ -23,6 +23,7 @@ final class MenuReviewListContent: UICollectionViewCell, ReuseIdentifying {
         $0.spacing = 12
     }
     
+    // TODO: textView 말고 label로 구현 or 수정 못하도록 막기
     private let reviewContentTextView = UITextView().then {
         $0.setTextViewUI("", font: .pretendard_medium, size: 13, color: .black)
         $0.isScrollEnabled = false

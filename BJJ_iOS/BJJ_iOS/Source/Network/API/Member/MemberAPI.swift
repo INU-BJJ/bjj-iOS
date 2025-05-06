@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 final class MemberAPI {
     static func fetchMemberInfo(completion: @escaping (Result<MemberInfoModel, Error>) -> Void) {
@@ -14,6 +15,16 @@ final class MemberAPI {
             method: .get,
             data: nil,
             model: MemberInfoModel.self,
+            completion: completion
+        )
+    }
+    
+    static func deleteMemberInfo(completion: @escaping (Result<Empty, Error>) -> Void) {
+        networkRequest(
+            urlStr: MemberAddress.deleteMemberInfo.url,
+            method: .delete,
+            data: nil,
+            model: Empty.self,
             completion: completion
         )
     }
