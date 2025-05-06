@@ -9,10 +9,13 @@ import Foundation
 
 enum MemberAddress {
     case fetchMemberInfo
+    case deleteMemberInfo
     
     var url: String {
         switch self {
         case .fetchMemberInfo:
+            return "members"
+        case .deleteMemberInfo:
             return "members"
         }
     }

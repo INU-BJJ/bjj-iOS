@@ -129,7 +129,11 @@ final class SettingViewController: UIViewController {
     @objc private func didTapDeleteAccountButton() {
         KeychainManager.delete()
         
-        // TODO: 계정 탈퇴 API 연동
+        MemberAPI.deleteMemberInfo { result in
+            if case .failure(let error) = result {
+                print("[SettingVC] Member Delete Error: \(error.localizedDescription)")
+            }
+        }
         
         guard let sceneDelegate = UIApplication.shared.connectedScenes
                 .first(where: { $0.activationState == .foregroundActive })?.delegate as? SceneDelegate else {
@@ -137,7 +141,7 @@ final class SettingViewController: UIViewController {
         }
 
         DispatchQueue.main.async {
-            // TODO: 로그아웃 전환 애니메이션 추가
+            // TODO: 회원 탈퇴 애니메이션 or 화면 추가
             sceneDelegate.setRootViewController()
         }
     }
