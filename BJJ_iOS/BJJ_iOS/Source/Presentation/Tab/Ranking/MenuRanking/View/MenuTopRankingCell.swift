@@ -30,13 +30,20 @@ final class MenuTopRankingCell: UITableViewCell, ReuseIdentifying {
         $0.setLabelUI("", font: .pretendard_bold, size: 15, color: .black)
     }
     
-    private let menuInfoStackView = UIStackView().then {
+    private let menuRatingStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.alignment = .fill
-        $0.distribution = .equalSpacing
+        $0.distribution = .fill
+        $0.alignment = .center
     }
     
-    private let menuRatingView = MenuRatingView()
+    private let menuRatingLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_semibold, size: 15, color: .mainColor)
+        $0.setLineSpacing(kernValue: 0.13, lineHeightMultiple: 1.01)
+    }
+    
+    private let menuMaxRatingLabel = UILabel().then {
+        $0.setLabelUI("/ 10", font: .pretendard_medium, size: 13, color: .darkGray)
+    }
     
     private let cafeteriaNameLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 11, color: .darkGray)
@@ -77,13 +84,14 @@ final class MenuTopRankingCell: UITableViewCell, ReuseIdentifying {
             medalIcon,
             menuImageView,
             menuNameLabel,
-            menuInfoStackView
-        ].forEach(menuTopRankingCellView.addSubview)
-        
-        [
-            menuRatingView,
+            menuRatingStackView,
             cafeteriaNameLabel
-        ].forEach(menuInfoStackView.addArrangedSubview)
+        ].forEach(menuTopRankingCellView.addSubview)
+
+        [
+            menuRatingLabel,
+            menuMaxRatingLabel
+        ].forEach(menuRatingStackView.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -111,11 +119,28 @@ final class MenuTopRankingCell: UITableViewCell, ReuseIdentifying {
             $0.top.equalToSuperview().offset(13)
         }
         
-        menuInfoStackView.snp.makeConstraints {
+        menuRatingStackView.snp.makeConstraints {
+            $0.top.equalTo(menuNameLabel.snp.bottom).offset(8)
             $0.leading.equalTo(menuNameLabel)
-            $0.bottom.equalToSuperview().inset(8)
-            $0.height.equalTo(21)
+            $0.width.equalTo(53)
+            $0.height.equalTo(15)
+        }
+        
+        menuRatingLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview()
+            $0.width.equalTo(26)
+            $0.height.equalToSuperview()
+        }
+        
+        menuMaxRatingLabel.snp.makeConstraints {
+            $0.trailing.equalToSuperview()
+            $0.width.equalTo(27)
+            $0.height.equalToSuperview()
+        }
+        
+        cafeteriaNameLabel.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(13)
+            $0.bottom.equalToSuperview().inset(8)
         }
     }
     
@@ -140,7 +165,7 @@ final class MenuTopRankingCell: UITableViewCell, ReuseIdentifying {
         }
         
         menuNameLabel.text = menu.menuName
-        menuRatingView.configureRatingLabel(with: menu.menuRating)
+        menuRatingLabel.text = "\(menu.menuRating) "
         cafeteriaNameLabel.text = "\(menu.cafeteriaName) \(menu.cafeteriaCorner)"
     }
     
