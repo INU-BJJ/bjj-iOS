@@ -31,6 +31,9 @@
 		3F1A51AC2CD8C38900029E09 /* SeparatingLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1A51AB2CD8C38900029E09 /* SeparatingLineView.swift */; };
 		3F1BC3182D50D8EE00B153BA /* CafeteriaMyReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1BC3172D50D8EE00B153BA /* CafeteriaMyReviewViewController.swift */; };
 		3F1BC31A2D50DC7800B153BA /* CafeteriaMyReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1BC3192D50DC7800B153BA /* CafeteriaMyReviewCell.swift */; };
+		3F1C2B1E2DAE5E5C00AC3A36 /* LikedMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1C2B1D2DAE5E5C00AC3A36 /* LikedMenuViewController.swift */; };
+		3F1C2B212DAE614B00AC3A36 /* LikedMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1C2B202DAE614B00AC3A36 /* LikedMenuCell.swift */; };
+		3F1C2B242DAE804A00AC3A36 /* LikedMenuSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1C2B232DAE804A00AC3A36 /* LikedMenuSection.swift */; };
 		3F1FAD532D8D681C00570681 /* MenuReviewSortingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FAD522D8D681C00570681 /* MenuReviewSortingCell.swift */; };
 		3F1FAD552D8D71C500570681 /* MenuDetailCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FAD542D8D71C500570681 /* MenuDetailCollectionViewLayout.swift */; };
 		3F25B3E92CB282D7005C0907 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B3E82CB282D7005C0907 /* AppDelegate.swift */; };
@@ -114,6 +117,10 @@
 		3FA055AC2D6B26ED00C72029 /* ReviewCategorySelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA055AB2D6B26ED00C72029 /* ReviewCategorySelectCell.swift */; };
 		3FA1D3232D7EDAAB00010931 /* MyReviewImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1D3222D7EDAAB00010931 /* MyReviewImageDetailViewController.swift */; };
 		3FADD2222D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FADD2212D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift */; };
+		3FB396D02DAE1C5800EF87A8 /* NicknameEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB396CF2DAE1C5800EF87A8 /* NicknameEditViewController.swift */; };
+		3FB396D42DAE1F8900EF87A8 /* SettingAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB396D32DAE1F8900EF87A8 /* SettingAddress.swift */; };
+		3FB396D62DAE1F9A00EF87A8 /* SettingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB396D52DAE1F9A00EF87A8 /* SettingAPI.swift */; };
+		3FB396D82DAE1FA500EF87A8 /* SettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB396D72DAE1FA500EF87A8 /* SettingModel.swift */; };
 		3FB984602D5378A30050D66A /* MyReviewDetailImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB9845F2D5378A30050D66A /* MyReviewDetailImageCell.swift */; };
 		3FB984622D5389710050D66A /* MyReviewDetailHashTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB984612D5389710050D66A /* MyReviewDetailHashTagCell.swift */; };
 		3FB984642D53918F0050D66A /* MyReviewDeleteModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB984632D53918F0050D66A /* MyReviewDeleteModalViewController.swift */; };
@@ -194,6 +201,9 @@
 		3F1A51AB2CD8C38900029E09 /* SeparatingLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatingLineView.swift; sourceTree = "<group>"; };
 		3F1BC3172D50D8EE00B153BA /* CafeteriaMyReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewViewController.swift; sourceTree = "<group>"; };
 		3F1BC3192D50DC7800B153BA /* CafeteriaMyReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewCell.swift; sourceTree = "<group>"; };
+		3F1C2B1D2DAE5E5C00AC3A36 /* LikedMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedMenuViewController.swift; sourceTree = "<group>"; };
+		3F1C2B202DAE614B00AC3A36 /* LikedMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedMenuCell.swift; sourceTree = "<group>"; };
+		3F1C2B232DAE804A00AC3A36 /* LikedMenuSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedMenuSection.swift; sourceTree = "<group>"; };
 		3F1FAD522D8D681C00570681 /* MenuReviewSortingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewSortingCell.swift; sourceTree = "<group>"; };
 		3F1FAD542D8D71C500570681 /* MenuDetailCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailCollectionViewLayout.swift; sourceTree = "<group>"; };
 		3F25B3E52CB282D7005C0907 /* BJJ_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BJJ_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -281,6 +291,10 @@
 		3FA055AB2D6B26ED00C72029 /* ReviewCategorySelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCategorySelectCell.swift; sourceTree = "<group>"; };
 		3FA1D3222D7EDAAB00010931 /* MyReviewImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewImageDetailViewController.swift; sourceTree = "<group>"; };
 		3FADD2212D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewImageDetailPageViewController.swift; sourceTree = "<group>"; };
+		3FB396CF2DAE1C5800EF87A8 /* NicknameEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameEditViewController.swift; sourceTree = "<group>"; };
+		3FB396D32DAE1F8900EF87A8 /* SettingAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAddress.swift; sourceTree = "<group>"; };
+		3FB396D52DAE1F9A00EF87A8 /* SettingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAPI.swift; sourceTree = "<group>"; };
+		3FB396D72DAE1FA500EF87A8 /* SettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingModel.swift; sourceTree = "<group>"; };
 		3FB9845F2D5378A30050D66A /* MyReviewDetailImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailImageCell.swift; sourceTree = "<group>"; };
 		3FB984612D5389710050D66A /* MyReviewDetailHashTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailHashTagCell.swift; sourceTree = "<group>"; };
 		3FB984632D53918F0050D66A /* MyReviewDeleteModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDeleteModalViewController.swift; sourceTree = "<group>"; };
@@ -474,6 +488,40 @@
 				3F1BC3192D50DC7800B153BA /* CafeteriaMyReviewCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		3F1C2B1B2DAE5DD400AC3A36 /* LikedMenu */ = {
+			isa = PBXGroup;
+			children = (
+				3F1C2B222DAE804000AC3A36 /* Model */,
+				3F1C2B1F2DAE613E00AC3A36 /* View */,
+				3F1C2B1C2DAE5E4C00AC3A36 /* ViewController */,
+			);
+			path = LikedMenu;
+			sourceTree = "<group>";
+		};
+		3F1C2B1C2DAE5E4C00AC3A36 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F1C2B1D2DAE5E5C00AC3A36 /* LikedMenuViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3F1C2B1F2DAE613E00AC3A36 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F1C2B202DAE614B00AC3A36 /* LikedMenuCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3F1C2B222DAE804000AC3A36 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F1C2B232DAE804A00AC3A36 /* LikedMenuSection.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		3F25B3DC2CB282D7005C0907 = {
@@ -910,6 +958,7 @@
 				3F27E9462DACB22E00CD2554 /* MyPage */,
 				3F14723C2DACEF4300098C41 /* Store */,
 				3F27E9472DACB23B00CD2554 /* GachaResult */,
+				3FB396D12DAE1F5900EF87A8 /* Setting */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -1049,6 +1098,40 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		3FB396CD2DAE1BBA00EF87A8 /* NicknameEdit */ = {
+			isa = PBXGroup;
+			children = (
+				3FB396CE2DAE1C4700EF87A8 /* ViewController */,
+			);
+			path = NicknameEdit;
+			sourceTree = "<group>";
+		};
+		3FB396CE2DAE1C4700EF87A8 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3FB396CF2DAE1C5800EF87A8 /* NicknameEditViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3FB396D12DAE1F5900EF87A8 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				3FB396D22DAE1F7800EF87A8 /* Model */,
+				3FB396D32DAE1F8900EF87A8 /* SettingAddress.swift */,
+				3FB396D52DAE1F9A00EF87A8 /* SettingAPI.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		3FB396D22DAE1F7800EF87A8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3FB396D72DAE1FA500EF87A8 /* SettingModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		3FBC442F2D4F662200D47EEA /* Review */ = {
 			isa = PBXGroup;
 			children = (
@@ -1122,6 +1205,8 @@
 				3F27E93E2DACA13700CD2554 /* Gacha */,
 				3F27E9422DACA20D00CD2554 /* GachaResult */,
 				3F6125232DA6A693003B5851 /* Setting */,
+				3FB396CD2DAE1BBA00EF87A8 /* NicknameEdit */,
+				3F1C2B1B2DAE5DD400AC3A36 /* LikedMenu */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -1685,6 +1770,7 @@
 				3F03EEA82D5643F4007B3505 /* ReviewWriteViewController.swift in Sources */,
 				3F61DF4D2CB31B1A00A019E8 /* HomeCafeteriaCell.swift in Sources */,
 				3FC0A66D2DA037B000FBFAEE /* SignUpAPI.swift in Sources */,
+				3F1C2B212DAE614B00AC3A36 /* LikedMenuCell.swift in Sources */,
 				3F43F0DE2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift in Sources */,
 				3F4B09252CE1FC31005C56C2 /* TabBarController.swift in Sources */,
 				3F1613352CD87C1100A30369 /* ReviewHorizontalView.swift in Sources */,
@@ -1713,6 +1799,7 @@
 				3F2C66812DA793C300EA4E82 /* MyPageSection.swift in Sources */,
 				3FDC25642D6C7B5600ACBF8B /* MyReviewAPI.swift in Sources */,
 				3FB984622D5389710050D66A /* MyReviewDetailHashTagCell.swift in Sources */,
+				3FB396D82DAE1FA500EF87A8 /* SettingModel.swift in Sources */,
 				3F16131D2CD8487800A30369 /* MenuInfo.swift in Sources */,
 				3F4831EE2D897C4B00B138A2 /* ReviewModalAPI.swift in Sources */,
 				3FF6CAC32D50A544006ED4F3 /* MyReviewFooterView.swift in Sources */,
@@ -1735,13 +1822,16 @@
 				3F27E9452DACAA1800CD2554 /* GachaResultViewController.swift in Sources */,
 				3F43F0DC2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift in Sources */,
 				3F1BC3182D50D8EE00B153BA /* CafeteriaMyReviewViewController.swift in Sources */,
+				3FB396D42DAE1F8900EF87A8 /* SettingAddress.swift in Sources */,
 				3FADD2222D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift in Sources */,
 				3F1613272CD8582D00A30369 /* MenuReviewCell.swift in Sources */,
 				3F2BE79A2D50ECD3005003CC /* MyReviewDetailModel.swift in Sources */,
+				3FB396D02DAE1C5800EF87A8 /* NicknameEditViewController.swift in Sources */,
 				3F61DF512CB31CCD00A019E8 /* UILabel++Extensions.swift in Sources */,
 				3F87423B2D4FB08E004DF204 /* MyReviewSection.swift in Sources */,
 				3F311D762D88604400F8D803 /* RankingAPI.swift in Sources */,
 				3F4831EA2D897C2E00B138A2 /* ReviewModalModel.swift in Sources */,
+				3F1C2B242DAE804A00AC3A36 /* LikedMenuSection.swift in Sources */,
 				3F3AF8CF2D75AB6300D6C28A /* ReviewWriteSection.swift in Sources */,
 				3F1472412DACEF6300098C41 /* StoreAddress.swift in Sources */,
 				3F4831F02D89831700B138A2 /* ReviewModalSection.swift in Sources */,
@@ -1779,6 +1869,7 @@
 				3F16132D2CD8737500A30369 /* MenuReviewList.swift in Sources */,
 				3F1472492DACF90D00098C41 /* ItemTypeCell.swift in Sources */,
 				3FC0A66B2DA0379C00FBFAEE /* SignUpModel.swift in Sources */,
+				3FB396D62DAE1F9A00EF87A8 /* SettingAPI.swift in Sources */,
 				3F61252D2DA6ABAA003B5851 /* MyPageModel.swift in Sources */,
 				3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */,
 				3F311D742D88603B00F8D803 /* RankingAddress.swift in Sources */,
@@ -1791,6 +1882,7 @@
 				3F6947D62D8818430036BF2A /* ReviewInfoView.swift in Sources */,
 				3F1A51AA2CD8941200029E09 /* MenuReviewHashTagCell.swift in Sources */,
 				3F1613312CD876C800A30369 /* MenuReviewListInfo.swift in Sources */,
+				3F1C2B1E2DAE5E5C00AC3A36 /* LikedMenuViewController.swift in Sources */,
 				3FC6915C2D1D5795004643D2 /* HomeAddress.swift in Sources */,
 				3F6F565E2CB2975C00A43EF6 /* UIFont++Extensions.swift in Sources */,
 				3F25B3EB2CB282D7005C0907 /* SceneDelegate.swift in Sources */,
@@ -1999,7 +2091,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dinstudio.BJJ-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.justdinn.BJJ-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -2029,7 +2121,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dinstudio.BJJ-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.justdinn.BJJ-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
