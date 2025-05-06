@@ -16,7 +16,7 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     weak var delegate: ReviewCategorySelectDelegate?
     private var isCafeteriaTableViewExpanded = false
     private var isMenuTableViewExpanded = false
-    private let cafeteriaData = ["학생식당", "2호관식당", "1기숙사식당", "27호관 식당", "사범대식당"]
+    private let cafeteriaData = ["학생식당", "2호관식당", "제1기숙사식당", "27호관식당", "사범대식당"]
     private var menuData: [ReviewWriteSection] = []
     private var dropDownMenuTableViewHeightConstraint: Constraint?
     
