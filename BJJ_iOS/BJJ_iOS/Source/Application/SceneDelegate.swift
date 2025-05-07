@@ -72,7 +72,8 @@ extension SceneDelegate {
             // 토큰이 없는 경우: 로그인 화면으로 이동
             
             let loginVC = LoginViewController()
-            window?.rootViewController = loginVC
+            let navigationController = UINavigationController(rootViewController: loginVC)
+            window?.rootViewController = navigationController
         }
     }
 }

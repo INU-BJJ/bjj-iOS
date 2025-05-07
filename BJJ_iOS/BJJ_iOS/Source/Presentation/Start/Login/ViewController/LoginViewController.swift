@@ -172,7 +172,12 @@ extension LoginViewController: WKNavigationDelegate {
                             guard let self = self else { return }
                             let signUpVC = SignUpViewController(email: email, provider: provider)
                             
-                            self.navigationController?.pushViewController(signUpVC, animated: true)
+                            if let navigationController = self.navigationController {
+                                navigationController.pushViewController(signUpVC, animated: true)
+                            } else {
+                                print("<< [LoginVC] navigationController가 nil입니다. pushViewController 실패")
+                                return
+                            }
                         }
                         return
                     }
