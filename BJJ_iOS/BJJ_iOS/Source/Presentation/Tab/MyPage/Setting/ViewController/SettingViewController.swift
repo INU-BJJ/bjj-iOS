@@ -127,22 +127,22 @@ final class SettingViewController: UIViewController {
     }
     
     @objc private func didTapDeleteAccountButton() {
-        KeychainManager.delete()
-        
         MemberAPI.deleteMemberInfo { result in
-            if case .failure(let error) = result {
+            switch result {
+            case .success:
+                KeychainManager.delete()
+                
+                DispatchQueue.main.async {
+                    guard let sceneDelegate = UIApplication.shared.connectedScenes
+                            .first(where: { $0.activationState == .foregroundActive })?.delegate as? SceneDelegate else {
+                        return
+                    }
+                    // TODO: 회원 탈퇴 애니메이션 or 화면 추가
+                    sceneDelegate.setRootViewController()
+                }
+            case .failure(let error):
                 print("[SettingVC] Member Delete Error: \(error.localizedDescription)")
             }
-        }
-        
-        guard let sceneDelegate = UIApplication.shared.connectedScenes
-                .first(where: { $0.activationState == .foregroundActive })?.delegate as? SceneDelegate else {
-            return
-        }
-
-        DispatchQueue.main.async {
-            // TODO: 회원 탈퇴 애니메이션 or 화면 추가
-            sceneDelegate.setRootViewController()
         }
     }
 }
