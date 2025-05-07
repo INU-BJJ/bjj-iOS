@@ -30,10 +30,19 @@ final class MenuRankingCell: UITableViewCell, ReuseIdentifying {
         $0.axis = .vertical
         $0.alignment = .trailing
         $0.distribution = .fill
-        $0.spacing = 5
+        $0.spacing = 6
     }
     
-    private let menuRatingView = MenuRatingView()
+    private let menuRatingView = UIView()
+    
+    private let menuRatingLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
+        $0.setLineSpacing(kernValue: 0.13, lineHeightMultiple: 1.1)
+    }
+    
+    private let menuMaxRatingLabel = UILabel().then {
+        $0.setLabelUI("/ 10", font: .pretendard_medium, size: 13, color: .darkGray)
+    }
     
     private let cafeteriaNameLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 11, color: .darkGray)
@@ -80,6 +89,11 @@ final class MenuRankingCell: UITableViewCell, ReuseIdentifying {
             menuRatingView,
             cafeteriaNameLabel
         ].forEach(menuInfoStackView.addArrangedSubview)
+        
+        [
+            menuRatingLabel,
+            menuMaxRatingLabel
+        ].forEach(menuRatingView.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -100,13 +114,25 @@ final class MenuRankingCell: UITableViewCell, ReuseIdentifying {
         }
         
         menuInfoStackView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(11)
             $0.trailing.equalToSuperview().inset(13)
-            $0.centerY.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(7)
         }
         
         menuRatingView.snp.makeConstraints {
-            $0.width.equalTo(53)
-            $0.height.equalTo(21)
+            $0.width.equalTo(48)
+            $0.height.equalTo(15)
+        }
+        
+        menuRatingLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview()
+            $0.width.equalTo(26)
+            $0.height.equalToSuperview()
+        }
+        
+        menuMaxRatingLabel.snp.makeConstraints {
+            $0.trailing.equalToSuperview()
+            $0.height.equalToSuperview()
         }
     }
     
@@ -115,7 +141,7 @@ final class MenuRankingCell: UITableViewCell, ReuseIdentifying {
     func setMenuRankingCell(with menu: MenuRankingSection, indexPath: IndexPath) {
         rankingLabel.text = "\(indexPath.row + 1)"
         menuNameLabel.text = menu.menuName
-        menuRatingView.configureRatingLabel(with: menu.menuRating)
+        menuRatingLabel.text = "\(menu.menuRating)"
         cafeteriaNameLabel.text = "\(menu.cafeteriaName) \(menu.cafeteriaCorner)"
     }
     
