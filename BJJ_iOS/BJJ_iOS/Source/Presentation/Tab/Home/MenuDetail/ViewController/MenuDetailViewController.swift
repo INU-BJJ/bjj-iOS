@@ -541,15 +541,15 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
 
 extension MenuDetailViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let currentScrollLoacation = scrollView.contentOffset.y     // 현재 스크롤 위치
+        let currentScrollLocation = scrollView.contentOffset.y     // 현재 스크롤 위치
         let contentHeight = scrollView.contentSize.height           // 스크롤 가능한 전체 콘텐츠 높이
         let frameHeight = scrollView.frame.size.height              // 스크롤뷰가 차지하는 실제 UI 높이
                 
-        if currentScrollLoacation > 50, !isNavigationBarHidden {
+        if currentScrollLocation > 50, !isNavigationBarHidden {
             // 아래로 스크롤하면 네비게이션 바 숨김
             navigationController?.setNavigationBarHidden(true, animated: true)
             isNavigationBarHidden = true
-        } else if currentScrollLoacation <= 50, isNavigationBarHidden {
+        } else if currentScrollLocation <= 50, isNavigationBarHidden {
             // 위로 스크롤하거나 초기 상태로 돌아오면 네비게이션 바 표시
             navigationController?.setNavigationBarHidden(false, animated: true)
             isNavigationBarHidden = false
@@ -558,7 +558,7 @@ extension MenuDetailViewController: UIScrollViewDelegate {
         // 서버 데이터 fetch하고 있지 않고, 마지막 페이지가 아닐 때만 데이터 재요청
         if !isFetching, !isLastPage {
             // 현재 스크롤 위치와 로드해놓은 콘텐츠의 아랫면과 가까워지면
-            if currentScrollLoacation > contentHeight - frameHeight - UIScreen.main.bounds.height * 0.1 && !isLastPage {
+            if currentScrollLocation > contentHeight - frameHeight - UIScreen.main.bounds.height * 0.1 && !isLastPage {
                 currentPageNumber += 1
                 fetchReviewInfo(
                     menuPairID: menuData?.menuPairID ?? 0,
