@@ -185,9 +185,8 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
             
         if let reviews = myReviews[sectionKey] {
             let selectedReview = reviews[indexPath.row]
-            let myReviewDetailVC = MyReviewDetailViewController()
+            let myReviewDetailVC = MyReviewDetailViewController(reviewID: selectedReview.reviewID)
             
-            myReviewDetailVC.bindMyReviewData(myReview: selectedReview)
             myReviewDetailVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(myReviewDetailVC, animated: true)
         }

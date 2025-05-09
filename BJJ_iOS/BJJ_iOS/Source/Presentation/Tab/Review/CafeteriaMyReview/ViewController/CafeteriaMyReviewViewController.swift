@@ -142,9 +142,8 @@ extension CafeteriaMyReviewViewController: UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedReview = myReviews[indexPath.row]
-        let myReviewDetailVC = MyReviewDetailViewController()
+        let myReviewDetailVC = MyReviewDetailViewController(reviewID: selectedReview.reviewID)
         
-        myReviewDetailVC.bindMyReviewData(myReview: selectedReview)
         myReviewDetailVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(myReviewDetailVC, animated: true)
     }
