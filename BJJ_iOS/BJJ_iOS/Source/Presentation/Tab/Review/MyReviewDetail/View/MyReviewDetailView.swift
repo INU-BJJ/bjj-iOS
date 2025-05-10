@@ -341,7 +341,8 @@ extension MyReviewDetailView: UICollectionViewDataSource, UICollectionViewDelega
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyReviewDetailHashTagCell.reuseIdentifier, for: indexPath) as! MyReviewDetailHashTagCell
             // TODO: 하이라이트 라벨 수정
-            let isHighlighted = (indexPath.row == 0)
+//            let isHighlighted = (indexPath.row == 0)
+            let isHighlighted = true
             cell.configureHashTag(with: hashTags[indexPath.row], isHighlighted: isHighlighted)
             
             return cell
