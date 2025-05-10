@@ -17,7 +17,8 @@ final class MyReviewDetailViewController: UIViewController {
     
     // MARK: - Properties
     
-    private var myReviewData: MyReviewSection?
+    private var myReviewData: MyReviewDetailSection?
+    private let reviewID: Int
     
     // MARK: - UI Components
     
@@ -27,13 +28,27 @@ final class MyReviewDetailViewController: UIViewController {
     
     // MARK: - LifeCycle
     
+    init(reviewID: Int) {
+        self.reviewID = reviewID
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUI()
         setAddView()
         setConstraints()
-        configureMyReviewDetailVC()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchMyReviewDetail(reviewID: reviewID)
     }
     
     // MARK: - Set UI
@@ -60,12 +75,6 @@ final class MyReviewDetailViewController: UIViewController {
         }
     }
     
-    // MARK: - Bind Data
-    
-    func bindMyReviewData(myReview: MyReviewSection) {
-        myReviewData = myReview
-    }
-    
     // MARK: - Configure MyReviewDetailVC
     
     private func configureMyReviewDetailVC() {
@@ -74,7 +83,7 @@ final class MyReviewDetailViewController: UIViewController {
         }
     }
     
-    // MARK: - API Function
+    // MARK: - Delete API Functions
     
     private func deleteMyReview(reviewID: Int) {
         MyReviewDetailAPI.deleteMyReview(reviewID: reviewID) { result in
@@ -87,6 +96,38 @@ final class MyReviewDetailViewController: UIViewController {
                 
             case .failure(let error):
                 print("<< [MyReviewDetailVC] \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    // MARK: - Fetch API Functions
+    
+    private func fetchMyReviewDetail(reviewID: Int) {
+        MyReviewDetailAPI.fetchMyReviewDetail(reviewID: reviewID) { result in
+            switch result {
+            case .success(let myDetailReview):
+                self.myReviewData = MyReviewDetailSection(
+                                        reviewID: myDetailReview.reviewID,
+                                        reviewComment: myDetailReview.reviewComment,
+                                        reviewRating: myDetailReview.reviewRating,
+                                        reviewImages: myDetailReview.reviewImages,
+                                        reviewLikedCount: myDetailReview.reviewLikedCount,
+                                        reviewCreatedDate: myDetailReview.reviewCreatedDate,
+                                        menuPairID: myDetailReview.menuPairID,
+                                        mainMenuID: myDetailReview.mainMenuID,
+                                        mainMenuName: myDetailReview.mainMenuName,
+                                        subMenuID: myDetailReview.subMenuID,
+                                        subMenuName: myDetailReview.subMenuName,
+                                        memberID: myDetailReview.memberID,
+                                        memberNickname: myDetailReview.memberNickname,
+                                        memberImage: myDetailReview.memberImage,
+                                        isOwned: myDetailReview.isOwned,
+                                        isLiked: myDetailReview.isLiked
+                                    )
+                self.configureMyReviewDetailVC()
+                
+            case .failure(let error):
+                print("[MyReviewDetailVC] Fetch Error: \(error.localizedDescription)")
             }
         }
     }

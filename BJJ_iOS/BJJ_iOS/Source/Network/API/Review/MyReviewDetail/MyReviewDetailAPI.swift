@@ -18,4 +18,14 @@ final class MyReviewDetailAPI {
             completion: completion
         )
     }
+    
+    static func fetchMyReviewDetail(reviewID: Int, completion: @escaping (Result<MyReviewDetailModel, Error>) -> Void) {
+        networkRequest(
+            urlStr: MyReviewDetailAddress.fetchMyReviewDetail(reviewID).url,
+            method: .get,
+            data: nil,
+            model: MyReviewDetailModel.self,
+            completion: completion
+        )
+    }
 }

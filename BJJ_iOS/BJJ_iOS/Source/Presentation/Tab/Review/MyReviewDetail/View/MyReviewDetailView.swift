@@ -216,17 +216,17 @@ final class MyReviewDetailView: UIView {
     
     // MARK: - Configure Cell
     
-    func configureMyDatailReview(with myReviewInfo: MyReviewSection) {
-        
-        // TODO: 리뷰 이미지도 넣기
-        // TODO: 해시 태그 넣기
-        
-        nicknameLabel.text = myReviewInfo.memberNickName
+    func configureMyDatailReview(with myReviewInfo: MyReviewDetailSection) {
+        nicknameLabel.text = myReviewInfo.memberNickname
         reviewRatingView.configureReviewStar(reviewRating: myReviewInfo.reviewRating, type: .small)
         reviewDateLabel.text = myReviewInfo.reviewCreatedDate
         reviewLikeCountLabel.text = String(myReviewInfo.reviewLikedCount)
         reviewTextView.text = myReviewInfo.reviewComment
         reviewImages = myReviewInfo.reviewImages
+        hashTags = [myReviewInfo.mainMenuName, myReviewInfo.subMenuName]
+        
+        reviewImageCollectionView.reloadData()
+        reviewHashTagCollectionView.reloadData()
         
         // TODO: 더 좋은 방법 생각하기
         if reviewImages.isEmpty {
@@ -236,9 +236,6 @@ final class MyReviewDetailView: UIView {
                 myReviewStackView.addArrangedSubview(reviewImageCollectionView)
             }
         }
-        
-        
-        hashTags = [myReviewInfo.mainMenuName, myReviewInfo.subMenuName]
     }
     
     // MARK: - Create Layout
@@ -344,7 +341,8 @@ extension MyReviewDetailView: UICollectionViewDataSource, UICollectionViewDelega
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyReviewDetailHashTagCell.reuseIdentifier, for: indexPath) as! MyReviewDetailHashTagCell
             // TODO: 하이라이트 라벨 수정
-            let isHighlighted = (indexPath.row == 0)
+//            let isHighlighted = (indexPath.row == 0)
+            let isHighlighted = true
             cell.configureHashTag(with: hashTags[indexPath.row], isHighlighted: isHighlighted)
             
             return cell
