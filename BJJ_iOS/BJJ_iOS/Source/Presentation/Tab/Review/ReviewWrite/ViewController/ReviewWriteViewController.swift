@@ -278,6 +278,7 @@ extension ReviewWriteViewController: UICollectionViewDelegate, UICollectionViewD
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewRatingCell.reuseIdentifier, for: indexPath) as! ReviewRatingCell
+            cell.delegate = self
             
             return cell
         case 2:
