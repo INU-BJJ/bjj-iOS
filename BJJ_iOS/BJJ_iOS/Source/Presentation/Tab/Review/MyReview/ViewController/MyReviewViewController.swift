@@ -8,15 +8,14 @@
 import UIKit
 import SnapKit
 import Then
+import OrderedCollections
 
 final class MyReviewViewController: UIViewController {
     
     // MARK: - Properties
     
-    private var myReviews: [String: [MyReviewSection]] = [:]
-    private var myReviewsKeys: [String] {
-        return Array(myReviews.keys)
-    }
+    private var myReviews: OrderedDictionary<String, [MyReviewSection]> = [:]
+    private let cafeteriaOrder = ["학생식당", "2호관식당", "제1기숙사식당", "27호관식당", "사범대식당"]
     
     // MARK: - UI Components
     
@@ -100,8 +99,10 @@ final class MyReviewViewController: UIViewController {
             switch result {
             case .success(let myReviewList):
                 DispatchQueue.main.async {
-                    for (key, reviews) in myReviewList.myReviewList {
-                        let reviewSection = reviews.map { review in
+                    for cafeteria in self.cafeteriaOrder {
+                        guard let reviews = myReviewList.myReviewList[cafeteria] else { continue }
+
+                        let myReview = reviews.map { review in
                             MyReviewSection(
                                 reviewID: review.reviewID,
                                 reviewComment: review.comment,
@@ -117,7 +118,7 @@ final class MyReviewViewController: UIViewController {
                                 memberImageName: review.memberImage
                             )
                         }
-                        self.myReviews[key] = reviewSection
+                        self.myReviews[cafeteria] = myReview
                     }
                     
                     let isMyReviewsEmpty = self.myReviews.isEmpty
@@ -153,9 +154,9 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionKey = myReviewsKeys[section]
+        let cafeteria = myReviews.keys[section]
         
-        return myReviews[sectionKey]?.count ?? 0
+        return myReviews[cafeteria]?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -163,10 +164,9 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let sectionKey = myReviewsKeys[indexPath.section]
+        let cafeteria = myReviews.keys[indexPath.section]
         
-        if let reviews = myReviews[sectionKey] {
-            let review = reviews[indexPath.row]
+        if let review = myReviews[cafeteria]?[indexPath.row] {
             cell.configureMyReviewCell(with: review)
         }
         
@@ -181,11 +181,10 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let sectionKey = myReviewsKeys[indexPath.section]
-            
-        if let reviews = myReviews[sectionKey] {
-            let selectedReview = reviews[indexPath.row]
-            let myReviewDetailVC = MyReviewDetailViewController(reviewID: selectedReview.reviewID)
+        let cafeteria = myReviews.keys[indexPath.section]
+        
+        if let review = myReviews[cafeteria]?[indexPath.row] {
+            let myReviewDetailVC = MyReviewDetailViewController(reviewID: review.reviewID)
             
             myReviewDetailVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(myReviewDetailVC, animated: true)
@@ -199,10 +198,10 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
             return nil
         }
         
-        let cafeteriaName = myReviewsKeys[section]
-        let reviewCountInSection = myReviews[cafeteriaName]?.count ?? 0
+        let cafeteria = myReviews.keys[section]
+        let reviewCountInSection = myReviews[cafeteria]?.count ?? 0
 
-        headerView.configureMyReviewHeaderView(with: cafeteriaName, section: section)
+        headerView.configureMyReviewHeaderView(with: cafeteria, section: section)
         headerView.setReviewMoreButtonVisibility(reviewCountInSection >= 3)
         headerView.delegate = self
         
@@ -232,7 +231,8 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension MyReviewViewController: MyReviewHeaderViewDelegate {
     func didTapReviewMoreButton(in section: Int) {
-        let cafeteriaName = myReviewsKeys[section]
-        presentCafeteriaMyReviewViewController(title: cafeteriaName)
+        let cafeteria = myReviews.keys[section]
+        
+        presentCafeteriaMyReviewViewController(title: cafeteria)
     }
 }
