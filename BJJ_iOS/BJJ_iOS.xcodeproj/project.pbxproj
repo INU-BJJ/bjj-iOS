@@ -100,6 +100,7 @@
 		3F6947D62D8818430036BF2A /* ReviewInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6947D52D8818430036BF2A /* ReviewInfoView.swift */; };
 		3F6947DA2D8833CD0036BF2A /* ReviewModalImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6947D92D8833CD0036BF2A /* ReviewModalImageCell.swift */; };
 		3F6F565E2CB2975C00A43EF6 /* UIFont++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */; };
+		3F70549D2DCF77EC00647141 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 3F70549C2DCF77EC00647141 /* OrderedCollections */; };
 		3F7CC2D32DA2491B00062EF9 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7CC2D22DA2491B00062EF9 /* SignUpViewController.swift */; };
 		3F8430272CE7208000B5A2F1 /* UITabBar++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8430262CE7208000B5A2F1 /* UITabBar++Extensions.swift */; };
 		3F858F412DAA532400F6C7F5 /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F858F402DAA532400F6C7F5 /* StoreViewController.swift */; };
@@ -343,6 +344,7 @@
 			files = (
 				3FEDD49F2CB2B3A8009617A5 /* PretendardKit in Frameworks */,
 				8CB8B6DAAA797515681E5BE4 /* Pods_BJJ_iOS.framework in Frameworks */,
+				3F70549D2DCF77EC00647141 /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1549,6 +1551,7 @@
 			name = BJJ_iOS;
 			packageProductDependencies = (
 				3FEDD49E2CB2B3A8009617A5 /* PretendardKit */,
+				3F70549C2DCF77EC00647141 /* OrderedCollections */,
 			);
 			productName = BJJ_iOS;
 			productReference = 3F25B3E52CB282D7005C0907 /* BJJ_iOS.app */;
@@ -1627,6 +1630,7 @@
 			mainGroup = 3F25B3DC2CB282D7005C0907;
 			packageReferences = (
 				3FEDD49D2CB2B21B009617A5 /* XCRemoteSwiftPackageReference "PretendardKit" */,
+				3F70549B2DCF77EC00647141 /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = 3F25B3E62CB282D7005C0907 /* Products */;
 			projectDirPath = "";
@@ -2259,6 +2263,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3F70549B2DCF77EC00647141 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.4;
+			};
+		};
 		3FEDD49D2CB2B21B009617A5 /* XCRemoteSwiftPackageReference "PretendardKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/wookeon/PretendardKit.git";
@@ -2270,6 +2282,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3F70549C2DCF77EC00647141 /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F70549B2DCF77EC00647141 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
 		3FEDD49E2CB2B3A8009617A5 /* PretendardKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3FEDD49D2CB2B21B009617A5 /* XCRemoteSwiftPackageReference "PretendardKit" */;
