@@ -144,9 +144,7 @@ extension UIViewController {
     
     /// MyPageVC로 push
     func presentMyPageViewController() {
-        let myPageVC = MyPageViewController()
-        myPageVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(myPageVC, animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     /// StoreVC로 push
