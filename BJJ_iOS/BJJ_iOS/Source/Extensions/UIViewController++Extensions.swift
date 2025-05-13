@@ -105,12 +105,16 @@ extension UIViewController {
     
     /// MyReviewVC로 push
     func presentMyReviewViewController() {
-        guard let tabBarController = self.tabBarController else { return }
-            
-        tabBarController.selectedIndex = 2
-        
-        if let navigationController = tabBarController.selectedViewController as? UINavigationController {
-            navigationController.popToRootViewController(animated: true)
+        if let tabBarController = self.tabBarController,
+           let viewControllers = tabBarController.viewControllers {
+            for vc in viewControllers {
+                if let navigationVC = vc as? UINavigationController,
+                   navigationVC.viewControllers.first is MyReviewViewController {
+                    tabBarController.selectedViewController = navigationVC
+                    navigationVC.popToRootViewController(animated: true)
+                    break
+                }
+            }
         }
     }
     
