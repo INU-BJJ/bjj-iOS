@@ -18,6 +18,11 @@ final class GachaResultViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private lazy var testBackButton = UIButton().then {
+        $0.setImage(UIImage(named: "BlackBackButton"), for: .normal)
+        $0.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
+    }
+    
     private let testDrawnCharacter = UIImageView()
     
     private let testGachaPopUpView = UIView().then {
@@ -57,6 +62,7 @@ final class GachaResultViewController: UIViewController {
     
     private func setAddView() {
         [
+            testBackButton,
             testDrawnCharacter,
             testGachaPopUpView
         ].forEach(view.addSubview)
@@ -70,6 +76,10 @@ final class GachaResultViewController: UIViewController {
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        testBackButton.snp.makeConstraints {
+            $0.top.leading.equalToSuperview().offset(100)
+        }
+        
         testDrawnCharacter.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
@@ -121,6 +131,10 @@ final class GachaResultViewController: UIViewController {
         patchItem()
     }
     
+    @objc private func dismissModal() {
+        self.presentingViewController?.presentingViewController?.dismiss(animated: true)
+    }
+    
     // MARK: - Post API
     
     // TODO: GachaResultModel말고 GachaResultSection사용할지 말지 고민
@@ -147,14 +161,47 @@ final class GachaResultViewController: UIViewController {
             case .success:
                 // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
                 DispatchQueue.main.async {
-                    // TODO: 계속 아이템을 착용하다보면 네비게이션 스택이 엄청 쌓여서 뒤로가기 한 없이 눌러야됨. 네비게이션 스택을 MyPageVC로 초기화하는 방법 고민
-                    self.presentMyPageViewController()
+                    self.presentingViewController?.presentingViewController?.dismiss(animated: false) {
+                        
+                        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
+                           let tabBarController = sceneDelegate.window?.rootViewController as? UITabBarController,
+                           let viewControllers = tabBarController.viewControllers {
+                            
+                            for vc in viewControllers {
+                                if let navigationVC = vc as? UINavigationController,
+                                   navigationVC.viewControllers.first is MyPageViewController {
+                                    tabBarController.selectedViewController = navigationVC
+                                    navigationVC.popToRootViewController(animated: true)
+                                    break
+                                }
+                            }
+                        } else {
+                            print("[GachaResultVC] Error: TabBarController 또는 MyPageVC 탐색 실패")
+                        }
+                    }
                 }
                 
             case .failure(let error):
                 // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
                 DispatchQueue.main.async {
-                    self.presentMyPageViewController()
+                    self.presentingViewController?.presentingViewController?.dismiss(animated: false) {
+                        
+                        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
+                           let tabBarController = sceneDelegate.window?.rootViewController as? UITabBarController,
+                           let viewControllers = tabBarController.viewControllers {
+                            
+                            for vc in viewControllers {
+                                if let navigationVC = vc as? UINavigationController,
+                                   navigationVC.viewControllers.first is MyPageViewController {
+                                    tabBarController.selectedViewController = navigationVC
+                                    navigationVC.popToRootViewController(animated: true)
+                                    break
+                                }
+                            }
+                        } else {
+                            print("[GachaResultVC] Error: TabBarController 또는 MyPageVC 탐색 실패")
+                        }
+                    }
                 }
                 print("[GachaResultVC] Error: \(error.localizedDescription)")
             }

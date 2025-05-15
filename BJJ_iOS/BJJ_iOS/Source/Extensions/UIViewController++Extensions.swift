@@ -105,12 +105,16 @@ extension UIViewController {
     
     /// MyReviewVC로 push
     func presentMyReviewViewController() {
-        guard let tabBarController = self.tabBarController else { return }
-            
-        tabBarController.selectedIndex = 2
-        
-        if let navigationController = tabBarController.selectedViewController as? UINavigationController {
-            navigationController.popToRootViewController(animated: true)
+        if let tabBarController = self.tabBarController,
+           let viewControllers = tabBarController.viewControllers {
+            for vc in viewControllers {
+                if let navigationVC = vc as? UINavigationController,
+                   navigationVC.viewControllers.first is MyReviewViewController {
+                    tabBarController.selectedViewController = navigationVC
+                    navigationVC.popToRootViewController(animated: true)
+                    break
+                }
+            }
         }
     }
     
@@ -144,9 +148,7 @@ extension UIViewController {
     
     /// MyPageVC로 push
     func presentMyPageViewController() {
-        let myPageVC = MyPageViewController()
-        myPageVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(myPageVC, animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     /// StoreVC로 push
@@ -159,17 +161,17 @@ extension UIViewController {
     /// GachaVC로 push
     func presentGachaViewController() {
         let gachaVC = GachaViewController()
-        let gachaNavigation = UINavigationController(rootViewController: gachaVC)
         
-        gachaNavigation.modalPresentationStyle = .overFullScreen
-        present(gachaNavigation, animated: true)
+        gachaVC.modalPresentationStyle = .overFullScreen
+        present(gachaVC, animated: true)
     }
     
     /// GachaResultVC로 push
     func presentGachaResultViewController() {
         let gachaResultVC = GachaResultViewController()
-        gachaResultVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(gachaResultVC, animated: true)
+        
+        gachaResultVC.modalPresentationStyle = .fullScreen
+        present(gachaResultVC, animated: true)
     }
     
     /// SettingVC로 push

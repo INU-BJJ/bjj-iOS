@@ -154,14 +154,13 @@ final class StoreViewController: UIViewController {
             case .success:
                 // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
                 DispatchQueue.main.async {
-                    // TODO: 계속 아이템을 착용하다보면 네비게이션 스택이 엄청 쌓여서 뒤로가기 한 없이 눌러야됨. 네비게이션 스택을 MyPageVC로 초기화하는 방법 고민
-                    self.presentMyPageViewController()
+                    self.navigationController?.popToRootViewController(animated: true)
                 }
                 
             case .failure(let error):
                 // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
                 DispatchQueue.main.async {
-                    self.presentMyPageViewController()
+                    self.navigationController?.popToRootViewController(animated: true)
                 }
                 print("[GachaResultVC] Error: \(error.localizedDescription)")
             }
