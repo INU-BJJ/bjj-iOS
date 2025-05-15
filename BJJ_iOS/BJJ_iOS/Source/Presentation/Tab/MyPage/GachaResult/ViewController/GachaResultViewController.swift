@@ -18,6 +18,11 @@ final class GachaResultViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private lazy var testBackButton = UIButton().then {
+        $0.setImage(UIImage(named: "BlackBackButton"), for: .normal)
+        $0.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
+    }
+    
     private let testDrawnCharacter = UIImageView()
     
     private let testGachaPopUpView = UIView().then {
@@ -57,6 +62,7 @@ final class GachaResultViewController: UIViewController {
     
     private func setAddView() {
         [
+            testBackButton,
             testDrawnCharacter,
             testGachaPopUpView
         ].forEach(view.addSubview)
@@ -70,6 +76,10 @@ final class GachaResultViewController: UIViewController {
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        testBackButton.snp.makeConstraints {
+            $0.top.leading.equalToSuperview().offset(100)
+        }
+        
         testDrawnCharacter.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
@@ -119,6 +129,10 @@ final class GachaResultViewController: UIViewController {
     
     @objc private func didTapItemWearButton() {
         patchItem()
+    }
+    
+    @objc private func dismissModal() {
+        self.presentingViewController?.presentingViewController?.dismiss(animated: true)
     }
     
     // MARK: - Post API

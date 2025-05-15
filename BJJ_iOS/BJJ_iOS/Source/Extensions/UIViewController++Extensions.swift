@@ -170,7 +170,7 @@ extension UIViewController {
     func presentGachaResultViewController() {
         let gachaResultVC = GachaResultViewController()
         
-        gachaResultVC.modalPresentationStyle = .overFullScreen
+        gachaResultVC.modalPresentationStyle = .fullScreen
         present(gachaResultVC, animated: true)
     }
     
