@@ -122,7 +122,12 @@ final class HomeViewController: UIViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(124), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(2.0), heightDimension: .absolute(33))
+        let itemWidth: CGFloat = 124
+        let itemSpacing: CGFloat = 9
+        let itemCount = HomeCafeteriaModel.cafeteria.count
+        let cafeteriaSectionWidth = (itemWidth * CGFloat(itemCount)) + (itemSpacing * CGFloat(itemCount - 1))
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(cafeteriaSectionWidth), heightDimension: .absolute(33))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = .fixed(9)
         
