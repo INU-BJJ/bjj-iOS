@@ -13,6 +13,7 @@ final class MenuRankingViewController: UIViewController {
     
     // MARK: - Properties
     
+    private var isUpdatedDate = false
     private var menuRankingData: [MenuRankingSection] = []
     private var currentPageNumber = 0
     private var pageSize = 10
@@ -36,9 +37,7 @@ final class MenuRankingViewController: UIViewController {
     }
     
     private let dateLabel = UILabel().then {
-        // TODO: 서버 정보 fetch
-        // TODO: 서버에서 menu마다 업데이트 날짜를 주고 있는데, 어짜피 메뉴 랭킹은 매일마다 업데이트 되니까 따로 보내달라고 요청
-        $0.setLabelUI("2024.12.26", font: .pretendard_medium, size: 11, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard_medium, size: 11, color: .darkGray)
     }
     
     private let updateLabel = UILabel().then {
@@ -69,6 +68,7 @@ final class MenuRankingViewController: UIViewController {
         setAddView()
         setConstraints()
         setStackView()
+        updateDateIfNeeded()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -131,6 +131,23 @@ final class MenuRankingViewController: UIViewController {
     private func setStackView() {
         dateUpdateStackView.setCustomSpacing(5, after: dateLabel)
         dateUpdateStackView.setCustomSpacing(4, after: updateLabel)
+    }
+    
+    // MARK: - Update Date
+    
+    private func updateDateIfNeeded() {
+        guard !isUpdatedDate else { return }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy.MM.dd"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+        
+        let today = Date()
+        let todayDate = dateFormatter.string(from: today)
+        
+        dateLabel.text = todayDate
+        isUpdatedDate = true
     }
     
     // MARK: - API Function
