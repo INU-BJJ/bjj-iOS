@@ -13,6 +13,7 @@ final class MenuRankingViewController: UIViewController {
     
     // MARK: - Properties
     
+    private var isUpdatedDate = false
     private var menuRankingData: [MenuRankingSection] = []
     private var currentPageNumber = 0
     private var pageSize = 10
@@ -67,12 +68,12 @@ final class MenuRankingViewController: UIViewController {
         setAddView()
         setConstraints()
         setStackView()
+        updateDateIfNeeded()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        updateDate()
         fetchMenuRanking(pageNumber: currentPageNumber, pageSize: pageSize)
     }
     
@@ -134,7 +135,9 @@ final class MenuRankingViewController: UIViewController {
     
     // MARK: - Update Date
     
-    private func updateDate() {
+    private func updateDateIfNeeded() {
+        guard !isUpdatedDate else { return }
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy.MM.dd"
         dateFormatter.locale = Locale(identifier: "ko_KR")
@@ -144,6 +147,7 @@ final class MenuRankingViewController: UIViewController {
         let todayDate = dateFormatter.string(from: today)
         
         dateLabel.text = todayDate
+        isUpdatedDate = true
     }
     
     // MARK: - API Function
