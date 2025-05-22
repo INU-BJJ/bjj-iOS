@@ -64,10 +64,21 @@ final class StoreViewController: UIViewController {
         fetchAllItems(itemType: "CHARACTER")
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - Set ViewController
     
     private func setViewController() {
         view.backgroundColor = .white
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(refreshItemsValidity),
+            name: .didDismissFromGachaResultVC,
+            object: nil
+        )
     }
     
     // MARK: - Set AddViews
@@ -114,6 +125,11 @@ final class StoreViewController: UIViewController {
             // TODO: 백그라운드에서 포인트를 받아와서(마이아이템 API 호출) 뽑기하기 버튼 누를 때 포인트 UI 업데이트
             self.presentGachaViewController()
         }
+    }
+    
+    @objc private func refreshItemsValidity() {
+        // TODO: 캐릭터인지 배경인지 정하기
+        fetchAllItems(itemType: "CHARACTER")
     }
     
     // MARK: - Fetch API Functions
@@ -193,4 +209,8 @@ extension StoreViewController: UICollectionViewDataSource, UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         patchItem(itemType: allItems[indexPath.item].itemType, itemID: allItems[indexPath.item].itemID)
     }
+}
+
+extension Notification.Name {
+    static let didDismissFromGachaResultVC = Notification.Name("didDismissFromGachaResultVC")
 }
