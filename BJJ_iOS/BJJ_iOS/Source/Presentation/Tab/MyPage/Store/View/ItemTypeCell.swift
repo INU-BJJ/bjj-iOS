@@ -36,6 +36,15 @@ final class ItemTypeCell: UICollectionViewCell, ReuseIdentifying {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        contentView.backgroundColor = .white
+        testItemImage.image = nil
+        testItemValidPeriodLabel.text = nil
+        testItemImage.transform = .identity
+    }
+    
     // MARK: - Set AddView
     
     private func setCell() {
@@ -71,6 +80,8 @@ final class ItemTypeCell: UICollectionViewCell, ReuseIdentifying {
             if itemInfo.isOwned {
                 if itemInfo.isWearing {
                     self.contentView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+                } else {
+                    self.contentView.backgroundColor = .white
                 }
                 guard let characterURL = URL(string: baseURL.characterImageURL + (itemInfo.itemImage)) else { return }
                 

@@ -64,10 +64,21 @@ final class StoreViewController: UIViewController {
         fetchAllItems(itemType: "CHARACTER")
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - Set ViewController
     
     private func setViewController() {
         view.backgroundColor = .white
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(refreshItemsValidity),
+            name: .didDismissFromGachaResultVC,
+            object: nil
+        )
     }
     
     // MARK: - Set AddViews
@@ -116,9 +127,18 @@ final class StoreViewController: UIViewController {
         }
     }
     
+    @objc private func refreshItemsValidity(_ notification: Notification) {
+        // TODO: 캐릭터인지 배경인지 정하기
+        if let itemID = notification.object as? Int {
+            fetchAllItems(itemType: "CHARACTER", itemIndex: itemID - 1)
+        } else {
+            print("[StoreVC] NotificationCenter Error: itemID를 받지 못했거나 형식이 맞지 않음")
+        }
+    }
+    
     // MARK: - Fetch API Functions
     
-    private func fetchAllItems(itemType: String) {
+    private func fetchAllItems(itemType: String, itemIndex: Int? = nil) {
         StoreAPI.fetchAllItems(itemType: itemType) { result in
             switch result {
             case .success(let allItems):
@@ -135,7 +155,14 @@ final class StoreViewController: UIViewController {
                     )
                 }
                 DispatchQueue.main.async {
-                    self.testAllItemCollectionView.reloadData()
+                    UIView.performWithoutAnimation {
+                        if let index = itemIndex {
+                            let indexPath = IndexPath(item: index, section: 0)
+                            self.testAllItemCollectionView.reloadItems(at: [indexPath])
+                        } else {
+                            self.testAllItemCollectionView.reloadData()
+                        }
+                    }
                 }
                 
             case .failure(let error):
@@ -193,4 +220,8 @@ extension StoreViewController: UICollectionViewDataSource, UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         patchItem(itemType: allItems[indexPath.item].itemType, itemID: allItems[indexPath.item].itemID)
     }
+}
+
+extension Notification.Name {
+    static let didDismissFromGachaResultVC = Notification.Name("didDismissFromGachaResultVC")
 }
