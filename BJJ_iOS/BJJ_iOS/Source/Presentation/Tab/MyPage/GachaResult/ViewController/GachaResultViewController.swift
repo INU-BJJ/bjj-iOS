@@ -132,7 +132,7 @@ final class GachaResultViewController: UIViewController {
     }
     
     @objc private func dismissModal() {
-        NotificationCenter.default.post(name: .didDismissFromGachaResultVC, object: nil)
+        NotificationCenter.default.post(name: .didDismissFromGachaResultVC, object: drawnItemInfo?.itemID)
         self.presentingViewController?.presentingViewController?.dismiss(animated: true)
     }
     
