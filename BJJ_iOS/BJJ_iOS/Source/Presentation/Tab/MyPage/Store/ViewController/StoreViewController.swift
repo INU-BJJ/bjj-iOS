@@ -155,11 +155,13 @@ final class StoreViewController: UIViewController {
                     )
                 }
                 DispatchQueue.main.async {
-                    if let index = itemIndex {
-                        let indexPath = IndexPath(item: index, section: 0)
-                        self.testAllItemCollectionView.reloadItems(at: [indexPath])
-                    } else {
-                        self.testAllItemCollectionView.reloadData()
+                    UIView.performWithoutAnimation {
+                        if let index = itemIndex {
+                            let indexPath = IndexPath(item: index, section: 0)
+                            self.testAllItemCollectionView.reloadItems(at: [indexPath])
+                        } else {
+                            self.testAllItemCollectionView.reloadData()
+                        }
                     }
                 }
                 
