@@ -38,7 +38,8 @@ final class MenuDetailViewController: UIViewController {
     
     private let menuReviewStackView = UIStackView().then {
         $0.axis = .vertical
-        $0.spacing = -41
+//        $0.spacing = -41
+        $0.spacing = 40
         $0.alignment = .fill
         $0.distribution = .fill
     }
@@ -56,12 +57,21 @@ final class MenuDetailViewController: UIViewController {
         $0.register(MenuInfo.self, forCellWithReuseIdentifier: MenuInfo.reuseIdentifier)
         $0.register(MenuReview.self, forCellWithReuseIdentifier: MenuReview.reuseIdentifier)
         $0.register(MenuReviewSorting.self, forCellWithReuseIdentifier: MenuReviewSorting.reuseIdentifier)
-        $0.register(MenuReviewList.self, forCellWithReuseIdentifier: MenuReviewList.reuseIdentifier)
         $0.register(SeparatingLineView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: SeparatingLineView.reuseIdentifier)
         $0.delegate = self
         $0.dataSource = self
         $0.layer.cornerRadius = 30
         $0.layer.masksToBounds = true
+        $0.isScrollEnabled = false
+    }
+    
+    private lazy var menuReviewListCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createFlowLayout()
+    ).then {
+        $0.register(MenuReviewListCell.self, forCellWithReuseIdentifier: MenuReviewListCell.reuseIdentifier)
+        $0.delegate = self
+        $0.dataSource = self
         $0.isScrollEnabled = false
     }
     
@@ -131,7 +141,8 @@ final class MenuDetailViewController: UIViewController {
         
         [
             menuDefaultImageView,
-            menuReviewCollectionView
+            menuReviewCollectionView,
+            menuReviewListCollectionView
         ].forEach(menuReviewStackView.addArrangedSubview)
     }
     
@@ -156,6 +167,11 @@ final class MenuDetailViewController: UIViewController {
         menuReviewCollectionView.snp.makeConstraints {
             $0.height.equalTo(1000)
         }
+        
+        menuReviewListCollectionView.snp.makeConstraints {
+            $0.width.equalToSuperview()
+            $0.height.equalTo(1)
+        }
     }
     
     // MARK: - Bind Data
@@ -173,6 +189,16 @@ final class MenuDetailViewController: UIViewController {
         // 컬렉션 뷰 높이 업데이트
         menuReviewCollectionView.snp.updateConstraints {
             $0.height.equalTo(collectionViewContentHeight)
+        }
+        
+        DispatchQueue.main.async {
+            self.menuReviewListCollectionView.layoutIfNeeded()
+            let listHeight = self.menuReviewListCollectionView.collectionViewLayout.collectionViewContentSize.height
+
+            self.menuReviewListCollectionView.snp.updateConstraints {
+                $0.height.equalTo(listHeight)
+            }
+            self.menuReviewScrollView.layoutIfNeeded()
         }
     }
     
@@ -238,8 +264,9 @@ final class MenuDetailViewController: UIViewController {
                     )
                     self.isLastPage = reviewInfo.isLastPage
                     self.menuReviewCollectionView.layoutIfNeeded() // 즉시 레이아웃(frame, bounds, contentSize 등) 계산
+                    self.menuReviewListCollectionView.layoutIfNeeded()
                     self.updateCollectionView()
-                    self.menuReviewCollectionView.reloadSections(IndexSet([4])) // 컬렉션 뷰 업데이트
+                    self.menuReviewListCollectionView.reloadData()
                     self.isFetching = false
                 }
                 
@@ -319,8 +346,6 @@ final class MenuDetailViewController: UIViewController {
                 return self.createReviewSection() // 리뷰 헤더 섹션 (가로 스크롤 사진 포함)
             case 3:
                 return self.createReviewSortingSection() // 리뷰 정렬 섹션
-            case 4:
-                return self.createReviewListSection()   // 리뷰 리스트 섹션
             default:
                 return nil
             }
@@ -408,112 +433,115 @@ final class MenuDetailViewController: UIViewController {
         return section
     }
     
-    private func createReviewListSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+    private func createFlowLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
         
-        // TODO: 리뷰 글의 줄 수에 따라 높이 동적 조절
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(413))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        layout.scrollDirection = .vertical
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = .greatestFiniteMagnitude
+        layout.sectionInset = .zero
         
-        let section = NSCollectionLayoutSection(group: group)
-        
-        return section
+        return layout
     }
 }
 
 extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 5
+        if collectionView == menuReviewCollectionView {
+            return 4
+        } else {
+            return 1
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return 1      // 메뉴 정보는 하나의 셀만 필요
-        case 1:
-            return 1      // 메뉴 구성도 하나의 셀로 표시
-        case 2:
-            return 1      // 리뷰 헤더도 하나의 셀로 구성
-        case 3:
+        if collectionView == menuReviewCollectionView {
             return 1
-        case 4:
-            return reviewData.isEmpty ? 0 : reviewData.count
-        default:
-            return 0
+        } else {
+            return reviewData.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch indexPath.section {
-        case 0:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuHeader.reuseIdentifier, for: indexPath) as! MenuHeader
-            cell.delegate = self
-            cell.configureMenuHeader(
-                menuName: menuData?.menuName ?? "",
-                menuPrice: menuData?.menuPrice ?? ""
-            )
-            cell.updateMenuLikeButton(isMemberLikedReview: menuData?.isLikedMenu ?? false)
-            
-            return cell
-        case 1:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfo.reuseIdentifier, for: indexPath) as! MenuInfo
-            if let menuData = menuData {
-                cell.configureMenuInfo(with: menuData.restMenu ?? [])
-            }
-            
-            return cell
-        case 2:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReview.reuseIdentifier, for: indexPath) as! MenuReview
-            cell.configureMenuReview(
-                menuReviewData: menuData
-                    ?? HomeMenuModel(
-                        menuName: "",
-                        menuImage: "DefaultMenuImage",
-                        menuPrice: "",
-                        menuRating: 0.0,
-                        cafeteriaName: "",
-                        cafeteriaCorner: "",
-                        isLikedMenu: false,
-                        restMenu: [],
-                        reviewCount: 0,
-                        menuPairID: 0,
-                        mainMenuID: 0,
-                        subMenuID: 0
-                    ),
-                reviewImages: reviewImages
-            )
-            
-            return cell
-        case 3:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSorting.reuseIdentifier, for: indexPath) as! MenuReviewSorting
-            cell.delegate = self
-            
-            return cell
-        case 4:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.reuseIdentifier, for: indexPath) as! MenuReviewList
-            cell.configureMenuData(
-                with: menuData ?? HomeMenuModel(
-                    menuName: "",
-                    menuImage: "DefaultMenuImage",
-                    menuPrice: "",
-                    menuRating: 0.0,
-                    cafeteriaName: "",
-                    cafeteriaCorner: "",
-                    isLikedMenu: false,
-                    restMenu: [],
-                    reviewCount: 0,
-                    menuPairID: 0,
-                    mainMenuID: 0,
-                    subMenuID: 0
+        if collectionView == menuReviewCollectionView {
+            switch indexPath.section {
+            case 0:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuHeader.reuseIdentifier, for: indexPath) as! MenuHeader
+                cell.delegate = self
+                cell.configureMenuHeader(
+                    menuName: menuData?.menuName ?? "",
+                    menuPrice: menuData?.menuPrice ?? ""
                 )
-            )
-            cell.configureMenuReviewList(with: reviewData[indexPath.item], indexPath: indexPath)
-            cell.delegate = self
+                cell.updateMenuLikeButton(isMemberLikedReview: menuData?.isLikedMenu ?? false)
+                
+                return cell
+            case 1:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfo.reuseIdentifier, for: indexPath) as! MenuInfo
+                if let menuData = menuData {
+                    cell.configureMenuInfo(with: menuData.restMenu ?? [])
+                }
+                
+                return cell
+            case 2:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReview.reuseIdentifier, for: indexPath) as! MenuReview
+                cell.configureMenuReview(
+                    menuReviewData: menuData
+                        ?? HomeMenuModel(
+                            menuName: "",
+                            menuImage: "DefaultMenuImage",
+                            menuPrice: "",
+                            menuRating: 0.0,
+                            cafeteriaName: "",
+                            cafeteriaCorner: "",
+                            isLikedMenu: false,
+                            restMenu: [],
+                            reviewCount: 0,
+                            menuPairID: 0,
+                            mainMenuID: 0,
+                            subMenuID: 0
+                        ),
+                    reviewImages: reviewImages
+                )
+                
+                return cell
+            case 3:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSorting.reuseIdentifier, for: indexPath) as! MenuReviewSorting
+                cell.delegate = self
+                
+                return cell
+            default:
+                fatalError("Unexpected section")
+            }
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListCell.reuseIdentifier, for: indexPath) as! MenuReviewListCell
+
+//            cell.configureMenuData(
+//                with: menuData ?? HomeMenuModel(
+//                    menuName: "",
+//                    menuImage: "DefaultMenuImage",
+//                    menuPrice: "",
+//                    menuRating: 0.0,
+//                    cafeteriaName: "",
+//                    cafeteriaCorner: "",
+//                    isLikedMenu: false,
+//                    restMenu: [],
+//                    reviewCount: 0,
+//                    menuPairID: 0,
+//                    mainMenuID: 0,
+//                    subMenuID: 0
+//                )
+//            )
+//            if indexPath.item < reviewData.count {
+//                cell.configureMenuReviewList(with: reviewData[indexPath.item], indexPath: indexPath)
+//            }
+//            cell.configureMenuReviewList(with: reviewData[indexPath.item], indexPath: indexPath)
+//            cell.delegate = self
+            
+            
+            cell.configure(text: reviewData[indexPath.item].reviewComment)
             
             return cell
-        default:
-            fatalError("Unexpected section")
         }
     }
     
