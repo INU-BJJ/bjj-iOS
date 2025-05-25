@@ -17,12 +17,14 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     
     private let reviewStackView = UIStackView().then {
         $0.axis = .vertical
+        $0.spacing = 12
         $0.alignment = .leading
-        $0.distribution = .fill
     }
     
+    private let menuReviewInfoView = MenuReviewInfoView()
+    
     private let reviewCommentLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 15, color: .black)
+        $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
         $0.numberOfLines = 0
     }
     
@@ -54,7 +56,10 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         ].forEach(contentView.addSubview)
         
         [
-            reviewCommentLabel
+            menuReviewInfoView,
+            reviewCommentLabel,
+//            reviewImageCollectionView,
+//            reviewHashTagCollectionView
         ].forEach(reviewStackView.addArrangedSubview)
     }
     
@@ -63,13 +68,19 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     private func setConstraints() {
         reviewStackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.width.equalTo(300)
+            $0.width.equalTo(400)
+        }
+        
+        menuReviewInfoView.snp.makeConstraints {
+            $0.width.equalToSuperview()
+            $0.height.equalTo(41)
         }
     }
     
     // MARK: - Configure Cell
     
-    func configure(text: String) {
-        reviewCommentLabel.text = text
+    func configure(with menuReview: MenuDetailModel) {
+        menuReviewInfoView.setUI(with: menuReview)
+        reviewCommentLabel.text = menuReview.reviewComment
     }
 }

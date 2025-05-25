@@ -538,8 +538,7 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
 //            cell.configureMenuReviewList(with: reviewData[indexPath.item], indexPath: indexPath)
 //            cell.delegate = self
             
-            
-            cell.configure(text: reviewData[indexPath.item].reviewComment)
+            cell.configure(with: reviewData[indexPath.item])
             
             return cell
         }

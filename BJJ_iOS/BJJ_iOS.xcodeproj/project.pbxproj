@@ -113,6 +113,7 @@
 		3F94C8142D27BECC00364D0F /* MenuDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */; };
 		3F94C8162D27BEDC00364D0F /* MenuDetailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */; };
 		3F94C8182D27BEE800364D0F /* MenuDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */; };
+		3F96BE462DE31D4D009AED6F /* MenuReviewInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F96BE452DE31D4D009AED6F /* MenuReviewInfoView.swift */; };
 		3F996E572CD649C100910DE7 /* UIViewController++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */; };
 		3F996E612CD64D9800910DE7 /* MenuDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */; };
 		3FA055AC2D6B26ED00C72029 /* ReviewCategorySelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA055AB2D6B26ED00C72029 /* ReviewCategorySelectCell.swift */; };
@@ -289,6 +290,7 @@
 		3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailModel.swift; sourceTree = "<group>"; };
 		3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailAddress.swift; sourceTree = "<group>"; };
 		3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailAPI.swift; sourceTree = "<group>"; };
+		3F96BE452DE31D4D009AED6F /* MenuReviewInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewInfoView.swift; sourceTree = "<group>"; };
 		3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController++Extensions.swift"; sourceTree = "<group>"; };
 		3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailViewController.swift; sourceTree = "<group>"; };
 		3FA055AB2D6B26ED00C72029 /* ReviewCategorySelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCategorySelectCell.swift; sourceTree = "<group>"; };
@@ -1498,6 +1500,7 @@
 			isa = PBXGroup;
 			children = (
 				3FE53C112DE1A1F500FBA99E /* MenuReviewListCell.swift */,
+				3F96BE452DE31D4D009AED6F /* MenuReviewInfoView.swift */,
 			);
 			path = MenuReviewListCell;
 			sourceTree = "<group>";
@@ -1843,6 +1846,7 @@
 				3F61DF4B2CB3149600A019E8 /* HomeSection.swift in Sources */,
 				3FB984642D53918F0050D66A /* MyReviewDeleteModalViewController.swift in Sources */,
 				3F27E94A2DACB25600CD2554 /* GachaResultModel.swift in Sources */,
+				3F96BE462DE31D4D009AED6F /* MenuReviewInfoView.swift in Sources */,
 				3FC0A6692DA0378100FBFAEE /* SignUpAddress.swift in Sources */,
 				3F1613232CD8523400A30369 /* MenuItem.swift in Sources */,
 				3F27E9452DACAA1800CD2554 /* GachaResultViewController.swift in Sources */,
