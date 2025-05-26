@@ -1418,7 +1418,6 @@
 				3F1613302CD876C800A30369 /* MenuReviewListInfo.swift */,
 				3F1A51A52CD88C8200029E09 /* MenuReviewListContent.swift */,
 				3F1A51A72CD890B300029E09 /* MenuReviewListHashTag.swift */,
-				3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */,
 			);
 			path = MenuReviewList;
 			sourceTree = "<group>";
@@ -1501,6 +1500,7 @@
 				3F96BE452DE31D4D009AED6F /* MenuReviewInfoView.swift */,
 				3F5617B72CF3312400B4912D /* MenuReviewImageCell.swift */,
 				3F1A51A92CD8941200029E09 /* MenuReviewHashTagCell.swift */,
+				3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */,
 			);
 			path = MenuReviewListCell;
 			sourceTree = "<group>";

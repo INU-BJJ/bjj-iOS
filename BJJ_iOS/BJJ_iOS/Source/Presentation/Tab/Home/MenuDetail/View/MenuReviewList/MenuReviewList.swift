@@ -42,7 +42,7 @@ final class MenuReviewList: UICollectionViewCell, ReuseIdentifying {
             $0.register(MenuReviewListInfo.self, forCellWithReuseIdentifier: MenuReviewListInfo.reuseIdentifier)
             $0.register(MenuReviewListContent.self, forCellWithReuseIdentifier: MenuReviewListContent.reuseIdentifier)
             $0.register(MenuReviewListHashTag.self, forCellWithReuseIdentifier: MenuReviewListHashTag.reuseIdentifier)
-            $0.register(MenuReviewSeparatingView.self, forCellWithReuseIdentifier: MenuReviewSeparatingView.reuseIdentifier)
+//            $0.register(MenuReviewSeparatingView.self, forCellWithReuseIdentifier: MenuReviewSeparatingView.reuseIdentifier)
             $0.dataSource = self
             $0.showsVerticalScrollIndicator = false
             $0.isScrollEnabled = false
@@ -238,11 +238,11 @@ extension MenuReviewList: UICollectionViewDataSource {
             )
             
             return cell
-        // 구분선 섹션
-        case 3:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSeparatingView.reuseIdentifier, for: indexPath) as! MenuReviewSeparatingView
-            
-            return cell
+//        // 구분선 섹션
+//        case 3:
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSeparatingView.reuseIdentifier, for: indexPath) as! MenuReviewSeparatingView
+//            
+//            return cell
         default:
             fatalError("Unexpected section")
         }

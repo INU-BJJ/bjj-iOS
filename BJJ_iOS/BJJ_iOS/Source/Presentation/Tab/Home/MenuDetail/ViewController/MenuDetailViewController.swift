@@ -438,7 +438,7 @@ final class MenuDetailViewController: UIViewController {
         
         layout.scrollDirection = .vertical
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        layout.minimumLineSpacing = 10
+        layout.minimumLineSpacing = .zero
         layout.minimumInteritemSpacing = .greatestFiniteMagnitude
         layout.sectionInset = .zero
         

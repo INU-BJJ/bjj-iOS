@@ -53,6 +53,8 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         $0.isScrollEnabled = false
     }
     
+    private let menuReviewSeparatingView = MenuReviewSeparatingView()
+    
     // MARK: - Life Cycle
     
     override init(frame: CGRect) {
@@ -77,7 +79,8 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     
     private func setAddView() {
         [
-            reviewStackView
+            reviewStackView,
+            menuReviewSeparatingView
         ].forEach(contentView.addSubview)
         
         [
@@ -92,8 +95,9 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     
     private func setConstraints() {
         reviewStackView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.leading.trailing.equalToSuperview()
             $0.width.equalTo(390)
+            $0.bottom.equalToSuperview().inset(24)
         }
         
         menuReviewInfoView.snp.makeConstraints {
@@ -109,6 +113,11 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         reviewHashTagCollectionView.snp.makeConstraints {
             $0.width.equalToSuperview()
             $0.height.equalTo(25)
+        }
+        
+        menuReviewSeparatingView.snp.makeConstraints {
+            $0.width.bottom.equalToSuperview()
+            $0.height.equalTo(7)
         }
     }
     
@@ -162,18 +171,6 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         default:
             layout.itemSize = CGSize(width: 301, height: 250)
         }
-
-        // section에 대한 여백을 설정합니다. (콘텐츠뷰 여백)
-//        layout.sectionInset = UIEdgeInsets(top: 30, left: 30, bottom: 30, right: 30)
-        
-        
-        // header, footer 크기 지정
-        // 스크롤 방향에 따라서 크기가 영향을 받는다. (vertical은 height값만 갖고 계산, horizontal 일 경우 width만 영향을 받는다)
-//        layout.headerReferenceSize = CGSize(width: 50, height: 100)
-//        layout.footerReferenceSize = CGSize(width: 50, height: 100)
-        // header, footer를 고정 시킴 (기본값 false)
-//        layout.sectionHeadersPinToVisibleBounds = true
-//        layout.sectionFootersPinToVisibleBounds = true
         
         return layout
     }

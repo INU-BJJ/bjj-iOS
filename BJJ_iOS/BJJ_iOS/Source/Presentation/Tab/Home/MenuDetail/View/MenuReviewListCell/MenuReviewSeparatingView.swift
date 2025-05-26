@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class MenuReviewSeparatingView: UICollectionViewCell, ReuseIdentifying {
+final class MenuReviewSeparatingView: UIView {
     
     // MARK: - Properties
     
@@ -42,8 +42,7 @@ final class MenuReviewSeparatingView: UICollectionViewCell, ReuseIdentifying {
     
     private func setConstraints() {
         dividerView.snp.makeConstraints {
-            $0.horizontalEdges.equalTo(snp.horizontalEdges)
-            $0.height.equalTo(7)
+            $0.edges.equalToSuperview()
         }
     }
 }
