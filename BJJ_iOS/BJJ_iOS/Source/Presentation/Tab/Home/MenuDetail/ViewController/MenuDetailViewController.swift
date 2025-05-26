@@ -28,6 +28,9 @@ final class MenuDetailViewController: UIViewController {
     private var isOnlyPhotoChecked = false
     private var sortingCriteria = "BEST_MATCH"
     
+    private var presentMenuReviewListCollectionViewHeight: CGFloat = 0
+    private var presentMenuReviewCollectionViewHeight: CGFloat = 0
+    
     // MARK: - UI Components
     
     private lazy var menuReviewScrollView = UIScrollView().then {
@@ -105,10 +108,8 @@ final class MenuDetailViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        // 즉시 레이아웃(frame, bounds, contentSize 등) 계산
-        menuReviewCollectionView.layoutIfNeeded()
-        updateCollectionView()
+
+        updateCollectionViewHeight()
     }
     
     // MARK: - Bind
@@ -182,23 +183,30 @@ final class MenuDetailViewController: UIViewController {
     
     // MARK: - Update UICollectionView
     
-    private func updateCollectionView() {
-        // 콘텐츠 크기 기반으로 높이 계산
-        let collectionViewContentHeight = menuReviewCollectionView.collectionViewLayout.collectionViewContentSize.height
-        
-        // 컬렉션 뷰 높이 업데이트
-        menuReviewCollectionView.snp.updateConstraints {
-            $0.height.equalTo(collectionViewContentHeight)
-        }
-        
+    private func updateCollectionViewHeight() {
         DispatchQueue.main.async {
+            self.menuReviewCollectionView.layoutIfNeeded() // 즉시 레이아웃(frame, bounds, contentSize 등) 계산
             self.menuReviewListCollectionView.layoutIfNeeded()
-            let listHeight = self.menuReviewListCollectionView.collectionViewLayout.collectionViewContentSize.height
-
-            self.menuReviewListCollectionView.snp.updateConstraints {
-                $0.height.equalTo(listHeight)
+            
+            // 콘텐츠 크기 기반으로 높이 계산
+            let menuReviewCollectionViewHeight = self.menuReviewCollectionView.collectionViewLayout.collectionViewContentSize.height
+            let menuReviewListCollectionViewHeight = self.menuReviewListCollectionView.collectionViewLayout.collectionViewContentSize.height
+            
+            if menuReviewCollectionViewHeight != self.presentMenuReviewCollectionViewHeight {
+                self.presentMenuReviewCollectionViewHeight = menuReviewCollectionViewHeight
+                
+                self.menuReviewCollectionView.snp.updateConstraints {
+                    $0.height.equalTo(menuReviewCollectionViewHeight)
+                }
             }
-            self.menuReviewScrollView.layoutIfNeeded()
+            
+            if menuReviewListCollectionViewHeight != self.presentMenuReviewListCollectionViewHeight {
+                self.presentMenuReviewListCollectionViewHeight = menuReviewListCollectionViewHeight
+                
+                self.menuReviewListCollectionView.snp.updateConstraints {
+                    $0.height.equalTo(menuReviewListCollectionViewHeight)
+                }
+            }
         }
     }
     
@@ -263,9 +271,6 @@ final class MenuDetailViewController: UIViewController {
                         }
                     )
                     self.isLastPage = reviewInfo.isLastPage
-                    self.menuReviewCollectionView.layoutIfNeeded() // 즉시 레이아웃(frame, bounds, contentSize 등) 계산
-                    self.menuReviewListCollectionView.layoutIfNeeded()
-                    self.updateCollectionView()
                     self.menuReviewListCollectionView.reloadData()
                     self.isFetching = false
                 }
@@ -599,7 +604,7 @@ extension MenuDetailViewController: UIScrollViewDelegate {
         let isNearBottom = currentScrollLocation > contentHeight - frameHeight - threshold
 
         if isNearBottom {
-            updateCollectionView()
+            updateCollectionViewHeight()
         }
     }
 
