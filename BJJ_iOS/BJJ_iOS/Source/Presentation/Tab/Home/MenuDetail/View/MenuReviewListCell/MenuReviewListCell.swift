@@ -14,6 +14,8 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Properties
     
     private var reviewImages: [String] = []
+    private var hashTags: [String] = []
+    private var isHashTagsHighlighted: [Bool] = []
     
     // MARK: - UI Components
     
@@ -38,6 +40,17 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         $0.dataSource = self
         $0.showsHorizontalScrollIndicator = false
         $0.alwaysBounceVertical = false
+    }
+    
+    private lazy var reviewHashTagCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createHashTagLayout()
+    ).then {
+        $0.register(MenuReviewHashTagCell.self, forCellWithReuseIdentifier: MenuReviewHashTagCell.reuseIdentifier)
+        $0.dataSource = self
+        $0.showsHorizontalScrollIndicator = false
+        $0.backgroundColor = .clear
+        $0.isScrollEnabled = false
     }
     
     // MARK: - Life Cycle
@@ -71,7 +84,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
             menuReviewInfoView,
             reviewCommentLabel,
             reviewImageCollectionView,
-//            reviewHashTagCollectionView
+            reviewHashTagCollectionView
         ].forEach(reviewStackView.addArrangedSubview)
     }
     
@@ -92,6 +105,11 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
             $0.width.equalToSuperview()
             $0.height.equalTo(250)
         }
+        
+        reviewHashTagCollectionView.snp.makeConstraints {
+            $0.width.equalToSuperview()
+            $0.height.equalTo(25)
+        }
     }
     
     // MARK: - Configure Cell
@@ -100,7 +118,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         self.reviewImages = menuReview.reviewImage ?? []
         
         let reviewImageCount = menuReview.reviewImage?.count ?? 0
-        let flowLayout = createFlowLayout(reviewImageCount: reviewImageCount)
+        let flowLayout = createReviewImageLayout(reviewImageCount: reviewImageCount)
         
         menuReviewInfoView.setUI(with: menuReview)
         reviewCommentLabel.text = menuReview.reviewComment
@@ -115,9 +133,18 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         }
     }
     
+    func bindHashTagData(hashTags: [String], isHighlighted: [Bool]) {
+        self.hashTags = hashTags
+        self.isHashTagsHighlighted = isHighlighted
+        
+        DispatchQueue.main.async {
+            self.reviewHashTagCollectionView.reloadData()
+        }
+    }
+    
     // MARK: - Create FlowLayout
     
-    func createFlowLayout(reviewImageCount: Int) -> UICollectionViewFlowLayout {
+    func createReviewImageLayout(reviewImageCount: Int) -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         
         layout.scrollDirection = .horizontal
@@ -150,29 +177,53 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         
         return layout
     }
+    
+    private func createHashTagLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 5
+        layout.estimatedItemSize = CGSize(width: 80, height: 25)
+        
+        return layout
+    }
 }
 
 extension MenuReviewListCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return reviewImages.count
+        if collectionView == reviewImageCollectionView {
+            return reviewImages.count
+        } else {
+            return hashTags.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewImageCell.reuseIdentifier, for: indexPath) as! MenuReviewImageCell
-        var cornerStyle: UIRectCorner = []
-        
-        if reviewImages.count > 1 {
-            if indexPath.row == 0 {
-                cornerStyle = [.topLeft, .bottomLeft]
-            } else if indexPath.row == reviewImages.count - 1 {
-                cornerStyle = [.topRight, .bottomRight]
+        if collectionView == reviewImageCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewImageCell.reuseIdentifier, for: indexPath) as! MenuReviewImageCell
+            var cornerStyle: UIRectCorner = []
+            
+            if reviewImages.count > 1 {
+                if indexPath.row == 0 {
+                    cornerStyle = [.topLeft, .bottomLeft]
+                } else if indexPath.row == reviewImages.count - 1 {
+                    cornerStyle = [.topRight, .bottomRight]
+                }
+            } else {
+                cornerStyle = [.allCorners]
             }
-        } else {
-            cornerStyle = [.allCorners]
-        }
 
-        cell.configureReviewImageCell(with: reviewImages[indexPath.row], cornerStyle: cornerStyle)
-        
-        return cell
+            cell.configureReviewImageCell(with: reviewImages[indexPath.row], cornerStyle: cornerStyle)
+            
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewHashTagCell.reuseIdentifier, for: indexPath) as! MenuReviewHashTagCell
+
+            cell.configureHashTag(
+                with: hashTags[indexPath.item],
+                isHighlighted: isHashTagsHighlighted[indexPath.item]
+            )
+            return cell
+        }
     }
 }

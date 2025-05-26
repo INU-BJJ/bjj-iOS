@@ -515,7 +515,11 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             }
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListCell.reuseIdentifier, for: indexPath) as! MenuReviewListCell
-
+            let hashTags = [reviewData[indexPath.item].mainMenuName, reviewData[indexPath.item].subMenuName]
+            let isHighlighted: [Bool] = [
+                menuData?.mainMenuID == reviewData[indexPath.item].mainMenuID,
+                menuData?.subMenuID == reviewData[indexPath.item].subMenuID
+            ]
 //            cell.configureMenuData(
 //                with: menuData ?? HomeMenuModel(
 //                    menuName: "",
@@ -539,6 +543,7 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
 //            cell.delegate = self
             
             cell.configure(with: reviewData[indexPath.item])
+            cell.bindHashTagData(hashTags: hashTags, isHighlighted: isHighlighted)
             
             return cell
         }
