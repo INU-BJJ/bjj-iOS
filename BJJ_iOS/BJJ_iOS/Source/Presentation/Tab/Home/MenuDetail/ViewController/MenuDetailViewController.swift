@@ -41,8 +41,7 @@ final class MenuDetailViewController: UIViewController {
     
     private let menuReviewStackView = UIStackView().then {
         $0.axis = .vertical
-//        $0.spacing = -41
-        $0.spacing = 40
+        $0.spacing = -41
         $0.alignment = .fill
         $0.distribution = .fill
     }
@@ -145,6 +144,8 @@ final class MenuDetailViewController: UIViewController {
             menuReviewCollectionView,
             menuReviewListCollectionView
         ].forEach(menuReviewStackView.addArrangedSubview)
+        
+        menuReviewStackView.setCustomSpacing(0, after: menuReviewCollectionView)
     }
     
     // MARK: - Set Constraints
@@ -564,9 +565,6 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             
             // footer Style 지정
             footer.configureLineView(.menuDetail)
-            
-            // 마지막 섹션에는 구분선을 표시하지 않을 경우
-            footer.isHidden = indexPath.section == 4
             
             return footer
         }
