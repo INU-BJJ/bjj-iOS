@@ -63,7 +63,7 @@ final class MenuDetailViewController: UIViewController {
         $0.delegate = self
         $0.dataSource = self
         $0.layer.cornerRadius = 30
-        $0.layer.masksToBounds = true
+        $0.layer.masksToBounds = false
         $0.isScrollEnabled = false
     }
     
@@ -145,7 +145,7 @@ final class MenuDetailViewController: UIViewController {
             menuReviewListCollectionView
         ].forEach(menuReviewStackView.addArrangedSubview)
         
-        menuReviewStackView.setCustomSpacing(0, after: menuReviewCollectionView)
+        menuReviewStackView.setCustomSpacing(0.5, after: menuReviewCollectionView)
     }
     
     // MARK: - Set Constraints
