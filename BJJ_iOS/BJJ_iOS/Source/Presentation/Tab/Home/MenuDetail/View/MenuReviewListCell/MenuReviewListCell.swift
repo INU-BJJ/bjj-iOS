@@ -94,15 +94,24 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        contentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.width.equalTo(UIScreen.main.bounds.width)
+        }
+        
         reviewStackView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.width.equalTo(390)
+            $0.top.equalToSuperview().inset(20)
+            $0.horizontalEdges.equalToSuperview().inset(31.5)
             $0.bottom.equalToSuperview().inset(24)
         }
         
         menuReviewInfoView.snp.makeConstraints {
             $0.width.equalToSuperview()
             $0.height.equalTo(41)
+        }
+        
+        reviewCommentLabel.snp.makeConstraints {
+            $0.width.equalToSuperview()
         }
         
         reviewImageCollectionView.snp.makeConstraints {
