@@ -15,6 +15,11 @@ final class GachaViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private lazy var testBackgroundView = UIView().then {
+        $0.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissModal)))
+    }
+    
     private let testGachaView = UIView().then {
         $0.backgroundColor = .white
     }
@@ -35,22 +40,15 @@ final class GachaViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setViewController()
         setAddView()
         setConstraints()
-    }
-    
-    // MARK: - Set ViewController
-    
-    private func setViewController() {
-        view.backgroundColor = UIColor(white: 0, alpha: 0.5)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissModal)))
     }
     
     // MARK: - Set AddViews
     
     private func setAddView() {
         [
+            testBackgroundView,
             testGachaView
         ].forEach(view.addSubview)
         
@@ -63,6 +61,10 @@ final class GachaViewController: UIViewController {
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        testBackgroundView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         testGachaView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.horizontalEdges.equalToSuperview().inset(16)
