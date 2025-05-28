@@ -28,6 +28,9 @@ final class MenuDetailViewController: UIViewController {
     private var isOnlyPhotoChecked = false
     private var sortingCriteria = "BEST_MATCH"
     
+    private var presentMenuReviewListCollectionViewHeight: CGFloat = 0
+    private var presentMenuReviewCollectionViewHeight: CGFloat = 0
+    
     // MARK: - UI Components
     
     private lazy var menuReviewScrollView = UIScrollView().then {
@@ -56,12 +59,21 @@ final class MenuDetailViewController: UIViewController {
         $0.register(MenuInfo.self, forCellWithReuseIdentifier: MenuInfo.reuseIdentifier)
         $0.register(MenuReview.self, forCellWithReuseIdentifier: MenuReview.reuseIdentifier)
         $0.register(MenuReviewSorting.self, forCellWithReuseIdentifier: MenuReviewSorting.reuseIdentifier)
-        $0.register(MenuReviewList.self, forCellWithReuseIdentifier: MenuReviewList.reuseIdentifier)
         $0.register(SeparatingLineView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: SeparatingLineView.reuseIdentifier)
         $0.delegate = self
         $0.dataSource = self
         $0.layer.cornerRadius = 30
-        $0.layer.masksToBounds = true
+        $0.layer.masksToBounds = false
+        $0.isScrollEnabled = false
+    }
+    
+    private lazy var menuReviewListCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createFlowLayout()
+    ).then {
+        $0.register(MenuReviewListCell.self, forCellWithReuseIdentifier: MenuReviewListCell.reuseIdentifier)
+        $0.delegate = self
+        $0.dataSource = self
         $0.isScrollEnabled = false
     }
     
@@ -95,10 +107,8 @@ final class MenuDetailViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        // 즉시 레이아웃(frame, bounds, contentSize 등) 계산
-        menuReviewCollectionView.layoutIfNeeded()
-        updateCollectionView()
+
+        updateCollectionViewHeight()
     }
     
     // MARK: - Bind
@@ -131,8 +141,11 @@ final class MenuDetailViewController: UIViewController {
         
         [
             menuDefaultImageView,
-            menuReviewCollectionView
+            menuReviewCollectionView,
+            menuReviewListCollectionView
         ].forEach(menuReviewStackView.addArrangedSubview)
+        
+        menuReviewStackView.setCustomSpacing(0.5, after: menuReviewCollectionView)
     }
     
     // MARK: - Set Constraints
@@ -156,6 +169,11 @@ final class MenuDetailViewController: UIViewController {
         menuReviewCollectionView.snp.makeConstraints {
             $0.height.equalTo(1000)
         }
+        
+        menuReviewListCollectionView.snp.makeConstraints {
+            $0.width.equalToSuperview()
+            $0.height.equalTo(1)
+        }
     }
     
     // MARK: - Bind Data
@@ -166,13 +184,30 @@ final class MenuDetailViewController: UIViewController {
     
     // MARK: - Update UICollectionView
     
-    private func updateCollectionView() {
-        // 콘텐츠 크기 기반으로 높이 계산
-        let collectionViewContentHeight = menuReviewCollectionView.collectionViewLayout.collectionViewContentSize.height
-        
-        // 컬렉션 뷰 높이 업데이트
-        menuReviewCollectionView.snp.updateConstraints {
-            $0.height.equalTo(collectionViewContentHeight)
+    private func updateCollectionViewHeight() {
+        DispatchQueue.main.async {
+            self.menuReviewCollectionView.layoutIfNeeded() // 즉시 레이아웃(frame, bounds, contentSize 등) 계산
+            self.menuReviewListCollectionView.layoutIfNeeded()
+            
+            // 콘텐츠 크기 기반으로 높이 계산
+            let menuReviewCollectionViewHeight = self.menuReviewCollectionView.collectionViewLayout.collectionViewContentSize.height
+            let menuReviewListCollectionViewHeight = self.menuReviewListCollectionView.collectionViewLayout.collectionViewContentSize.height
+            
+            if menuReviewCollectionViewHeight != self.presentMenuReviewCollectionViewHeight {
+                self.presentMenuReviewCollectionViewHeight = menuReviewCollectionViewHeight
+                
+                self.menuReviewCollectionView.snp.updateConstraints {
+                    $0.height.equalTo(menuReviewCollectionViewHeight)
+                }
+            }
+            
+            if menuReviewListCollectionViewHeight != self.presentMenuReviewListCollectionViewHeight {
+                self.presentMenuReviewListCollectionViewHeight = menuReviewListCollectionViewHeight
+                
+                self.menuReviewListCollectionView.snp.updateConstraints {
+                    $0.height.equalTo(menuReviewListCollectionViewHeight)
+                }
+            }
         }
     }
     
@@ -237,9 +272,7 @@ final class MenuDetailViewController: UIViewController {
                         }
                     )
                     self.isLastPage = reviewInfo.isLastPage
-                    self.menuReviewCollectionView.layoutIfNeeded() // 즉시 레이아웃(frame, bounds, contentSize 등) 계산
-                    self.updateCollectionView()
-                    self.menuReviewCollectionView.reloadSections(IndexSet([4])) // 컬렉션 뷰 업데이트
+                    self.menuReviewListCollectionView.reloadData()
                     self.isFetching = false
                 }
                 
@@ -319,12 +352,22 @@ final class MenuDetailViewController: UIViewController {
                 return self.createReviewSection() // 리뷰 헤더 섹션 (가로 스크롤 사진 포함)
             case 3:
                 return self.createReviewSortingSection() // 리뷰 정렬 섹션
-            case 4:
-                return self.createReviewListSection()   // 리뷰 리스트 섹션
             default:
                 return nil
             }
         }
+    }
+    
+    private func createFlowLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        
+        layout.scrollDirection = .vertical
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.minimumLineSpacing = .zero
+        layout.minimumInteritemSpacing = .greatestFiniteMagnitude
+        layout.sectionInset = .zero
+        
+        return layout
     }
     
     // MARK: - Create Section
@@ -407,113 +450,108 @@ final class MenuDetailViewController: UIViewController {
         
         return section
     }
-    
-    private func createReviewListSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        // TODO: 리뷰 글의 줄 수에 따라 높이 동적 조절
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(413))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        
-        return section
-    }
 }
 
 extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 5
+        if collectionView == menuReviewCollectionView {
+            return 4
+        } else {
+            return 1
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return 1      // 메뉴 정보는 하나의 셀만 필요
-        case 1:
-            return 1      // 메뉴 구성도 하나의 셀로 표시
-        case 2:
-            return 1      // 리뷰 헤더도 하나의 셀로 구성
-        case 3:
+        if collectionView == menuReviewCollectionView {
             return 1
-        case 4:
-            return reviewData.isEmpty ? 0 : reviewData.count
-        default:
-            return 0
+        } else {
+            return reviewData.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch indexPath.section {
-        case 0:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuHeader.reuseIdentifier, for: indexPath) as! MenuHeader
-            cell.delegate = self
-            cell.configureMenuHeader(
-                menuName: menuData?.menuName ?? "",
-                menuPrice: menuData?.menuPrice ?? ""
-            )
-            cell.updateMenuLikeButton(isMemberLikedReview: menuData?.isLikedMenu ?? false)
-            
-            return cell
-        case 1:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfo.reuseIdentifier, for: indexPath) as! MenuInfo
-            if let menuData = menuData {
-                cell.configureMenuInfo(with: menuData.restMenu ?? [])
-            }
-            
-            return cell
-        case 2:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReview.reuseIdentifier, for: indexPath) as! MenuReview
-            cell.configureMenuReview(
-                menuReviewData: menuData
-                    ?? HomeMenuModel(
-                        menuName: "",
-                        menuImage: "DefaultMenuImage",
-                        menuPrice: "",
-                        menuRating: 0.0,
-                        cafeteriaName: "",
-                        cafeteriaCorner: "",
-                        isLikedMenu: false,
-                        restMenu: [],
-                        reviewCount: 0,
-                        menuPairID: 0,
-                        mainMenuID: 0,
-                        subMenuID: 0
-                    ),
-                reviewImages: reviewImages
-            )
-            
-            return cell
-        case 3:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSorting.reuseIdentifier, for: indexPath) as! MenuReviewSorting
-            cell.delegate = self
-            
-            return cell
-        case 4:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewList.reuseIdentifier, for: indexPath) as! MenuReviewList
-            cell.configureMenuData(
-                with: menuData ?? HomeMenuModel(
-                    menuName: "",
-                    menuImage: "DefaultMenuImage",
-                    menuPrice: "",
-                    menuRating: 0.0,
-                    cafeteriaName: "",
-                    cafeteriaCorner: "",
-                    isLikedMenu: false,
-                    restMenu: [],
-                    reviewCount: 0,
-                    menuPairID: 0,
-                    mainMenuID: 0,
-                    subMenuID: 0
+        if collectionView == menuReviewCollectionView {
+            switch indexPath.section {
+            case 0:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuHeader.reuseIdentifier, for: indexPath) as! MenuHeader
+                cell.delegate = self
+                cell.configureMenuHeader(
+                    menuName: menuData?.menuName ?? "",
+                    menuPrice: menuData?.menuPrice ?? ""
                 )
-            )
-            cell.configureMenuReviewList(with: reviewData[indexPath.item], indexPath: indexPath)
-            cell.delegate = self
+                cell.updateMenuLikeButton(isMemberLikedReview: menuData?.isLikedMenu ?? false)
+                
+                return cell
+            case 1:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuInfo.reuseIdentifier, for: indexPath) as! MenuInfo
+                if let menuData = menuData {
+                    cell.configureMenuInfo(with: menuData.restMenu ?? [])
+                }
+                
+                return cell
+            case 2:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReview.reuseIdentifier, for: indexPath) as! MenuReview
+                cell.configureMenuReview(
+                    menuReviewData: menuData
+                        ?? HomeMenuModel(
+                            menuName: "",
+                            menuImage: "DefaultMenuImage",
+                            menuPrice: "",
+                            menuRating: 0.0,
+                            cafeteriaName: "",
+                            cafeteriaCorner: "",
+                            isLikedMenu: false,
+                            restMenu: [],
+                            reviewCount: 0,
+                            menuPairID: 0,
+                            mainMenuID: 0,
+                            subMenuID: 0
+                        ),
+                    reviewImages: reviewImages
+                )
+                
+                return cell
+            case 3:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSorting.reuseIdentifier, for: indexPath) as! MenuReviewSorting
+                cell.delegate = self
+                
+                return cell
+            default:
+                fatalError("Unexpected section")
+            }
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewListCell.reuseIdentifier, for: indexPath) as! MenuReviewListCell
+            let hashTags = [reviewData[indexPath.item].mainMenuName, reviewData[indexPath.item].subMenuName]
+            let isHighlighted: [Bool] = [
+                menuData?.mainMenuID == reviewData[indexPath.item].mainMenuID,
+                menuData?.subMenuID == reviewData[indexPath.item].subMenuID
+            ]
+//            cell.configureMenuData(
+//                with: menuData ?? HomeMenuModel(
+//                    menuName: "",
+//                    menuImage: "DefaultMenuImage",
+//                    menuPrice: "",
+//                    menuRating: 0.0,
+//                    cafeteriaName: "",
+//                    cafeteriaCorner: "",
+//                    isLikedMenu: false,
+//                    restMenu: [],
+//                    reviewCount: 0,
+//                    menuPairID: 0,
+//                    mainMenuID: 0,
+//                    subMenuID: 0
+//                )
+//            )
+//            if indexPath.item < reviewData.count {
+//                cell.configureMenuReviewList(with: reviewData[indexPath.item], indexPath: indexPath)
+//            }
+//            cell.configureMenuReviewList(with: reviewData[indexPath.item], indexPath: indexPath)
+//            cell.delegate = self
+            
+            cell.configure(with: reviewData[indexPath.item])
+            cell.bindHashTagData(hashTags: hashTags, isHighlighted: isHighlighted)
             
             return cell
-        default:
-            fatalError("Unexpected section")
         }
     }
     
@@ -528,9 +566,6 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             // footer Style 지정
             footer.configureLineView(.menuDetail)
             
-            // 마지막 섹션에는 구분선을 표시하지 않을 경우
-            footer.isHidden = indexPath.section == 4
-            
             return footer
         }
         return UICollectionReusableView()
@@ -541,33 +576,55 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
 
 extension MenuDetailViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let currentScrollLocation = scrollView.contentOffset.y     // 현재 스크롤 위치
-        let contentHeight = scrollView.contentSize.height           // 스크롤 가능한 전체 콘텐츠 높이
-        let frameHeight = scrollView.frame.size.height              // 스크롤뷰가 차지하는 실제 UI 높이
-                
+        updateNavigationBarVisibility(scrollView)
+        updateCollectionViewHeightUpdateIfNeeded(scrollView)
+        loadNextPageIfNeeded(scrollView)
+    }
+    
+    private func updateNavigationBarVisibility(_ scrollView: UIScrollView) {
+        let currentScrollLocation = scrollView.contentOffset.y  // 현재 스크롤 위치
+
         if currentScrollLocation > 50, !isNavigationBarHidden {
-            // 아래로 스크롤하면 네비게이션 바 숨김
             navigationController?.setNavigationBarHidden(true, animated: true)
             isNavigationBarHidden = true
         } else if currentScrollLocation <= 50, isNavigationBarHidden {
-            // 위로 스크롤하거나 초기 상태로 돌아오면 네비게이션 바 표시
             navigationController?.setNavigationBarHidden(false, animated: true)
             isNavigationBarHidden = false
         }
+    }
+
+    private func updateCollectionViewHeightUpdateIfNeeded(_ scrollView: UIScrollView) {
+        let currentScrollLocation = scrollView.contentOffset.y      // 현재 스크롤 위치
+        let contentHeight = scrollView.contentSize.height           // 스크롤 가능한 전체 콘텐츠 높이
+        let frameHeight = scrollView.frame.size.height              // 스크롤뷰가 차지하는 실제 UI 높이
         
-        // 서버 데이터 fetch하고 있지 않고, 마지막 페이지가 아닐 때만 데이터 재요청
-        if !isFetching, !isLastPage {
-            // 현재 스크롤 위치와 로드해놓은 콘텐츠의 아랫면과 가까워지면
-            if currentScrollLocation > contentHeight - frameHeight - UIScreen.main.bounds.height * 0.1 && !isLastPage {
-                currentPageNumber += 1
-                fetchReviewInfo(
-                    menuPairID: menuData?.menuPairID ?? 0,
-                    pageNumber: currentPageNumber,
-                    pageSize: pageSize,
-                    sortingCriteria: sortingCriteria,
-                    isWithImage: isOnlyPhotoChecked
-                )
-            }
+        let threshold = UIScreen.main.bounds.height * 0.1
+        let isNearBottom = currentScrollLocation > contentHeight - frameHeight - threshold
+
+        if isNearBottom {
+            updateCollectionViewHeight()
+        }
+    }
+
+    private func loadNextPageIfNeeded(_ scrollView: UIScrollView) {
+        guard !isFetching, !isLastPage else { return }
+
+        let currentScrollLocation = scrollView.contentOffset.y      // 현재 스크롤 위치
+        let contentHeight = scrollView.contentSize.height           // 스크롤 가능한 전체 콘텐츠 높이
+        let frameHeight = scrollView.frame.size.height              // 스크롤뷰가 차지하는 실제 UI 높이
+
+        let threshold = UIScreen.main.bounds.height * 0.1
+        let isNearBottom = currentScrollLocation > contentHeight - frameHeight - threshold
+
+        if isNearBottom {
+            currentPageNumber += 1
+            fetchReviewInfo(
+                menuPairID: menuData?.menuPairID ?? 0,
+                pageNumber: currentPageNumber,
+                pageSize: pageSize,
+                sortingCriteria: sortingCriteria,
+                isWithImage: isOnlyPhotoChecked
+            )
         }
     }
 }
