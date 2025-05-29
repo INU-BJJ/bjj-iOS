@@ -8,13 +8,14 @@
 import UIKit
 import SnapKit
 import Then
+import OrderedCollections
 
 final class StoreViewController: UIViewController {
     
     // MARK: - Properties
     
     private var point: Int
-    private var allItems: [StoreSection] = []
+    private var allItems: OrderedDictionary<String, [StoreSection]> = [:]
     
     // MARK: - UI Components
     
@@ -30,7 +31,7 @@ final class StoreViewController: UIViewController {
     
     private lazy var testAllItemCollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: UICollectionViewFlowLayout()
+        collectionViewLayout: createFlowLayout()
     ).then {
         $0.register(ItemTypeCell.self, forCellWithReuseIdentifier: ItemTypeCell.reuseIdentifier)
         $0.delegate = self
@@ -111,11 +112,24 @@ final class StoreViewController: UIViewController {
         }
     }
     
+    // MARK: - Set UI
+    
     private func setUI() {
         DispatchQueue.main.async {
             // TODO: 백그라운드에서 포인트를 받아와서(마이아이템 API 호출) 뽑기하기 버튼 누를 때 포인트 UI 업데이트
             self.testPointLabel.text = "\(self.point) P"
         }
+    }
+    
+    // MARK: - Create Layout
+    
+    private func createFlowLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 20
+
+        return layout
     }
     
     // MARK: - Objc Functions
@@ -142,7 +156,7 @@ final class StoreViewController: UIViewController {
         StoreAPI.fetchAllItems(itemType: itemType) { result in
             switch result {
             case .success(let allItems):
-                self.allItems = allItems.map {
+                let items = allItems.map {
                     StoreSection(
                         itemID: $0.itemID,
                         itemName: $0.itemName,
@@ -154,6 +168,11 @@ final class StoreViewController: UIViewController {
                         isOwned: $0.isOwned
                     )
                 }
+                
+                for itemRarity in ["COMMON", "NORMAL", "RARE"] {
+                    self.allItems[itemRarity] = items.filter { $0.itemRarity == itemRarity }
+                }
+                
                 DispatchQueue.main.async {
                     UIView.performWithoutAnimation {
                         if let index = itemIndex {
@@ -197,18 +216,26 @@ final class StoreViewController: UIViewController {
 
 extension StoreViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1 // 첫 번째는 아이템 종류, 두 번째는 아이템
+        return allItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return allItems.count
+        let key = allItems.keys[section]
+        
+        return allItems[key]?.count ?? 0
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemTypeCell.reuseIdentifier, for: indexPath) as? ItemTypeCell else {
             return UICollectionViewCell()
         }
-        cell.setUI(itemInfo: allItems[indexPath.item])
+        
+        let key = allItems.keys[indexPath.section]
+        
+        if let item = allItems[key]?[indexPath.item] {
+            cell.setUI(itemInfo: item)
+        }
         
         return cell
     }
@@ -218,7 +245,11 @@ extension StoreViewController: UICollectionViewDataSource, UICollectionViewDeleg
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        patchItem(itemType: allItems[indexPath.item].itemType, itemID: allItems[indexPath.item].itemID)
+        let key = allItems.keys[indexPath.section]
+        
+        if let item = allItems[key]?[indexPath.item] {
+            patchItem(itemType: item.itemType, itemID: item.itemID)
+        }
     }
 }
 
