@@ -8,13 +8,14 @@
 import UIKit
 import SnapKit
 import Then
+import OrderedCollections
 
 final class StoreViewController: UIViewController {
     
     // MARK: - Properties
     
     private var point: Int
-    private var allItems: [StoreSection] = []
+    private var allItems: OrderedDictionary<String, [StoreSection]> = [:]
     
     // MARK: - UI Components
     
@@ -30,8 +31,9 @@ final class StoreViewController: UIViewController {
     
     private lazy var testAllItemCollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: UICollectionViewFlowLayout()
+        collectionViewLayout: createCompositionalLayout()
     ).then {
+        $0.register(ItemSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ItemSectionHeaderView.reuseIdentifier)
         $0.register(ItemTypeCell.self, forCellWithReuseIdentifier: ItemTypeCell.reuseIdentifier)
         $0.delegate = self
         $0.dataSource = self
@@ -111,10 +113,57 @@ final class StoreViewController: UIViewController {
         }
     }
     
+    // MARK: - Set UI
+    
     private func setUI() {
         DispatchQueue.main.async {
             // TODO: 백그라운드에서 포인트를 받아와서(마이아이템 API 호출) 뽑기하기 버튼 누를 때 포인트 UI 업데이트
             self.testPointLabel.text = "\(self.point) P"
+        }
+    }
+    
+    // MARK: - Create Layout
+    
+    private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { sectionIndex, environment in
+            // 헤더 설정
+            let headerSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(30)
+            )
+            let header = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerSize,
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top
+            )
+            header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
+            
+            // 아이템 설정
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(0.2),
+                heightDimension: .absolute(100)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            // 그룹 설정
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(100)
+            )
+            let group = NSCollectionLayoutGroup.horizontal(
+                layoutSize: groupSize,
+                subitem: item,
+                count: 4
+            )
+            group.interItemSpacing = .fixed(10)
+            
+            // 섹션 설정
+            let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: .zero, bottom: 80, trailing: .zero)
+            section.orthogonalScrollingBehavior = .none
+            section.boundarySupplementaryItems = [header]
+
+            return section
         }
     }
     
@@ -129,20 +178,21 @@ final class StoreViewController: UIViewController {
     
     @objc private func refreshItemsValidity(_ notification: Notification) {
         // TODO: 캐릭터인지 배경인지 정하기
-        if let itemID = notification.object as? Int {
-            fetchAllItems(itemType: "CHARACTER", itemIndex: itemID - 1)
-        } else {
+        if let (itemRarity, itemID) = notification.object as? (String, Int) {
+            fetchAllItems(itemType: "CHARACTER", reloadItem: (itemRarity: itemRarity, itemID: itemID))
+        }
+        else {
             print("[StoreVC] NotificationCenter Error: itemID를 받지 못했거나 형식이 맞지 않음")
         }
     }
     
     // MARK: - Fetch API Functions
     
-    private func fetchAllItems(itemType: String, itemIndex: Int? = nil) {
+    private func fetchAllItems(itemType: String, reloadItem: (itemRarity: String, itemID: Int)? = nil) {
         StoreAPI.fetchAllItems(itemType: itemType) { result in
             switch result {
             case .success(let allItems):
-                self.allItems = allItems.map {
+                let items = allItems.map {
                     StoreSection(
                         itemID: $0.itemID,
                         itemName: $0.itemName,
@@ -154,10 +204,19 @@ final class StoreViewController: UIViewController {
                         isOwned: $0.isOwned
                     )
                 }
+                
+                for itemRarity in ["COMMON", "NORMAL", "RARE"] {
+                    self.allItems[itemRarity] = items.filter { $0.itemRarity == itemRarity }
+                }
+                
+                // TODO: 아이템이 배열에서 ordered dictionary로 바뀜. 새로고침하는 아이템 인덱스 수정 필요
                 DispatchQueue.main.async {
                     UIView.performWithoutAnimation {
-                        if let index = itemIndex {
-                            let indexPath = IndexPath(item: index, section: 0)
+                        if let reloadItem = reloadItem,
+                           let sectionIndex = self.allItems.keys.firstIndex(of: reloadItem.itemRarity),
+                           let itemIndex = self.allItems[reloadItem.itemRarity]?.firstIndex(where: { $0.itemID == reloadItem.itemID }) {
+                            let indexPath = IndexPath(item: itemIndex, section: sectionIndex)
+                            
                             self.testAllItemCollectionView.reloadItems(at: [indexPath])
                         } else {
                             self.testAllItemCollectionView.reloadData()
@@ -196,29 +255,54 @@ final class StoreViewController: UIViewController {
 }
 
 extension StoreViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    // MARK: - UICollectionView Section
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1 // 첫 번째는 아이템 종류, 두 번째는 아이템
+        return allItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return allItems.count
+        let key = allItems.keys[section]
+        
+        return allItems[key]?.count ?? 0
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemTypeCell.reuseIdentifier, for: indexPath) as? ItemTypeCell else {
             return UICollectionViewCell()
         }
-        cell.setUI(itemInfo: allItems[indexPath.item])
+        
+        let key = allItems.keys[indexPath.section]
+        
+        if let item = allItems[key]?[indexPath.item] {
+            cell.setUI(itemInfo: item)
+        }
         
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width / 5, height: 100)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let key = allItems.keys[indexPath.section]
+        
+        if let item = allItems[key]?[indexPath.item] {
+            patchItem(itemType: item.itemType, itemID: item.itemID)
+        }
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        patchItem(itemType: allItems[indexPath.item].itemType, itemID: allItems[indexPath.item].itemID)
+    // MARK: - UICollectionView Header
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView() }
+
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ItemSectionHeaderView.reuseIdentifier, for: indexPath) as! ItemSectionHeaderView
+        let key = allItems.keys[indexPath.section]
+        let itemRarity = ItemRarity(rawValue: key)?.koreanTitle ?? key
+        
+        header.setUI(itemRarity: itemRarity)
+        
+        return header
     }
 }
 

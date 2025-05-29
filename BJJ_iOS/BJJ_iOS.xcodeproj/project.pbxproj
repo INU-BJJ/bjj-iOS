@@ -152,6 +152,7 @@
 		3FE53C122DE1A1F500FBA99E /* MenuReviewListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE53C112DE1A1F500FBA99E /* MenuReviewListCell.swift */; };
 		3FEDD49F2CB2B3A8009617A5 /* PretendardKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3FEDD49E2CB2B3A8009617A5 /* PretendardKit */; };
 		3FEDD4A12CB2B499009617A5 /* UIColor++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEDD4A02CB2B499009617A5 /* UIColor++Extensions.swift */; };
+		3FF1C3BC2DE84D91002E8CD8 /* ItemSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1C3BB2DE84D91002E8CD8 /* ItemSectionHeaderView.swift */; };
 		3FF1E92A2D66F9A300A237FA /* ReviewContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1E9292D66F9A300A237FA /* ReviewContentCell.swift */; };
 		3FF1E92C2D67067000A237FA /* UITextView++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF1E92B2D67067000A237FA /* UITextView++Extensions.swift */; };
 		3FF6CAC32D50A544006ED4F3 /* MyReviewFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF6CAC22D50A544006ED4F3 /* MyReviewFooterView.swift */; };
@@ -328,6 +329,7 @@
 		3FE186312D9FCB650086EC6C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3FE53C112DE1A1F500FBA99E /* MenuReviewListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewListCell.swift; sourceTree = "<group>"; };
 		3FEDD4A02CB2B499009617A5 /* UIColor++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor++Extensions.swift"; sourceTree = "<group>"; };
+		3FF1C3BB2DE84D91002E8CD8 /* ItemSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSectionHeaderView.swift; sourceTree = "<group>"; };
 		3FF1E9292D66F9A300A237FA /* ReviewContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewContentCell.swift; sourceTree = "<group>"; };
 		3FF1E92B2D67067000A237FA /* UITextView++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView++Extensions.swift"; sourceTree = "<group>"; };
 		3FF6CAC22D50A544006ED4F3 /* MyReviewFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewFooterView.swift; sourceTree = "<group>"; };
@@ -440,6 +442,7 @@
 			isa = PBXGroup;
 			children = (
 				3F1472482DACF90D00098C41 /* ItemTypeCell.swift */,
+				3FF1C3BB2DE84D91002E8CD8 /* ItemSectionHeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1878,6 +1881,7 @@
 				3FE186322D9FCB650086EC6C /* LoginViewController.swift in Sources */,
 				3F2BE79C2D50F687005003CC /* MyReviewDetailView.swift in Sources */,
 				3FC123292DA5245100676A09 /* MemberModel.swift in Sources */,
+				3FF1C3BC2DE84D91002E8CD8 /* ItemSectionHeaderView.swift in Sources */,
 				3F14723F2DACEF5900098C41 /* StoreModel.swift in Sources */,
 				3F61252F2DA6ABB6003B5851 /* MyPageAddress.swift in Sources */,
 				3FA1D3232D7EDAAB00010931 /* MyReviewImageDetailViewController.swift in Sources */,

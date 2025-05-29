@@ -10,4 +10,5 @@ import Foundation
 struct GachaResultSection: Hashable {
     let itemID: Int
     let itemType: String
+    let itemRarity: String
 }

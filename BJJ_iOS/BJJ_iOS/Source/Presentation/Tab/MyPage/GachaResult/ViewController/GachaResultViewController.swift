@@ -132,7 +132,13 @@ final class GachaResultViewController: UIViewController {
     }
     
     @objc private func dismissModal() {
-        NotificationCenter.default.post(name: .didDismissFromGachaResultVC, object: drawnItemInfo?.itemID)
+        if let itemID = drawnItemInfo?.itemID,
+           let itemRarity = drawnItemInfo?.itemRarity {
+            NotificationCenter.default.post(
+                name: .didDismissFromGachaResultVC,
+                object: (itemRarity, itemID)
+            )
+        }
         self.presentingViewController?.presentingViewController?.dismiss(animated: true)
     }
     
@@ -143,7 +149,11 @@ final class GachaResultViewController: UIViewController {
         GachaResultAPI.postItemGacha(itemType: itemType) { result in
             switch result {
             case .success(let itemInfo):
-                self.drawnItemInfo = GachaResultSection(itemID: itemInfo.itemID, itemType: itemInfo.itemType)
+                self.drawnItemInfo = GachaResultSection(
+                                        itemID: itemInfo.itemID,
+                                        itemType: itemInfo.itemType,
+                                        itemRarity: itemInfo.itemRarity
+                                     )
                 completion(itemInfo)
                 
             case .failure(let error):
