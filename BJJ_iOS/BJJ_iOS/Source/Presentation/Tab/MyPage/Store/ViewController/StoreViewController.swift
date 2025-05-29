@@ -31,7 +31,7 @@ final class StoreViewController: UIViewController {
     
     private lazy var testAllItemCollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: createFlowLayout()
+        collectionViewLayout: createCompositionalLayout()
     ).then {
         $0.register(ItemTypeCell.self, forCellWithReuseIdentifier: ItemTypeCell.reuseIdentifier)
         $0.delegate = self
@@ -123,13 +123,34 @@ final class StoreViewController: UIViewController {
     
     // MARK: - Create Layout
     
-    private func createFlowLayout() -> UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 20
+    private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { sectionIndex, environment in
+            // 아이템 설정
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(0.2),
+                heightDimension: .absolute(100)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            // 그룹 설정
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(100)
+            )
+            let group = NSCollectionLayoutGroup.horizontal(
+                layoutSize: groupSize,
+                subitem: item,
+                count: 4
+            )
+            group.interItemSpacing = .fixed(10)
+            
+            // 섹션 설정
+            let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: .zero, bottom: 80, trailing: .zero)
+            section.orthogonalScrollingBehavior = .none
 
-        return layout
+            return section
+        }
     }
     
     // MARK: - Objc Functions
@@ -238,10 +259,6 @@ extension StoreViewController: UICollectionViewDataSource, UICollectionViewDeleg
         }
         
         return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width / 5, height: 100)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
