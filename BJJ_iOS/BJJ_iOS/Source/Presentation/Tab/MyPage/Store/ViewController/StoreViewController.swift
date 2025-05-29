@@ -178,16 +178,17 @@ final class StoreViewController: UIViewController {
     
     @objc private func refreshItemsValidity(_ notification: Notification) {
         // TODO: 캐릭터인지 배경인지 정하기
-        if let itemID = notification.object as? Int {
-            fetchAllItems(itemType: "CHARACTER", itemIndex: itemID - 1)
-        } else {
+        if let (itemRarity, itemID) = notification.object as? (String, Int) {
+            fetchAllItems(itemType: "CHARACTER", reloadItem: (itemRarity: itemRarity, itemID: itemID))
+        }
+        else {
             print("[StoreVC] NotificationCenter Error: itemID를 받지 못했거나 형식이 맞지 않음")
         }
     }
     
     // MARK: - Fetch API Functions
     
-    private func fetchAllItems(itemType: String, itemIndex: Int? = nil) {
+    private func fetchAllItems(itemType: String, reloadItem: (itemRarity: String, itemID: Int)? = nil) {
         StoreAPI.fetchAllItems(itemType: itemType) { result in
             switch result {
             case .success(let allItems):
@@ -211,8 +212,11 @@ final class StoreViewController: UIViewController {
                 // TODO: 아이템이 배열에서 ordered dictionary로 바뀜. 새로고침하는 아이템 인덱스 수정 필요
                 DispatchQueue.main.async {
                     UIView.performWithoutAnimation {
-                        if let index = itemIndex {
-                            let indexPath = IndexPath(item: index, section: 0)
+                        if let reloadItem = reloadItem,
+                           let sectionIndex = self.allItems.keys.firstIndex(of: reloadItem.itemRarity),
+                           let itemIndex = self.allItems[reloadItem.itemRarity]?.firstIndex(where: { $0.itemID == reloadItem.itemID }) {
+                            let indexPath = IndexPath(item: itemIndex, section: sectionIndex)
+                            
                             self.testAllItemCollectionView.reloadItems(at: [indexPath])
                         } else {
                             self.testAllItemCollectionView.reloadData()
