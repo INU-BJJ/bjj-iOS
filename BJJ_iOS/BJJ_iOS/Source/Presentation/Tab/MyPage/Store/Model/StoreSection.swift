@@ -17,3 +17,20 @@ struct StoreSection: Hashable {
     let isWearing: Bool
     let isOwned: Bool
 }
+
+enum ItemRarity: String {
+    case common = "COMMON"
+    case normal = "NORMAL"
+    case rare = "RARE"
+
+    var koreanTitle: String {
+        switch self {
+        case .common: 
+            return "흔함"
+        case .normal: 
+            return "보통"
+        case .rare: 
+            return "희귀"
+        }
+    }
+}

@@ -33,6 +33,7 @@ final class StoreViewController: UIViewController {
         frame: .zero,
         collectionViewLayout: createCompositionalLayout()
     ).then {
+        $0.register(ItemSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ItemSectionHeaderView.reuseIdentifier)
         $0.register(ItemTypeCell.self, forCellWithReuseIdentifier: ItemTypeCell.reuseIdentifier)
         $0.delegate = self
         $0.dataSource = self
@@ -125,6 +126,18 @@ final class StoreViewController: UIViewController {
     
     private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { sectionIndex, environment in
+            // 헤더 설정
+            let headerSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(30)
+            )
+            let header = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerSize,
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top
+            )
+            header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
+            
             // 아이템 설정
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(0.2),
@@ -148,6 +161,7 @@ final class StoreViewController: UIViewController {
             let section = NSCollectionLayoutSection(group: group)
             section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: .zero, bottom: 80, trailing: .zero)
             section.orthogonalScrollingBehavior = .none
+            section.boundarySupplementaryItems = [header]
 
             return section
         }
@@ -194,6 +208,7 @@ final class StoreViewController: UIViewController {
                     self.allItems[itemRarity] = items.filter { $0.itemRarity == itemRarity }
                 }
                 
+                // TODO: 아이템이 배열에서 ordered dictionary로 바뀜. 새로고침하는 아이템 인덱스 수정 필요
                 DispatchQueue.main.async {
                     UIView.performWithoutAnimation {
                         if let index = itemIndex {
@@ -236,6 +251,9 @@ final class StoreViewController: UIViewController {
 }
 
 extension StoreViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    // MARK: - UICollectionView Section
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return allItems.count
     }
@@ -267,6 +285,20 @@ extension StoreViewController: UICollectionViewDataSource, UICollectionViewDeleg
         if let item = allItems[key]?[indexPath.item] {
             patchItem(itemType: item.itemType, itemID: item.itemID)
         }
+    }
+    
+    // MARK: - UICollectionView Header
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView() }
+
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ItemSectionHeaderView.reuseIdentifier, for: indexPath) as! ItemSectionHeaderView
+        let key = allItems.keys[indexPath.section]
+        let itemRarity = ItemRarity(rawValue: key)?.koreanTitle ?? key
+        
+        header.setUI(itemRarity: itemRarity)
+        
+        return header
     }
 }
 
