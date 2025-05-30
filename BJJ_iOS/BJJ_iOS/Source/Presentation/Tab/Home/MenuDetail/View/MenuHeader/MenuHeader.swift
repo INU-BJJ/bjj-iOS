@@ -25,16 +25,13 @@ final class MenuHeader: UICollectionViewCell, ReuseIdentifying {
         $0.setLabelUI("", font: .pretendard_semibold, size: 24, color: .black)
     }
     
-    private let menuFooterStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.alignment = .center
-        $0.distribution = .equalSpacing
-    }
+    private let menuFooterView = UIView()
     
     private let menuPriceLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 20, color: .black)
     }
     
+    // TODO: 하트 버튼 하단 제약 재설정하기
     private lazy var menuLikeButton = UIButton().then {
         $0.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
         $0.layer.shadowOpacity = 1
@@ -69,13 +66,13 @@ final class MenuHeader: UICollectionViewCell, ReuseIdentifying {
     private func setAddView() {
         [
             menuNameLabel,
-            menuFooterStackView
+            menuFooterView
         ].forEach(contentView.addSubview)
         
         [
             menuPriceLabel,
             menuLikeButton
-        ].forEach(menuFooterStackView.addArrangedSubview)
+        ].forEach(menuFooterView.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -83,14 +80,26 @@ final class MenuHeader: UICollectionViewCell, ReuseIdentifying {
     private func setConstraints() {
         menuNameLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.height.greaterThanOrEqualTo(29)
+            $0.horizontalEdges.equalToSuperview().inset(11.5)
         }
         
-        menuFooterStackView.snp.makeConstraints {
+        menuFooterView.snp.makeConstraints {
+            $0.top.equalTo(menuNameLabel.snp.bottom).offset(8)
             $0.bottom.equalToSuperview()
             $0.horizontalEdges.equalTo(menuNameLabel)
-            $0.height.greaterThanOrEqualTo(23)
+        }
+        
+        menuPriceLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview()
+            $0.verticalEdges.equalToSuperview()
+        }
+        
+        // TODO: 하트 버튼 하단 제약 재설정하기
+        menuLikeButton.snp.makeConstraints {
+//            $0.trailing.equalToSuperview()
+//            $0.height.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(4)
+            $0.height.equalTo(30)
         }
     }
     
