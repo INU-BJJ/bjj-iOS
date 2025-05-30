@@ -52,12 +52,12 @@ final class MenuReviewHeaderView: UICollectionReusableView, ReuseIdentifying {
     
     private func setConstraints() {
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview()
             $0.leading.equalToSuperview()
+            $0.verticalEdges.equalToSuperview().inset(1)
         }
         
         reviewCountLabel.snp.makeConstraints {
-            $0.leading.equalTo(titleLabel.snp.trailing).offset(1)
+            $0.leading.equalTo(titleLabel.snp.trailing).offset(3)
             $0.centerY.equalTo(titleLabel)
         }
         
