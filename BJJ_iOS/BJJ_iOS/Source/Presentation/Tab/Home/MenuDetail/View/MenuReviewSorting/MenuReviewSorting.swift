@@ -150,8 +150,8 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
         }
         
         reviewToggleButton.snp.makeConstraints {
-            $0.centerY.equalTo(onlyPhotoReviewStackView)
-            $0.trailing.equalToSuperview().inset(24)
+            $0.verticalEdges.equalToSuperview().inset(8)
+            $0.trailing.equalToSuperview().inset(22)
         }
         
         shadowContainerView.snp.makeConstraints {
