@@ -412,10 +412,10 @@ final class MenuDetailViewController: UIViewController {
     }
     
     private func createReviewSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(104))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(112))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(104))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(112))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -423,7 +423,7 @@ final class MenuDetailViewController: UIViewController {
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(0.5))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
         
-        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 23, bottom: 17, trailing: 23)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 23, bottom: 15, trailing: 23)
         section.boundarySupplementaryItems = [footer]
         
         return section

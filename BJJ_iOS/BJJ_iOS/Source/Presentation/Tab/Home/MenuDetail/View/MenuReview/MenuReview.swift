@@ -62,7 +62,7 @@ final class MenuReview: UICollectionViewCell, ReuseIdentifying {
     private func setConstraints() {
         menuReviewCollectionView.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview().inset(22)
+            $0.horizontalEdges.equalToSuperview().inset(8)
         }
     }
     
@@ -77,18 +77,17 @@ final class MenuReview: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Create Layout
     
     private func createLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(68), heightDimension: .absolute(67))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.25), heightDimension: .absolute(67))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(75), heightDimension: .absolute(75))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = .fixed(10)
         
         let section = NSCollectionLayoutSection(group: group)
         
-        // TODO: top, bottom inset 크기가 다름. 질문하기
-        section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 0, bottom: 17, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: .zero, bottom: .zero, trailing: .zero)
         section.orthogonalScrollingBehavior = .continuous
+        section.interGroupSpacing = 10
         
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(21))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
