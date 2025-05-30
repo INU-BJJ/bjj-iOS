@@ -42,6 +42,8 @@ final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
         $0.spacing = 4
         $0.distribution = .fill
         $0.alignment = .leading
+        $0.isLayoutMarginsRelativeArrangement = true
+        $0.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0)
     }
     
     private let menuFooterStackView = UIStackView().then {
