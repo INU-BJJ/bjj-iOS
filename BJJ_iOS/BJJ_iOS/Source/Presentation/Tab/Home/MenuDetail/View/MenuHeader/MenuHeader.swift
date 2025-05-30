@@ -80,7 +80,7 @@ final class MenuHeader: UICollectionViewCell, ReuseIdentifying {
     private func setConstraints() {
         menuNameLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview().inset(11.5)
+            $0.horizontalEdges.equalToSuperview().inset(8)
         }
         
         menuFooterView.snp.makeConstraints {

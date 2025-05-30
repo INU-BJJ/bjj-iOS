@@ -384,8 +384,7 @@ final class MenuDetailViewController: UIViewController {
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(0.5))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
         
-        // TODO: leading, trailing 23으로 수정
-        section.contentInsets = NSDirectionalEdgeInsets(top: 41, leading: 19.5, bottom: 23, trailing: 19.5)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 41, leading: 23, bottom: 23, trailing: 23)
         section.boundarySupplementaryItems = [footer]
         
         return section
