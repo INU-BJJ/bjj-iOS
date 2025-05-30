@@ -17,7 +17,9 @@ final class MenuInfo: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
     
-    private let menuInfoHeaderView = MenuInfoHeaderView()
+    private let headerLabel = UILabel().then {
+        $0.setLabelUI("메뉴 구성", font: .pretendard_bold, size: 18, color: .black)
+    }
     
     private lazy var menuInfoCollectionView = UICollectionView(
         frame: .zero,
@@ -55,7 +57,7 @@ final class MenuInfo: UICollectionViewCell, ReuseIdentifying {
     
     private func setAddView() {
         [
-            menuInfoHeaderView,
+            headerLabel,
             menuInfoCollectionView
         ].forEach(contentView.addSubview)
     }
@@ -63,14 +65,14 @@ final class MenuInfo: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        menuInfoHeaderView.snp.makeConstraints {
-            $0.top.leading.equalToSuperview()
-            $0.height.equalTo(15)
+        headerLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(8)
         }
         
         menuInfoCollectionView.snp.makeConstraints {
-            $0.top.equalTo(menuInfoHeaderView.snp.bottom).offset(22)
-            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.top.equalTo(headerLabel.snp.bottom).offset(22)
+            $0.horizontalEdges.equalToSuperview().inset(8)
             $0.bottom.equalToSuperview()
         }
     }
