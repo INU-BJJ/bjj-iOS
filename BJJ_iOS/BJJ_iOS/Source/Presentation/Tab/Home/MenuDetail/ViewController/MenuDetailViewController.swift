@@ -405,7 +405,7 @@ final class MenuDetailViewController: UIViewController {
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(0.5))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
         
-        section.contentInsets = NSDirectionalEdgeInsets(top: 30, leading: 23, bottom: 16, trailing: 23)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 30, leading: 23, bottom: 20, trailing: 23)
         section.boundarySupplementaryItems = [footer]
         
         return section
