@@ -65,13 +65,10 @@ final class MyReviewDetailView: UIView {
         $0.setLabelUI("", font: .pretendard, size: 11, color: .black)
     }
     
-    private let reviewTextView = UITextView().then {
-        $0.textColor = .black
-        $0.text = ""
-        $0.font = .customFont(.pretendard_medium, 13)
-        $0.isScrollEnabled = false
-        $0.textContainerInset = UIEdgeInsets.zero
-        $0.textContainer.lineFragmentPadding = 0
+    private let reviewCommentLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
+        $0.numberOfLines = 0
+        $0.lineBreakMode = .byWordWrapping
     }
     
     private lazy var reviewImageCollectionView = UICollectionView(
@@ -125,7 +122,7 @@ final class MyReviewDetailView: UIView {
         
         [
             myInfoTotalView,
-            reviewTextView,
+            reviewCommentLabel,
             reviewImageCollectionView,
             reviewHashTagCollectionView
         ].forEach(myReviewStackView.addArrangedSubview)
@@ -204,8 +201,7 @@ final class MyReviewDetailView: UIView {
         
         reviewImageCollectionView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
-            // TODO: 높이 질문하기
-            $0.height.equalTo(250)
+            $0.height.equalTo(293)
         }
         
         reviewHashTagCollectionView.snp.makeConstraints {
@@ -221,7 +217,7 @@ final class MyReviewDetailView: UIView {
         reviewRatingView.configureReviewStar(reviewRating: myReviewInfo.reviewRating, type: .small)
         reviewDateLabel.text = myReviewInfo.reviewCreatedDate
         reviewLikeCountLabel.text = String(myReviewInfo.reviewLikedCount)
-        reviewTextView.text = myReviewInfo.reviewComment
+        reviewCommentLabel.text = myReviewInfo.reviewComment
         reviewImages = myReviewInfo.reviewImages
         hashTags = [myReviewInfo.mainMenuName, myReviewInfo.subMenuName]
         
@@ -245,39 +241,34 @@ final class MyReviewDetailView: UIView {
             (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             
             // TODO: absolute 없애기
-            // TODO: 너비가 이전에 쓰던 것과 달라져서 업데이트 하기
             let absoluteItemWidth: CGFloat
             let absoluteGroupWidth: CGFloat
             
             switch self.reviewImages.count {
             case 1:
-                absoluteItemWidth = 301
-                absoluteGroupWidth = 301
+                absoluteItemWidth = 353
+                absoluteGroupWidth = 353
             case 2:
-                absoluteItemWidth = 149.5
-                absoluteGroupWidth = 301
+                absoluteItemWidth = 175.5
+                absoluteGroupWidth = 353
             case 3:
 //                fractionalWidth = 0.4738047138
-                absoluteItemWidth = 140.72
-                absoluteGroupWidth = 426.16
+                absoluteItemWidth = 165
+                absoluteGroupWidth = 499
             case 4:
 //                fractionalWidth = 0.4738047138
-                absoluteItemWidth = 140.72
-                absoluteGroupWidth = 568.88
-            case 5:
-//                fractionalWidth = 0.4738047138
-                absoluteItemWidth = 140.72
-                absoluteGroupWidth = 711.59
+                absoluteItemWidth = 165
+                absoluteGroupWidth = 666
             default:
 //                absoluteItemWidth = 1.0
-                absoluteItemWidth = 140.72
-                absoluteGroupWidth = 301
+                absoluteItemWidth = 353
+                absoluteGroupWidth = 353
             }
             
             let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(absoluteItemWidth), heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
-            let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(absoluteGroupWidth), heightDimension: .absolute(250))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(absoluteGroupWidth), heightDimension: .absolute(293))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             group.interItemSpacing = .fixed(2)
             
