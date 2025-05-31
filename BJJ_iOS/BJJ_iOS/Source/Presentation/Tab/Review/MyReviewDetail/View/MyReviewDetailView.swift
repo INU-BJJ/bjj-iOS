@@ -65,9 +65,10 @@ final class MyReviewDetailView: UIView {
         $0.setLabelUI("", font: .pretendard, size: 11, color: .black)
     }
     
-    private let reviewTextView = UILabel().then {
+    private let reviewCommentLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
         $0.numberOfLines = 0
+        $0.lineBreakMode = .byWordWrapping
     }
     
     private lazy var reviewImageCollectionView = UICollectionView(
@@ -121,7 +122,7 @@ final class MyReviewDetailView: UIView {
         
         [
             myInfoTotalView,
-            reviewTextView,
+            reviewCommentLabel,
             reviewImageCollectionView,
             reviewHashTagCollectionView
         ].forEach(myReviewStackView.addArrangedSubview)
@@ -216,7 +217,7 @@ final class MyReviewDetailView: UIView {
         reviewRatingView.configureReviewStar(reviewRating: myReviewInfo.reviewRating, type: .small)
         reviewDateLabel.text = myReviewInfo.reviewCreatedDate
         reviewLikeCountLabel.text = String(myReviewInfo.reviewLikedCount)
-        reviewTextView.text = myReviewInfo.reviewComment
+        reviewCommentLabel.text = myReviewInfo.reviewComment
         reviewImages = myReviewInfo.reviewImages
         hashTags = [myReviewInfo.mainMenuName, myReviewInfo.subMenuName]
         

@@ -30,6 +30,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     private let reviewCommentLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
         $0.numberOfLines = 0
+        $0.lineBreakMode = .byWordWrapping
     }
     
     private lazy var reviewImageCollectionView = UICollectionView(
