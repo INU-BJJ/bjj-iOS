@@ -116,7 +116,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         
         reviewImageCollectionView.snp.makeConstraints {
             $0.width.equalToSuperview()
-            $0.height.equalTo(250)
+            $0.height.equalTo(270)
         }
         
         reviewHashTagCollectionView.snp.makeConstraints {
@@ -166,19 +166,19 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         let layout = UICollectionViewFlowLayout()
         
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 2
+        layout.minimumLineSpacing = 4
         
         switch reviewImageCount {
         case 1:
-            layout.itemSize = CGSize(width: 301, height: 250)
+            layout.itemSize = CGSize(width: 330, height: 270)
         case 2:
-            layout.itemSize = CGSize(width: 149.5, height: 250)
+            layout.itemSize = CGSize(width: 163, height: 270)
         case 3:
-            layout.itemSize = CGSize(width: 140.72, height: 250)
+            layout.itemSize = CGSize(width: 150, height: 270)
         case 4:
-            layout.itemSize = CGSize(width: 140.72, height: 250)
+            layout.itemSize = CGSize(width: 150, height: 270)
         default:
-            layout.itemSize = CGSize(width: 301, height: 250)
+            layout.itemSize = CGSize(width: 330, height: 270)
         }
         
         return layout

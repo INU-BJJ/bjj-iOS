@@ -384,8 +384,7 @@ final class MenuDetailViewController: UIViewController {
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(0.5))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
         
-        // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
-        section.contentInsets = NSDirectionalEdgeInsets(top: 41, leading: 24, bottom: 23, trailing: 24)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 41, leading: 23, bottom: 23, trailing: 23)
         section.boundarySupplementaryItems = [footer]
         
         return section
@@ -396,7 +395,7 @@ final class MenuDetailViewController: UIViewController {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let menuCount = menuData?.restMenu?.count ?? 0
-        let calculatedHeight = CGFloat((menuCount * 17) + 20 + 22 + 15) // calculatedHeight = 메뉴 높이(17 * 메뉴 개수) + 메뉴박스 위아래 공백(20) + 메뉴 헤더와의 간격(22) + 메뉴 헤더 높이(15)
+        let calculatedHeight = CGFloat((menuCount * 17) + 20 + 22 + 21) // calculatedHeight = 메뉴 높이(17 * 메뉴 개수) + 메뉴박스 위아래 공백(20) + 메뉴 헤더와의 간격(22) + 메뉴 헤더 높이(21)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(calculatedHeight))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
@@ -406,18 +405,17 @@ final class MenuDetailViewController: UIViewController {
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(0.5))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
         
-        // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
-        section.contentInsets = NSDirectionalEdgeInsets(top: 30, leading: 24, bottom: 16, trailing: 24)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 30, leading: 23, bottom: 20, trailing: 23)
         section.boundarySupplementaryItems = [footer]
         
         return section
     }
     
     private func createReviewSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(104))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(112))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(104))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(112))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -425,8 +423,7 @@ final class MenuDetailViewController: UIViewController {
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(0.5))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
         
-        // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
-        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 24, bottom: 17, trailing: 24)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 23, bottom: 15, trailing: 23)
         section.boundarySupplementaryItems = [footer]
         
         return section
@@ -444,8 +441,7 @@ final class MenuDetailViewController: UIViewController {
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(0.5))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize, elementKind: UICollectionView.elementKindSectionFooter, alignment: .bottom)
         
-        // TODO: 피그마에선 좌 46, 우 45로 설정되어 있어서 질문
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 23, bottom: 0, trailing: 23)
         section.boundarySupplementaryItems = [footer]
         
         return section

@@ -27,6 +27,8 @@ final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
         $0.spacing = 7
         $0.distribution = .fill
         $0.alignment = .fill
+        $0.isLayoutMarginsRelativeArrangement = true
+        $0.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 2.62, leading: .zero, bottom: 2.62, trailing: .zero)
     }
     
     private let menuHeaderStackView = UIStackView().then {
@@ -42,6 +44,8 @@ final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
         $0.spacing = 4
         $0.distribution = .fill
         $0.alignment = .leading
+        $0.isLayoutMarginsRelativeArrangement = true
+        $0.directionalLayoutMargins = NSDirectionalEdgeInsets(top: .zero, leading: 5, bottom: .zero, trailing: .zero)
     }
     
     private let menuFooterStackView = UIStackView().then {
@@ -181,7 +185,7 @@ final class HomeMenuCell: UICollectionViewCell, ReuseIdentifying {
         self.layer.shadowColor = UIColor(red: 0.047, green: 0.047, blue: 0.051, alpha: 0.05).cgColor
         self.layer.shadowOpacity = 1
         self.layer.shadowRadius = 4
-        self.layer.shadowOffset = CGSize(width: 0, height: 1)
+        self.layer.shadowOffset = CGSize(width: .zero, height: 1)
     }
 }
 

@@ -93,7 +93,7 @@ final class HomeViewController: UIViewController {
         
         collectionView.snp.makeConstraints {
             $0.top.equalTo(homeTopView.snp.bottom).offset(18)
-            $0.leading.equalToSuperview().offset(21)
+            $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
