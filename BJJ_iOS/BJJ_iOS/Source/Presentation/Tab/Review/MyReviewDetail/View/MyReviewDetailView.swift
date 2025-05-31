@@ -65,13 +65,9 @@ final class MyReviewDetailView: UIView {
         $0.setLabelUI("", font: .pretendard, size: 11, color: .black)
     }
     
-    private let reviewTextView = UITextView().then {
-        $0.textColor = .black
-        $0.text = ""
-        $0.font = .customFont(.pretendard_medium, 13)
-        $0.isScrollEnabled = false
-        $0.textContainerInset = UIEdgeInsets.zero
-        $0.textContainer.lineFragmentPadding = 0
+    private let reviewTextView = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
+        $0.numberOfLines = 0
     }
     
     private lazy var reviewImageCollectionView = UICollectionView(
