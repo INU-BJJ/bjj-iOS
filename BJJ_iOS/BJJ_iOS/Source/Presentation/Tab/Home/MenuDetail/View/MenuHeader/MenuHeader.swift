@@ -94,12 +94,9 @@ final class MenuHeader: UICollectionViewCell, ReuseIdentifying {
             $0.verticalEdges.equalToSuperview()
         }
         
-        // TODO: 하트 버튼 하단 제약 재설정하기
         menuLikeButton.snp.makeConstraints {
-//            $0.trailing.equalToSuperview()
-//            $0.height.equalToSuperview()
-            $0.trailing.equalToSuperview().offset(4)
-            $0.height.equalTo(30)
+            $0.trailing.equalToSuperview()
+            $0.height.equalToSuperview()
         }
     }
     
