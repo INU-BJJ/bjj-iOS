@@ -70,6 +70,27 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        reviewImages = []
+        hashTags = []
+        isHashTagsHighlighted = []
+        
+        reviewImageCollectionView.isHidden = false
+        reviewImageCollectionView.snp.updateConstraints {
+            $0.height.equalTo(270)
+        }
+        
+        reviewHashTagCollectionView.isHidden = false
+        reviewHashTagCollectionView.snp.updateConstraints {
+            $0.height.equalTo(25)
+        }
+        
+        reviewCommentLabel.text = ""
+        menuReviewInfoView.resetUI()
+    }
+    
     // MARK: - Set UI
     
     private func setUI() {
@@ -143,8 +164,16 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         reviewCommentLabel.text = menuReview.reviewComment
         reviewImageCollectionView.setCollectionViewLayout(flowLayout, animated: false)
         
-        if reviewImages.isEmpty {
-            reviewImageCollectionView.removeFromSuperview()
+        if reviewImageCount == 0 {
+            reviewImageCollectionView.isHidden = true
+            reviewImageCollectionView.snp.updateConstraints {
+                $0.height.equalTo(0)
+            }
+        } else {
+            reviewImageCollectionView.isHidden = false
+            reviewImageCollectionView.snp.updateConstraints {
+                $0.height.equalTo(270)
+            }
         }
         
         DispatchQueue.main.async {

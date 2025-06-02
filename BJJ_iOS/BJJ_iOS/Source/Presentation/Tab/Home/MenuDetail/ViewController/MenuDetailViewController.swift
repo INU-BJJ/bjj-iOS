@@ -18,6 +18,11 @@ final class MenuDetailViewController: UIViewController {
     private var reviewData: [MenuDetailModel] = []
     private var reviewImages: [String] = []
     
+    // Debounce, Throttle
+    private var scrollDebounceTimer: Timer?
+    private var lastHeightUpdateTime: Date = .distantPast
+    private let heightUpdateInterval: TimeInterval = 1
+    
     // TODO: 네비바 숨김 방식 고민하기
     private var isNavigationBarHidden = false
     
@@ -245,13 +250,20 @@ final class MenuDetailViewController: UIViewController {
     }
     
     private func fetchReviewInfo(menuPairID: Int, pageNumber: Int, pageSize: Int, sortingCriteria: String, isWithImage: Bool) {
+        // TODO: 로딩뷰 추가
+        guard !isFetching else { return }
+        isFetching = true
+        
         MenuDetailAPI.fetchReviewInfo(menuPairID: menuPairID, pageNumber: pageNumber, pageSize: pageSize, sortingCriteria: sortingCriteria, isWithImage: isWithImage) { [weak self] result in
             guard let self = self else { return }
             
-            switch result {
-            case .success(let reviewInfo):
-                DispatchQueue.main.async {
-                    // 서버 데이터를 reviewData에 저장
+            DispatchQueue.main.async {
+                defer {
+                    self.isFetching = false
+                }
+                
+                switch result {
+                case .success(let reviewInfo):
                     self.reviewData.append(contentsOf: reviewInfo.reviewList.map { review in
                             MenuDetailModel(
                                 reviewID: review.reviewID,
@@ -273,11 +285,9 @@ final class MenuDetailViewController: UIViewController {
                     )
                     self.isLastPage = reviewInfo.isLastPage
                     self.menuReviewListCollectionView.reloadData()
-                    self.isFetching = false
-                }
-                
-            case .failure(let error):
-                DispatchQueue.main.async {
+                    
+                case .failure(let error):
+                    // TODO: 로딩 실패 UI
                     // 에러 처리 (필요 시 UI에 에러 메시지 표시 가능)
                     print("Error fetching menu data: \(error.localizedDescription)")
                 }
@@ -596,31 +606,43 @@ extension MenuDetailViewController: UIScrollViewDelegate {
         
         let threshold = UIScreen.main.bounds.height * 0.1
         let isNearBottom = currentScrollLocation > contentHeight - frameHeight - threshold
-
-        if isNearBottom {
+        
+        let now = Date()
+        let elapsed = now.timeIntervalSince(lastHeightUpdateTime)
+        
+        if isNearBottom && elapsed >= heightUpdateInterval {
+            // TODO: 빠르게 스크롤할 경우를 대비한 1초(로딩 시간은 미정)짜리 로딩 UI 추가
+            lastHeightUpdateTime = now
             updateCollectionViewHeight()
         }
     }
 
     private func loadNextPageIfNeeded(_ scrollView: UIScrollView) {
-        guard !isFetching, !isLastPage else { return }
-
-        let currentScrollLocation = scrollView.contentOffset.y      // 현재 스크롤 위치
-        let contentHeight = scrollView.contentSize.height           // 스크롤 가능한 전체 콘텐츠 높이
-        let frameHeight = scrollView.frame.size.height              // 스크롤뷰가 차지하는 실제 UI 높이
-
-        let threshold = UIScreen.main.bounds.height * 0.1
-        let isNearBottom = currentScrollLocation > contentHeight - frameHeight - threshold
-
-        if isNearBottom {
-            currentPageNumber += 1
-            fetchReviewInfo(
-                menuPairID: menuData?.menuPairID ?? 0,
-                pageNumber: currentPageNumber,
-                pageSize: pageSize,
-                sortingCriteria: sortingCriteria,
-                isWithImage: isOnlyPhotoChecked
-            )
+        // TODO: 다음 페이지 로딩도 debounce말고 throttle 써야되는거 아닌가? 사용자가 0.1초를 기다리지 않고 계속 아래로 스크롤 행위를 하면 타이머가 계속 초기화되면서 무한 기다림 아님?
+        
+        scrollDebounceTimer?.invalidate()
+        scrollDebounceTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { [weak self] _ in
+            guard let self = self else { return }
+            guard !isFetching, !isLastPage else { return }
+            
+            let currentScrollLocation = scrollView.contentOffset.y      // 현재 스크롤 위치
+            let contentHeight = scrollView.contentSize.height           // 스크롤 가능한 전체 콘텐츠 높이
+            let frameHeight = scrollView.frame.size.height              // 스크롤뷰가 차지하는 실제 UI 높이
+            
+            let threshold = UIScreen.main.bounds.height * 0.1
+            let isNearBottom = currentScrollLocation > contentHeight - frameHeight - threshold
+            
+            if isNearBottom {
+                currentPageNumber += 1
+                // TODO: 로딩뷰 추가
+                fetchReviewInfo(
+                    menuPairID: menuData?.menuPairID ?? 0,
+                    pageNumber: currentPageNumber,
+                    pageSize: pageSize,
+                    sortingCriteria: sortingCriteria,
+                    isWithImage: isOnlyPhotoChecked
+                )
+            }
         }
     }
 }
@@ -638,13 +660,22 @@ extension MenuDetailViewController: MenuHeaderDelegate {
 extension MenuDetailViewController: MenuReviewSortingDelegate {
     func didTapOnlyPhotoReview(isOnlyPhotoChecked: Bool) {
         self.isOnlyPhotoChecked = isOnlyPhotoChecked
+        self.reviewData.removeAll()
+        // TODO: 로딩뷰 추가 - 현재는 로딩되는 동안 흰색 화면 나와서 화면 깜빡이는 것처럼 보임.
+        DispatchQueue.main.async {
+            self.menuReviewListCollectionView.reloadData()
+        }
+        
+        self.currentPageNumber = 0
+        self.isLastPage = false
+        self.isFetching = false
         
         fetchReviewInfo(
             menuPairID: menuData?.menuPairID ?? 0,
             pageNumber: currentPageNumber,
             pageSize: pageSize,
             sortingCriteria: sortingCriteria,
-            isWithImage: isOnlyPhotoChecked
+            isWithImage: self.isOnlyPhotoChecked
         )
     }
     
