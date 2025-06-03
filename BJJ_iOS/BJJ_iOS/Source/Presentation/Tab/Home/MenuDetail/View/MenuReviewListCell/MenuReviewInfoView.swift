@@ -59,6 +59,16 @@ final class MenuReviewInfoView: UIView {
         backgroundColor = .white
     }
     
+    // MARK: - Reset UI
+    
+    func resetUI() {
+        nicknameLabel.text = ""
+        reviewDateLabel.text = ""
+        reviewRatingView.configureReviewStar(reviewRating: 0, type: .small)
+        reviewLikeButton.setImage(UIImage(named: "Like")?.resize(to: CGSize(width: 17, height: 17)), for: .normal)
+        reviewLikeCountLabel.text = ""
+    }
+    
     // MARK: - Set AddView
     
     private func setAddView() {

@@ -18,6 +18,11 @@ final class MenuDetailViewController: UIViewController {
     private var reviewData: [MenuDetailModel] = []
     private var reviewImages: [String] = []
     
+    // Debounce, Throttle
+    private var scrollDebounceTimer: Timer?
+    private var lastHeightUpdateTime: Date = .distantPast
+    private let heightUpdateInterval: TimeInterval = 1
+    
     // TODO: 네비바 숨김 방식 고민하기
     private var isNavigationBarHidden = false
     
@@ -30,6 +35,11 @@ final class MenuDetailViewController: UIViewController {
     
     private var presentMenuReviewListCollectionViewHeight: CGFloat = 0
     private var presentMenuReviewCollectionViewHeight: CGFloat = 0
+    
+    // TODO: Enum으로 관리
+    private let sortingOptions = ["메뉴일치순", "좋아요순", "최신순"]
+    private var isReviewSortingExpanded = false
+    private var selectedSortingIndex: Int = 0
     
     // MARK: - UI Components
     
@@ -50,6 +60,11 @@ final class MenuDetailViewController: UIViewController {
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
+    
+    // TODO: collectionView 통일화
+//    https://velog.io/@hyesuuou/iOSSwift-Compositional-Layout에서-Dynamic-height-이용해보기
+//    https://akwlak.tistory.com/24
+//    https://www.google.com/search?client=safari&rls=en&q=compositional+layout+dynamic+height&ie=UTF-8&oe=UTF-8
     
     private lazy var menuReviewCollectionView = UICollectionView(
         frame: .zero,
@@ -75,6 +90,36 @@ final class MenuDetailViewController: UIViewController {
         $0.delegate = self
         $0.dataSource = self
         $0.isScrollEnabled = false
+    }
+    
+    private lazy var shadowContainerView = UIView().then {
+        let firstLayer = CALayer()
+        firstLayer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
+        firstLayer.shadowOpacity = 1
+        firstLayer.shadowRadius = 2.5
+        firstLayer.shadowOffset = CGSize(width: 0, height: 1)
+
+        let secondLayer = CALayer()
+        secondLayer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.15).cgColor
+        secondLayer.shadowOpacity = 1
+        secondLayer.shadowRadius = 3.9
+        secondLayer.shadowOffset = CGSize(width: 0, height: 2)
+        
+        $0.layer.insertSublayer(firstLayer, at: 0)
+        $0.layer.insertSublayer(secondLayer, at: 1)
+        $0.layer.setValue(firstLayer, forKey: "firstLayerShadow")
+        $0.layer.setValue(secondLayer, forKey: "secondLayerShadow")
+        $0.backgroundColor = .clear
+        $0.isHidden = true
+    }
+    
+    private lazy var reviewSortingTableView = UITableView().then {
+        $0.register(MenuReviewSortingCell.self, forCellReuseIdentifier: MenuReviewSortingCell.reuseIdentifier)
+        $0.dataSource = self
+        $0.delegate = self
+        $0.separatorStyle = .none
+        $0.layer.cornerRadius = 10
+        $0.clipsToBounds = true
     }
     
     // MARK: - LifeCycle
@@ -132,12 +177,17 @@ final class MenuDetailViewController: UIViewController {
     
     private func setAddView() {
         [
-            menuReviewScrollView
+            menuReviewScrollView,
+            shadowContainerView
         ].forEach(view.addSubview)
         
         [
             menuReviewStackView
         ].forEach(menuReviewScrollView.addSubview)
+        
+        [
+            reviewSortingTableView
+        ].forEach(shadowContainerView.addSubview)
         
         [
             menuDefaultImageView,
@@ -153,6 +203,13 @@ final class MenuDetailViewController: UIViewController {
     private func setConstraints() {
         menuReviewScrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        shadowContainerView.snp.makeConstraints {
+            $0.top.equalTo(menuReviewCollectionView.snp.bottom)
+            $0.trailing.equalToSuperview().inset(31)
+            $0.width.equalTo(134)
+            $0.height.equalTo(93)
         }
         
         menuReviewStackView.snp.makeConstraints {
@@ -173,6 +230,38 @@ final class MenuDetailViewController: UIViewController {
         menuReviewListCollectionView.snp.makeConstraints {
             $0.width.equalToSuperview()
             $0.height.equalTo(1)
+        }
+        
+        reviewSortingTableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    // MARK: - Set Shadow
+    
+    private func setShadow() {
+        let shadowPath = UIBezierPath(roundedRect: shadowContainerView.bounds, cornerRadius: 10).cgPath
+
+        if let firstLayer = shadowContainerView.layer.value(forKey: "firstLayerShadow") as? CALayer {
+            firstLayer.shadowPath = shadowPath
+            firstLayer.bounds = shadowContainerView.bounds
+            firstLayer.position = CGPoint(x: shadowContainerView.bounds.midX, y: shadowContainerView.bounds.midY)
+        }
+
+        if let secondLayer = shadowContainerView.layer.value(forKey: "secondLayerShadow") as? CALayer {
+            secondLayer.shadowPath = shadowPath
+            secondLayer.bounds = shadowContainerView.bounds
+            secondLayer.position = CGPoint(x: shadowContainerView.bounds.midX, y: shadowContainerView.bounds.midY)
+        }
+    }
+    
+    // MARK: - TableView Toggle
+    
+    private func toggleTableView() {
+        isReviewSortingExpanded.toggle()
+        
+        UIView.animate(withDuration: 0.5) {
+            self.shadowContainerView.isHidden = !self.isReviewSortingExpanded
         }
     }
     
@@ -245,13 +334,20 @@ final class MenuDetailViewController: UIViewController {
     }
     
     private func fetchReviewInfo(menuPairID: Int, pageNumber: Int, pageSize: Int, sortingCriteria: String, isWithImage: Bool) {
+        // TODO: 로딩뷰 추가
+        guard !isFetching else { return }
+        isFetching = true
+        
         MenuDetailAPI.fetchReviewInfo(menuPairID: menuPairID, pageNumber: pageNumber, pageSize: pageSize, sortingCriteria: sortingCriteria, isWithImage: isWithImage) { [weak self] result in
             guard let self = self else { return }
             
-            switch result {
-            case .success(let reviewInfo):
-                DispatchQueue.main.async {
-                    // 서버 데이터를 reviewData에 저장
+            DispatchQueue.main.async {
+                defer {
+                    self.isFetching = false
+                }
+                
+                switch result {
+                case .success(let reviewInfo):
                     self.reviewData.append(contentsOf: reviewInfo.reviewList.map { review in
                             MenuDetailModel(
                                 reviewID: review.reviewID,
@@ -273,11 +369,9 @@ final class MenuDetailViewController: UIViewController {
                     )
                     self.isLastPage = reviewInfo.isLastPage
                     self.menuReviewListCollectionView.reloadData()
-                    self.isFetching = false
-                }
-                
-            case .failure(let error):
-                DispatchQueue.main.async {
+                    
+                case .failure(let error):
+                    // TODO: 로딩 실패 UI
                     // 에러 처리 (필요 시 UI에 에러 메시지 표시 가능)
                     print("Error fetching menu data: \(error.localizedDescription)")
                 }
@@ -448,6 +542,8 @@ final class MenuDetailViewController: UIViewController {
     }
 }
 
+// MARK: - UICollectionView Extension
+
 extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         if collectionView == menuReviewCollectionView {
@@ -510,6 +606,7 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             case 3:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSorting.reuseIdentifier, for: indexPath) as! MenuReviewSorting
                 cell.delegate = self
+                cell.setUI(sortingCriteria: sortingOptions[selectedSortingIndex])
                 
                 return cell
             default:
@@ -596,32 +693,121 @@ extension MenuDetailViewController: UIScrollViewDelegate {
         
         let threshold = UIScreen.main.bounds.height * 0.1
         let isNearBottom = currentScrollLocation > contentHeight - frameHeight - threshold
-
-        if isNearBottom {
+        
+        let now = Date()
+        let elapsed = now.timeIntervalSince(lastHeightUpdateTime)
+        
+        if isNearBottom && elapsed >= heightUpdateInterval {
+            // TODO: 빠르게 스크롤할 경우를 대비한 1초(로딩 시간은 미정)짜리 로딩 UI 추가
+            lastHeightUpdateTime = now
             updateCollectionViewHeight()
         }
     }
 
     private func loadNextPageIfNeeded(_ scrollView: UIScrollView) {
-        guard !isFetching, !isLastPage else { return }
-
-        let currentScrollLocation = scrollView.contentOffset.y      // 현재 스크롤 위치
-        let contentHeight = scrollView.contentSize.height           // 스크롤 가능한 전체 콘텐츠 높이
-        let frameHeight = scrollView.frame.size.height              // 스크롤뷰가 차지하는 실제 UI 높이
-
-        let threshold = UIScreen.main.bounds.height * 0.1
-        let isNearBottom = currentScrollLocation > contentHeight - frameHeight - threshold
-
-        if isNearBottom {
-            currentPageNumber += 1
-            fetchReviewInfo(
-                menuPairID: menuData?.menuPairID ?? 0,
-                pageNumber: currentPageNumber,
-                pageSize: pageSize,
-                sortingCriteria: sortingCriteria,
-                isWithImage: isOnlyPhotoChecked
-            )
+        // TODO: 다음 페이지 로딩도 debounce말고 throttle 써야되는거 아닌가? 사용자가 0.1초를 기다리지 않고 계속 아래로 스크롤 행위를 하면 타이머가 계속 초기화되면서 무한 기다림 아님?
+        
+        scrollDebounceTimer?.invalidate()
+        scrollDebounceTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { [weak self] _ in
+            guard let self = self else { return }
+            guard !isFetching, !isLastPage else { return }
+            
+            let currentScrollLocation = scrollView.contentOffset.y      // 현재 스크롤 위치
+            let contentHeight = scrollView.contentSize.height           // 스크롤 가능한 전체 콘텐츠 높이
+            let frameHeight = scrollView.frame.size.height              // 스크롤뷰가 차지하는 실제 UI 높이
+            
+            let threshold = UIScreen.main.bounds.height * 0.1
+            let isNearBottom = currentScrollLocation > contentHeight - frameHeight - threshold
+            
+            if isNearBottom {
+                currentPageNumber += 1
+                // TODO: 로딩뷰 추가
+                fetchReviewInfo(
+                    menuPairID: menuData?.menuPairID ?? 0,
+                    pageNumber: currentPageNumber,
+                    pageSize: pageSize,
+                    sortingCriteria: sortingCriteria,
+                    isWithImage: isOnlyPhotoChecked
+                )
+            }
         }
+    }
+}
+
+// MARK: - UITableView Extension
+
+extension MenuDetailViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sortingOptions.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: MenuReviewSortingCell.reuseIdentifier, for: indexPath) as! MenuReviewSortingCell
+        let isLastCell = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
+
+        cell.selectionStyle = .none
+        cell.configureMenuReviewSortingCell(
+            sortingCriteria: sortingOptions[indexPath.row],
+            isSelected: indexPath.row == selectedSortingIndex
+        )
+        cell.hideSeparator(isLastCell)
+
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 31
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        toggleTableView()
+        selectedSortingIndex = indexPath.row
+
+        let sortingCriteria: String
+
+        switch selectedSortingIndex {
+        case 0:
+            sortingCriteria = "BEST_MATCH"
+        case 1:
+            sortingCriteria = "MOST_LIKED"
+        default:
+            sortingCriteria = "NEWEST_FIRST"
+        }
+        
+        /// 애니메이션이 필요할 경우
+//        menuReviewCollectionView.performBatchUpdates({
+//            menuReviewCollectionView.reloadSections(IndexSet(integer: 3))
+//        }, completion: { _ in
+//            self.updateCollectionViewHeight()
+//        })
+        
+        /// 애니메이션이 필요하지 않은 경우
+        UIView.performWithoutAnimation {
+            menuReviewCollectionView.reloadSections(IndexSet(integer: 3))
+            menuReviewCollectionView.layoutIfNeeded()
+        }
+        updateCollectionViewHeight()
+        
+        reviewData.removeAll()
+        // TODO: 로딩뷰 추가 - 현재는 로딩되는 동안 흰색 화면 나와서 화면 깜빡이는 것처럼 보임.
+        DispatchQueue.main.async {
+            self.menuReviewListCollectionView.reloadData()
+        }
+        
+        self.sortingCriteria = sortingCriteria
+        currentPageNumber = 0
+        isLastPage = false
+        isFetching = false
+        
+        fetchReviewInfo(
+            menuPairID: menuData?.menuPairID ?? 0,
+            pageNumber: currentPageNumber,
+            pageSize: pageSize,
+            sortingCriteria: self.sortingCriteria,
+            isWithImage: isOnlyPhotoChecked
+        )
+        
+        tableView.reloadData()
     }
 }
 
@@ -638,26 +824,43 @@ extension MenuDetailViewController: MenuHeaderDelegate {
 extension MenuDetailViewController: MenuReviewSortingDelegate {
     func didTapOnlyPhotoReview(isOnlyPhotoChecked: Bool) {
         self.isOnlyPhotoChecked = isOnlyPhotoChecked
+        self.reviewData.removeAll()
+        // TODO: 로딩뷰 추가 - 현재는 로딩되는 동안 흰색 화면 나와서 화면 깜빡이는 것처럼 보임.
+        DispatchQueue.main.async {
+            self.menuReviewListCollectionView.reloadData()
+        }
+        
+        self.currentPageNumber = 0
+        self.isLastPage = false
+        self.isFetching = false
         
         fetchReviewInfo(
             menuPairID: menuData?.menuPairID ?? 0,
             pageNumber: currentPageNumber,
             pageSize: pageSize,
             sortingCriteria: sortingCriteria,
-            isWithImage: isOnlyPhotoChecked
+            isWithImage: self.isOnlyPhotoChecked
         )
     }
     
-    func didReviewSort(sortingCriteria: String) {
-        self.sortingCriteria = sortingCriteria
-        
-        fetchReviewInfo(
-            menuPairID: menuData?.menuPairID ?? 0,
-            pageNumber: currentPageNumber,
-            pageSize: pageSize,
-            sortingCriteria: sortingCriteria,
-            isWithImage: isOnlyPhotoChecked
-        )
+//    func didReviewSort(sortingCriteria: String) {
+//        self.sortingCriteria = sortingCriteria
+//
+//        fetchReviewInfo(
+//            menuPairID: menuData?.menuPairID ?? 0,
+//            pageNumber: currentPageNumber,
+//            pageSize: pageSize,
+//            sortingCriteria: sortingCriteria,
+//            isWithImage: isOnlyPhotoChecked
+//        )
+//    }
+    
+    func didTapReviewSort() {
+        toggleTableView()
+
+        if isReviewSortingExpanded {
+            setShadow()
+        }
     }
 }
 
