@@ -11,7 +11,8 @@ import Then
 
 protocol MenuReviewSortingDelegate: AnyObject {
     func didTapOnlyPhotoReview(isOnlyPhotoChecked: Bool)
-    func didReviewSort(sortingCriteria: String)
+//    func didReviewSort(sortingCriteria: String)
+    func didTapReviewSort()
 }
 
 final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {

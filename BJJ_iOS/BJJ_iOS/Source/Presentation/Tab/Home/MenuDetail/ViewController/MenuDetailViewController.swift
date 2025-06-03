@@ -679,16 +679,24 @@ extension MenuDetailViewController: MenuReviewSortingDelegate {
         )
     }
     
-    func didReviewSort(sortingCriteria: String) {
-        self.sortingCriteria = sortingCriteria
-        
-        fetchReviewInfo(
-            menuPairID: menuData?.menuPairID ?? 0,
-            pageNumber: currentPageNumber,
-            pageSize: pageSize,
-            sortingCriteria: sortingCriteria,
-            isWithImage: isOnlyPhotoChecked
-        )
+//    func didReviewSort(sortingCriteria: String) {
+//        self.sortingCriteria = sortingCriteria
+//
+//        fetchReviewInfo(
+//            menuPairID: menuData?.menuPairID ?? 0,
+//            pageNumber: currentPageNumber,
+//            pageSize: pageSize,
+//            sortingCriteria: sortingCriteria,
+//            isWithImage: isOnlyPhotoChecked
+//        )
+//    }
+    
+    func didTapReviewSort() {
+        toggleTableView()
+
+        if isReviewSortingExpanded {
+            setShadow()
+        }
     }
 }
 
