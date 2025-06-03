@@ -36,6 +36,11 @@ final class MenuDetailViewController: UIViewController {
     private var presentMenuReviewListCollectionViewHeight: CGFloat = 0
     private var presentMenuReviewCollectionViewHeight: CGFloat = 0
     
+    // TODO: Enum으로 관리
+    private let sortingOptions = ["메뉴일치순", "좋아요순", "최신순"]
+    private var isReviewSortingExpanded = false
+    private var selectedSortingIndex: Int = 0
+    
     // MARK: - UI Components
     
     private lazy var menuReviewScrollView = UIScrollView().then {
@@ -80,6 +85,36 @@ final class MenuDetailViewController: UIViewController {
         $0.delegate = self
         $0.dataSource = self
         $0.isScrollEnabled = false
+    }
+    
+    private lazy var shadowContainerView = UIView().then {
+        let firstLayer = CALayer()
+        firstLayer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
+        firstLayer.shadowOpacity = 1
+        firstLayer.shadowRadius = 2.5
+        firstLayer.shadowOffset = CGSize(width: 0, height: 1)
+
+        let secondLayer = CALayer()
+        secondLayer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.15).cgColor
+        secondLayer.shadowOpacity = 1
+        secondLayer.shadowRadius = 3.9
+        secondLayer.shadowOffset = CGSize(width: 0, height: 2)
+        
+        $0.layer.insertSublayer(firstLayer, at: 0)
+        $0.layer.insertSublayer(secondLayer, at: 1)
+        $0.layer.setValue(firstLayer, forKey: "firstLayerShadow")
+        $0.layer.setValue(secondLayer, forKey: "secondLayerShadow")
+        $0.backgroundColor = .clear
+        $0.isHidden = true
+    }
+    
+    private lazy var reviewSortingTableView = UITableView().then {
+        $0.register(MenuReviewSortingCell.self, forCellReuseIdentifier: MenuReviewSortingCell.reuseIdentifier)
+        $0.dataSource = self
+        $0.delegate = self
+        $0.separatorStyle = .none
+        $0.layer.cornerRadius = 10
+        $0.clipsToBounds = true
     }
     
     // MARK: - LifeCycle
@@ -137,12 +172,17 @@ final class MenuDetailViewController: UIViewController {
     
     private func setAddView() {
         [
-            menuReviewScrollView
+            menuReviewScrollView,
+            shadowContainerView
         ].forEach(view.addSubview)
         
         [
             menuReviewStackView
         ].forEach(menuReviewScrollView.addSubview)
+        
+        [
+            reviewSortingTableView
+        ].forEach(shadowContainerView.addSubview)
         
         [
             menuDefaultImageView,
@@ -158,6 +198,13 @@ final class MenuDetailViewController: UIViewController {
     private func setConstraints() {
         menuReviewScrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        shadowContainerView.snp.makeConstraints {
+            $0.top.equalTo(menuReviewCollectionView.snp.bottom)
+            $0.trailing.equalToSuperview().inset(31)
+            $0.width.equalTo(134)
+            $0.height.equalTo(93)
         }
         
         menuReviewStackView.snp.makeConstraints {
@@ -178,6 +225,38 @@ final class MenuDetailViewController: UIViewController {
         menuReviewListCollectionView.snp.makeConstraints {
             $0.width.equalToSuperview()
             $0.height.equalTo(1)
+        }
+        
+        reviewSortingTableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    // MARK: - Set Shadow
+    
+    private func setShadow() {
+        let shadowPath = UIBezierPath(roundedRect: shadowContainerView.bounds, cornerRadius: 10).cgPath
+
+        if let firstLayer = shadowContainerView.layer.value(forKey: "firstLayerShadow") as? CALayer {
+            firstLayer.shadowPath = shadowPath
+            firstLayer.bounds = shadowContainerView.bounds
+            firstLayer.position = CGPoint(x: shadowContainerView.bounds.midX, y: shadowContainerView.bounds.midY)
+        }
+
+        if let secondLayer = shadowContainerView.layer.value(forKey: "secondLayerShadow") as? CALayer {
+            secondLayer.shadowPath = shadowPath
+            secondLayer.bounds = shadowContainerView.bounds
+            secondLayer.position = CGPoint(x: shadowContainerView.bounds.midX, y: shadowContainerView.bounds.midY)
+        }
+    }
+    
+    // MARK: - TableView Toggle
+    
+    private func toggleTableView() {
+        isReviewSortingExpanded.toggle()
+        
+        UIView.animate(withDuration: 0.5) {
+            self.shadowContainerView.isHidden = !self.isReviewSortingExpanded
         }
     }
     
@@ -644,6 +723,70 @@ extension MenuDetailViewController: UIScrollViewDelegate {
                 )
             }
         }
+    }
+}
+
+// MARK: - UITableView Extension
+
+extension MenuDetailViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sortingOptions.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: MenuReviewSortingCell.reuseIdentifier, for: indexPath) as! MenuReviewSortingCell
+        let isLastCell = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
+
+        cell.selectionStyle = .none
+        cell.configureMenuReviewSortingCell(
+            sortingCriteria: sortingOptions[indexPath.row],
+            isSelected: indexPath.row == selectedSortingIndex
+        )
+        cell.hideSeparator(isLastCell)
+
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 31
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        toggleLabel.text = sortingCriteria[indexPath.row]
+        toggleTableView()
+        selectedSortingIndex = indexPath.row
+
+        let sortingCriteria: String
+
+        switch selectedSortingIndex {
+        case 0:
+            sortingCriteria = "BEST_MATCH"
+        case 1:
+            sortingCriteria = "MOST_LIKED"
+        default:
+            sortingCriteria = "NEWEST_FIRST"
+        }
+
+        reviewData.removeAll()
+        // TODO: 로딩뷰 추가 - 현재는 로딩되는 동안 흰색 화면 나와서 화면 깜빡이는 것처럼 보임.
+        DispatchQueue.main.async {
+            self.menuReviewListCollectionView.reloadData()
+        }
+        
+        self.sortingCriteria = sortingCriteria
+        currentPageNumber = 0
+        isLastPage = false
+        isFetching = false
+        
+        fetchReviewInfo(
+            menuPairID: menuData?.menuPairID ?? 0,
+            pageNumber: currentPageNumber,
+            pageSize: pageSize,
+            sortingCriteria: self.sortingCriteria,
+            isWithImage: isOnlyPhotoChecked
+        )
+        
+        tableView.reloadData()
     }
 }
 
