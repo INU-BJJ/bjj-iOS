@@ -601,6 +601,7 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             case 3:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuReviewSorting.reuseIdentifier, for: indexPath) as! MenuReviewSorting
                 cell.delegate = self
+                cell.setUI(sortingCriteria: sortingOptions[selectedSortingIndex])
                 
                 return cell
             default:
@@ -754,7 +755,6 @@ extension MenuDetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        toggleLabel.text = sortingCriteria[indexPath.row]
         toggleTableView()
         selectedSortingIndex = indexPath.row
 
@@ -768,7 +768,21 @@ extension MenuDetailViewController: UITableViewDataSource, UITableViewDelegate {
         default:
             sortingCriteria = "NEWEST_FIRST"
         }
-
+        
+        /// 애니메이션이 필요할 경우
+//        menuReviewCollectionView.performBatchUpdates({
+//            menuReviewCollectionView.reloadSections(IndexSet(integer: 3))
+//        }, completion: { _ in
+//            self.updateCollectionViewHeight()
+//        })
+        
+        /// 애니메이션이 필요하지 않은 경우
+        UIView.performWithoutAnimation {
+            menuReviewCollectionView.reloadSections(IndexSet(integer: 3))
+            menuReviewCollectionView.layoutIfNeeded()
+        }
+        updateCollectionViewHeight()
+        
         reviewData.removeAll()
         // TODO: 로딩뷰 추가 - 현재는 로딩되는 동안 흰색 화면 나와서 화면 깜빡이는 것처럼 보임.
         DispatchQueue.main.async {

@@ -167,6 +167,12 @@ final class MenuReviewSorting: UICollectionViewCell, ReuseIdentifying {
 //        }
     }
     
+    // MARK: - Set UI
+    
+    func setUI(sortingCriteria: String) {
+        toggleLabel.text = sortingCriteria
+    }
+    
     // MARK: - Set Shadow
     
 //    private func setShadow() {
