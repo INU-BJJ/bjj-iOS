@@ -61,6 +61,11 @@ final class MenuDetailViewController: UIViewController {
         $0.clipsToBounds = true
     }
     
+    // TODO: collectionView 통일화
+//    https://velog.io/@hyesuuou/iOSSwift-Compositional-Layout에서-Dynamic-height-이용해보기
+//    https://akwlak.tistory.com/24
+//    https://www.google.com/search?client=safari&rls=en&q=compositional+layout+dynamic+height&ie=UTF-8&oe=UTF-8
+    
     private lazy var menuReviewCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createLayout()
