@@ -117,7 +117,8 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     
     private func setConstraints() {
         contentView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.verticalEdges.equalToSuperview()
+            $0.centerX.equalToSuperview()
             $0.width.equalTo(UIScreen.main.bounds.width)
         }
         

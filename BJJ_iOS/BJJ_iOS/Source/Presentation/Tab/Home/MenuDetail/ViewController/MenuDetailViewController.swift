@@ -537,6 +537,8 @@ final class MenuDetailViewController: UIViewController {
     }
 }
 
+// MARK: - UICollectionView Extension
+
 extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         if collectionView == menuReviewCollectionView {
