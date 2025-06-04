@@ -22,7 +22,7 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
     
-    private let dropDownSelectCafeteriaButton = UIButton().then {
+    private lazy var dropDownSelectCafeteriaButton = UIButton().then {
         var configuration = UIButton.Configuration.filled()
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.customFont(.pretendard_medium, 15),
@@ -31,11 +31,7 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
         
         configuration.baseBackgroundColor = .white
         configuration.attributedTitle = AttributedString("식당 위치", attributes: AttributeContainer(attributes))
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: 13, leading: 18, bottom: 13, trailing: 0)
-        configuration.image = UIImage(named: "DropDown")
-        configuration.imagePlacement = .trailing
-        // TODO: 타이틀라벨의 너비를 258 말고 딱 맞도록 해서 패딩 계산하기
-        configuration.imagePadding = 45
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 13, leading: 18, bottom: 13, trailing: 77)
         
         $0.configuration = configuration
         $0.contentHorizontalAlignment = .leading
@@ -46,7 +42,11 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
         $0.addTarget(self, action: #selector(showCafeteriaTableViewDropDown), for: .touchUpInside)
     }
     
-    private let dropDownSelectMenuButton = UIButton().then {
+    private let cafeteriaDropDownImage = UIImageView().then {
+        $0.image = UIImage(named: "DropDown")
+    }
+    
+    private lazy var dropDownSelectMenuButton = UIButton().then {
         var configuration = UIButton.Configuration.filled()
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.customFont(.pretendard_medium, 15),
@@ -55,11 +55,7 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
         
         configuration.baseBackgroundColor = .white
         configuration.attributedTitle = AttributedString("메뉴 선택", attributes: AttributeContainer(attributes))
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: 13, leading: 18, bottom: 13, trailing: 0)
-        configuration.image = UIImage(named: "DropDown")
-        configuration.imagePlacement = .trailing
-        // TODO: 타이틀라벨의 너비를 258 말고 딱 맞도록 해서 패딩 계산하기
-        configuration.imagePadding = 45
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 13, leading: 18, bottom: 13, trailing: 32)
         
         $0.configuration = configuration
         $0.contentHorizontalAlignment = .leading
@@ -68,6 +64,10 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
         $0.layer.cornerRadius = 3
         $0.clipsToBounds = true
         $0.addTarget(self, action: #selector(showMenuTableViewDropDown), for: .touchUpInside)
+    }
+    
+    private let menuDropDownImage = UIImageView().then {
+        $0.image = UIImage(named: "DropDown")
     }
     
     // TODO: 테이블뷰 드롭다운했을때 "식당 위치"버튼보다 뒤로 가도록
@@ -143,6 +143,14 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
             dropDownCafeteriaTableView,
             dropDownMenuTableView
         ].forEach(addSubview)
+        
+        [
+            cafeteriaDropDownImage
+        ].forEach(dropDownSelectCafeteriaButton.addSubview)
+        
+        [
+            menuDropDownImage
+        ].forEach(dropDownSelectMenuButton.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -154,10 +162,20 @@ final class ReviewCategorySelect: UICollectionViewCell, ReuseIdentifying {
             $0.height.equalTo(45)
         }
         
+        cafeteriaDropDownImage.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(18)
+        }
+        
         dropDownSelectMenuButton.snp.makeConstraints {
             $0.top.equalTo(dropDownSelectCafeteriaButton.snp.bottom).offset(10)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(45)
+        }
+        
+        menuDropDownImage.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(18)
         }
         
         dropDownCafeteriaTableView.snp.makeConstraints {
