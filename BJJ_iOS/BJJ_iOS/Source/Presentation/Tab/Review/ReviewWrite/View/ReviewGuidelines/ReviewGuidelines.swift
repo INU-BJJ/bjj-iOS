@@ -17,7 +17,7 @@ final class ReviewGuidelines: UICollectionViewCell, ReuseIdentifying {
     
     // MARK: - UI Components
     
-    private let reviewGuidelineDropDown = UIButton().then {
+    private lazy var reviewGuidelineDropDown = UIButton().then {
         var configuration = UIButton.Configuration.filled()
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.customFont(.pretendard_medium, 15),
@@ -27,10 +27,6 @@ final class ReviewGuidelines: UICollectionViewCell, ReuseIdentifying {
         configuration.baseBackgroundColor = .white
         configuration.attributedTitle = AttributedString("리뷰 작성 유의사항", attributes: AttributeContainer(attributes))
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-        configuration.image = UIImage(named: "BlackDropDown")
-        configuration.imagePlacement = .trailing
-        // TODO: 타이틀라벨의 너비를 258 말고 딱 맞도록 해서 패딩 계산하기
-        configuration.imagePadding = 45
         
         $0.configuration = configuration
         $0.contentHorizontalAlignment = .leading
@@ -40,6 +36,10 @@ final class ReviewGuidelines: UICollectionViewCell, ReuseIdentifying {
     private let reviewGuidelineLabel = UILabel().then {
         $0.setLabelUI("식당 오픈 전에는 식사 리뷰를 작성하실 수 없습니다.", font: .pretendard_medium, size: 13, color: .warningRed)
         $0.isHidden = true
+    }
+    
+    private let dropDownImage = UIImageView().then {
+        $0.image = UIImage(named: "BlackDropDown")
     }
     
     // MARK: - Life Cycle
@@ -69,6 +69,10 @@ final class ReviewGuidelines: UICollectionViewCell, ReuseIdentifying {
             reviewGuidelineDropDown,
             reviewGuidelineLabel
         ].forEach(addSubview)
+        
+        [
+            dropDownImage
+        ].forEach(reviewGuidelineDropDown.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -83,6 +87,11 @@ final class ReviewGuidelines: UICollectionViewCell, ReuseIdentifying {
         reviewGuidelineLabel.snp.makeConstraints {
             $0.top.equalTo(reviewGuidelineDropDown.snp.bottom).offset(10)
             $0.leading.equalToSuperview()
+        }
+        
+        dropDownImage.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(18)
         }
     }
     
