@@ -115,8 +115,8 @@ final class ReviewAddPhotoCell: UICollectionViewCell, ReuseIdentifying {
         }
         
         deselectPhotoButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(3.73)
-            $0.leading.equalToSuperview().offset(53)
+            $0.top.equalToSuperview().offset(4)
+            $0.trailing.equalToSuperview().inset(5)
             $0.width.height.equalTo(17)
         }
         
