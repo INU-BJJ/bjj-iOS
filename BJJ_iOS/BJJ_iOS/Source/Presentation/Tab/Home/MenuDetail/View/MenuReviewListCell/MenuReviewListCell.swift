@@ -25,7 +25,8 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         $0.alignment = .leading
     }
     
-    private let menuReviewInfoView = MenuReviewInfoView()
+    // TODO: 터치 범위가 엄청 좁은 것으로 확인됨. 리뷰 날짜 부분을 눌러야만 출력됨
+    private lazy var menuReviewInfoView = MenuReviewInfoView()
     
     private let reviewCommentLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)

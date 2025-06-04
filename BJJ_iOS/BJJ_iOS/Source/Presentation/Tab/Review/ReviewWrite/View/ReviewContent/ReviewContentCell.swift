@@ -42,9 +42,8 @@ final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
     
     private let characterLimitView = UIView()
     
-    // TODO: 사용자 입력에 따라 동적으로 바꾸기
     private let currentCharacterLabel = UILabel().then {
-        $0.setLabelUI("0 ", font: .pretendard, size: 13, color: .black)
+        $0.setLabelUI("0 ", font: .pretendard, size: 13, color: .midGray)
     }
     
     private let characterLimitLabel = UILabel().then {
@@ -145,7 +144,8 @@ extension ReviewContentCell: UITextViewDelegate {
                 textView.text = String(textView.text.prefix(maxCharacterCount))
                 characterCount = maxCharacterCount
             }
-
+            
+            self.currentCharacterLabel.textColor = characterCount > 0 ? .customColor(.black) : .customColor(.midGray)
             self.currentCharacterLabel.text = "\(characterCount) "
             self.reviewTextViewPlaceholder.isHidden = !self.reviewTextView.text.isEmpty
             self.delegate?.didChangeReviewText(self.reviewTextView.text)
