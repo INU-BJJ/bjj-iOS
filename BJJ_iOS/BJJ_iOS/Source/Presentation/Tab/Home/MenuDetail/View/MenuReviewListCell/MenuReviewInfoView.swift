@@ -14,6 +14,7 @@ final class MenuReviewInfoView: UIView {
     // MARK: - Properties
     
     private var isReviewLiked = false
+    private var isOwned = false
     
     // MARK: - UI Components
     
@@ -33,8 +34,9 @@ final class MenuReviewInfoView: UIView {
         $0.setLabelUI("", font: .pretendard, size: 13, color: .darkGray)
     }
     
-    private let reviewLikeButton = UIButton().then {
+    private lazy var reviewLikeButton = UIButton().then {
         $0.setImage(UIImage(named: "Like")?.resize(to: CGSize(width: 17, height: 17)), for: .normal)
+        $0.addTarget(self, action: #selector(didTapReviewLikeButton), for: .touchUpInside)
     }
     
     private let reviewLikeCountLabel = UILabel().then {
@@ -118,18 +120,39 @@ final class MenuReviewInfoView: UIView {
         }
     }
     
+    // MARK: - Set isReviewLiked
+    
+    func setIsReviewLiked(isReviewLiked: Bool, isOwned: Bool) {
+        self.isReviewLiked = isReviewLiked
+        self.isOwned = isOwned
+    }
+    
     // MARK: - Set UI
     
     func setUI(with menuReview: MenuDetailModel) {
+        let likeIcon = isReviewLiked ? "FilledLike" : "Like"
+        
         nicknameLabel.text = menuReview.memberNickname
         reviewRatingView.configureReviewStar(reviewRating: menuReview.reviewRating, type: .small)
         reviewDateLabel.text = menuReview.reviewCreatedDate
+        reviewLikeButton.setImage(UIImage(named: likeIcon)?.resize(to: CGSize(width: 17, height: 17)),for: .normal)
         reviewLikeCountLabel.text = "\(menuReview.reviewLikedCount)"
     }
     
-    // MARK: - Set isReviewLiked
+    // MARK: - objc Function
     
-    func setIsReviewLiked(isReviewLiked: Bool) {
-        self.isReviewLiked = isReviewLiked
+    @objc private func didTapReviewLikeButton() {
+        if !isOwned {
+            isReviewLiked.toggle()
+            
+            let likeIcon = isReviewLiked ? "FilledLike" : "Like"
+            reviewLikeButton.setImage(
+                UIImage(named: likeIcon)?.resize(to: CGSize(width: 17, height: 17)),
+                for: .normal
+            )
+        } else {
+            // TODO: 실패 UI 띄우기
+            print("[MenuReviewInfoView] Error: 자기 리뷰 좋아요 안됨")
+        }
     }
 }
