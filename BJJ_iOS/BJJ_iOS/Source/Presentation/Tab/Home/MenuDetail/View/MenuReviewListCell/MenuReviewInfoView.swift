@@ -13,6 +13,8 @@ final class MenuReviewInfoView: UIView {
     
     // MARK: - Properties
     
+    private var isReviewLiked = false
+    
     // MARK: - UI Components
     
     private let profileImage = UIImageView().then {
@@ -123,5 +125,11 @@ final class MenuReviewInfoView: UIView {
         reviewRatingView.configureReviewStar(reviewRating: menuReview.reviewRating, type: .small)
         reviewDateLabel.text = menuReview.reviewCreatedDate
         reviewLikeCountLabel.text = "\(menuReview.reviewLikedCount)"
+    }
+    
+    // MARK: - Set isReviewLiked
+    
+    func setIsReviewLiked(isReviewLiked: Bool) {
+        self.isReviewLiked = isReviewLiked
     }
 }

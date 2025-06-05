@@ -156,6 +156,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         let reviewImageCount = menuReview.reviewImage?.count ?? 0
         let flowLayout = createReviewImageLayout(reviewImageCount: reviewImageCount)
         
+        menuReviewInfoView.setIsReviewLiked(isReviewLiked: menuReview.isMemberLikedReview)
         menuReviewInfoView.setUI(with: menuReview)
         reviewCommentLabel.text = menuReview.reviewComment
         reviewImageCollectionView.setCollectionViewLayout(flowLayout, animated: false)
