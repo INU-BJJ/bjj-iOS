@@ -23,6 +23,9 @@ final class MenuDetailViewController: UIViewController {
     private var lastHeightUpdateTime: Date = .distantPast
     private let heightUpdateInterval: TimeInterval = 1
     
+    private var reviewLikeDebounceTimers: [Int: Timer] = [:]
+    private let reviewLikeDebounceInterval: TimeInterval = 0.5
+    
     // TODO: 네비바 숨김 방식 고민하기
     private var isNavigationBarHidden = false
     
@@ -643,7 +646,26 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             
             cell.configure(with: reviewData[indexPath.item])
             cell.bindHashTagData(hashTags: hashTags, isHighlighted: isHighlighted)
-            
+            cell.menuReviewInfoView.onLikeToggled = { [weak self, weak cell] isReviewLiked in
+                guard let self = self else { return }
+                
+                // 일정 시간 안에 좋아요 버튼을 누르면 타이머 초기화
+                self.reviewLikeDebounceTimers[indexPath.item]?.invalidate()
+                
+                // 일정 시간 뒤에 클로저 내부의 코드 실행
+                let timer = Timer.scheduledTimer(withTimeInterval: self.reviewLikeDebounceInterval, repeats: false) { _ in
+                    // 해당 리뷰에 관련된 타이머를 삭제
+                    self.reviewLikeDebounceTimers[indexPath.item] = nil
+
+                    if isReviewLiked {
+                        print("<< 좋아요 누름")
+                    } else {
+                        print("<< 좋아요 취소 누름")
+                    }
+                }
+                // 각 리뷰별 타이머 저장
+                self.reviewLikeDebounceTimers[indexPath.item] = timer
+            }
             return cell
         }
     }

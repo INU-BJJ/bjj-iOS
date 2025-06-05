@@ -25,7 +25,8 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         $0.alignment = .leading
     }
     
-    private lazy var menuReviewInfoView = MenuReviewInfoView()
+    // TODO: private 해제 방법 말고 다른 방법 없을까?
+    let menuReviewInfoView = MenuReviewInfoView()
     
     private let reviewCommentLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
