@@ -25,7 +25,6 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         $0.alignment = .leading
     }
     
-    // TODO: 터치 범위가 엄청 좁은 것으로 확인됨. 리뷰 날짜 부분을 눌러야만 출력됨
     private lazy var menuReviewInfoView = MenuReviewInfoView()
     
     private let reviewCommentLabel = UILabel().then {
@@ -117,16 +116,11 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        contentView.snp.makeConstraints {
-            $0.verticalEdges.equalToSuperview()
-            $0.centerX.equalToSuperview()
-            $0.width.equalTo(UIScreen.main.bounds.width)
-        }
-        
         reviewStackView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(20)
             $0.horizontalEdges.equalToSuperview().inset(31.5)
             $0.bottom.equalToSuperview().inset(24)
+            $0.width.equalTo(UIScreen.main.bounds.width - 63)
         }
         
         menuReviewInfoView.snp.makeConstraints {
