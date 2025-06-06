@@ -25,6 +25,7 @@ final class MenuDetailViewController: UIViewController {
     
     private var reviewLikeDebounceTimers: [Int: Timer] = [:]
     private let reviewLikeDebounceInterval: TimeInterval = 0.5
+    private var isReviewLikedList: [Int: Bool] = [:]
     
     // TODO: 네비바 숨김 방식 고민하기
     private var isNavigationBarHidden = false
@@ -405,29 +406,7 @@ final class MenuDetailViewController: UIViewController {
         MenuDetailAPI.postIsReviewLiked(reviewID: reviewData[indexPath.item].reviewID) { result in
             switch result {
             case .success(let isLiked):
-                // TODO: 리뷰 좋아요 카운팅 손보기
-                // TODO: 서버 요청 함수와 UI 업데이트 함수 분리하기
-                DispatchQueue.main.async {
-                    self.reviewData[indexPath.item].isMemberLikedReview = isLiked
-                    
-                    if isLiked {
-                        self.reviewData[indexPath.item].reviewLikedCount += 1
-                    } else {
-                        self.reviewData[indexPath.item].reviewLikedCount = max(0, self.reviewData[indexPath.item].reviewLikedCount - 1)
-                    }
-                    let reviewLikeCount = self.reviewData[indexPath.item].reviewLikedCount
-                    
-                    if let reviewListCell = self.menuReviewCollectionView.cellForItem(at: indexPath) as? MenuReviewList {
-                        let innerIndexPath = IndexPath(item: 0, section: 0)
-                        
-                        if let reviewListInfoCell = reviewListCell.reviewCollectionView.cellForItem(at: innerIndexPath) as? MenuReviewListInfo {
-                            reviewListInfoCell.updateReviewLikeButton(
-                                isReviewLiked: isLiked
-                            )
-                            reviewListInfoCell.updateReviewLikeCountLabel(reviewLikedCount: reviewLikeCount)
-                        }
-                    }
-                }
+                self.isReviewLikedList[indexPath.item] = isLiked
                 
             case .failure(let error):
                 print("[MenuDetailVC] 리뷰 좋아요 실패: \(error.localizedDescription)")
@@ -622,31 +601,11 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
                 menuData?.mainMenuID == reviewData[indexPath.item].mainMenuID,
                 menuData?.subMenuID == reviewData[indexPath.item].subMenuID
             ]
-//            cell.configureMenuData(
-//                with: menuData ?? HomeMenuModel(
-//                    menuName: "",
-//                    menuImage: "DefaultMenuImage",
-//                    menuPrice: "",
-//                    menuRating: 0.0,
-//                    cafeteriaName: "",
-//                    cafeteriaCorner: "",
-//                    isLikedMenu: false,
-//                    restMenu: [],
-//                    reviewCount: 0,
-//                    menuPairID: 0,
-//                    mainMenuID: 0,
-//                    subMenuID: 0
-//                )
-//            )
-//            if indexPath.item < reviewData.count {
-//                cell.configureMenuReviewList(with: reviewData[indexPath.item], indexPath: indexPath)
-//            }
-//            cell.configureMenuReviewList(with: reviewData[indexPath.item], indexPath: indexPath)
-//            cell.delegate = self
+            isReviewLikedList[indexPath.item] = reviewData[indexPath.item].isMemberLikedReview
             
             cell.configure(with: reviewData[indexPath.item])
             cell.bindHashTagData(hashTags: hashTags, isHighlighted: isHighlighted)
-            cell.menuReviewInfoView.onLikeToggled = { [weak self, weak cell] isReviewLiked in
+            cell.menuReviewInfoView.onLikeToggled = { [weak self] isLiked in
                 guard let self = self else { return }
                 
                 // 일정 시간 안에 좋아요 버튼을 누르면 타이머 초기화
@@ -656,11 +615,13 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
                 let timer = Timer.scheduledTimer(withTimeInterval: self.reviewLikeDebounceInterval, repeats: false) { _ in
                     // 해당 리뷰에 관련된 타이머를 삭제
                     self.reviewLikeDebounceTimers[indexPath.item] = nil
-
-                    if isReviewLiked {
-                        print("<< 좋아요 누름")
+                    
+                    if let originalIsReviewLiked = self.isReviewLikedList[indexPath.item] {
+                        if originalIsReviewLiked != isLiked {
+                            self.postIsReviewLike(at: indexPath)
+                        }
                     } else {
-                        print("<< 좋아요 취소 누름")
+                        print("[MenuDetailVC] isReviewLiked[\(indexPath.item)] 옵셔널 바인딩 실패")
                     }
                 }
                 // 각 리뷰별 타이머 저장
@@ -811,6 +772,7 @@ extension MenuDetailViewController: UITableViewDataSource, UITableViewDelegate {
         updateCollectionViewHeight()
         
         reviewData.removeAll()
+        isReviewLikedList.removeAll()
         // TODO: 로딩뷰 추가 - 현재는 로딩되는 동안 흰색 화면 나와서 화면 깜빡이는 것처럼 보임.
         DispatchQueue.main.async {
             self.menuReviewListCollectionView.reloadData()
@@ -852,6 +814,7 @@ extension MenuDetailViewController: MenuReviewSortingDelegate {
             self.menuReviewListCollectionView.reloadData()
         }
         
+        self.isReviewLikedList.removeAll()
         self.currentPageNumber = 0
         self.isLastPage = false
         self.isFetching = false
