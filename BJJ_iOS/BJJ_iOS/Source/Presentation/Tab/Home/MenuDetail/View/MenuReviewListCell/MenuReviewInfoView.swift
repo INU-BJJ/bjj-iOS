@@ -15,6 +15,7 @@ final class MenuReviewInfoView: UIView {
     
     private var isReviewLiked = false
     private var isOwned = false
+    private var reviewLikedCount = 0
     var onLikeToggled: ((Bool) -> Void)?
     
     // MARK: - UI Components
@@ -123,9 +124,10 @@ final class MenuReviewInfoView: UIView {
     
     // MARK: - Set isReviewLiked
     
-    func setIsReviewLiked(isReviewLiked: Bool, isOwned: Bool) {
+    func setIsReviewLiked(isReviewLiked: Bool, isOwned: Bool, reviewLikedCount: Int) {
         self.isReviewLiked = isReviewLiked
         self.isOwned = isOwned
+        self.reviewLikedCount = reviewLikedCount
     }
     
     // MARK: - Set UI
@@ -151,12 +153,21 @@ final class MenuReviewInfoView: UIView {
         )
     }
     
+    private func updateReviewLikeCount() {
+        reviewLikeCountLabel.text = "\(reviewLikedCount)"
+    }
+    
     // MARK: - objc Function
     
     @objc private func didTapReviewLikeButton() {
         if !isOwned {
             isReviewLiked.toggle()
-            updateReviewLikeButtonIcon()
+            reviewLikedCount = isReviewLiked ? reviewLikedCount + 1 : reviewLikedCount - 1
+            
+            DispatchQueue.main.async {
+                self.updateReviewLikeButtonIcon()
+                self.updateReviewLikeCount()
+            }
             onLikeToggled?(isReviewLiked)
         } else {
             // TODO: 실패 UI 띄우기
