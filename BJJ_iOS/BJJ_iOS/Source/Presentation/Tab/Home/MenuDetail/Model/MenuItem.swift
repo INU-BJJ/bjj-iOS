@@ -12,7 +12,7 @@ struct MenuDetailModel: Hashable {
     let reviewComment: String
     let reviewRating: Int
     let reviewImage: [String]?
-    var reviewLikedCount: Int
+    let reviewLikedCount: Int
     let reviewCreatedDate: String
     let mainMenuName: String
     let subMenuName: String
@@ -21,5 +21,5 @@ struct MenuDetailModel: Hashable {
     let memberNickname: String
     let memberImage: String
     let isOwned: Bool
-    var isMemberLikedReview: Bool
+    let isMemberLikedReview: Bool
 }

@@ -25,8 +25,8 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         $0.alignment = .leading
     }
     
-    // TODO: 터치 범위가 엄청 좁은 것으로 확인됨. 리뷰 날짜 부분을 눌러야만 출력됨
-    private lazy var menuReviewInfoView = MenuReviewInfoView()
+    // TODO: private 해제 방법 말고 다른 방법 없을까?
+    let menuReviewInfoView = MenuReviewInfoView()
     
     private let reviewCommentLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
@@ -117,16 +117,11 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        contentView.snp.makeConstraints {
-            $0.verticalEdges.equalToSuperview()
-            $0.centerX.equalToSuperview()
-            $0.width.equalTo(UIScreen.main.bounds.width)
-        }
-        
         reviewStackView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(20)
             $0.horizontalEdges.equalToSuperview().inset(31.5)
             $0.bottom.equalToSuperview().inset(24)
+            $0.width.equalTo(UIScreen.main.bounds.width - 63)
         }
         
         menuReviewInfoView.snp.makeConstraints {
@@ -162,6 +157,11 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         let reviewImageCount = menuReview.reviewImage?.count ?? 0
         let flowLayout = createReviewImageLayout(reviewImageCount: reviewImageCount)
         
+        menuReviewInfoView.setIsReviewLiked(
+            isReviewLiked: menuReview.isMemberLikedReview,
+            isOwned: menuReview.isOwned,
+            reviewLikedCount: menuReview.reviewLikedCount
+        )
         menuReviewInfoView.setUI(with: menuReview)
         reviewCommentLabel.text = menuReview.reviewComment
         reviewImageCollectionView.setCollectionViewLayout(flowLayout, animated: false)

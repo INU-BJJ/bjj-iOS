@@ -13,6 +13,11 @@ final class MenuReviewInfoView: UIView {
     
     // MARK: - Properties
     
+    private var isReviewLiked = false
+    private var isOwned = false
+    private var reviewLikedCount = 0
+    var onLikeToggled: ((Bool) -> Void)?
+    
     // MARK: - UI Components
     
     private let profileImage = UIImageView().then {
@@ -31,8 +36,9 @@ final class MenuReviewInfoView: UIView {
         $0.setLabelUI("", font: .pretendard, size: 13, color: .darkGray)
     }
     
-    private let reviewLikeButton = UIButton().then {
+    private lazy var reviewLikeButton = UIButton().then {
         $0.setImage(UIImage(named: "Like")?.resize(to: CGSize(width: 17, height: 17)), for: .normal)
+        $0.addTarget(self, action: #selector(didTapReviewLikeButton), for: .touchUpInside)
     }
     
     private let reviewLikeCountLabel = UILabel().then {
@@ -116,12 +122,56 @@ final class MenuReviewInfoView: UIView {
         }
     }
     
+    // MARK: - Set isReviewLiked
+    
+    func setIsReviewLiked(isReviewLiked: Bool, isOwned: Bool, reviewLikedCount: Int) {
+        self.isReviewLiked = isReviewLiked
+        self.isOwned = isOwned
+        self.reviewLikedCount = reviewLikedCount
+    }
+    
     // MARK: - Set UI
     
     func setUI(with menuReview: MenuDetailModel) {
+        let likeIcon = isReviewLiked ? "FilledLike" : "Like"
+        
         nicknameLabel.text = menuReview.memberNickname
         reviewRatingView.configureReviewStar(reviewRating: menuReview.reviewRating, type: .small)
         reviewDateLabel.text = menuReview.reviewCreatedDate
+        reviewLikeButton.setImage(UIImage(named: likeIcon)?.resize(to: CGSize(width: 17, height: 17)),for: .normal)
         reviewLikeCountLabel.text = "\(menuReview.reviewLikedCount)"
+    }
+    
+    // MARK: - Update LikeButton Icon
+    
+    private func updateReviewLikeButtonIcon() {
+        let likeIcon = isReviewLiked ? "FilledLike" : "Like"
+        
+        reviewLikeButton.setImage(
+            UIImage(named: likeIcon)?.resize(to: CGSize(width: 17, height: 17)),
+            for: .normal
+        )
+    }
+    
+    private func updateReviewLikeCount() {
+        reviewLikeCountLabel.text = "\(reviewLikedCount)"
+    }
+    
+    // MARK: - objc Function
+    
+    @objc private func didTapReviewLikeButton() {
+        if !isOwned {
+            isReviewLiked.toggle()
+            reviewLikedCount = isReviewLiked ? reviewLikedCount + 1 : reviewLikedCount - 1
+            
+            DispatchQueue.main.async {
+                self.updateReviewLikeButtonIcon()
+                self.updateReviewLikeCount()
+            }
+            onLikeToggled?(isReviewLiked)
+        } else {
+            // TODO: 실패 UI 띄우기
+            print("[MenuReviewInfoView] Error: 자기 리뷰 좋아요 안됨")
+        }
     }
 }
