@@ -275,7 +275,7 @@ final class MenuDetailViewController: UIViewController {
         self.menuData = menu
     }
     
-    // MARK: - Update UICollectionView
+    // MARK: - Update UICollectionView Height
     
     private func updateCollectionViewHeight() {
         DispatchQueue.main.async {
@@ -373,6 +373,7 @@ final class MenuDetailViewController: UIViewController {
                     )
                     self.isLastPage = reviewInfo.isLastPage
                     self.menuReviewListCollectionView.reloadData()
+                    self.updateCollectionViewHeight()
                     
                 case .failure(let error):
                     // TODO: 로딩 실패 UI
