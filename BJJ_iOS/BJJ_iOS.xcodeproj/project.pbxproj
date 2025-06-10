@@ -82,6 +82,7 @@
 		3F4831F02D89831700B138A2 /* ReviewModalSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4831EF2D89831700B138A2 /* ReviewModalSection.swift */; };
 		3F4AB2232D5A0819005D5D91 /* ReviewStarSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4AB2222D5A0819005D5D91 /* ReviewStarSize.swift */; };
 		3F4B09252CE1FC31005C56C2 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4B09242CE1FC31005C56C2 /* TabBarController.swift */; };
+		3F4DF56A2DF8197A006E047E /* ReviewPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4DF5692DF8197A006E047E /* ReviewPhotoCell.swift */; };
 		3F5617B82CF3312400B4912D /* MenuReviewImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5617B72CF3312400B4912D /* MenuReviewImageCell.swift */; };
 		3F6125292DA6A80E003B5851 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6125282DA6A80E003B5851 /* MyPageViewController.swift */; };
 		3F61252D2DA6ABAA003B5851 /* MyPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F61252C2DA6ABAA003B5851 /* MyPageModel.swift */; };
@@ -261,6 +262,7 @@
 		3F4831EF2D89831700B138A2 /* ReviewModalSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModalSection.swift; sourceTree = "<group>"; };
 		3F4AB2222D5A0819005D5D91 /* ReviewStarSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewStarSize.swift; sourceTree = "<group>"; };
 		3F4B09242CE1FC31005C56C2 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		3F4DF5692DF8197A006E047E /* ReviewPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPhotoCell.swift; sourceTree = "<group>"; };
 		3F5617B72CF3312400B4912D /* MenuReviewImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewImageCell.swift; sourceTree = "<group>"; };
 		3F6125282DA6A80E003B5851 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		3F61252C2DA6ABAA003B5851 /* MyPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageModel.swift; sourceTree = "<group>"; };
@@ -660,6 +662,7 @@
 			children = (
 				3F996E582CD64BE900910DE7 /* Home */,
 				3F996E592CD64BFC00910DE7 /* MenuDetail */,
+				3F4DF5652DF8193F006E047E /* ReviewPhotoGallery */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -938,6 +941,39 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		3F4DF5652DF8193F006E047E /* ReviewPhotoGallery */ = {
+			isa = PBXGroup;
+			children = (
+				3F4DF5682DF8195C006E047E /* Model */,
+				3F4DF5672DF81956006E047E /* View */,
+				3F4DF5662DF81950006E047E /* ViewController */,
+			);
+			path = ReviewPhotoGallery;
+			sourceTree = "<group>";
+		};
+		3F4DF5662DF81950006E047E /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3FDEB32B2DF6B0F500F16C9F /* ReviewPhotoGalleryViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3F4DF5672DF81956006E047E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3F4DF5692DF8197A006E047E /* ReviewPhotoCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3F4DF5682DF8195C006E047E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		3F6125232DA6A693003B5851 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -1079,7 +1115,6 @@
 			children = (
 				3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */,
 				3F1FAD542D8D71C500570681 /* MenuDetailCollectionViewLayout.swift */,
-				3FDEB32B2DF6B0F500F16C9F /* ReviewPhotoGalleryViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1888,6 +1923,7 @@
 				3FA1D3232D7EDAAB00010931 /* MyReviewImageDetailViewController.swift in Sources */,
 				3FBA45B12CD749730038960A /* MenuHeader.swift in Sources */,
 				3F3C74EC2D59D35C00D510A7 /* UIView++Extensions.swift in Sources */,
+				3F4DF56A2DF8197A006E047E /* ReviewPhotoCell.swift in Sources */,
 				3F16132B2CD86D3B00A30369 /* MenuReviewSorting.swift in Sources */,
 				3F3AF8C72D75A54A00D6C28A /* ReviewWriteModel.swift in Sources */,
 				3F27E9512DACCFA100CD2554 /* GachaResultSection.swift in Sources */,
