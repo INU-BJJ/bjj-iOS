@@ -590,7 +590,7 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
                 cell.onTapReviewPhotoGallery = { [weak self] in
                     guard let self = self else { return }
                     
-                    self.presentReviewPhotoGalleryViewController()
+                    self.presentReviewPhotoGalleryViewController(menuPairID: menuData?.menuPairID ?? 0)
                 }
                 
                 return cell

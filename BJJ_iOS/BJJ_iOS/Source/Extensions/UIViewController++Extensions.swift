@@ -196,8 +196,8 @@ extension UIViewController {
     }
     
     /// ReviewPhotoGalleryVC로 push
-    func presentReviewPhotoGalleryViewController() {
-        let reviewPhotoGalleryVC = ReviewPhotoGalleryViewController()
+    func presentReviewPhotoGalleryViewController(menuPairID: Int) {
+        let reviewPhotoGalleryVC = ReviewPhotoGalleryViewController(menuPairID: menuPairID)
         reviewPhotoGalleryVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(reviewPhotoGalleryVC, animated: true)
     }
