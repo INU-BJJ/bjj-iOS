@@ -584,6 +584,11 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
                         ),
                     reviewImages: reviewImages
                 )
+                cell.onTapReviewPhotoGallery = { [weak self] in
+                    guard let self = self else { return }
+                    
+                    self.presentReviewPhotoGalleryViewController()
+                }
                 
                 return cell
             case 3:

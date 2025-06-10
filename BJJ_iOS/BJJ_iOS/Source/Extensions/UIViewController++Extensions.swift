@@ -195,6 +195,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(likedMenuVC, animated: true)
     }
     
+    /// ReviewPhotoGalleryVC로 push
+    func presentReviewPhotoGalleryViewController() {
+        let reviewPhotoGalleryVC = ReviewPhotoGalleryViewController()
+        reviewPhotoGalleryVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(reviewPhotoGalleryVC, animated: true)
+    }
+    
     // MARK: - objc Function
     
     /// popVC
