@@ -13,7 +13,11 @@ final class ReviewPhotoGalleryViewController: UIViewController {
 
     // MARK: - Properties
     
-    private let reviewPhotos = ["924947b4-c7a1-4d9f-8026-6d653366d100.jpeg", "4e61e349-e412-4783-8432-d4c9d9ff1162.jpeg", "8f1a719b-5559-49f4-8c2b-d62edf3bc3ea.jpeg"]
+    private var reviewPhotos: [String] = []
+    private var menuPairID: Int
+    private var pageNumber = 0
+    private var pageSize = 18
+    private var isLastPage = false
     
     // MARK: - UI Components
     
@@ -44,6 +48,12 @@ final class ReviewPhotoGalleryViewController: UIViewController {
         setConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchReviewPhotos(menuPairID: menuPairID, pageNumber: pageNumber, pageSize: pageSize)
+    }
+    
     // MARK: - Set ViewController
     
     private func setViewController() {
@@ -67,6 +77,27 @@ final class ReviewPhotoGalleryViewController: UIViewController {
             $0.horizontalEdges.equalToSuperview().inset(50)
             $0.bottom.equalToSuperview().inset(150)
         }
+    }
+    
+    // MARK: - Fetch API Functions
+    
+    private func fetchReviewPhotos(menuPairID: Int, pageNumber: Int, pageSize: Int) {
+        MenuDetailAPI.fetchReviewImageList(
+            menuPairID: menuPairID,
+            pageNumber: pageNumber,
+            pageSize: pageSize) { result in
+                switch result {
+                case .success(let reviewPhotos):
+                    DispatchQueue.main.async {
+                        self.reviewPhotos = reviewPhotos.reviewImageDetailList.map { $0.reviewImage }
+                        self.reviewPhotosCollectionView.reloadData()
+                    }
+                    self.isLastPage = reviewPhotos.isLastPage
+                    
+                case .failure(let error):
+                    print("[ReviewPhotoGallery] Error: \(error.localizedDescription)")
+                }
+            }
     }
     
     // MARK: - Create Layout
