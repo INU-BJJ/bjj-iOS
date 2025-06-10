@@ -10,6 +10,9 @@ import SnapKit
 import Then
 import Kingfisher
 
+// TODO: viewWillAppear할 때 하드코딩으로 pageNumber: 0, pageSize: pageSize, sortingCriteria: "BEST_MATCH", isWithImage: false 넣지 말고 저장된 값 사용하기
+// TODO: viewWillAppear로 돌아올 때, 혹은 VC viewDidLoad로 초기화할 때 reviewData removeAll() 해주기
+
 final class MenuDetailViewController: UIViewController {
     
     // MARK: - Properties
