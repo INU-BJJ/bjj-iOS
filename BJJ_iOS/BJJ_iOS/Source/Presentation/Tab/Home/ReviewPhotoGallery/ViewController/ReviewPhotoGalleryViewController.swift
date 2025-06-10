@@ -127,6 +127,7 @@ final class ReviewPhotoGalleryViewController: UIViewController {
             
             // 섹션 설정
             let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = 10
             section.orthogonalScrollingBehavior = .none
 
             return section
