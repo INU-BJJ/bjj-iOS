@@ -129,14 +129,14 @@ final class ReviewPhotoGalleryViewController: UIViewController {
             // TODO: 아이템 크기 수정
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(0.2),
-                heightDimension: .absolute(75)
+                heightDimension: .absolute(200)
             )
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             // 그룹 설정
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(75)
+                heightDimension: .absolute(200)
             )
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: groupSize,
