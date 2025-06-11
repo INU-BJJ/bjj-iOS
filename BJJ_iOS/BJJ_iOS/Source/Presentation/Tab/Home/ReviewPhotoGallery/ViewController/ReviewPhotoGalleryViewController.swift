@@ -25,6 +25,16 @@ final class ReviewPhotoGalleryViewController: UIViewController {
     private var lastHeightUpdateTime: Date = .distantPast
     private let heightUpdateInterval: TimeInterval = 1
     
+    private var canFetchNextPage: Bool {
+        guard !isFetching, !isLastPage else { return false }
+        
+        let now = Date()
+        let elapsed = now.timeIntervalSince(lastHeightUpdateTime)
+        guard elapsed >= heightUpdateInterval else { return false }
+        
+        return true
+    }
+    
     // MARK: - UI Components
     
     private lazy var reviewPhotosCollectionView = UICollectionView(
@@ -171,22 +181,18 @@ extension ReviewPhotoGalleryViewController: UICollectionViewDataSourcePrefetchin
     func collectionView(
         _ collectionView: UICollectionView,
         prefetchItemsAt indexPaths: [IndexPath]) {
-            let now = Date()
-            let elapsed = now.timeIntervalSince(lastHeightUpdateTime)
+            let needsNextPage = indexPaths.contains { $0.item >= self.reviewPhotos.count - 3 }
             
-            if indexPaths.contains(where: { $0.item >= reviewPhotos.count - 3 })
-                && !isFetching
-                && !isLastPage
-                && elapsed >= heightUpdateInterval {
-                    isFetching = true
-                    lastHeightUpdateTime = now
-                    currentPageNumber += 1
-                
-                    fetchReviewPhotos(
-                        menuPairID: menuPairID,
-                        pageNumber: currentPageNumber,
-                        pageSize: pageSize
-                    )
+            if needsNextPage && canFetchNextPage {
+                isFetching = true
+                lastHeightUpdateTime = Date()
+                currentPageNumber += 1
+            
+                fetchReviewPhotos(
+                    menuPairID: menuPairID,
+                    pageNumber: currentPageNumber,
+                    pageSize: pageSize
+                )
             }
     }
 }
