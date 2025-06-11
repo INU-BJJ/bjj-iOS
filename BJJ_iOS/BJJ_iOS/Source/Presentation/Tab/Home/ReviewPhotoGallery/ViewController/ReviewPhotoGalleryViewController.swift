@@ -90,9 +90,6 @@ final class ReviewPhotoGalleryViewController: UIViewController {
     // MARK: - Fetch API Functions
     
     private func fetchReviewPhotos(menuPairID: Int, pageNumber: Int, pageSize: Int) {
-        guard !isFetching else { return }
-        isFetching = true
-        
         MenuDetailAPI.fetchReviewImageList(
             menuPairID: menuPairID,
             pageNumber: pageNumber,
@@ -181,6 +178,7 @@ extension ReviewPhotoGalleryViewController: UICollectionViewDataSourcePrefetchin
                 && !isFetching
                 && !isLastPage
                 && elapsed >= heightUpdateInterval {
+                    isFetching = true
                     lastHeightUpdateTime = now
                     currentPageNumber += 1
                 
