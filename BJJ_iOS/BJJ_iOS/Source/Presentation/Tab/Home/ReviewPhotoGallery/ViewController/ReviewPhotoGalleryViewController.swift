@@ -34,6 +34,7 @@ final class ReviewPhotoGalleryViewController: UIViewController {
         $0.register(ReviewPhotoCell.self, forCellWithReuseIdentifier: ReviewPhotoCell.reuseIdentifier)
         $0.dataSource = self
         $0.prefetchDataSource = self
+        $0.showsVerticalScrollIndicator = false
     }
     
     // MARK: - LifeCycle
