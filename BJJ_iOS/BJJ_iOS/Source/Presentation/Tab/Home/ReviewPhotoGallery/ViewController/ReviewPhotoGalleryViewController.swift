@@ -15,9 +15,15 @@ final class ReviewPhotoGalleryViewController: UIViewController {
     
     private var reviewPhotos: [String] = []
     private var menuPairID: Int
-    private var pageNumber = 0
+    
+    private var currentPageNumber = 0
     private var pageSize = 18
+    
     private var isLastPage = false
+    private var isFetching = false
+    
+    private var lastHeightUpdateTime: Date = .distantPast
+    private let heightUpdateInterval: TimeInterval = 1
     
     // MARK: - UI Components
     
@@ -27,6 +33,7 @@ final class ReviewPhotoGalleryViewController: UIViewController {
     ).then {
         $0.register(ReviewPhotoCell.self, forCellWithReuseIdentifier: ReviewPhotoCell.reuseIdentifier)
         $0.dataSource = self
+        $0.prefetchDataSource = self
     }
     
     // MARK: - LifeCycle
@@ -51,7 +58,7 @@ final class ReviewPhotoGalleryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        fetchReviewPhotos(menuPairID: menuPairID, pageNumber: pageNumber, pageSize: pageSize)
+        fetchReviewPhotos(menuPairID: menuPairID, pageNumber: currentPageNumber, pageSize: pageSize)
     }
     
     // MARK: - Set ViewController
@@ -75,24 +82,38 @@ final class ReviewPhotoGalleryViewController: UIViewController {
         reviewPhotosCollectionView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(150)
             $0.horizontalEdges.equalToSuperview().inset(50)
-            $0.bottom.equalToSuperview().inset(150)
+            $0.bottom.equalToSuperview()
         }
     }
     
     // MARK: - Fetch API Functions
     
     private func fetchReviewPhotos(menuPairID: Int, pageNumber: Int, pageSize: Int) {
+        guard !isFetching else { return }
+        isFetching = true
+        
         MenuDetailAPI.fetchReviewImageList(
             menuPairID: menuPairID,
             pageNumber: pageNumber,
             pageSize: pageSize) { result in
+                defer {
+                    self.isFetching = false
+                }
+                
                 switch result {
-                case .success(let reviewPhotos):
+                case .success(let responseData):
+                    let newReviewPhotos = responseData.reviewImageDetailList.map { $0.reviewImage }
+                    let startIndex = self.reviewPhotos.count
+                    let endIndex = startIndex + newReviewPhotos.count
+                    let indexPaths = (startIndex..<endIndex).map { IndexPath(item: $0, section: 0) }
+
                     DispatchQueue.main.async {
-                        self.reviewPhotos = reviewPhotos.reviewImageDetailList.map { $0.reviewImage }
-                        self.reviewPhotosCollectionView.reloadData()
+                        self.reviewPhotos.append(contentsOf: newReviewPhotos)
+                        self.reviewPhotosCollectionView.performBatchUpdates {
+                            self.reviewPhotosCollectionView.insertItems(at: indexPaths)
+                        }
                     }
-                    self.isLastPage = reviewPhotos.isLastPage
+                    self.isLastPage = responseData.isLastPage
                     
                 case .failure(let error):
                     print("[ReviewPhotoGallery] Error: \(error.localizedDescription)")
@@ -147,3 +168,47 @@ extension ReviewPhotoGalleryViewController: UICollectionViewDataSource {
         return cell
     }
 }
+
+extension ReviewPhotoGalleryViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        prefetchItemsAt indexPaths: [IndexPath]) {
+            let now = Date()
+            let elapsed = now.timeIntervalSince(lastHeightUpdateTime)
+            
+            if indexPaths.contains(where: { $0.item >= reviewPhotos.count - 3 })
+                && !isFetching
+                && !isLastPage
+                && elapsed >= heightUpdateInterval {
+                    lastHeightUpdateTime = now
+                    currentPageNumber += 1
+                
+                    fetchReviewPhotos(
+                        menuPairID: menuPairID,
+                        pageNumber: currentPageNumber,
+                        pageSize: pageSize
+                    )
+            }
+    }
+}
+
+//extension ReviewPhotoGalleryViewController: UICollectionViewDelegate {
+//    func collectionView(
+//        _ collectionView: UICollectionView,
+//        willDisplay cell: UICollectionViewCell,
+//        forItemAt indexPath: IndexPath) {
+//            let now = Date()
+//            let elapsed = now.timeIntervalSince(lastHeightUpdateTime)
+//            
+//            if indexPath.item == reviewPhotos.count - 1 && !isFetching && !isLastPage && elapsed >= heightUpdateInterval {
+//                lastHeightUpdateTime = now
+//                currentPageNumber += 1
+//                
+//                fetchReviewPhotos(
+//                    menuPairID: menuPairID,
+//                    pageNumber: currentPageNumber,
+//                    pageSize: pageSize
+//                )
+//            }
+//    }
+//}
