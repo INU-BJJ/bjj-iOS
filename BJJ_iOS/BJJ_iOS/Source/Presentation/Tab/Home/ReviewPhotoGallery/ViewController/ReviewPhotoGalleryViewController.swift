@@ -157,32 +157,54 @@ final class ReviewPhotoGalleryViewController: UIViewController {
             return section
         }
     }
-}
-
-extension ReviewPhotoGalleryViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        reviewPhotos.count
+    
+    // MARK: - Configure DataSource
+    
+    private func configureDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<ReviewPhotoGallerySection, ReviewPhotoGalleryItem>(collectionView: reviewPhotosCollectionView) { (collectionView: UICollectionView, indexPath: IndexPath, item: ReviewPhotoGalleryItem) -> UICollectionViewCell? in
+            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewPhotoCell.reuseIdentifier, for: indexPath) as? ReviewPhotoCell else {
+                return UICollectionViewCell()
+            }
+            
+            switch item {
+            case .photoURL(let photoURL):
+                cell.setUI(reviewPhoto: photoURL)
+            }
+            
+            return cell
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<ReviewPhotoGallerySection, ReviewPhotoGalleryItem>()
+        snapshot.appendSections([.reviewPhotos])
+        dataSource?.apply(snapshot, animatingDifferences: false)
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewPhotoCell.reuseIdentifier, for: indexPath) as! ReviewPhotoCell
-        cell.setUI(reviewPhoto: reviewPhotos[indexPath.item])
+    // MARK: - Update Snapshot
+    
+    private func updateSnapshot(forSection section: ReviewPhotoGallerySection, withItems reviewPhotos: [String]) {
+        guard let dataSource = self.dataSource else { return }
+        var snapshot = dataSource.snapshot()
+        let items = reviewPhotos.map { ReviewPhotoGalleryItem.photoURL($0) }
         
-        return cell
+        snapshot.appendItems(items, toSection: section)
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
 
-extension ReviewPhotoGalleryViewController: UICollectionViewDataSourcePrefetching {
+extension ReviewPhotoGalleryViewController: UICollectionViewDelegate {
     func collectionView(
         _ collectionView: UICollectionView,
-        prefetchItemsAt indexPaths: [IndexPath]) {
-            let needsNextPage = indexPaths.contains { $0.item >= self.reviewPhotos.count - 3 }
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath) {
+            // 마지막 2줄이 화면에 나타날 때 다음 페이지 이미지 로드
+            let needsNextPage = indexPath.item == (dataSource?.snapshot().numberOfItems ?? 0) - (self.columnCount * 2)
             
             if needsNextPage && canFetchNextPage {
                 isFetching = true
                 lastHeightUpdateTime = Date()
                 currentPageNumber += 1
-            
+                
                 fetchReviewPhotos(
                     menuPairID: menuPairID,
                     pageNumber: currentPageNumber,
