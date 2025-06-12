@@ -144,7 +144,7 @@ final class ReviewPhotoGalleryViewController: UIViewController {
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: groupSize,
                 subitem: item,
-                count: 3
+                count: self.columnCount
             )
             // TODO: 간격 수정
             group.interItemSpacing = .fixed(10)
