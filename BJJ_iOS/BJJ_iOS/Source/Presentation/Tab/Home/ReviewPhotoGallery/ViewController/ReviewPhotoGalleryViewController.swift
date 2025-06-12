@@ -13,11 +13,12 @@ final class ReviewPhotoGalleryViewController: UIViewController {
 
     // MARK: - Properties
     
-    private var reviewPhotos: [String] = []
+    private var dataSource: UICollectionViewDiffableDataSource<ReviewPhotoGallerySection, ReviewPhotoGalleryItem>?
     private var menuPairID: Int
     
     private var currentPageNumber = 0
-    private var pageSize = 18
+    private let pageSize = 18
+    private let columnCount = 3
     
     private var isLastPage = false
     private var isFetching = false
@@ -42,8 +43,7 @@ final class ReviewPhotoGalleryViewController: UIViewController {
         collectionViewLayout: createCompositionalLayout()
     ).then {
         $0.register(ReviewPhotoCell.self, forCellWithReuseIdentifier: ReviewPhotoCell.reuseIdentifier)
-        $0.dataSource = self
-        $0.prefetchDataSource = self
+        $0.delegate = self
         $0.showsVerticalScrollIndicator = false
     }
     
@@ -64,6 +64,7 @@ final class ReviewPhotoGalleryViewController: UIViewController {
         setViewController()
         setAddView()
         setConstraints()
+        configureDataSource()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,18 +111,12 @@ final class ReviewPhotoGalleryViewController: UIViewController {
                 
                 switch result {
                 case .success(let responseData):
-                    let newReviewPhotos = responseData.reviewImageDetailList.map { $0.reviewImage }
-                    let startIndex = self.reviewPhotos.count
-                    let endIndex = startIndex + newReviewPhotos.count
-                    let indexPaths = (startIndex..<endIndex).map { IndexPath(item: $0, section: 0) }
-
+                    let reviewPhotos = responseData.reviewImageDetailList.map { $0.reviewImage }
+                    
                     DispatchQueue.main.async {
-                        self.reviewPhotos.append(contentsOf: newReviewPhotos)
-                        self.reviewPhotosCollectionView.performBatchUpdates {
-                            self.reviewPhotosCollectionView.insertItems(at: indexPaths)
-                        }
+                        self.isLastPage = responseData.isLastPage
+                        self.updateSnapshot(forSection: .reviewPhotos, withItems: reviewPhotos)
                     }
-                    self.isLastPage = responseData.isLastPage
                     
                 case .failure(let error):
                     print("[ReviewPhotoGallery] Error: \(error.localizedDescription)")
