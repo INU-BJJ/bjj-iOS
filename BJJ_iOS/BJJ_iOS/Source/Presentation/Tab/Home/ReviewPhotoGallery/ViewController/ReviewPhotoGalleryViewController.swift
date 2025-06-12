@@ -214,18 +214,17 @@ extension ReviewPhotoGalleryViewController: UICollectionViewDelegate {
     }
 }
 
-//extension ReviewPhotoGalleryViewController: UICollectionViewDelegate {
+//extension ReviewPhotoGalleryViewController: UICollectionViewDataSourcePrefetching {
 //    func collectionView(
 //        _ collectionView: UICollectionView,
-//        willDisplay cell: UICollectionViewCell,
-//        forItemAt indexPath: IndexPath) {
-//            let now = Date()
-//            let elapsed = now.timeIntervalSince(lastHeightUpdateTime)
+//        prefetchItemsAt indexPaths: [IndexPath]) {
+//            let needsNextPage = indexPaths.contains { $0.item >= max(dataSource?.snapshot().numberOfItems ?? 0 - 3, 0) }
 //            
-//            if indexPath.item == reviewPhotos.count - 1 && !isFetching && !isLastPage && elapsed >= heightUpdateInterval {
-//                lastHeightUpdateTime = now
+//            if needsNextPage && canFetchNextPage {
+//                isFetching = true
+//                lastHeightUpdateTime = Date()
 //                currentPageNumber += 1
-//                
+//            
 //                fetchReviewPhotos(
 //                    menuPairID: menuPairID,
 //                    pageNumber: currentPageNumber,
