@@ -111,6 +111,9 @@ final class ReviewPhotoGalleryViewController: UIViewController {
                     self.isFetching = false
                 }
                 
+                // TODO: 로딩 UI 추가
+//                https://blog.rightbrain.co.kr/?p=12479
+                
                 switch result {
                 case .success(let responseData):
                     let reviewPhotos = responseData.reviewImageDetailList.map { $0.reviewImage }
