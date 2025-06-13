@@ -129,6 +129,12 @@ final class MenuDetailViewController: UIViewController {
         $0.clipsToBounds = true
     }
     
+    private lazy var reviewPhotoGalleryVC = ReviewPhotoGalleryViewController(
+        menuPairID: self.menuData?.menuPairID ?? 0
+    ).then {
+        $0.hidesBottomBarWhenPushed = true
+    }
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -590,7 +596,7 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
                 cell.onTapReviewPhotoGallery = { [weak self] in
                     guard let self = self else { return }
                     
-                    self.presentReviewPhotoGalleryViewController(menuPairID: menuData?.menuPairID ?? 0)
+                    self.navigationController?.pushViewController(self.reviewPhotoGalleryVC, animated: true)
                 }
                 
                 return cell

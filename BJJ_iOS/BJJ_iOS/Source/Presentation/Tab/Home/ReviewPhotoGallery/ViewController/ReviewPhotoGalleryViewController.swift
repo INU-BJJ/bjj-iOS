@@ -70,7 +70,9 @@ final class ReviewPhotoGalleryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        fetchReviewPhotos(menuPairID: menuPairID, pageNumber: currentPageNumber, pageSize: pageSize)
+        if dataSource?.snapshot().itemIdentifiers.isEmpty == true {
+            fetchReviewPhotos(menuPairID: menuPairID, pageNumber: currentPageNumber, pageSize: pageSize)
+        }
     }
     
     // MARK: - Set ViewController
