@@ -215,7 +215,8 @@ extension ReviewPhotoGalleryViewController: UICollectionViewDelegate {
         willDisplay cell: UICollectionViewCell,
         forItemAt indexPath: IndexPath) {
             // 마지막 2줄이 화면에 나타날 때 다음 페이지 이미지 로드
-            let needsNextPage = indexPath.item == (dataSource?.snapshot().numberOfItems ?? 0) - (self.columnCount * 2)
+            let triggerIndex = dataSource?.snapshot().numberOfItems ?? 0 - (self.columnCount * 2)
+            let needsNextPage = indexPath.item >= max(0, triggerIndex)
             
             if needsNextPage && canFetchNextPage {
                 isFetching = true
