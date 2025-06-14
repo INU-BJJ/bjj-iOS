@@ -85,6 +85,7 @@ public func networkRequest<T: Decodable>(
         }
 }
 
+// TODO: APICancelToken 넣기
 public func uploadNetworkRequest<T: Decodable>(
     urlStr: String,
     method: HTTPMethod,
