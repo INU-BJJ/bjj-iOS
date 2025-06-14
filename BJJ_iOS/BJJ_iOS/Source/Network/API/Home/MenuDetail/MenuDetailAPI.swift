@@ -25,7 +25,7 @@ final class MenuDetailAPI {
             )
         }
     
-    static func fetchReviewImageList(menuPairID: Int, pageNumber: Int, pageSize: Int, completion: @escaping (Result<MenuDetailReviewImage, Error>) -> Void) {
+    static func fetchReviewImageList(menuPairID: Int, pageNumber: Int, pageSize: Int, cancelToken: APICancelToken? = nil, completion: @escaping (Result<MenuDetailReviewImage, Error>) -> Void) {
             networkRequest(
                 urlStr: MenuDetailAddress.fetchReviewImageList.url,
                 method: .get,
@@ -36,6 +36,7 @@ final class MenuDetailAPI {
                     "pageNumber": pageNumber,
                     "pageSize": pageSize
                 ],
+                cancelToken: cancelToken,
                 completion: completion
             )
         }

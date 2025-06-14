@@ -15,6 +15,7 @@ final class MenuReview: UICollectionViewCell, ReuseIdentifying {
     
     private var menuReviewData: HomeMenuModel?
     private var menuImages: [String] = []
+    var onTapReviewPhotoGallery: (() -> Void)?
     
     // MARK: - UI Components
     
@@ -25,6 +26,7 @@ final class MenuReview: UICollectionViewCell, ReuseIdentifying {
         $0.register(MenuReviewCell.self, forCellWithReuseIdentifier: MenuReviewCell.reuseIdentifier)
         $0.register(MenuReviewHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MenuReviewHeaderView.reuseIdentifier)
         $0.dataSource = self
+        $0.delegate = self
         $0.showsHorizontalScrollIndicator = false
         $0.isScrollEnabled = false
     }
@@ -98,6 +100,8 @@ final class MenuReview: UICollectionViewCell, ReuseIdentifying {
     }
 }
 
+// MARK: - UICollectionView DataSource
+
 extension MenuReview: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -132,3 +136,12 @@ extension MenuReview: UICollectionViewDataSource {
     }
 }
 
+// MARK: - UICollectionView Delegate
+
+extension MenuReview: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.item == 3 {
+            onTapReviewPhotoGallery?()
+        }
+    }
+}

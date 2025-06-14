@@ -10,6 +10,9 @@ import SnapKit
 import Then
 import Kingfisher
 
+// TODO: viewWillAppear할 때 하드코딩으로 pageNumber: 0, pageSize: pageSize, sortingCriteria: "BEST_MATCH", isWithImage: false 넣지 말고 저장된 값 사용하기
+// TODO: viewWillAppear로 돌아올 때, 혹은 VC viewDidLoad로 초기화할 때 reviewData removeAll() 해주기
+
 final class MenuDetailViewController: UIViewController {
     
     // MARK: - Properties
@@ -124,6 +127,12 @@ final class MenuDetailViewController: UIViewController {
         $0.separatorStyle = .none
         $0.layer.cornerRadius = 10
         $0.clipsToBounds = true
+    }
+    
+    private lazy var reviewPhotoGalleryVC = ReviewPhotoGalleryViewController(
+        menuPairID: self.menuData?.menuPairID ?? 0
+    ).then {
+        $0.hidesBottomBarWhenPushed = true
     }
     
     // MARK: - LifeCycle
@@ -584,6 +593,11 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
                         ),
                     reviewImages: reviewImages
                 )
+                cell.onTapReviewPhotoGallery = { [weak self] in
+                    guard let self = self else { return }
+                    
+                    self.navigationController?.pushViewController(self.reviewPhotoGalleryVC, animated: true)
+                }
                 
                 return cell
             case 3:
