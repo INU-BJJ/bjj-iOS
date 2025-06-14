@@ -102,6 +102,7 @@
 		3F6F565E2CB2975C00A43EF6 /* UIFont++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */; };
 		3F6FC5752DFA9480004A08C5 /* ReviewPhotoGallerySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6FC5742DFA9480004A08C5 /* ReviewPhotoGallerySection.swift */; };
 		3F70549D2DCF77EC00647141 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 3F70549C2DCF77EC00647141 /* OrderedCollections */; };
+		3F79BA5A2DFC10D30067224E /* APICancelToken .swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F79BA592DFC10D30067224E /* APICancelToken .swift */; };
 		3F7CC2D32DA2491B00062EF9 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7CC2D22DA2491B00062EF9 /* SignUpViewController.swift */; };
 		3F8430272CE7208000B5A2F1 /* UITabBar++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8430262CE7208000B5A2F1 /* UITabBar++Extensions.swift */; };
 		3F858F412DAA532400F6C7F5 /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F858F402DAA532400F6C7F5 /* StoreViewController.swift */; };
@@ -282,6 +283,7 @@
 		3F6947D92D8833CD0036BF2A /* ReviewModalImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModalImageCell.swift; sourceTree = "<group>"; };
 		3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont++Extensions.swift"; sourceTree = "<group>"; };
 		3F6FC5742DFA9480004A08C5 /* ReviewPhotoGallerySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPhotoGallerySection.swift; sourceTree = "<group>"; };
+		3F79BA592DFC10D30067224E /* APICancelToken .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APICancelToken .swift"; sourceTree = "<group>"; };
 		3F7CC2D22DA2491B00062EF9 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		3F8430262CE7208000B5A2F1 /* UITabBar++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar++Extensions.swift"; sourceTree = "<group>"; };
 		3F858F402DAA532400F6C7F5 /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
@@ -1303,6 +1305,7 @@
 				3FC691572D1D53B1004643D2 /* API */,
 				3FC691582D1D53D7004643D2 /* ServiceAPI.swift */,
 				3FD8ACDA2D76E817009D4AA3 /* Response.swift */,
+				3F79BA592DFC10D30067224E /* APICancelToken .swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1924,6 +1927,7 @@
 				3F14723F2DACEF5900098C41 /* StoreModel.swift in Sources */,
 				3F61252F2DA6ABB6003B5851 /* MyPageAddress.swift in Sources */,
 				3FA1D3232D7EDAAB00010931 /* MyReviewImageDetailViewController.swift in Sources */,
+				3F79BA5A2DFC10D30067224E /* APICancelToken .swift in Sources */,
 				3F6FC5752DFA9480004A08C5 /* ReviewPhotoGallerySection.swift in Sources */,
 				3FBA45B12CD749730038960A /* MenuHeader.swift in Sources */,
 				3F3C74EC2D59D35C00D510A7 /* UIView++Extensions.swift in Sources */,
