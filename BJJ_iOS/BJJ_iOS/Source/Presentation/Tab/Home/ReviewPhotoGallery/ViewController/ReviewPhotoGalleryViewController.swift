@@ -13,6 +13,7 @@ final class ReviewPhotoGalleryViewController: UIViewController {
 
     // MARK: - Properties
     
+    private var fetchCancelToken: APICancelToken?
     private var dataSource: UICollectionViewDiffableDataSource<ReviewPhotoGallerySection, ReviewPhotoGalleryItem>?
     private var menuPairID: Int
     
@@ -75,6 +76,10 @@ final class ReviewPhotoGalleryViewController: UIViewController {
         }
     }
     
+    deinit {
+        fetchCancelToken?.cancel()
+    }
+    
     // MARK: - Set ViewController
     
     private func setViewController() {
@@ -103,10 +108,17 @@ final class ReviewPhotoGalleryViewController: UIViewController {
     // MARK: - Fetch API Functions
     
     private func fetchReviewPhotos(menuPairID: Int, pageNumber: Int, pageSize: Int) {
+        fetchCancelToken?.cancel()
+        
+        let token = APICancelToken()
+        self.fetchCancelToken = token
+        
+        
         MenuDetailAPI.fetchReviewImageList(
             menuPairID: menuPairID,
             pageNumber: pageNumber,
-            pageSize: pageSize) { result in
+            pageSize: pageSize,
+            cancelToken: token) { result in
                 defer {
                     self.isFetching = false
                 }
