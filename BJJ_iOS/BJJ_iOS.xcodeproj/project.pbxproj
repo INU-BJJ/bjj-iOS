@@ -62,6 +62,8 @@
 		3F31AAE12D675C3100FDCC35 /* ReviewAddPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F31AAE02D675C3100FDCC35 /* ReviewAddPhotoCell.swift */; };
 		3F31AAE32D675C5700FDCC35 /* ReviewAddPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F31AAE22D675C5700FDCC35 /* ReviewAddPhoto.swift */; };
 		3F3265472D6C16F600AFC08E /* ReviewGuidelines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3265462D6C16F600AFC08E /* ReviewGuidelines.swift */; };
+		3F362D372DFD7BC8006C8094 /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F362D362DFD7BC8006C8094 /* AlertType.swift */; };
+		3F362D392DFD7BF8006C8094 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F362D382DFD7BF8006C8094 /* AlertViewController.swift */; };
 		3F375BAA2D577323005015C1 /* ReviewCategorySelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F375BA92D577323005015C1 /* ReviewCategorySelect.swift */; };
 		3F3AB7D72CB397F40013FABA /* MenuRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AB7D62CB397F40013FABA /* MenuRatingView.swift */; };
 		3F3AB7D92CB3D59C0013FABA /* HomeTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AB7D82CB3D59C0013FABA /* HomeTopView.swift */; };
@@ -244,6 +246,8 @@
 		3F31AAE02D675C3100FDCC35 /* ReviewAddPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewAddPhotoCell.swift; sourceTree = "<group>"; };
 		3F31AAE22D675C5700FDCC35 /* ReviewAddPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewAddPhoto.swift; sourceTree = "<group>"; };
 		3F3265462D6C16F600AFC08E /* ReviewGuidelines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewGuidelines.swift; sourceTree = "<group>"; };
+		3F362D362DFD7BC8006C8094 /* AlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
+		3F362D382DFD7BF8006C8094 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		3F375BA92D577323005015C1 /* ReviewCategorySelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCategorySelect.swift; sourceTree = "<group>"; };
 		3F3AB7D62CB397F40013FABA /* MenuRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRatingView.swift; sourceTree = "<group>"; };
 		3F3AB7D82CB3D59C0013FABA /* HomeTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTopView.swift; sourceTree = "<group>"; };
@@ -470,6 +474,7 @@
 				3F1A51AB2CD8C38900029E09 /* SeparatingLineView.swift */,
 				3F8D58D92D787936009356AE /* NoticeView.swift */,
 				3F3AB7D62CB397F40013FABA /* MenuRatingView.swift */,
+				3F362D382DFD7BF8006C8094 /* AlertViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -941,6 +946,7 @@
 			children = (
 				3F4AB2222D5A0819005D5D91 /* ReviewStarSize.swift */,
 				3F2B0EB22D7966E30059AA2B /* NoticeViewType.swift */,
+				3F362D362DFD7BC8006C8094 /* AlertType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1942,6 +1948,7 @@
 				3F25B3E92CB282D7005C0907 /* AppDelegate.swift in Sources */,
 				3FE53C122DE1A1F500FBA99E /* MenuReviewListCell.swift in Sources */,
 				3F5617B82CF3312400B4912D /* MenuReviewImageCell.swift in Sources */,
+				3F362D392DFD7BF8006C8094 /* AlertViewController.swift in Sources */,
 				3F876EB82D43750300C96096 /* ReUseIdentifying.swift in Sources */,
 				3F663E1D2D82E86D0070E6CC /* MenuTopRankingCell.swift in Sources */,
 				3FD8ACDB2D76E817009D4AA3 /* Response.swift in Sources */,
@@ -1956,6 +1963,7 @@
 				3F311D742D88603B00F8D803 /* RankingAddress.swift in Sources */,
 				3F1FAD532D8D681C00570681 /* MenuReviewSortingCell.swift in Sources */,
 				3F1613292CD8584100A30369 /* MenuReviewHeaderView.swift in Sources */,
+				3F362D372DFD7BC8006C8094 /* AlertType.swift in Sources */,
 				3FC691612D1D57C5004643D2 /* HomeAPI.swift in Sources */,
 				3FC1232B2DA5246000676A09 /* MemberAddress.swift in Sources */,
 				3F87423F2D4FD87A004DF204 /* MyReviewHeaderView.swift in Sources */,
