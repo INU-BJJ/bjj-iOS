@@ -195,6 +195,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(likedMenuVC, animated: true)
     }
     
+    /// AlertVC로 present
+    func presentAlertViewController(alertType: AlertType) {
+        let alertVC = AlertViewController(alertType: alertType)
+        alertVC.modalPresentationStyle = .overFullScreen
+        self.present(alertVC, animated: true)
+    }
+    
     // MARK: - objc Function
     
     /// popVC
