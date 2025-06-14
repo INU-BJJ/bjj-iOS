@@ -22,6 +22,7 @@ public func networkRequest<T: Decodable>(
     data: Data?,
     model: T.Type,
     query: [String: Any]? = nil,
+    cancelToken: APICancelToken? = nil,
     completion: @escaping (Result<T, Error>) -> Void
 ) {
     guard var urlComponents = URLComponents(string: baseURL.URL + urlStr) else {
@@ -54,9 +55,20 @@ public func networkRequest<T: Decodable>(
     request.httpBody = data
     request.method = method
     
-    AF.request(request)
+    let apiRequest = AF.request(request)
+    
+    cancelToken?.onRegister {
+        apiRequest.cancel()
+    }
+    
+    apiRequest
         .validate(statusCode: 200..<300)
         .responseDecodable(of: model.self) { response in
+            if let error = response.error, error.isExplicitlyCancelledError {
+                print("[ServiceAPI] ErrorMsg: Request was explicitly cancelled, completion will not be called.")
+                return
+            }
+            
             switch response.result {
             case .success(let decodedData):
                 completion(.success(decodedData))
