@@ -108,6 +108,9 @@ final class ReviewPhotoGalleryViewController: UIViewController {
     // MARK: - Fetch API Functions
     
     private func fetchReviewPhotos(menuPairID: Int, pageNumber: Int, pageSize: Int) {
+        guard isFetching == false else { return }
+        isFetching = true
+        
         fetchCancelToken?.cancel()
         
         let token = APICancelToken()
@@ -219,7 +222,6 @@ extension ReviewPhotoGalleryViewController: UICollectionViewDelegate {
             let needsNextPage = indexPath.item >= max(0, triggerIndex)
             
             if needsNextPage && canFetchNextPage {
-                isFetching = true
                 lastHeightUpdateTime = Date()
                 currentPageNumber += 1
                 
