@@ -25,6 +25,10 @@ final class AlertViewController: UIViewController {
         $0.backgroundColor = .white
     }
     
+    private lazy var alertImageView = UIImageView().then {
+        $0.image = UIImage(named: alertType.imageName)
+    }
+    
     private let alertMessageView = UIView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 10
@@ -56,7 +60,7 @@ final class AlertViewController: UIViewController {
         setViewController()
         setAddView()
         setConstraints()
-        setAlertTitle()
+        setAlertViewUI()
     }
     
     override func viewDidLayoutSubviews() {
@@ -79,11 +83,15 @@ final class AlertViewController: UIViewController {
         ].forEach(view.addSubview)
         
         [
-            circleIconView,
             alertMessageView,
             testBackButton,
-            alertMessageLabel
+            alertMessageLabel,
+            circleIconView
         ].forEach(alertView.addSubview)
+        
+        [
+            alertImageView
+        ].forEach(circleIconView.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -99,6 +107,12 @@ final class AlertViewController: UIViewController {
             $0.top.equalToSuperview()
             $0.horizontalEdges.equalToSuperview().inset(87)
             $0.bottom.equalToSuperview().inset(37)
+        }
+        
+        alertImageView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(11)
+            $0.horizontalEdges.equalToSuperview().inset(12)
+            $0.bottom.equalToSuperview().inset(13)
         }
         
         alertMessageView.snp.makeConstraints {
@@ -117,7 +131,7 @@ final class AlertViewController: UIViewController {
         }
     }
     
-    private func setAlertTitle() {
+    private func setAlertViewUI() {
         alertMessageLabel.text = alertType.title
     }
     

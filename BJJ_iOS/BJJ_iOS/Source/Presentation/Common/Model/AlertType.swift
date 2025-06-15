@@ -28,3 +28,14 @@ extension AlertType {
         }
     }
 }
+
+extension AlertType {
+    var imageName: String {
+        switch self {
+        case .success:
+            return "AlertSuccess"
+        case .failure: 
+            return "AlertFailure"
+        }
+    }
+}
