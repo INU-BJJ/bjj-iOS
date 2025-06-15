@@ -62,12 +62,9 @@ final class MyReviewDeleteModalViewController: UIViewController {
     
     private func setAddView() {
         [
-            deleteModalView
-        ].forEach(view.addSubview)
-        
-        [
+            deleteModalView,
             reviewActionView
-        ].forEach(deleteModalView.addSubview)
+        ].forEach(view.addSubview)
         
         [
             deleteButton,
