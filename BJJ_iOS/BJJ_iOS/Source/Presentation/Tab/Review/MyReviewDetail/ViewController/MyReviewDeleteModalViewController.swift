@@ -21,16 +21,24 @@ final class MyReviewDeleteModalViewController: UIViewController {
         $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissModal)))
     }
     
-    private let deleteButton = UIButton().then {
+    private let reviewActionView = UIView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 12
-        $0.layer.masksToBounds = true
-        $0.clipsToBounds = true
+    }
+    
+    private lazy var deleteButton = UIButton().then {
+        $0.setTitle("삭제하기", for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
+        $0.setTitleColor(.customColor(.warningRed), for: .normal)
+        $0.contentHorizontalAlignment = .leading
         $0.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
     }
     
-    private let deleteLabel = UILabel().then {
-        $0.setLabelUI("삭제하기", font: .pretendard_medium, size: 15, color: .warningRed)
+    private lazy var reportButton = UIButton().then {
+        $0.setTitle("신고하기", for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
+        $0.setTitleColor(.black, for: .normal)
+        $0.contentHorizontalAlignment = .leading
     }
     
     // MARK: - LifeCycle
@@ -57,9 +65,13 @@ final class MyReviewDeleteModalViewController: UIViewController {
         ].forEach(view.addSubview)
         
         [
-            deleteButton,
-            deleteLabel
+            reviewActionView
         ].forEach(deleteModalView.addSubview)
+        
+        [
+            deleteButton,
+            reportButton
+        ].forEach(reviewActionView.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -69,15 +81,24 @@ final class MyReviewDeleteModalViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        deleteButton.snp.makeConstraints {
+        reviewActionView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(605)
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
         
-        deleteLabel.snp.makeConstraints {
-            $0.top.equalTo(deleteButton.snp.top).offset(35)
-            $0.leading.equalTo(deleteButton.snp.leading).offset(20)
+        deleteButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(35)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().inset(76)
+            $0.height.equalTo(18)
+        }
+        
+        // TODO: deleteButton과의 간격 수정
+        reportButton.snp.makeConstraints {
+            $0.top.equalTo(deleteButton.snp.bottom).offset(65)
+            $0.leading.trailing.equalTo(deleteButton)
+            $0.height.equalTo(18)
         }
     }
     
