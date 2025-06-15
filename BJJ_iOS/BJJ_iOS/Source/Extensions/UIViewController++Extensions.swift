@@ -196,10 +196,21 @@ extension UIViewController {
     }
     
     /// AlertVC로 present
-    func presentAlertViewController(alertType: AlertType) {
+    func presentAlertViewController(
+        alertType: AlertType,
+        // TODO: 팝업 시간 수정
+        duration: TimeInterval = 0.5,
+        completion: (() -> Void)? = nil
+    ) {
         let alertVC = AlertViewController(alertType: alertType)
         alertVC.modalPresentationStyle = .overFullScreen
-        self.present(alertVC, animated: true)
+        alertVC.modalTransitionStyle   = .crossDissolve
+        
+        present(alertVC, animated: true) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                alertVC.dismiss(animated: true, completion: completion)
+            }
+        }
     }
     
     // MARK: - objc Function

@@ -170,14 +170,23 @@ final class NicknameEditViewController: UIViewController {
             SettingAPI.patchNickname(nickname: nickname) { [weak self] result in
                 guard let self = self else { return }
                 
-                switch result {
-                case .success:
-                    DispatchQueue.main.async {
-                        self.navigationController?.popViewController(animated: true)
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success:
+                        DispatchQueue.main.async {
+                            self.presentAlertViewController(alertType: .success(.nicknameEdit)) { [weak self] in
+                                if let self = self {
+                                    self.navigationController?.popViewController(animated: true)
+                                } else {
+                                    print("[NicknameEditVC] patchNickname: self 옵셔널 바인딩 실패")
+                                }
+                            }
+                        }
+                        
+                    case .failure(let error):
+                        self.presentAlertViewController(alertType: .failure(.nicknameEdit))
+                        print("[NicknameEditVC] Error: \(error.localizedDescription)")
                     }
-                    
-                case .failure(let error):
-                    print("[NicknameEditVC] Error: \(error.localizedDescription)")
                 }
             }
         }
