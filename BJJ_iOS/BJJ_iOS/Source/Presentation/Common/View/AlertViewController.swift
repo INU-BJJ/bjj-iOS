@@ -35,7 +35,7 @@ final class AlertViewController: UIViewController {
     }
     
     private let alertMessageLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_bold, size: 18, color: .black)
+        $0.setLabelUI("", font: .pretendard_semibold, size: 15, color: .black)
     }
     
     // MARK: - LifeCycle
