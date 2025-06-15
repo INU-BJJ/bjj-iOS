@@ -61,6 +61,7 @@ final class AlertViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        circleIconView.layoutIfNeeded()
         circleIconView.layer.cornerRadius = circleIconView.bounds.width / 2
     }
     
