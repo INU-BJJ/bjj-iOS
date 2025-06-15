@@ -54,6 +54,9 @@ final class HomeViewController: UIViewController {
         // TODO: 홈 탭으로 돌아올 때마다 무조건 학생식당 메뉴로 돌아옴. 이전에 선택한 식당으로 돌아가도록 설계 변경?
         reloadCafeteriaSection()
         fetchAllMenuData(cafeteriaName: "학생식당")
+        
+        
+        presentAlertViewController(alertType: .success(.nicknameEdit))
     }
     
     // MARK: - Bind

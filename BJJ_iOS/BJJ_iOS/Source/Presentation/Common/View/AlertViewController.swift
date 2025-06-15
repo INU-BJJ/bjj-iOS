@@ -18,6 +18,14 @@ final class AlertViewController: UIViewController {
     // MARK: - UI Components
     
     private let alertView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let circleIconView = UIView().then {
+        $0.backgroundColor = .white
+    }
+    
+    private let alertMessageView = UIView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 10
     }
@@ -51,6 +59,12 @@ final class AlertViewController: UIViewController {
         setAlertTitle()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        circleIconView.layer.cornerRadius = circleIconView.bounds.width / 2
+    }
+    
     // MARK: - Set ViewController
     
     private func setViewController() {
@@ -65,6 +79,8 @@ final class AlertViewController: UIViewController {
         ].forEach(view.addSubview)
         
         [
+            circleIconView,
+            alertMessageView,
             testBackButton,
             testAlertTitleLabel
         ].forEach(alertView.addSubview)
@@ -77,6 +93,18 @@ final class AlertViewController: UIViewController {
             $0.top.equalToSuperview().offset(351)
             $0.horizontalEdges.equalToSuperview().inset(62)
             $0.bottom.equalToSuperview().inset(369)
+        }
+        
+        circleIconView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(87)
+            $0.bottom.equalToSuperview().inset(37)
+        }
+        
+        alertMessageView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(58)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
         
         testBackButton.snp.makeConstraints {
