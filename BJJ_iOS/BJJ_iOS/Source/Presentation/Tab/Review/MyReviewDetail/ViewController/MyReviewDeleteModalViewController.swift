@@ -39,6 +39,7 @@ final class MyReviewDeleteModalViewController: UIViewController {
         $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
         $0.setTitleColor(.black, for: .normal)
         $0.contentHorizontalAlignment = .leading
+        $0.addTarget(self, action: #selector(didTapReportButton), for: .touchUpInside)
     }
     
     // MARK: - LifeCycle
@@ -110,5 +111,9 @@ final class MyReviewDeleteModalViewController: UIViewController {
     
     @objc private func didTapDeleteButton() {
         delegate?.didTapDeleteButton()
+    }
+    
+    @objc private func didTapReportButton() {
+        
     }
 }
