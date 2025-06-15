@@ -35,7 +35,7 @@ final class AlertViewController: UIViewController {
         $0.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
     }
     
-    private let testAlertTitleLabel = UILabel().then {
+    private let alertMessageLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_bold, size: 18, color: .black)
     }
     
@@ -82,7 +82,7 @@ final class AlertViewController: UIViewController {
             circleIconView,
             alertMessageView,
             testBackButton,
-            testAlertTitleLabel
+            alertMessageLabel
         ].forEach(alertView.addSubview)
     }
     
@@ -111,14 +111,14 @@ final class AlertViewController: UIViewController {
             $0.center.equalToSuperview()
         }
         
-        testAlertTitleLabel.snp.makeConstraints {
+        alertMessageLabel.snp.makeConstraints {
             $0.top.equalTo(testBackButton.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
         }
     }
     
     private func setAlertTitle() {
-        testAlertTitleLabel.text = alertType.title
+        alertMessageLabel.text = alertType.title
     }
     
     // MARK: - objc Functions
