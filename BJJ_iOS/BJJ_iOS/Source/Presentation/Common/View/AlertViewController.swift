@@ -17,6 +17,11 @@ final class AlertViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private let alertView = UIView().then {
+        $0.backgroundColor = .white
+        $0.layer.cornerRadius = 10
+    }
+    
     private lazy var testBackButton = UIButton().then {
         $0.setImage(UIImage(named: "BlackBackButton"), for: .normal)
         $0.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
@@ -56,14 +61,24 @@ final class AlertViewController: UIViewController {
     
     private func setAddView() {
         [
+            alertView
+        ].forEach(view.addSubview)
+        
+        [
             testBackButton,
             testAlertTitleLabel
-        ].forEach(view.addSubview)
+        ].forEach(alertView.addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        alertView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(351)
+            $0.horizontalEdges.equalToSuperview().inset(62)
+            $0.bottom.equalToSuperview().inset(369)
+        }
+        
         testBackButton.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
