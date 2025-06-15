@@ -34,11 +34,6 @@ final class AlertViewController: UIViewController {
         $0.layer.cornerRadius = 10
     }
     
-    private lazy var testBackButton = UIButton().then {
-        $0.setImage(UIImage(named: "BlackBackButton"), for: .normal)
-        $0.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
-    }
-    
     private let alertMessageLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_bold, size: 18, color: .black)
     }
@@ -84,9 +79,8 @@ final class AlertViewController: UIViewController {
         
         [
             alertMessageView,
-            testBackButton,
-            alertMessageLabel,
-            circleIconView
+            circleIconView,
+            alertMessageLabel
         ].forEach(alertView.addSubview)
         
         [
@@ -121,13 +115,9 @@ final class AlertViewController: UIViewController {
             $0.bottom.equalToSuperview()
         }
         
-        testBackButton.snp.makeConstraints {
-            $0.center.equalToSuperview()
-        }
-        
         alertMessageLabel.snp.makeConstraints {
-            $0.top.equalTo(testBackButton.snp.bottom).offset(20)
-            $0.centerX.equalToSuperview()
+            $0.centerX.equalTo(alertMessageView)
+            $0.centerY.equalTo(alertMessageView)
         }
     }
     
