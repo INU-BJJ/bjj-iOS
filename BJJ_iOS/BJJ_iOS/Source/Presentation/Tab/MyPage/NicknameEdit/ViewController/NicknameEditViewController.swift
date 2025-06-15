@@ -35,6 +35,9 @@ final class NicknameEditViewController: UIViewController {
         $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
         $0.layer.borderWidth = 1
         $0.addTarget(self, action: #selector(didNicknameChange(_:)), for: .editingChanged)
+        $0.autocorrectionType = .no
+        $0.spellCheckingType = .no
+        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private lazy var testIsDupliCateButton = UIButton().then {
