@@ -195,6 +195,24 @@ extension UIViewController {
         self.navigationController?.pushViewController(likedMenuVC, animated: true)
     }
     
+    /// AlertVC로 present
+    func presentAlertViewController(
+        alertType: AlertType,
+        // TODO: 팝업 시간 수정
+        duration: TimeInterval = 0.5,
+        completion: (() -> Void)? = nil
+    ) {
+        let alertVC = AlertViewController(alertType: alertType)
+        alertVC.modalPresentationStyle = .overFullScreen
+        alertVC.modalTransitionStyle   = .crossDissolve
+        
+        present(alertVC, animated: true) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                alertVC.dismiss(animated: true, completion: completion)
+            }
+        }
+    }
+    
     // MARK: - objc Function
     
     /// popVC
