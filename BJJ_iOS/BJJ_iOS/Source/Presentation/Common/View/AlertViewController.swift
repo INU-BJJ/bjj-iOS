@@ -69,6 +69,7 @@ final class AlertViewController: UIViewController {
     
     private func setViewController() {
         view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissModal)))
     }
     
     // MARK: - Set AddViews
