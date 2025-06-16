@@ -214,8 +214,8 @@ extension UIViewController {
     }
     
     /// ReportReviewVC로 push
-    func presentReportReviewViewController() {
-        let reportReviewVC = ReportReviewViewController()
+    func presentReportReviewViewController(reviewID: Int) {
+        let reportReviewVC = ReportReviewViewController(reviewID: reviewID)
         reportReviewVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(reportReviewVC, animated: true)
     }
