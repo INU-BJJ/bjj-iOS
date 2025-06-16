@@ -642,6 +642,12 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
                 // 각 리뷰별 타이머 저장
                 self.reviewLikeDebounceTimers[indexPath.item] = timer
             }
+            cell.menuReviewInfoView.onReportReview = {
+                let reviewID = self.reviewData[indexPath.item].reviewID
+                
+                self.presentReportReviewViewController(reviewID: reviewID)
+            }
+            
             return cell
         }
     }
