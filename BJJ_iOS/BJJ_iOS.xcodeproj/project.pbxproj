@@ -10,6 +10,7 @@
 		3F03EEA82D5643F4007B3505 /* ReviewWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F03EEA72D5643F4007B3505 /* ReviewWriteViewController.swift */; };
 		3F0CF2562E00115500998FA9 /* ReportReviewAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CF2552E00115500998FA9 /* ReportReviewAPI.swift */; };
 		3F0CF2582E00115F00998FA9 /* ReportReviewAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CF2572E00115F00998FA9 /* ReportReviewAddress.swift */; };
+		3F0CF25B2E002D5B00998FA9 /* ReportReviewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CF25A2E002D5B00998FA9 /* ReportReviewSection.swift */; };
 		3F14723F2DACEF5900098C41 /* StoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F14723E2DACEF5900098C41 /* StoreModel.swift */; };
 		3F1472412DACEF6300098C41 /* StoreAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1472402DACEF6300098C41 /* StoreAddress.swift */; };
 		3F1472432DACEF6B00098C41 /* StoreAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1472422DACEF6B00098C41 /* StoreAPI.swift */; };
@@ -194,6 +195,7 @@
 		3F03EEA72D5643F4007B3505 /* ReviewWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteViewController.swift; sourceTree = "<group>"; };
 		3F0CF2552E00115500998FA9 /* ReportReviewAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportReviewAPI.swift; sourceTree = "<group>"; };
 		3F0CF2572E00115F00998FA9 /* ReportReviewAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportReviewAddress.swift; sourceTree = "<group>"; };
+		3F0CF25A2E002D5B00998FA9 /* ReportReviewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportReviewSection.swift; sourceTree = "<group>"; };
 		3F14723E2DACEF5900098C41 /* StoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreModel.swift; sourceTree = "<group>"; };
 		3F1472402DACEF6300098C41 /* StoreAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAddress.swift; sourceTree = "<group>"; };
 		3F1472422DACEF6B00098C41 /* StoreAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAPI.swift; sourceTree = "<group>"; };
@@ -1536,6 +1538,7 @@
 		3FD68C182DFF05940011B89B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3F0CF25A2E002D5B00998FA9 /* ReportReviewSection.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1949,6 +1952,7 @@
 				3FEDD4A12CB2B499009617A5 /* UIColor++Extensions.swift in Sources */,
 				3F61DF4F2CB31B2E00A019E8 /* HomeMenuCell.swift in Sources */,
 				3F61DF4B2CB3149600A019E8 /* HomeSection.swift in Sources */,
+				3F0CF25B2E002D5B00998FA9 /* ReportReviewSection.swift in Sources */,
 				3FB984642D53918F0050D66A /* MyReviewDeleteModalViewController.swift in Sources */,
 				3F27E94A2DACB25600CD2554 /* GachaResultModel.swift in Sources */,
 				3F96BE462DE31D4D009AED6F /* MenuReviewInfoView.swift in Sources */,
