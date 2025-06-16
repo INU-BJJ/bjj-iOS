@@ -65,6 +65,20 @@ final class ReportReviewViewController: UIViewController {
             $0.bottom.equalToSuperview()
         }
     }
+    
+    // MARK: - Post API
+    
+    private func postReportReview(reviewID: Int, reportReasons: [String: [String]]) {
+        ReportReviewAPI.postReportReview(reviewID: reviewID, reportReasons: reportReasons) { result in
+            switch result {
+            case .success:
+                print("<< postReportReview success")
+                
+            case .failure(let error):
+                print("[Post ReportReviewAPI] Error: \(error.localizedDescription)")
+            }
+        }
+    }
 }
 
 // MARK: UITableView DataSource
