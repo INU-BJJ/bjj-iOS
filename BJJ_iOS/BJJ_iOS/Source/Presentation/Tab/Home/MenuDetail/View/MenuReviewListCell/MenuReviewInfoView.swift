@@ -18,6 +18,9 @@ final class MenuReviewInfoView: UIView {
     private var reviewLikedCount = 0
     var onLikeToggled: ((Bool) -> Void)?
     
+    // TODO: onReportReview 삭제
+    var onReportReview: (() -> Void)?
+    
     // MARK: - UI Components
     
     private let profileImage = UIImageView().then {
@@ -191,6 +194,6 @@ final class MenuReviewInfoView: UIView {
     
     // TODO: 삭제
     @objc private func didTapReportReviewButton() {
-        
+        onReportReview?()
     }
 }
