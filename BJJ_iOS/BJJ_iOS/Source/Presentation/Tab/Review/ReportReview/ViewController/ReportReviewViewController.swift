@@ -15,7 +15,7 @@ final class ReportReviewViewController: UIViewController {
     
     private let reviewID: Int
     private let reportReasons = ReportReason.allCases
-    private var reportContent: [String] = []
+    private var reportContent: Set<String> = []
     
     // MARK: - UI Components
     
@@ -110,10 +110,8 @@ extension ReportReviewViewController: UITableViewDataSource {
 extension ReportReviewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let reasonString = reportReasons[indexPath.row].rawValue
+        reportContent.insert(reasonString)
         
-        if !reportContent.contains(reasonString) {
-            reportContent.append(reasonString)
-        }
         if let cell = tableView.cellForRow(at: indexPath) as? ReportReviewCell {
             cell.setSelected(true, animated: true)
         }
@@ -121,10 +119,8 @@ extension ReportReviewViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let reasonString = reportReasons[indexPath.row].rawValue
+        reportContent.remove(reasonString)
         
-        if let removingIndex = reportContent.firstIndex(of: reasonString) {
-            reportContent.remove(at: removingIndex)
-        }
         if let cell = tableView.cellForRow(at: indexPath) as? ReportReviewCell {
             cell.setSelected(false, animated: true)
         }
