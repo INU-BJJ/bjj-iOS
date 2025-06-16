@@ -21,7 +21,9 @@ final class ReportReviewViewController: UIViewController {
     private lazy var testReportReviewTableView = UITableView().then {
         $0.register(ReportReviewCell.self, forCellReuseIdentifier: ReportReviewCell.reuseIdentifier)
         $0.dataSource = self
+        $0.delegate = self
         $0.separatorStyle = .none
+        $0.allowsMultipleSelection = true
     }
     
     // MARK: - LifeCycle
@@ -99,5 +101,21 @@ extension ReportReviewViewController: UITableViewDataSource {
         cell.configureCell(with: reason)
         
         return cell
+    }
+}
+
+// MARK: - UITableView Delegate
+
+extension ReportReviewViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? ReportReviewCell {
+            cell.setSelected(true, animated: true)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? ReportReviewCell {
+            cell.setSelected(false, animated: true)
+        }
     }
 }
