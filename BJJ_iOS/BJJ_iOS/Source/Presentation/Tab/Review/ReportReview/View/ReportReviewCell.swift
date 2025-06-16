@@ -52,4 +52,10 @@ final class ReportReviewCell: UITableViewCell, ReuseIdentifying {
             $0.center.equalToSuperview()
         }
     }
+    
+    // MARK: - Configure Cell
+    
+    func configureCell(with reason: ReportReason) {
+        testReportReasonLabel.text = reason.rawValue
+    }
 }

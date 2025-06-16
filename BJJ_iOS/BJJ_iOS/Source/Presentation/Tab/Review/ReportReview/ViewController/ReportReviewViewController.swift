@@ -14,6 +14,7 @@ final class ReportReviewViewController: UIViewController {
     // MARK: - Properties
     
     private let reviewID: Int
+    private let reportReasons = ReportReason.allCases
     
     // MARK: - UI Components
     
@@ -92,7 +93,10 @@ extension ReportReviewViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ReportReviewCell.reuseIdentifier, for: indexPath) as? ReportReviewCell else {
             return UITableViewCell()
         }
+        let reason = reportReasons[indexPath.row]
+        
         cell.selectionStyle = .none
+        cell.configureCell(with: reason)
         
         return cell
     }
