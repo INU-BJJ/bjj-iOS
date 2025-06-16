@@ -14,7 +14,7 @@ final class ReportReviewCell: UITableViewCell, ReuseIdentifying {
     // MARK: - UI Components
     
     private let testReportReasonLabel = UILabel().then {
-        $0.setLabelUI("우하하", font: .pretendard_bold, size: 18, color: .black)
+        $0.setLabelUI("", font: .pretendard_bold, size: 18, color: .black)
     }
     
     // MARK: - Life Cycle

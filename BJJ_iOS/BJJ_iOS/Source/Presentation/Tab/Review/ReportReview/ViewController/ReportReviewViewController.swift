@@ -60,7 +60,7 @@ final class ReportReviewViewController: UIViewController {
     
     private func setConstraints() {
         testReportReviewTableView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
+            $0.top.equalToSuperview().offset(100)
             $0.horizontalEdges.equalToSuperview().inset(40)
             $0.bottom.equalToSuperview()
         }
