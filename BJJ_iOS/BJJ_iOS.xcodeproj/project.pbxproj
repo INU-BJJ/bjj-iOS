@@ -148,6 +148,8 @@
 		3FCA676B2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */; };
 		3FCAD7842DCC85A100A008CE /* MyReviewDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCAD7832DCC85A100A008CE /* MyReviewDetailModel.swift */; };
 		3FCF9B082D803C8E00FB8252 /* ReviewWriteCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCF9B072D803C8E00FB8252 /* ReviewWriteCollectionViewLayout.swift */; };
+		3FD68C1A2DFF05A30011B89B /* ReportReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD68C192DFF05A30011B89B /* ReportReviewViewController.swift */; };
+		3FD68C1C2DFF093C0011B89B /* ReportReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD68C1B2DFF093C0011B89B /* ReportReviewCell.swift */; };
 		3FD8ACDB2D76E817009D4AA3 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD8ACDA2D76E817009D4AA3 /* Response.swift */; };
 		3FDC25602D6C7B3300ACBF8B /* MyReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDC255F2D6C7B3300ACBF8B /* MyReviewModel.swift */; };
 		3FDC25622D6C7B4600ACBF8B /* MyReviewAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDC25612D6C7B4600ACBF8B /* MyReviewAddress.swift */; };
@@ -331,6 +333,8 @@
 		3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewSeparatingView.swift; sourceTree = "<group>"; };
 		3FCAD7832DCC85A100A008CE /* MyReviewDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailModel.swift; sourceTree = "<group>"; };
 		3FCF9B072D803C8E00FB8252 /* ReviewWriteCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteCollectionViewLayout.swift; sourceTree = "<group>"; };
+		3FD68C192DFF05A30011B89B /* ReportReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportReviewViewController.swift; sourceTree = "<group>"; };
+		3FD68C1B2DFF093C0011B89B /* ReportReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportReviewCell.swift; sourceTree = "<group>"; };
 		3FD8ACDA2D76E817009D4AA3 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		3FDC255F2D6C7B3300ACBF8B /* MyReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewModel.swift; sourceTree = "<group>"; };
 		3FDC25612D6C7B4600ACBF8B /* MyReviewAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewAddress.swift; sourceTree = "<group>"; };
@@ -1199,6 +1203,7 @@
 				3F1BC3132D50D88300B153BA /* CafeteriaMyReview */,
 				3F2BE7932D50E55F005003CC /* MyReviewDetail */,
 				3F03EEA32D56435E007B3505 /* ReviewWrite */,
+				3FD68C152DFF04E60011B89B /* ReportReview */,
 			);
 			path = Review;
 			sourceTree = "<group>";
@@ -1485,6 +1490,39 @@
 			isa = PBXGroup;
 			children = (
 				3FCAD7832DCC85A100A008CE /* MyReviewDetailModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3FD68C152DFF04E60011B89B /* ReportReview */ = {
+			isa = PBXGroup;
+			children = (
+				3FD68C182DFF05940011B89B /* Model */,
+				3FD68C172DFF058F0011B89B /* View */,
+				3FD68C162DFF05880011B89B /* ViewController */,
+			);
+			path = ReportReview;
+			sourceTree = "<group>";
+		};
+		3FD68C162DFF05880011B89B /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3FD68C192DFF05A30011B89B /* ReportReviewViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3FD68C172DFF058F0011B89B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3FD68C1B2DFF093C0011B89B /* ReportReviewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3FD68C182DFF05940011B89B /* Model */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1926,6 +1964,7 @@
 				3FCAD7842DCC85A100A008CE /* MyReviewDetailModel.swift in Sources */,
 				3F94C8142D27BECC00364D0F /* MenuDetailModel.swift in Sources */,
 				3F2BE7982D50E594005003CC /* MyReviewDetailViewController.swift in Sources */,
+				3FD68C1C2DFF093C0011B89B /* ReportReviewCell.swift in Sources */,
 				3FE186322D9FCB650086EC6C /* LoginViewController.swift in Sources */,
 				3F2BE79C2D50F687005003CC /* MyReviewDetailView.swift in Sources */,
 				3FC123292DA5245100676A09 /* MemberModel.swift in Sources */,
@@ -1966,6 +2005,7 @@
 				3F362D372DFD7BC8006C8094 /* AlertType.swift in Sources */,
 				3FC691612D1D57C5004643D2 /* HomeAPI.swift in Sources */,
 				3FC1232B2DA5246000676A09 /* MemberAddress.swift in Sources */,
+				3FD68C1A2DFF05A30011B89B /* ReportReviewViewController.swift in Sources */,
 				3F87423F2D4FD87A004DF204 /* MyReviewHeaderView.swift in Sources */,
 				3F1472432DACEF6B00098C41 /* StoreAPI.swift in Sources */,
 				3F6947D62D8818430036BF2A /* ReviewInfoView.swift in Sources */,
