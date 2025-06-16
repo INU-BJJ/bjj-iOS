@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3F03EEA82D5643F4007B3505 /* ReviewWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F03EEA72D5643F4007B3505 /* ReviewWriteViewController.swift */; };
+		3F0CF2562E00115500998FA9 /* ReportReviewAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CF2552E00115500998FA9 /* ReportReviewAPI.swift */; };
+		3F0CF2582E00115F00998FA9 /* ReportReviewAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CF2572E00115F00998FA9 /* ReportReviewAddress.swift */; };
 		3F14723F2DACEF5900098C41 /* StoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F14723E2DACEF5900098C41 /* StoreModel.swift */; };
 		3F1472412DACEF6300098C41 /* StoreAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1472402DACEF6300098C41 /* StoreAddress.swift */; };
 		3F1472432DACEF6B00098C41 /* StoreAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1472422DACEF6B00098C41 /* StoreAPI.swift */; };
@@ -190,6 +192,8 @@
 		1029D28789B8235EFF18EDD7 /* Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-BJJ_iOS-BJJ_iOSUITests/Pods-BJJ_iOS-BJJ_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		33515C51778C5C5E22CDE88A /* Pods_BJJ_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BJJ_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F03EEA72D5643F4007B3505 /* ReviewWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteViewController.swift; sourceTree = "<group>"; };
+		3F0CF2552E00115500998FA9 /* ReportReviewAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportReviewAPI.swift; sourceTree = "<group>"; };
+		3F0CF2572E00115F00998FA9 /* ReportReviewAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportReviewAddress.swift; sourceTree = "<group>"; };
 		3F14723E2DACEF5900098C41 /* StoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreModel.swift; sourceTree = "<group>"; };
 		3F1472402DACEF6300098C41 /* StoreAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAddress.swift; sourceTree = "<group>"; };
 		3F1472422DACEF6B00098C41 /* StoreAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAPI.swift; sourceTree = "<group>"; };
@@ -424,6 +428,15 @@
 				3F3AF8CE2D75AB6300D6C28A /* ReviewWriteSection.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3F0CF2512E00112800998FA9 /* ReportReview */ = {
+			isa = PBXGroup;
+			children = (
+				3F0CF2572E00115F00998FA9 /* ReportReviewAddress.swift */,
+				3F0CF2552E00115500998FA9 /* ReportReviewAPI.swift */,
+			);
+			path = ReportReview;
 			sourceTree = "<group>";
 		};
 		3F14723C2DACEF4300098C41 /* Store */ = {
@@ -1543,6 +1556,7 @@
 				3F2B0EB42D7997360059AA2B /* MyReviewDetail */,
 				3F43F0D72D7838B30018E7E8 /* CafeteriaMyReview */,
 				3F3AF8C42D75A52C00D6C28A /* ReviewWrite */,
+				3F0CF2512E00112800998FA9 /* ReportReview */,
 			);
 			path = Review;
 			sourceTree = "<group>";
@@ -1888,6 +1902,7 @@
 				3F61DF4D2CB31B1A00A019E8 /* HomeCafeteriaCell.swift in Sources */,
 				3FC0A66D2DA037B000FBFAEE /* SignUpAPI.swift in Sources */,
 				3F1C2B212DAE614B00AC3A36 /* LikedMenuCell.swift in Sources */,
+				3F0CF2582E00115F00998FA9 /* ReportReviewAddress.swift in Sources */,
 				3F43F0DE2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift in Sources */,
 				3F4B09252CE1FC31005C56C2 /* TabBarController.swift in Sources */,
 				3F1613352CD87C1100A30369 /* ReviewHorizontalView.swift in Sources */,
@@ -1915,6 +1930,7 @@
 				3F8430272CE7208000B5A2F1 /* UITabBar++Extensions.swift in Sources */,
 				3FC1232D2DA5246B00676A09 /* MemberAPI.swift in Sources */,
 				3F2C66812DA793C300EA4E82 /* MyPageSection.swift in Sources */,
+				3F0CF2562E00115500998FA9 /* ReportReviewAPI.swift in Sources */,
 				3FDC25642D6C7B5600ACBF8B /* MyReviewAPI.swift in Sources */,
 				3FB984622D5389710050D66A /* MyReviewDetailHashTagCell.swift in Sources */,
 				3FB396D82DAE1FA500EF87A8 /* SettingModel.swift in Sources */,
