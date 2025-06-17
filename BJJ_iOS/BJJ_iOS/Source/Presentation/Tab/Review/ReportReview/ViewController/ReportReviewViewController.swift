@@ -42,6 +42,7 @@ final class ReportReviewViewController: UIViewController {
         $0.backgroundColor = .customColor(.mainColor)
         $0.setTitle("신고하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
+        $0.addTarget(self, action: #selector(didTapReportReviewButton), for: .touchUpInside)
     }
     
     // MARK: - LifeCycle
@@ -101,13 +102,23 @@ final class ReportReviewViewController: UIViewController {
         }
     }
     
+    // MARK: - objc Functions
+    
+    @objc private func didTapReportReviewButton() {
+        let reportContent = ["content": Array(reportContent)]
+        
+        postReportReview(reviewID: reviewID, reportReasons: reportContent)
+    }
+    
     // MARK: - Post API
     
     private func postReportReview(reviewID: Int, reportReasons: [String: [String]]) {
         ReportReviewAPI.postReportReview(reviewID: reviewID, reportReasons: reportReasons) { result in
             switch result {
             case .success:
-                print("<< postReportReview success")
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                }
                 
             case .failure(let error):
                 print("[Post ReportReviewAPI] Error: \(error.localizedDescription)")
