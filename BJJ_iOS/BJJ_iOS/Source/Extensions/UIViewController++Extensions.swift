@@ -213,6 +213,13 @@ extension UIViewController {
         }
     }
     
+    /// ReportReviewVC로 push
+    func presentReportReviewViewController(reviewID: Int) {
+        let reportReviewVC = ReportReviewViewController(reviewID: reviewID)
+        reportReviewVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(reportReviewVC, animated: true)
+    }
+    
     // MARK: - objc Function
     
     /// popVC
