@@ -34,6 +34,15 @@ final class MenuReviewCell: UICollectionViewCell, ReuseIdentifying {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imageView.kf.cancelDownloadTask()
+        imageView.image = nil
+        imageView.backgroundColor = .clear
+        imageView.contentMode = .scaleAspectFill
+    }
+    
     // MARK: - Set AddView
     
     private func setAddView() {

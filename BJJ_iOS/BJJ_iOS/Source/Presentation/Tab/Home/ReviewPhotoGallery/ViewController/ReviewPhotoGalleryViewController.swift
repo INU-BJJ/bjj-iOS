@@ -71,6 +71,7 @@ final class ReviewPhotoGalleryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // TODO: 만약 기존에 4개의 이미지를 갖고 있는데, 다른 사용자가 리뷰 사진을 추가한다면 새로운 데이터 받아오지 못하는 치명적 문제 발생
         if dataSource?.snapshot().itemIdentifiers.isEmpty == true {
             fetchReviewPhotos(menuPairID: menuPairID, pageNumber: currentPageNumber, pageSize: pageSize)
         }

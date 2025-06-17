@@ -73,7 +73,10 @@ final class MenuReview: UICollectionViewCell, ReuseIdentifying {
     func configureMenuReview(menuReviewData: HomeMenuModel, reviewImages: [String]) {
         self.menuReviewData = menuReviewData
         self.menuImages = reviewImages
-        menuReviewCollectionView.reloadData()
+        
+        UIView.performWithoutAnimation {
+            menuReviewCollectionView.reloadData()
+        }
     }
     
     // MARK: - Create Layout

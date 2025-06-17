@@ -11,7 +11,6 @@ import Then
 import Kingfisher
 
 // TODO: viewWillAppear할 때 하드코딩으로 pageNumber: 0, pageSize: pageSize, sortingCriteria: "BEST_MATCH", isWithImage: false 넣지 말고 저장된 값 사용하기
-// TODO: viewWillAppear로 돌아올 때, 혹은 VC viewDidLoad로 초기화할 때 reviewData removeAll() 해주기
 
 final class MenuDetailViewController: UIViewController {
     
@@ -148,6 +147,10 @@ final class MenuDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // 리뷰, 사진 데이터 초기화
+        reviewData.removeAll()
+        reviewImages.removeAll()
         
         fetchReviewImage(
             menuPairID: menuData?.menuPairID ?? 0,
@@ -334,7 +337,9 @@ final class MenuDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                     // 서버 데이터를 reviewImage에 저장
                     self.reviewImages = reviewInfo.reviewImageDetailList.map { $0.reviewImage }
-                    self.menuReviewCollectionView.reloadSections(IndexSet([2]))
+                    UIView.performWithoutAnimation {
+                        self.menuReviewCollectionView.reloadSections(IndexSet([2]))
+                    }
                 }
                 
             case .failure(let error):
