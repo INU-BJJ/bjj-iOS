@@ -25,6 +25,15 @@ final class ReportReviewViewController: UIViewController {
         $0.delegate = self
         $0.separatorStyle = .none
         $0.allowsMultipleSelection = true
+        
+        $0.layer.borderColor = UIColor.red.cgColor
+        $0.layer.borderWidth = 1
+    }
+    
+    private let testReportOtherReasonTextView = UITextView().then {
+        $0.setTextViewUI("", font: .pretendard_bold, size: 18, color: .black)
+        $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
+        $0.layer.borderWidth = 1
     }
     
     private lazy var testReportReviewButton = UIButton().then {
@@ -63,6 +72,7 @@ final class ReportReviewViewController: UIViewController {
     private func setAddView() {
         [
             testReportReviewTableView,
+            testReportOtherReasonTextView,
             testReportReviewButton
         ].forEach(view.addSubview)
     }
@@ -73,11 +83,17 @@ final class ReportReviewViewController: UIViewController {
         testReportReviewTableView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(100)
             $0.horizontalEdges.equalToSuperview().inset(40)
-            $0.bottom.equalToSuperview().inset(100)
+            $0.bottom.equalToSuperview().inset(400)
+        }
+        
+        testReportOtherReasonTextView.snp.makeConstraints {
+            $0.top.equalTo(testReportReviewTableView.snp.bottom).offset(20)
+            $0.horizontalEdges.equalTo(testReportReviewTableView)
+            $0.bottom.equalToSuperview().inset(140)
         }
         
         testReportReviewButton.snp.makeConstraints {
-            $0.top.equalTo(testReportReviewTableView.snp.bottom).offset(20)
+            $0.top.equalTo(testReportOtherReasonTextView.snp.bottom).offset(20)
             $0.bottom.equalToSuperview()
             $0.horizontalEdges.equalToSuperview().inset(40)
         }
