@@ -27,6 +27,12 @@ final class ReportReviewViewController: UIViewController {
         $0.allowsMultipleSelection = true
     }
     
+    private lazy var testReportReviewButton = UIButton().then {
+        $0.backgroundColor = .customColor(.mainColor)
+        $0.setTitle("신고하기", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+    }
+    
     // MARK: - LifeCycle
     
     init(reviewID: Int) {
@@ -56,7 +62,8 @@ final class ReportReviewViewController: UIViewController {
     
     private func setAddView() {
         [
-            testReportReviewTableView
+            testReportReviewTableView,
+            testReportReviewButton
         ].forEach(view.addSubview)
     }
     
@@ -66,7 +73,13 @@ final class ReportReviewViewController: UIViewController {
         testReportReviewTableView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(100)
             $0.horizontalEdges.equalToSuperview().inset(40)
+            $0.bottom.equalToSuperview().inset(100)
+        }
+        
+        testReportReviewButton.snp.makeConstraints {
+            $0.top.equalTo(testReportReviewTableView.snp.bottom).offset(20)
             $0.bottom.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(40)
         }
     }
     
