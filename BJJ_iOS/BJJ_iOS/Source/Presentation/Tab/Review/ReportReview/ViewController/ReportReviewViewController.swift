@@ -16,6 +16,7 @@ final class ReportReviewViewController: UIViewController {
     private let reviewID: Int
     private let reportReasons = ReportReason.allCases
     private var reportContent: Set<String> = []
+    private let otherPrefix = ReportReason.other.rawValue
     
     // MARK: - UI Components
     
@@ -25,18 +26,16 @@ final class ReportReviewViewController: UIViewController {
         $0.delegate = self
         $0.separatorStyle = .none
         $0.allowsMultipleSelection = true
-        
-        $0.layer.borderColor = UIColor.red.cgColor
-        $0.layer.borderWidth = 1
     }
     
-    private let testReportOtherReasonTextView = UITextView().then {
+    private lazy var testReportOtherReasonTextView = UITextView().then {
         $0.setTextViewUI("", font: .pretendard_bold, size: 18, color: .black)
         $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
         $0.layer.borderWidth = 1
         $0.isEditable = false
         $0.isSelectable = false
         $0.backgroundColor = .customColor(.dropDownGray)
+        $0.delegate = self
     }
     
     private lazy var testReportReviewButton = UIButton().then {
@@ -119,7 +118,7 @@ final class ReportReviewViewController: UIViewController {
     // MARK: - Update OtherTextView State
     
     private func updateOtherTextViewState() {
-        let enabled = reportContent.contains(ReportReason.other.rawValue)
+        let enabled = reportContent.contains { $0.hasPrefix(otherPrefix) }
         
         if !enabled { testReportOtherReasonTextView.text = "" }
         testReportOtherReasonTextView.isEditable = enabled
@@ -169,5 +168,18 @@ extension ReportReviewViewController: UITableViewDelegate {
             cell.setSelected(false, animated: true)
         }
         updateOtherTextViewState()
+    }
+}
+
+// MARK: - UITextView Delegate
+
+extension ReportReviewViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        reportContent = reportContent.filter { !$0.hasPrefix(otherPrefix) }
+        
+        let trimmedContent = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        let fullContent = trimmedContent.isEmpty ? otherPrefix : "\(otherPrefix): \(trimmedContent)"
+        
+        reportContent.insert(fullContent)
     }
 }
