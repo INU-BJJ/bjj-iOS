@@ -34,6 +34,9 @@ final class ReportReviewViewController: UIViewController {
         $0.setTextViewUI("", font: .pretendard_bold, size: 18, color: .black)
         $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
         $0.layer.borderWidth = 1
+        $0.isEditable = false
+        $0.isSelectable = false
+        $0.backgroundColor = .customColor(.dropDownGray)
     }
     
     private lazy var testReportReviewButton = UIButton().then {
@@ -112,6 +115,17 @@ final class ReportReviewViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - Update OtherTextView State
+    
+    private func updateOtherTextViewState() {
+        let enabled = reportContent.contains(ReportReason.other.rawValue)
+        
+        if !enabled { testReportOtherReasonTextView.text = "" }
+        testReportOtherReasonTextView.isEditable = enabled
+        testReportOtherReasonTextView.isSelectable = enabled
+        testReportOtherReasonTextView.backgroundColor = enabled ? UIColor.white : UIColor.customColor(.dropDownGray)
+    }
 }
 
 // MARK: UITableView DataSource
@@ -144,6 +158,7 @@ extension ReportReviewViewController: UITableViewDelegate {
         if let cell = tableView.cellForRow(at: indexPath) as? ReportReviewCell {
             cell.setSelected(true, animated: true)
         }
+        updateOtherTextViewState()
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -153,5 +168,6 @@ extension ReportReviewViewController: UITableViewDelegate {
         if let cell = tableView.cellForRow(at: indexPath) as? ReportReviewCell {
             cell.setSelected(false, animated: true)
         }
+        updateOtherTextViewState()
     }
 }
