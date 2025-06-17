@@ -148,6 +148,10 @@ final class MenuDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // 리뷰, 사진 데이터 초기화
+        reviewData.removeAll()
+        reviewImages.removeAll()
+        
         fetchReviewImage(
             menuPairID: menuData?.menuPairID ?? 0,
             pageNumber: 0,
