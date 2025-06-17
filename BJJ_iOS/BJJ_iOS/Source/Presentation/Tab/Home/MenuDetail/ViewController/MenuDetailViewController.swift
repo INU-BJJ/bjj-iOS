@@ -337,7 +337,9 @@ final class MenuDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                     // 서버 데이터를 reviewImage에 저장
                     self.reviewImages = reviewInfo.reviewImageDetailList.map { $0.reviewImage }
-                    self.menuReviewCollectionView.reloadSections(IndexSet([2]))
+                    UIView.performWithoutAnimation {
+                        self.menuReviewCollectionView.reloadSections(IndexSet([2]))
+                    }
                 }
                 
             case .failure(let error):
