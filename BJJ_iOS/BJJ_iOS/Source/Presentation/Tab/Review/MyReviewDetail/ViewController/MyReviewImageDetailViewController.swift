@@ -78,7 +78,9 @@ final class MyReviewImageDetailViewController: UIViewController {
         }
         
         reviewImageView.snp.makeConstraints {
-            $0.edges.equalTo(view.safeAreaLayoutGuide)
+            $0.edges.equalTo(reviewImageScrollView.contentLayoutGuide)
+            $0.width.equalTo(reviewImageScrollView.frameLayoutGuide)
+            $0.height.equalTo(reviewImageScrollView.frameLayoutGuide)
         }
     }
     
