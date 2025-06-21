@@ -28,10 +28,14 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     // TODO: private 해제 방법 말고 다른 방법 없을까?
     let menuReviewInfoView = MenuReviewInfoView()
     
-    private let reviewCommentLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
-        $0.numberOfLines = 0
-        $0.lineBreakMode = .byWordWrapping
+    private let reviewCommentTextView = UITextView().then {
+        $0.setTextViewUI("", font: .pretendard_medium, size: 13, color: .black)
+        $0.textContainer.lineBreakMode = .byTruncatingTail
+        $0.textContainer.maximumNumberOfLines = 3
+        $0.isEditable = false
+        $0.isScrollEnabled = false
+        $0.textContainerInset = .zero
+        $0.textContainer.lineFragmentPadding = 0
     }
     
     private lazy var reviewImageCollectionView = UICollectionView(
@@ -88,7 +92,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
             $0.height.equalTo(25)
         }
         
-        reviewCommentLabel.text = ""
+        reviewCommentTextView.text = ""
         menuReviewInfoView.resetUI()
     }
     
@@ -108,7 +112,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         
         [
             menuReviewInfoView,
-            reviewCommentLabel,
+            reviewCommentTextView,
             reviewImageCollectionView,
             reviewHashTagCollectionView
         ].forEach(reviewStackView.addArrangedSubview)
@@ -129,7 +133,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
             $0.height.equalTo(41)
         }
         
-        reviewCommentLabel.snp.makeConstraints {
+        reviewCommentTextView.snp.makeConstraints {
             $0.width.equalToSuperview()
         }
         
@@ -163,7 +167,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
             reviewLikedCount: menuReview.reviewLikedCount
         )
         menuReviewInfoView.setUI(with: menuReview)
-        reviewCommentLabel.text = menuReview.reviewComment
+        reviewCommentTextView.text = menuReview.reviewComment
         reviewImageCollectionView.setCollectionViewLayout(flowLayout, animated: false)
         
         if reviewImageCount == 0 {
