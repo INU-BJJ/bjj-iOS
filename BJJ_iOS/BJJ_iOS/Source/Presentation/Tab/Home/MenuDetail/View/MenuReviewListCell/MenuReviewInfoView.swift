@@ -18,9 +18,6 @@ final class MenuReviewInfoView: UIView {
     private var reviewLikedCount = 0
     var onLikeToggled: ((Bool) -> Void)?
     
-    // TODO: onReportReview 삭제
-    var onReportReview: (() -> Void)?
-    
     // MARK: - UI Components
     
     private let profileImage = UIImageView().then {
@@ -37,12 +34,6 @@ final class MenuReviewInfoView: UIView {
     
     private let reviewDateLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 13, color: .darkGray)
-    }
-    
-    // TODO: reportReviewButton 삭제
-    private lazy var reportReviewButton = UIButton().then {
-        $0.setImage(UIImage(named: "Notice")?.resize(to: CGSize(width: 20, height: 20)), for: .normal)
-        $0.addTarget(self, action: #selector(didTapReportReviewButton), for: .touchUpInside)
     }
     
     private lazy var reviewLikeButton = UIButton().then {
@@ -92,8 +83,6 @@ final class MenuReviewInfoView: UIView {
             nicknameLabel,
             reviewRatingView,
             reviewDateLabel,
-            // TODO: reportReviewButton 삭제
-            reportReviewButton,
             reviewLikeButton,
             reviewLikeCountLabel
         ].forEach(addSubview)
@@ -120,12 +109,6 @@ final class MenuReviewInfoView: UIView {
         reviewDateLabel.snp.makeConstraints {
             $0.leading.equalTo(reviewRatingView.snp.trailing).offset(10)
             $0.centerY.equalTo(reviewRatingView)
-        }
-        
-        // TODO: reportReviewButton 삭제
-        reportReviewButton.snp.makeConstraints {
-            $0.top.equalTo(profileImage)
-            $0.leading.equalTo(reviewDateLabel.snp.trailing).offset(50)
         }
         
         reviewLikeButton.snp.makeConstraints {
@@ -190,10 +173,5 @@ final class MenuReviewInfoView: UIView {
             // TODO: 실패 UI 띄우기
             print("[MenuReviewInfoView] Error: 자기 리뷰 좋아요 안됨")
         }
-    }
-    
-    // TODO: 삭제
-    @objc private func didTapReportReviewButton() {
-        onReportReview?()
     }
 }
