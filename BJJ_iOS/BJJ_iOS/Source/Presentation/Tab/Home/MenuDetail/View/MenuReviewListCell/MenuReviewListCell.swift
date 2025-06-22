@@ -73,7 +73,6 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         setUI()
         setAddView()
         setConstraints()
-        setStackView()
     }
     
     required init?(coder: NSCoder) {
@@ -157,12 +156,6 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
             $0.width.bottom.equalToSuperview()
             $0.height.equalTo(7)
         }
-    }
-    
-    // MARK: - Set StackView
-    
-    private func setStackView() {
-        reviewStackView.setCustomSpacing(0, after: reviewCommentTextView)
     }
     
     // MARK: - Configure Cell
