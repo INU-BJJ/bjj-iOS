@@ -22,7 +22,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     private let reviewStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 12
-        $0.alignment = .leading
+        $0.alignment = .trailing
     }
     
     // TODO: private 해제 방법 말고 다른 방법 없을까?
@@ -36,6 +36,10 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         $0.isScrollEnabled = false
         $0.textContainerInset = .zero
         $0.textContainer.lineFragmentPadding = 0
+    }
+    
+    private lazy var reviewTextMoreButton = UILabel().then {
+        $0.setLabelUI("더보기", font: .pretendard_medium, size: 13, color: .midGray)
     }
     
     private lazy var reviewImageCollectionView = UICollectionView(
@@ -69,6 +73,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         setUI()
         setAddView()
         setConstraints()
+        setStackView()
     }
     
     required init?(coder: NSCoder) {
@@ -113,6 +118,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         [
             menuReviewInfoView,
             reviewCommentTextView,
+            reviewTextMoreButton,
             reviewImageCollectionView,
             reviewHashTagCollectionView
         ].forEach(reviewStackView.addArrangedSubview)
@@ -151,6 +157,12 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
             $0.width.bottom.equalToSuperview()
             $0.height.equalTo(7)
         }
+    }
+    
+    // MARK: - Set StackView
+    
+    private func setStackView() {
+        reviewStackView.setCustomSpacing(0, after: reviewCommentTextView)
     }
     
     // MARK: - Configure Cell
