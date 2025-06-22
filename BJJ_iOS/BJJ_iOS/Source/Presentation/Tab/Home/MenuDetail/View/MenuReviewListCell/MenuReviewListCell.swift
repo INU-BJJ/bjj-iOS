@@ -173,6 +173,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         )
         menuReviewInfoView.setUI(with: menuReview)
         reviewCommentTextView.text = menuReview.reviewComment
+        setReviewMoreButtonVisibility()
         reviewImageCollectionView.setCollectionViewLayout(flowLayout, animated: false)
         
         if reviewImageCount == 0 {
@@ -272,5 +273,20 @@ extension MenuReviewListCell: UICollectionViewDataSource {
             )
             return cell
         }
+    }
+}
+
+// MARK: Update ReviewMoreButton Hidden
+
+extension MenuReviewListCell {
+    private func setReviewMoreButtonVisibility() {
+        reviewCommentTextView.layoutIfNeeded()
+        let lines = reviewCommentTextView.numberOfLines()
+        
+        reviewTextMoreButton.isHidden = lines <= 3
+        reviewStackView.setCustomSpacing(
+            reviewTextMoreButton.isHidden ? 12 : 0,
+            after: reviewCommentTextView
+        )
     }
 }
