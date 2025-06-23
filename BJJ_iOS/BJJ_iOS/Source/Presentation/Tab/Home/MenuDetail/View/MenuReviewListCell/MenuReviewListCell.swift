@@ -39,6 +39,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         $0.setTextViewUI("", font: .pretendard_medium, size: 13, color: .black)
         $0.textContainer.lineBreakMode = .byTruncatingTail
         $0.textContainer.maximumNumberOfLines = 3
+        $0.isUserInteractionEnabled = false
         $0.isEditable = false
         $0.isScrollEnabled = false
         $0.textContainerInset = .zero
