@@ -30,7 +30,10 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         $0.axis = .vertical
         $0.spacing = 12
         $0.alignment = .trailing
-        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapReview)))
+        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapReview)).then {
+            $0.delegate = self
+            $0.cancelsTouchesInView = false
+        })
     }
     
     // TODO: private 해제 방법 말고 다른 방법 없을까?
@@ -320,6 +323,19 @@ extension MenuReviewListCell: UICollectionViewDataSource {
 extension MenuReviewListCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         onTapReviewImage?()
+    }
+}
+
+// MARK: - UIGestureRecognizer Delegate
+
+extension MenuReviewListCell: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ g: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        
+        // 터치된 뷰가 reviewImageCollectionView의 subView라면 gesture 비활성화
+        if let touchedView = touch.view,
+           touchedView.isDescendant(of: reviewImageCollectionView) { return false }
+        
+        return true
     }
 }
 
