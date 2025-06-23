@@ -226,6 +226,8 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         onTapReviewMoreButton?()
     }
     
+    // MARK: - Bind Hashtag Data
+    
     func bindHashTagData(hashTags: [String], isHighlighted: [Bool]) {
         self.hashTags = hashTags
         self.isHashTagsHighlighted = isHighlighted
