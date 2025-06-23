@@ -16,6 +16,10 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     private var reviewImages: [String] = []
     private var hashTags: [String] = []
     private var isHashTagsHighlighted: [Bool] = []
+    
+    private var isReviewExpanded = false
+    private var isOver3LineReview = false
+    
     var onTapReviewMoreButton: (() -> Void)?
     
     // MARK: - UI Components
@@ -176,6 +180,9 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         )
         menuReviewInfoView.setUI(with: menuReview)
         reviewCommentTextView.text = menuReview.reviewComment
+        if !isOver3LineReview {
+            isOver3LineReview = reviewCommentTextView.numberOfLines() > 3
+        }
         setReviewMoreButtonVisibility()
         reviewImageCollectionView.setCollectionViewLayout(flowLayout, animated: false)
         
@@ -199,8 +206,11 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     // MARK: - objc Functions
     
     @objc private func didTapReviewMoreButton() {
-        reviewCommentTextView.textContainer.maximumNumberOfLines = 0
-        reviewCommentTextView.textContainer.lineBreakMode = .byCharWrapping
+        isReviewExpanded.toggle()
+        
+        reviewTextMoreButton.text = isReviewExpanded ? "접기" : "더보기"
+        reviewCommentTextView.textContainer.maximumNumberOfLines =  isReviewExpanded ? 0 : 3
+        reviewCommentTextView.textContainer.lineBreakMode = isReviewExpanded ? .byCharWrapping : .byTruncatingTail
         reviewCommentTextView.invalidateIntrinsicContentSize()
         
         self.setNeedsLayout()
@@ -297,9 +307,7 @@ extension MenuReviewListCell: UICollectionViewDataSource {
 extension MenuReviewListCell {
     private func setReviewMoreButtonVisibility() {
         reviewCommentTextView.layoutIfNeeded()
-        let lines = reviewCommentTextView.numberOfLines()
-        
-        reviewTextMoreButton.isHidden = lines <= 3
+        reviewTextMoreButton.isHidden = !(isOver3LineReview)
         reviewStackView.setCustomSpacing(
             reviewTextMoreButton.isHidden ? 12 : 0,
             after: reviewCommentTextView
