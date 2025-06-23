@@ -21,13 +21,15 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     private var isOver3LineReview = false
     
     var onTapReviewMoreButton: (() -> Void)?
+    var onTapReview: (() -> Void)?
     
     // MARK: - UI Components
     
-    private let reviewStackView = UIStackView().then {
+    private lazy var reviewStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 12
         $0.alignment = .trailing
+        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapReview)))
     }
     
     // TODO: private 해제 방법 말고 다른 방법 없을까?
@@ -204,6 +206,10 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     }
     
     // MARK: - objc Functions
+    
+    @objc private func didTapReview() {
+        onTapReview?()
+    }
     
     @objc private func didTapReviewMoreButton() {
         isReviewExpanded.toggle()

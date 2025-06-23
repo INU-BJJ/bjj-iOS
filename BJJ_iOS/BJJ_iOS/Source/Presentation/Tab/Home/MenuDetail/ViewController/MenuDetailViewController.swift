@@ -625,6 +625,13 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             
             cell.configure(with: reviewData[indexPath.item])
             cell.bindHashTagData(hashTags: hashTags, isHighlighted: isHighlighted)
+            cell.onTapReview = { [weak self] in
+                guard let self = self else { return }
+                
+                DispatchQueue.main.async {
+                    self.presentMyReviewDetailViewController(reviewID: self.reviewData[indexPath.item].reviewID)
+                }
+            }
             cell.onTapReviewMoreButton = { [weak collectionView] in
                 guard let collectionView = collectionView else { return }
                 
