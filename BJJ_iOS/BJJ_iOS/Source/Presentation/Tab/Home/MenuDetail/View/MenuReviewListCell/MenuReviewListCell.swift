@@ -22,6 +22,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     
     var onTapReviewMoreButton: (() -> Void)?
     var onTapReview: (() -> Void)?
+    var onTapReviewImage: (() -> Void)?
     
     // MARK: - UI Components
     
@@ -58,6 +59,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     ).then {
         $0.register(MenuReviewImageCell.self, forCellWithReuseIdentifier: MenuReviewImageCell.reuseIdentifier)
         $0.dataSource = self
+        $0.delegate = self
         $0.showsHorizontalScrollIndicator = false
         $0.alwaysBounceVertical = false
     }
@@ -272,6 +274,8 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     }
 }
 
+// MARK: - UICollectionView DataSource
+
 extension MenuReviewListCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == reviewImageCollectionView {
@@ -308,6 +312,14 @@ extension MenuReviewListCell: UICollectionViewDataSource {
             )
             return cell
         }
+    }
+}
+
+// MARK: - UICollectionView Delegate
+
+extension MenuReviewListCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        onTapReviewImage?()
     }
 }
 
