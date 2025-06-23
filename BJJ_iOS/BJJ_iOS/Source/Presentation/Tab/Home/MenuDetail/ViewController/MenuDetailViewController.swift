@@ -166,6 +166,13 @@ final class MenuDetailViewController: UIViewController {
         )
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // 네비바 숨김 상태 복구
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
