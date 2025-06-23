@@ -625,6 +625,15 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             
             cell.configure(with: reviewData[indexPath.item])
             cell.bindHashTagData(hashTags: hashTags, isHighlighted: isHighlighted)
+            cell.onTapReviewMoreButton = { [weak collectionView] in
+                guard let collectionView = collectionView else { return }
+                
+                UIView.performWithoutAnimation {
+                    collectionView.performBatchUpdates({
+                        collectionView.reloadItems(at: [indexPath])
+                    })
+                }
+            }
             cell.menuReviewInfoView.onLikeToggled = { [weak self] isLiked in
                 guard let self = self else { return }
                 

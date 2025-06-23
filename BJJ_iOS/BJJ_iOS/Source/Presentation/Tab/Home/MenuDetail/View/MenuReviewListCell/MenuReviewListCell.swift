@@ -16,6 +16,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     private var reviewImages: [String] = []
     private var hashTags: [String] = []
     private var isHashTagsHighlighted: [Bool] = []
+    var onTapReviewMoreButton: (() -> Void)?
     
     // MARK: - UI Components
     
@@ -40,6 +41,8 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     
     private lazy var reviewTextMoreButton = UILabel().then {
         $0.setLabelUI("더보기", font: .pretendard_medium, size: 13, color: .midGray)
+        $0.isUserInteractionEnabled = true
+        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapReviewMoreButton)))
     }
     
     private lazy var reviewImageCollectionView = UICollectionView(
@@ -191,6 +194,19 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         DispatchQueue.main.async {
             self.reviewImageCollectionView.reloadData()
         }
+    }
+    
+    // MARK: - objc Functions
+    
+    @objc private func didTapReviewMoreButton() {
+        reviewCommentTextView.textContainer.maximumNumberOfLines = 0
+        reviewCommentTextView.textContainer.lineBreakMode = .byCharWrapping
+        reviewCommentTextView.invalidateIntrinsicContentSize()
+        
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+        
+        onTapReviewMoreButton?()
     }
     
     func bindHashTagData(hashTags: [String], isHighlighted: [Bool]) {
