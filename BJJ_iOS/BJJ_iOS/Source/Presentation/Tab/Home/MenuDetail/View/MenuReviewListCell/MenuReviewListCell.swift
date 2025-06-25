@@ -17,21 +17,43 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     private var hashTags: [String] = []
     private var isHashTagsHighlighted: [Bool] = []
     
+    private var isReviewExpanded = false
+    private var isOver3LineReview = false
+    
+    var onTapReviewMoreButton: (() -> Void)?
+    var onTapReview: (() -> Void)?
+    var onTapReviewImage: (() -> Void)?
+    
     // MARK: - UI Components
     
-    private let reviewStackView = UIStackView().then {
+    private lazy var reviewStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 12
-        $0.alignment = .leading
+        $0.alignment = .trailing
+        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapReview)).then {
+            $0.delegate = self
+            $0.cancelsTouchesInView = false
+        })
     }
     
     // TODO: private 해제 방법 말고 다른 방법 없을까?
     let menuReviewInfoView = MenuReviewInfoView()
     
-    private let reviewCommentLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
-        $0.numberOfLines = 0
-        $0.lineBreakMode = .byWordWrapping
+    private let reviewCommentTextView = UITextView().then {
+        $0.setTextViewUI("", font: .pretendard_medium, size: 13, color: .black)
+        $0.textContainer.lineBreakMode = .byTruncatingTail
+        $0.textContainer.maximumNumberOfLines = 3
+        $0.isUserInteractionEnabled = false
+        $0.isEditable = false
+        $0.isScrollEnabled = false
+        $0.textContainerInset = .zero
+        $0.textContainer.lineFragmentPadding = 0
+    }
+    
+    private lazy var reviewTextMoreButton = UILabel().then {
+        $0.setLabelUI("더보기", font: .pretendard_medium, size: 13, color: .midGray)
+        $0.isUserInteractionEnabled = true
+        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapReviewMoreButton)))
     }
     
     private lazy var reviewImageCollectionView = UICollectionView(
@@ -40,6 +62,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     ).then {
         $0.register(MenuReviewImageCell.self, forCellWithReuseIdentifier: MenuReviewImageCell.reuseIdentifier)
         $0.dataSource = self
+        $0.delegate = self
         $0.showsHorizontalScrollIndicator = false
         $0.alwaysBounceVertical = false
     }
@@ -88,7 +111,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
             $0.height.equalTo(25)
         }
         
-        reviewCommentLabel.text = ""
+        reviewCommentTextView.text = ""
         menuReviewInfoView.resetUI()
     }
     
@@ -108,7 +131,8 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         
         [
             menuReviewInfoView,
-            reviewCommentLabel,
+            reviewCommentTextView,
+            reviewTextMoreButton,
             reviewImageCollectionView,
             reviewHashTagCollectionView
         ].forEach(reviewStackView.addArrangedSubview)
@@ -129,7 +153,7 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
             $0.height.equalTo(41)
         }
         
-        reviewCommentLabel.snp.makeConstraints {
+        reviewCommentTextView.snp.makeConstraints {
             $0.width.equalToSuperview()
         }
         
@@ -163,7 +187,11 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
             reviewLikedCount: menuReview.reviewLikedCount
         )
         menuReviewInfoView.setUI(with: menuReview)
-        reviewCommentLabel.text = menuReview.reviewComment
+        reviewCommentTextView.text = menuReview.reviewComment
+        if !isOver3LineReview {
+            isOver3LineReview = reviewCommentTextView.numberOfLines() > 3
+        }
+        setReviewMoreButtonVisibility()
         reviewImageCollectionView.setCollectionViewLayout(flowLayout, animated: false)
         
         if reviewImageCount == 0 {
@@ -182,6 +210,28 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
             self.reviewImageCollectionView.reloadData()
         }
     }
+    
+    // MARK: - objc Functions
+    
+    @objc private func didTapReview() {
+        onTapReview?()
+    }
+    
+    @objc private func didTapReviewMoreButton() {
+        isReviewExpanded.toggle()
+        
+        reviewTextMoreButton.text = isReviewExpanded ? "접기" : "더보기"
+        reviewCommentTextView.textContainer.maximumNumberOfLines =  isReviewExpanded ? 0 : 3
+        reviewCommentTextView.textContainer.lineBreakMode = isReviewExpanded ? .byCharWrapping : .byTruncatingTail
+        reviewCommentTextView.invalidateIntrinsicContentSize()
+        
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+        
+        onTapReviewMoreButton?()
+    }
+    
+    // MARK: - Bind Hashtag Data
     
     func bindHashTagData(hashTags: [String], isHighlighted: [Bool]) {
         self.hashTags = hashTags
@@ -227,6 +277,8 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
     }
 }
 
+// MARK: - UICollectionView DataSource
+
 extension MenuReviewListCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == reviewImageCollectionView {
@@ -263,5 +315,39 @@ extension MenuReviewListCell: UICollectionViewDataSource {
             )
             return cell
         }
+    }
+}
+
+// MARK: - UICollectionView Delegate
+
+extension MenuReviewListCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        onTapReviewImage?()
+    }
+}
+
+// MARK: - UIGestureRecognizer Delegate
+
+extension MenuReviewListCell: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ g: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        
+        // 터치된 뷰가 reviewImageCollectionView의 subView라면 gesture 비활성화
+        if let touchedView = touch.view,
+           touchedView.isDescendant(of: reviewImageCollectionView) { return false }
+        
+        return true
+    }
+}
+
+// MARK: Update ReviewMoreButton Hidden
+
+extension MenuReviewListCell {
+    private func setReviewMoreButtonVisibility() {
+        reviewCommentTextView.layoutIfNeeded()
+        reviewTextMoreButton.isHidden = !(isOver3LineReview)
+        reviewStackView.setCustomSpacing(
+            reviewTextMoreButton.isHidden ? 12 : 0,
+            after: reviewCommentTextView
+        )
     }
 }

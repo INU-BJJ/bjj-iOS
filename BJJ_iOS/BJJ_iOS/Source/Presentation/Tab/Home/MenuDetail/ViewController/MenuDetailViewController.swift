@@ -166,6 +166,13 @@ final class MenuDetailViewController: UIViewController {
         )
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // 네비바 숨김 상태 복구
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -625,6 +632,29 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
             
             cell.configure(with: reviewData[indexPath.item])
             cell.bindHashTagData(hashTags: hashTags, isHighlighted: isHighlighted)
+            cell.onTapReview = { [weak self] in
+                guard let self = self else { return }
+                
+                DispatchQueue.main.async {
+                    self.presentMyReviewDetailViewController(reviewID: self.reviewData[indexPath.item].reviewID)
+                }
+            }
+            cell.onTapReviewImage = { [weak self] in
+                guard let self = self else { return }
+                
+                DispatchQueue.main.async {
+                    self.presentMyReviewImageDetailViewController(with: self.reviewData[indexPath.item].reviewImage ?? [])
+                }
+            }
+            cell.onTapReviewMoreButton = { [weak collectionView] in
+                guard let collectionView = collectionView else { return }
+                
+                UIView.performWithoutAnimation {
+                    collectionView.performBatchUpdates({
+                        collectionView.reloadItems(at: [indexPath])
+                    })
+                }
+            }
             cell.menuReviewInfoView.onLikeToggled = { [weak self] isLiked in
                 guard let self = self else { return }
                 
@@ -646,11 +676,6 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
                 }
                 // 각 리뷰별 타이머 저장
                 self.reviewLikeDebounceTimers[indexPath.item] = timer
-            }
-            cell.menuReviewInfoView.onReportReview = {
-                let reviewID = self.reviewData[indexPath.item].reviewID
-                
-                self.presentReportReviewViewController(reviewID: reviewID)
             }
             
             return cell
