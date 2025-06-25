@@ -25,14 +25,17 @@ final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
         $0.setLabelUI("자세한 리뷰를 작성해주세요", font: .pretendard_medium, size: 15, color: .black)
     }
     
-    // TODO: 줄바꿈 많을 경우 글자수 인디케이터 부분까지 침범하게 됨. 추후 해결 과제
-    private lazy var reviewTextView = UITextView().then {
-        $0.setTextViewUI("", font: .pretendard_medium, size: 13, color: .black)
-        $0.textContainerInset = UIEdgeInsets(top: 16, left: 17, bottom: 38, right: 36)
-        $0.textContainer.lineFragmentPadding = 0
+    private let reviewTextViewBorder = UIView().then {
         $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
         $0.layer.borderWidth = 1
         $0.layer.cornerRadius = 4
+    }
+    
+    private lazy var reviewTextView = UITextView().then {
+        $0.setTextViewUI("", font: .pretendard_medium, size: 13, color: .black)
+        $0.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 16)
+        $0.textContainer.lineFragmentPadding = 0
+        $0.contentInsetAdjustmentBehavior = .never
         $0.delegate = self
     }
     
@@ -76,12 +79,16 @@ final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
     private func setAddView() {
         [
             reviewContentLabel,
-            reviewTextView
+            reviewTextViewBorder
         ].forEach(addSubview)
         
         [
-            reviewTextViewPlaceholder,
+            reviewTextView,
             characterLimitView
+        ].forEach(reviewTextViewBorder.addSubview)
+        
+        [
+            reviewTextViewPlaceholder
         ].forEach(reviewTextView.addSubview)
         
         [
@@ -97,23 +104,28 @@ final class ReviewContentCell: UICollectionViewCell, ReuseIdentifying {
             $0.top.leading.equalToSuperview()
         }
         
-        reviewTextView.snp.makeConstraints {
+        reviewTextViewBorder.snp.makeConstraints {
             $0.top.equalTo(reviewContentLabel.snp.bottom).offset(8)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(158)
         }
         
-        reviewTextViewPlaceholder.snp.makeConstraints {
+        reviewTextView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(16)
             $0.leading.equalToSuperview().offset(17)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalToSuperview().inset(38)
+        }
+        
+        reviewTextViewPlaceholder.snp.makeConstraints {
+            $0.top.leading.equalToSuperview()
         }
         
         // TODO: 양 옆 간격 다른 것 질문
         // TODO: $0.horizontalEdges.equalToSuperView().inset(17)로 작성하면 leading, trailing 값이 다름. 원인을 모르겠음. 추후 수정
         characterLimitView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(127)
-            $0.leading.equalToSuperview().offset(-17)
-            $0.width.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.bottom.equalToSuperview().inset(14)
         }
         
         currentCharacterLabel.snp.makeConstraints {
