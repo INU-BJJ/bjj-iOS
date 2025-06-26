@@ -33,6 +33,10 @@ final class HomeViewController: UIViewController {
         $0.showsVerticalScrollIndicator = false
     }
     
+    private let separatingView = UIView().then {
+        $0.backgroundColor = .white
+    }
+    
     private let noticeView = NoticeView(type: .home).then {
         $0.isHidden = true
         $0.isUserInteractionEnabled = false
@@ -78,6 +82,7 @@ final class HomeViewController: UIViewController {
         [
             homeTopView,
             collectionView,
+            separatingView,
             noticeView
         ].forEach(view.addSubview)
     }
@@ -94,7 +99,13 @@ final class HomeViewController: UIViewController {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(homeTopView.snp.bottom).offset(18)
             $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(229)
+        }
+        
+        separatingView.snp.makeConstraints {
+            $0.top.equalTo(collectionView.snp.bottom)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(7)
         }
         
         noticeView.snp.makeConstraints {
