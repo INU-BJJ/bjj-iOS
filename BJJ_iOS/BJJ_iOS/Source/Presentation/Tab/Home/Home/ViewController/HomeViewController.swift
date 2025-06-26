@@ -93,8 +93,7 @@ final class HomeViewController: UIViewController {
         
         collectionView.snp.makeConstraints {
             $0.top.equalTo(homeTopView.snp.bottom).offset(18)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
         
@@ -133,7 +132,7 @@ final class HomeViewController: UIViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 0)
         
         return section
     }
@@ -147,7 +146,7 @@ final class HomeViewController: UIViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 8
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 21)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 21)
         
         return section
     }
