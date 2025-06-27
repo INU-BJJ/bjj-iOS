@@ -14,7 +14,7 @@ final class HomeCafeteriaInfoView: UIView {
     // MARK: - UI Components
     
     private let titleLabel = UILabel().then {
-        $0.setLabelUI("식당 정보", font: .pretendard_bold, size: 18, color: .black)
+        $0.setLabelUI("식당 정보", font: .pretendard_semibold, size: 18, color: .black)
     }
     
     // MARK: - LifeCycle

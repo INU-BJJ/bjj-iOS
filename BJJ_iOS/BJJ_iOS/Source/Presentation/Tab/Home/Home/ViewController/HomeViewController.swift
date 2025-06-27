@@ -37,6 +37,8 @@ final class HomeViewController: UIViewController {
         $0.backgroundColor = .white
     }
     
+    private let cafeteriaInfoView = HomeCafeteriaInfoView()
+    
     private let noticeView = NoticeView(type: .home).then {
         $0.isHidden = true
         $0.isUserInteractionEnabled = false
@@ -83,6 +85,7 @@ final class HomeViewController: UIViewController {
             homeTopView,
             collectionView,
             separatingView,
+            cafeteriaInfoView,
             noticeView
         ].forEach(view.addSubview)
     }
@@ -106,6 +109,11 @@ final class HomeViewController: UIViewController {
             $0.top.equalTo(collectionView.snp.bottom)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(7)
+        }
+        
+        cafeteriaInfoView.snp.makeConstraints {
+            $0.top.equalTo(separatingView)
+            $0.horizontalEdges.bottom.equalToSuperview()
         }
         
         noticeView.snp.makeConstraints {
