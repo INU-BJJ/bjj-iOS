@@ -17,6 +17,10 @@ final class HomeCafeteriaInfoView: UIView {
         $0.setLabelUI("식당 정보", font: .pretendard_semibold, size: 18, color: .black)
     }
     
+    private let cafeteriaInfoDownArrow = UIImageView().then {
+        $0.image = UIImage(named: "CafeteriaInfoDownArrow")
+    }
+    
     // MARK: - LifeCycle
         
     override init(frame: CGRect) {
@@ -41,7 +45,8 @@ final class HomeCafeteriaInfoView: UIView {
     
     private func setAddView() {
         [
-            titleLabel
+            titleLabel,
+            cafeteriaInfoDownArrow
         ].forEach(addSubview)
     }
     
@@ -51,6 +56,11 @@ final class HomeCafeteriaInfoView: UIView {
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(18)
             $0.leading.equalToSuperview().offset(20)
+        }
+        
+        cafeteriaInfoDownArrow.snp.makeConstraints {
+            $0.leading.equalTo(titleLabel.snp.trailing).offset(8)
+            $0.centerY.equalTo(titleLabel)
         }
     }
 }
