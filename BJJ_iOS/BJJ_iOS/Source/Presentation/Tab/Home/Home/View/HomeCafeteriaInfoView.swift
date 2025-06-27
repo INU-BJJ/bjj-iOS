@@ -21,6 +21,18 @@ final class HomeCafeteriaInfoView: UIView {
         $0.image = UIImage(named: "CafeteriaInfoDownArrow")
     }
     
+    private let cafeteriaNameLabel = UILabel().then {
+        $0.setLabelUI("식당 이름", font: .pretendard_bold, size: 16, color: .darkGray)
+    }
+    
+    private let cafeteriaLocationLabel = UILabel().then {
+        $0.setLabelUI("식당 위치", font: .pretendard_semibold, size: 15, color: .darkGray)
+    }
+    
+    private let serviceHourLabel = UILabel().then {
+        $0.setLabelUI("운영 시간", font: .pretendard_bold, size: 15, color: .darkGray)
+    }
+    
     // MARK: - LifeCycle
         
     override init(frame: CGRect) {
@@ -46,7 +58,10 @@ final class HomeCafeteriaInfoView: UIView {
     private func setAddView() {
         [
             titleLabel,
-            cafeteriaInfoDownArrow
+            cafeteriaInfoDownArrow,
+            cafeteriaNameLabel,
+            cafeteriaLocationLabel,
+            serviceHourLabel
         ].forEach(addSubview)
     }
     
@@ -61,6 +76,21 @@ final class HomeCafeteriaInfoView: UIView {
         cafeteriaInfoDownArrow.snp.makeConstraints {
             $0.leading.equalTo(titleLabel.snp.trailing).offset(8)
             $0.centerY.equalTo(titleLabel)
+        }
+        
+        cafeteriaNameLabel.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(20)
+            $0.leading.equalTo(titleLabel)
+        }
+        
+        cafeteriaLocationLabel.snp.makeConstraints {
+            $0.top.equalTo(cafeteriaNameLabel)
+            $0.leading.equalTo(cafeteriaNameLabel.snp.trailing).offset(20)
+        }
+        
+        serviceHourLabel.snp.makeConstraints {
+            $0.top.equalTo(cafeteriaNameLabel.snp.bottom).offset(12)
+            $0.leading.equalTo(cafeteriaNameLabel)
         }
     }
 }

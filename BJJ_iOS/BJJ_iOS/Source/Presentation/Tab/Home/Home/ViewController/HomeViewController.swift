@@ -112,7 +112,7 @@ final class HomeViewController: UIViewController {
         }
         
         cafeteriaInfoView.snp.makeConstraints {
-            $0.top.equalTo(separatingView)
+            $0.top.equalTo(separatingView.snp.bottom)
             $0.horizontalEdges.bottom.equalToSuperview()
         }
         
