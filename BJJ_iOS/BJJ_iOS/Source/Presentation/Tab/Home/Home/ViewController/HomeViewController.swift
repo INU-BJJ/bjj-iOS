@@ -116,7 +116,7 @@ final class HomeViewController: UIViewController {
         collectionView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.horizontalEdges.equalTo(scrollView.frameLayoutGuide)
-            $0.height.equalTo(450)
+            $0.height.equalTo(423)
         }
         
         separatingView.snp.makeConstraints {
@@ -132,7 +132,8 @@ final class HomeViewController: UIViewController {
         }
         
         noticeView.snp.makeConstraints {
-            $0.edges.equalTo(view)
+            $0.top.equalTo(scrollView.contentLayoutGuide.snp.top).offset(-205)
+            $0.centerX.equalTo(scrollView.frameLayoutGuide)
         }
     }
     
@@ -325,4 +326,3 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
 }
-
