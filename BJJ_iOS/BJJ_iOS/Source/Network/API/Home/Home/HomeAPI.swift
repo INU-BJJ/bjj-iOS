@@ -19,12 +19,12 @@ final class HomeAPI {
             )
         }
     
-    static func fetchCafeteriaInfo(cafeteriaName: String, completion: @escaping (Result<[HomeCafeteriaInfo], Error>) -> Void) {
+    static func fetchCafeteriaInfo(cafeteriaName: String, completion: @escaping (Result<HomeCafeteriaInfo, Error>) -> Void) {
         networkRequest(
             urlStr: HomeAddress.fetchCafeteriaInfo(cafeteriaName).url,
             method: .get,
             data: nil,
-            model: [HomeCafeteriaInfo].self,
+            model: HomeCafeteriaInfo.self,
             completion: completion
         )
     }
