@@ -170,14 +170,12 @@ final class HomeCafeteriaInfoView: UIView {
         
         weekendLunchHourLabel.snp.makeConstraints {
             $0.top.equalTo(weekDayLunchHourLabel)
-            // TODO: 구분선을 기준으로 leading값으로 변경
-            $0.trailing.equalToSuperview().inset(20)
+            $0.leading.equalTo(verticalLine.snp.trailing).offset(17)
         }
         
         weekendDinnerHourLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(6)
-            // TODO: 구분선을 기준으로 leading값으로 변경
-            $0.trailing.equalToSuperview().inset(20)
+            $0.leading.equalTo(verticalLine.snp.trailing).offset(17)
         }
         
         verticalLine.snp.makeConstraints {
