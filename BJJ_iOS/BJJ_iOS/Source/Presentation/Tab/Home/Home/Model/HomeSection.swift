@@ -46,4 +46,15 @@ enum HomeItem: Hashable {
     case menu(String)
 }
 
+struct HomeCafeteriaInfoSection: Hashable {
+    let cafeteriaName: String
+    let cafeteriaLocation: String
+    let serviceTime: CafeteriaServiceTime
+    let cafeteriaMapImage: String
+}
 
+struct CafeteriaServiceTime: Hashable {
+    let serviceHourTitle: String
+    let weekDaysServiceTime: [String]
+    let weekendsServiceTime: [String]
+}

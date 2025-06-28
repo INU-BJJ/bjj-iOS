@@ -16,6 +16,7 @@ final class HomeViewController: UIViewController {
     private var previousCafeteriaIndex: Int = 0
     private var presentCafeteriaIndex: Int = 0
     private var currentMenus: [HomeMenuModel] = []
+    private var cafeteriaInfo: HomeCafeteriaInfoSection?
     
     // MARK: - UI Components
     
@@ -64,6 +65,7 @@ final class HomeViewController: UIViewController {
         // TODO: 홈 탭으로 돌아올 때마다 무조건 학생식당 메뉴로 돌아옴. 이전에 선택한 식당으로 돌아가도록 설계 변경?
         reloadCafeteriaSection()
         fetchAllMenuData(cafeteriaName: "학생식당")
+        fetchCafeteriaInfo(cafeteriaName: "학생식당")
     }
     
     // MARK: - Bind
@@ -228,6 +230,27 @@ final class HomeViewController: UIViewController {
         }
     }
     
+    private func fetchCafeteriaInfo(cafeteriaName: String) {
+        HomeAPI.fetchCafeteriaInfo(cafeteriaName: cafeteriaName) { result in
+            switch result {
+            case .success(let response):
+                self.cafeteriaInfo = HomeCafeteriaInfoSection(
+                    cafeteriaName: response.cafeteriaName,
+                    cafeteriaLocation: response.cafeteriaLocation,
+                    serviceTime: CafeteriaServiceTime(
+                                    serviceHourTitle: response.serviceTime.serviceHourTitle,
+                                    weekDaysServiceTime: response.serviceTime.weekDaysServiceTime,
+                                    weekendsServiceTime: response.serviceTime.weekendsServiceTime
+                                ),
+                    cafeteriaMapImage: response.cafeteriaMapImage
+                )
+                
+            case .failure(let error):
+                print("[Home fetchCafeteriaInfo Error]: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     // MARK: - Reload CafeteriaSection
     
     private func reloadCafeteriaSection() {
@@ -289,14 +312,19 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             switch presentCafeteriaIndex {
             case 0:
                 fetchAllMenuData(cafeteriaName: "학생식당")
+                fetchCafeteriaInfo(cafeteriaName: "학생식당")
             case 1:
                 fetchAllMenuData(cafeteriaName: "2호관식당")
+                fetchCafeteriaInfo(cafeteriaName: "2호관식당")
             case 2:
                 fetchAllMenuData(cafeteriaName: "제1기숙사식당")
+                fetchCafeteriaInfo(cafeteriaName: "제1기숙사식당")
             case 3:
                 fetchAllMenuData(cafeteriaName: "27호관식당")
+                fetchCafeteriaInfo(cafeteriaName: "27호관식당")
             case 4:
                 fetchAllMenuData(cafeteriaName: "사범대식당")
+                fetchCafeteriaInfo(cafeteriaName: "사범대식당")
             default:
                 currentMenus = []
             }
