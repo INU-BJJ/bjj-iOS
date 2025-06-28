@@ -62,6 +62,14 @@ final class HomeCafeteriaInfoView: UIView {
         $0.setLabelUI("주말 석식 운영시간", font: .pretendard_medium, size: 15, color: .darkGray)
     }
     
+    private let verticalLine = UIView().then {
+        $0.backgroundColor = .customColor(.darkGray)
+    }
+    
+    private let horizontalLine = UIView().then {
+        $0.backgroundColor = .customColor(.darkGray)
+    }
+    
     // MARK: - LifeCycle
         
     override init(frame: CGRect) {
@@ -100,7 +108,9 @@ final class HomeCafeteriaInfoView: UIView {
             weekDayLunchHourLabel,
             weekDayDinnerHourLabel,
             weekendLunchHourLabel,
-            weekendDinnerHourLabel
+            weekendDinnerHourLabel,
+            verticalLine,
+            horizontalLine
         ].forEach(serviceHourView.addSubview)
     }
     
@@ -168,6 +178,18 @@ final class HomeCafeteriaInfoView: UIView {
             $0.bottom.equalToSuperview().inset(6)
             // TODO: 구분선을 기준으로 leading값으로 변경
             $0.trailing.equalToSuperview().inset(20)
+        }
+        
+        verticalLine.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(1)
+            $0.verticalEdges.equalToSuperview()
+        }
+        
+        horizontalLine.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(25)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(1)
         }
     }
 }
