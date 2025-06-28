@@ -70,6 +70,12 @@ final class HomeCafeteriaInfoView: UIView {
         $0.backgroundColor = .customColor(.darkGray)
     }
     
+    private let cafeteriaMap = UIImageView().then {
+        // TODO: 서버 이미지로 교체
+        $0.backgroundColor = .red
+        $0.layer.cornerRadius = 3
+    }
+    
     // MARK: - LifeCycle
         
     override init(frame: CGRect) {
@@ -99,7 +105,8 @@ final class HomeCafeteriaInfoView: UIView {
             cafeteriaNameLabel,
             cafeteriaLocationLabel,
             serviceHourLabel,
-            serviceHourView
+            serviceHourView,
+            cafeteriaMap
         ].forEach(addSubview)
         
         [
@@ -188,6 +195,12 @@ final class HomeCafeteriaInfoView: UIView {
             $0.top.equalToSuperview().offset(25)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(1)
+        }
+        
+        cafeteriaMap.snp.makeConstraints {
+            $0.top.equalTo(serviceHourView.snp.bottom).offset(20)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(212)
         }
     }
 }

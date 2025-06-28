@@ -128,7 +128,7 @@ final class HomeViewController: UIViewController {
         cafeteriaInfoView.snp.makeConstraints {
             $0.top.equalTo(separatingView.snp.bottom)
             $0.horizontalEdges.equalTo(scrollView.frameLayoutGuide)
-            $0.bottom.equalToSuperview().inset(225)
+            $0.bottom.equalToSuperview().inset(450)
         }
         
         noticeView.snp.makeConstraints {
