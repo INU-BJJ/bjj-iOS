@@ -33,7 +33,7 @@ final class HomeCafeteriaInfoView: UIView {
         $0.setLabelUI("운영 시간", font: .pretendard_bold, size: 15, color: .darkGray)
     }
     
-    private let headerLabelView = UIView().then {
+    private let serviceHourView = UIView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 3
     }
@@ -44,6 +44,22 @@ final class HomeCafeteriaInfoView: UIView {
     
     private let weekendLabel = UILabel().then {
         $0.setLabelUI("주말", font: .pretendard_semibold, size: 15, color: .darkGray)
+    }
+    
+    private let weekDayLunchHourLabel = UILabel().then {
+        $0.setLabelUI("주중 중식 운영시간", font: .pretendard_medium, size: 15, color: .darkGray)
+    }
+    
+    private let weekDayDinnerHourLabel = UILabel().then {
+        $0.setLabelUI("주중 석식 운영시간", font: .pretendard_medium, size: 15, color: .darkGray)
+    }
+    
+    private let weekendLunchHourLabel = UILabel().then {
+        $0.setLabelUI("주말 중식 운영시간", font: .pretendard_medium, size: 15, color: .darkGray)
+    }
+    
+    private let weekendDinnerHourLabel = UILabel().then {
+        $0.setLabelUI("주말 석식 운영시간", font: .pretendard_medium, size: 15, color: .darkGray)
     }
     
     // MARK: - LifeCycle
@@ -75,13 +91,17 @@ final class HomeCafeteriaInfoView: UIView {
             cafeteriaNameLabel,
             cafeteriaLocationLabel,
             serviceHourLabel,
-            headerLabelView
+            serviceHourView
         ].forEach(addSubview)
         
         [
             weekDayLabel,
-            weekendLabel
-        ].forEach(headerLabelView.addSubview)
+            weekendLabel,
+            weekDayLunchHourLabel,
+            weekDayDinnerHourLabel,
+            weekendLunchHourLabel,
+            weekendDinnerHourLabel
+        ].forEach(serviceHourView.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -112,7 +132,7 @@ final class HomeCafeteriaInfoView: UIView {
             $0.leading.equalTo(cafeteriaNameLabel)
         }
         
-        headerLabelView.snp.makeConstraints {
+        serviceHourView.snp.makeConstraints {
             $0.top.equalTo(serviceHourLabel.snp.bottom).offset(8)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.height.equalTo(76)
@@ -126,6 +146,28 @@ final class HomeCafeteriaInfoView: UIView {
         weekendLabel.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(66)
             $0.top.equalToSuperview().offset(4)
+        }
+        
+        weekDayLunchHourLabel.snp.makeConstraints {
+            $0.top.equalTo(weekDayLabel.snp.bottom).offset(8)
+            $0.leading.equalToSuperview().offset(17)
+        }
+        
+        weekDayDinnerHourLabel.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(6)
+            $0.leading.equalToSuperview().offset(17)
+        }
+        
+        weekendLunchHourLabel.snp.makeConstraints {
+            $0.top.equalTo(weekDayLunchHourLabel)
+            // TODO: 구분선을 기준으로 leading값으로 변경
+            $0.trailing.equalToSuperview().inset(20)
+        }
+        
+        weekendDinnerHourLabel.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(6)
+            // TODO: 구분선을 기준으로 leading값으로 변경
+            $0.trailing.equalToSuperview().inset(20)
         }
     }
 }
