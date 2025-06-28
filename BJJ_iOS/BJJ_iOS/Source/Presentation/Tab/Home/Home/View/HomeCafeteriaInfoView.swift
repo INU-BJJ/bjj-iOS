@@ -33,6 +33,19 @@ final class HomeCafeteriaInfoView: UIView {
         $0.setLabelUI("운영 시간", font: .pretendard_bold, size: 15, color: .darkGray)
     }
     
+    private let headerLabelView = UIView().then {
+        $0.backgroundColor = .white
+        $0.layer.cornerRadius = 3
+    }
+    
+    private let weekDayLabel = UILabel().then {
+        $0.setLabelUI("평일", font: .pretendard_semibold, size: 15, color: .darkGray)
+    }
+    
+    private let weekendLabel = UILabel().then {
+        $0.setLabelUI("주말", font: .pretendard_semibold, size: 15, color: .darkGray)
+    }
+    
     // MARK: - LifeCycle
         
     override init(frame: CGRect) {
@@ -61,8 +74,14 @@ final class HomeCafeteriaInfoView: UIView {
             cafeteriaInfoDownArrow,
             cafeteriaNameLabel,
             cafeteriaLocationLabel,
-            serviceHourLabel
+            serviceHourLabel,
+            headerLabelView
         ].forEach(addSubview)
+        
+        [
+            weekDayLabel,
+            weekendLabel
+        ].forEach(headerLabelView.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -91,6 +110,22 @@ final class HomeCafeteriaInfoView: UIView {
         serviceHourLabel.snp.makeConstraints {
             $0.top.equalTo(cafeteriaNameLabel.snp.bottom).offset(12)
             $0.leading.equalTo(cafeteriaNameLabel)
+        }
+        
+        headerLabelView.snp.makeConstraints {
+            $0.top.equalTo(serviceHourLabel.snp.bottom).offset(8)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(76)
+        }
+        
+        weekDayLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(66)
+            $0.top.equalToSuperview().offset(4)
+        }
+        
+        weekendLabel.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(66)
+            $0.top.equalToSuperview().offset(4)
         }
     }
 }
