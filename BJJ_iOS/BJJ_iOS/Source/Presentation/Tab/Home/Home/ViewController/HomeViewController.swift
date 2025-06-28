@@ -21,6 +21,10 @@ final class HomeViewController: UIViewController {
     
     private let homeTopView = HomeTopView()
     
+    private let scrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+    }
+    
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createLayout()
@@ -32,6 +36,12 @@ final class HomeViewController: UIViewController {
         $0.dataSource = self
         $0.showsVerticalScrollIndicator = false
     }
+    
+    private let separatingView = UIView().then {
+        $0.backgroundColor = .white
+    }
+    
+    private let cafeteriaInfoView = HomeCafeteriaInfoView()
     
     private let noticeView = NoticeView(type: .home).then {
         $0.isHidden = true
@@ -77,9 +87,15 @@ final class HomeViewController: UIViewController {
     private func setAddView() {
         [
             homeTopView,
-            collectionView,
-            noticeView
+            scrollView
         ].forEach(view.addSubview)
+        
+        [
+            collectionView,
+            separatingView,
+            cafeteriaInfoView,
+            noticeView
+        ].forEach(scrollView.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -91,15 +107,33 @@ final class HomeViewController: UIViewController {
             $0.height.equalTo(182)
         }
         
-        collectionView.snp.makeConstraints {
+        scrollView.snp.makeConstraints {
             $0.top.equalTo(homeTopView.snp.bottom).offset(18)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(85)
+        }
+        
+        collectionView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalTo(scrollView.frameLayoutGuide)
+            $0.height.equalTo(423)
+        }
+        
+        separatingView.snp.makeConstraints {
+            $0.top.equalTo(collectionView.snp.bottom)
+            $0.horizontalEdges.equalTo(scrollView.frameLayoutGuide)
+            $0.height.equalTo(7)
+        }
+        
+        cafeteriaInfoView.snp.makeConstraints {
+            $0.top.equalTo(separatingView.snp.bottom)
+            $0.horizontalEdges.equalTo(scrollView.frameLayoutGuide)
+            $0.bottom.equalToSuperview().inset(450)
         }
         
         noticeView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(scrollView.contentLayoutGuide.snp.top).offset(-205)
+            $0.centerX.equalTo(scrollView.frameLayoutGuide)
         }
     }
     
@@ -133,7 +167,7 @@ final class HomeViewController: UIViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 0)
         
         return section
     }
@@ -147,7 +181,7 @@ final class HomeViewController: UIViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 8
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 21)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 21)
         
         return section
     }
@@ -292,4 +326,3 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
 }
-

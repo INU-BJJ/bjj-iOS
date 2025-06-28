@@ -142,6 +142,7 @@
 		3FC123292DA5245100676A09 /* MemberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC123282DA5245100676A09 /* MemberModel.swift */; };
 		3FC1232B2DA5246000676A09 /* MemberAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC1232A2DA5246000676A09 /* MemberAddress.swift */; };
 		3FC1232D2DA5246B00676A09 /* MemberAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC1232C2DA5246B00676A09 /* MemberAPI.swift */; };
+		3FC68D922E0D96E300BCA1B6 /* HomeCafeteriaInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC68D912E0D96E300BCA1B6 /* HomeCafeteriaInfoView.swift */; };
 		3FC691592D1D53D7004643D2 /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC691582D1D53D7004643D2 /* ServiceAPI.swift */; };
 		3FC6915C2D1D5795004643D2 /* HomeAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC6915B2D1D5795004643D2 /* HomeAddress.swift */; };
 		3FC6915F2D1D57B0004643D2 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC6915E2D1D57B0004643D2 /* HomeModel.swift */; };
@@ -330,6 +331,7 @@
 		3FC123282DA5245100676A09 /* MemberModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberModel.swift; sourceTree = "<group>"; };
 		3FC1232A2DA5246000676A09 /* MemberAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAddress.swift; sourceTree = "<group>"; };
 		3FC1232C2DA5246B00676A09 /* MemberAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAPI.swift; sourceTree = "<group>"; };
+		3FC68D912E0D96E300BCA1B6 /* HomeCafeteriaInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCafeteriaInfoView.swift; sourceTree = "<group>"; };
 		3FC691582D1D53D7004643D2 /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
 		3FC6915B2D1D5795004643D2 /* HomeAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAddress.swift; sourceTree = "<group>"; };
 		3FC6915E2D1D57B0004643D2 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
@@ -709,6 +711,7 @@
 				3F3AB7D82CB3D59C0013FABA /* HomeTopView.swift */,
 				3F61DF4C2CB31B1A00A019E8 /* HomeCafeteriaCell.swift */,
 				3F61DF4E2CB31B2E00A019E8 /* HomeMenuCell.swift */,
+				3FC68D912E0D96E300BCA1B6 /* HomeCafeteriaInfoView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1963,6 +1966,7 @@
 				3F1BC3182D50D8EE00B153BA /* CafeteriaMyReviewViewController.swift in Sources */,
 				3FB396D42DAE1F8900EF87A8 /* SettingAddress.swift in Sources */,
 				3FADD2222D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift in Sources */,
+				3FC68D922E0D96E300BCA1B6 /* HomeCafeteriaInfoView.swift in Sources */,
 				3F1613272CD8582D00A30369 /* MenuReviewCell.swift in Sources */,
 				3F2BE79A2D50ECD3005003CC /* MyReviewDetailSection.swift in Sources */,
 				3FB396D02DAE1C5800EF87A8 /* NicknameEditViewController.swift in Sources */,
