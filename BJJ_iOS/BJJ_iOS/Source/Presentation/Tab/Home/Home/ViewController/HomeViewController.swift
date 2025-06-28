@@ -21,6 +21,10 @@ final class HomeViewController: UIViewController {
     
     private let homeTopView = HomeTopView()
     
+    private let scrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+    }
+    
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createLayout()
@@ -83,11 +87,15 @@ final class HomeViewController: UIViewController {
     private func setAddView() {
         [
             homeTopView,
+            scrollView
+        ].forEach(view.addSubview)
+        
+        [
             collectionView,
             separatingView,
             cafeteriaInfoView,
             noticeView
-        ].forEach(view.addSubview)
+        ].forEach(scrollView.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -99,25 +107,32 @@ final class HomeViewController: UIViewController {
             $0.height.equalTo(182)
         }
         
-        collectionView.snp.makeConstraints {
+        scrollView.snp.makeConstraints {
             $0.top.equalTo(homeTopView.snp.bottom).offset(18)
             $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(229)
+            $0.bottom.equalToSuperview().inset(85)
+        }
+        
+        collectionView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalTo(scrollView.frameLayoutGuide)
+            $0.height.equalTo(450)
         }
         
         separatingView.snp.makeConstraints {
             $0.top.equalTo(collectionView.snp.bottom)
-            $0.horizontalEdges.equalToSuperview()
+            $0.horizontalEdges.equalTo(scrollView.frameLayoutGuide)
             $0.height.equalTo(7)
         }
         
         cafeteriaInfoView.snp.makeConstraints {
             $0.top.equalTo(separatingView.snp.bottom)
-            $0.horizontalEdges.bottom.equalToSuperview()
+            $0.horizontalEdges.equalTo(scrollView.frameLayoutGuide)
+            $0.bottom.equalToSuperview().inset(225)
         }
         
         noticeView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.edges.equalTo(view)
         }
     }
     
