@@ -9,11 +9,14 @@ import Foundation
 
 enum HomeAddress {
     case fetchAllMenuInfo
+    case fetchCafeteriaInfo(String)
     
     var url: String {
         switch self {
         case .fetchAllMenuInfo:
             return "today-diets"
+        case .fetchCafeteriaInfo(let cafeteriaName):
+            return "cafeterias/\(cafeteriaName)"
         }
     }
 }
