@@ -22,15 +22,15 @@ final class HomeCafeteriaInfoView: UIView {
     }
     
     private let cafeteriaNameLabel = UILabel().then {
-        $0.setLabelUI("식당 이름", font: .pretendard_bold, size: 16, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard_bold, size: 16, color: .darkGray)
     }
     
     private let cafeteriaLocationLabel = UILabel().then {
-        $0.setLabelUI("식당 위치", font: .pretendard_semibold, size: 15, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard_semibold, size: 15, color: .darkGray)
     }
     
     private let serviceHourLabel = UILabel().then {
-        $0.setLabelUI("운영 시간", font: .pretendard_bold, size: 15, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard_bold, size: 15, color: .darkGray)
     }
     
     private let serviceHourView = UIView().then {
@@ -202,5 +202,14 @@ final class HomeCafeteriaInfoView: UIView {
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.height.equalTo(212)
         }
+    }
+    
+    // MARK: - Configure View
+    
+    func configureCafeteriaInfoView(with cafeteriaInfo: HomeCafeteriaInfoSection) {
+        cafeteriaNameLabel.text = cafeteriaInfo.cafeteriaName
+        cafeteriaLocationLabel.text = cafeteriaInfo.cafeteriaLocation
+        serviceHourLabel.text = cafeteriaInfo.serviceTime.serviceHourTitle
+        cafeteriaMap.kf.setImage(with: URL(string: "\(baseURL.cafeteriaMapImageURL)\(cafeteriaInfo.cafeteriaMapImage)"))
     }
 }

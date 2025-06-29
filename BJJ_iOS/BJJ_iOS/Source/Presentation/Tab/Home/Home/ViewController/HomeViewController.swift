@@ -344,6 +344,19 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             
             collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             
+            cafeteriaInfoView.configureCafeteriaInfoView(
+                with: cafeteriaInfo ?? HomeCafeteriaInfoSection(
+                    cafeteriaName: "",
+                    cafeteriaLocation: "",
+                    serviceTime: CafeteriaServiceTime(
+                        serviceHourTitle: "",
+                        weekDaysServiceTime: [],
+                        weekendsServiceTime: []
+                    ),
+                    cafeteriaMapImage: ""
+                )
+            )
+            
         } else {    // 메뉴 섹션에서 선택 시
             let selectedMenu = currentMenus[indexPath.item]
             
