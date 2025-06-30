@@ -205,12 +205,12 @@ final class HomeCafeteriaInfoView: UIView {
         
         weekDaysServiceTimeLabel.snp.makeConstraints {
             $0.top.equalTo(horizontalLine.snp.bottom).offset(15)
-            weekDaysServiceTimeLeading = $0.leading.equalToSuperview().offset(17).constraint
+            weekDaysServiceTimeLeading = $0.leading.equalTo(weekDayLabel.snp.leading).offset(-49).constraint
         }
         
         weekendsServiceTimeLabel.snp.makeConstraints {
             $0.top.equalTo(horizontalLine.snp.bottom).offset(15)
-            weekendsServiceTimeLeading = $0.leading.equalTo(verticalLine.snp.trailing).offset(17).constraint
+            weekendsServiceTimeLeading = $0.leading.equalTo(weekendLabel.snp.leading).offset(-49).constraint
         }
         
         verticalLine.snp.makeConstraints {
@@ -251,9 +251,9 @@ final class HomeCafeteriaInfoView: UIView {
             weekDaysServiceTimeLabel.isHidden = false
             
             if cafeteriaInfo.serviceTime.weekDaysServiceTime[0].contains("휴점") {
-                weekDaysServiceTimeLeading?.update(offset: 66)
+                weekDaysServiceTimeLeading?.update(offset: 0)
             } else {
-                weekDaysServiceTimeLeading?.update(offset: 17)
+                weekDaysServiceTimeLeading?.update(offset: -49)
             }
             
         case 2:
@@ -274,9 +274,9 @@ final class HomeCafeteriaInfoView: UIView {
             weekendsServiceTimeLabel.isHidden = false
             
             if cafeteriaInfo.serviceTime.weekendsServiceTime[0].contains("휴점") {
-                weekendsServiceTimeLeading?.update(offset: 66)
+                weekendsServiceTimeLeading?.update(offset: 0)
             } else {
-                weekendsServiceTimeLeading?.update(offset: 17)
+                weekendsServiceTimeLeading?.update(offset: -49)
             }
             
         case 2:
