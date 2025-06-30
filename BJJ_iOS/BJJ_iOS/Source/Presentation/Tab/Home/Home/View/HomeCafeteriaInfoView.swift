@@ -169,6 +169,7 @@ final class HomeCafeteriaInfoView: UIView {
         serviceHourView.snp.makeConstraints {
             $0.top.equalTo(serviceHourLabel.snp.bottom).offset(8)
             $0.horizontalEdges.equalToSuperview().inset(20)
+            // TODO: 휴점 문구도 없을 경우의 높이 고려?
             $0.height.equalTo(76)
         }
         
