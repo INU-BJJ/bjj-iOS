@@ -174,13 +174,13 @@ final class HomeCafeteriaInfoView: UIView {
         }
         
         weekDayLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(66)
-            $0.top.equalToSuperview().offset(4)
+            $0.centerX.equalTo(verticalLine.snp.leading).multipliedBy(0.5)
+            $0.centerY.equalTo(horizontalLine.snp.top).multipliedBy(0.5)
         }
         
         weekendLabel.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(66)
-            $0.top.equalToSuperview().offset(4)
+            $0.centerX.equalTo(verticalLine.snp.centerX).multipliedBy(1.5)
+            $0.centerY.equalTo(horizontalLine.snp.top).multipliedBy(0.5)
         }
         
         weekDayLunchHourLabel.snp.makeConstraints {
