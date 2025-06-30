@@ -87,9 +87,8 @@ final class HomeCafeteriaInfoView: UIView {
     }
     
     private let cafeteriaMap = UIImageView().then {
-        // TODO: 서버 이미지로 교체
-        $0.backgroundColor = .red
         $0.layer.cornerRadius = 3
+        $0.layer.masksToBounds = true
     }
     
     // MARK: - LifeCycle
