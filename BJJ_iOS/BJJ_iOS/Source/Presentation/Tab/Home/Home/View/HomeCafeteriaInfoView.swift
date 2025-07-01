@@ -8,8 +8,14 @@
 import UIKit
 import SnapKit
 import Then
+import Kingfisher
 
 final class HomeCafeteriaInfoView: UIView {
+    
+    // MARK: - Properties
+    
+    private var weekDaysServiceTimeLeading: Constraint?
+    private var weekendsServiceTimeLeading: Constraint?
     
     // MARK: - UI Components
     
@@ -22,15 +28,15 @@ final class HomeCafeteriaInfoView: UIView {
     }
     
     private let cafeteriaNameLabel = UILabel().then {
-        $0.setLabelUI("식당 이름", font: .pretendard_bold, size: 16, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard_bold, size: 16, color: .darkGray)
     }
     
     private let cafeteriaLocationLabel = UILabel().then {
-        $0.setLabelUI("식당 위치", font: .pretendard_semibold, size: 15, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard_semibold, size: 15, color: .darkGray)
     }
     
     private let serviceHourLabel = UILabel().then {
-        $0.setLabelUI("운영 시간", font: .pretendard_bold, size: 15, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard_bold, size: 15, color: .darkGray)
     }
     
     private let serviceHourView = UIView().then {
@@ -47,19 +53,29 @@ final class HomeCafeteriaInfoView: UIView {
     }
     
     private let weekDayLunchHourLabel = UILabel().then {
-        $0.setLabelUI("주중 중식 운영시간", font: .pretendard_medium, size: 15, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard_medium, size: 15, color: .darkGray)
     }
     
     private let weekDayDinnerHourLabel = UILabel().then {
-        $0.setLabelUI("주중 석식 운영시간", font: .pretendard_medium, size: 15, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard_medium, size: 15, color: .darkGray)
     }
     
     private let weekendLunchHourLabel = UILabel().then {
-        $0.setLabelUI("주말 중식 운영시간", font: .pretendard_medium, size: 15, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard_medium, size: 15, color: .darkGray)
     }
     
     private let weekendDinnerHourLabel = UILabel().then {
-        $0.setLabelUI("주말 석식 운영시간", font: .pretendard_medium, size: 15, color: .darkGray)
+        $0.setLabelUI("", font: .pretendard_medium, size: 15, color: .darkGray)
+    }
+    
+    private let weekDaysServiceTimeLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_medium, size: 15, color: .darkGray)
+        $0.isHidden = true
+    }
+    
+    private let weekendsServiceTimeLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_medium, size: 15, color: .darkGray)
+        $0.isHidden = true
     }
     
     private let verticalLine = UIView().then {
@@ -71,9 +87,8 @@ final class HomeCafeteriaInfoView: UIView {
     }
     
     private let cafeteriaMap = UIImageView().then {
-        // TODO: 서버 이미지로 교체
-        $0.backgroundColor = .red
         $0.layer.cornerRadius = 3
+        $0.layer.masksToBounds = true
     }
     
     // MARK: - LifeCycle
@@ -116,6 +131,8 @@ final class HomeCafeteriaInfoView: UIView {
             weekDayDinnerHourLabel,
             weekendLunchHourLabel,
             weekendDinnerHourLabel,
+            weekDaysServiceTimeLabel,
+            weekendsServiceTimeLabel,
             verticalLine,
             horizontalLine
         ].forEach(serviceHourView.addSubview)
@@ -152,17 +169,18 @@ final class HomeCafeteriaInfoView: UIView {
         serviceHourView.snp.makeConstraints {
             $0.top.equalTo(serviceHourLabel.snp.bottom).offset(8)
             $0.horizontalEdges.equalToSuperview().inset(20)
+            // TODO: 휴점 문구도 없을 경우의 높이 고려?
             $0.height.equalTo(76)
         }
         
         weekDayLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(66)
-            $0.top.equalToSuperview().offset(4)
+            $0.centerX.equalTo(verticalLine.snp.leading).multipliedBy(0.5)
+            $0.centerY.equalTo(horizontalLine.snp.top).multipliedBy(0.5)
         }
         
         weekendLabel.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(66)
-            $0.top.equalToSuperview().offset(4)
+            $0.centerX.equalTo(verticalLine.snp.centerX).multipliedBy(1.5)
+            $0.centerY.equalTo(horizontalLine.snp.top).multipliedBy(0.5)
         }
         
         weekDayLunchHourLabel.snp.makeConstraints {
@@ -185,6 +203,16 @@ final class HomeCafeteriaInfoView: UIView {
             $0.leading.equalTo(verticalLine.snp.trailing).offset(17)
         }
         
+        weekDaysServiceTimeLabel.snp.makeConstraints {
+            $0.top.equalTo(horizontalLine.snp.bottom).offset(15)
+            weekDaysServiceTimeLeading = $0.leading.equalTo(weekDayLabel.snp.leading).offset(-49).constraint
+        }
+        
+        weekendsServiceTimeLabel.snp.makeConstraints {
+            $0.top.equalTo(horizontalLine.snp.bottom).offset(15)
+            weekendsServiceTimeLeading = $0.leading.equalTo(weekendLabel.snp.leading).offset(-49).constraint
+        }
+        
         verticalLine.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.width.equalTo(1)
@@ -202,5 +230,72 @@ final class HomeCafeteriaInfoView: UIView {
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.height.equalTo(212)
         }
+    }
+    
+    // MARK: - Configure View
+    
+    func configureCafeteriaInfoView(with cafeteriaInfo: HomeCafeteriaInfoSection) {
+        let weekDaysTimeCount = cafeteriaInfo.serviceTime.weekDaysServiceTime.count
+        let weekendsTimeCount = cafeteriaInfo.serviceTime.weekendsServiceTime.count
+        
+        cafeteriaNameLabel.text = cafeteriaInfo.cafeteriaName
+        cafeteriaLocationLabel.text = cafeteriaInfo.cafeteriaLocation
+        serviceHourLabel.text = cafeteriaInfo.serviceTime.serviceHourTitle
+        
+        // 주중 운영시간
+        switch weekDaysTimeCount {
+        case 1:
+            weekDayLunchHourLabel.isHidden = true
+            weekDayDinnerHourLabel.isHidden = true
+            weekDaysServiceTimeLabel.text = cafeteriaInfo.serviceTime.weekDaysServiceTime[0]
+            weekDaysServiceTimeLabel.isHidden = false
+            
+            if cafeteriaInfo.serviceTime.weekDaysServiceTime[0].contains("휴점") {
+                weekDaysServiceTimeLeading?.update(offset: 0)
+            } else {
+                weekDaysServiceTimeLeading?.update(offset: -49)
+            }
+            
+        case 2:
+            weekDayLunchHourLabel.isHidden = false
+            weekDayDinnerHourLabel.isHidden = false
+            weekDaysServiceTimeLabel.isHidden = true
+            weekDayLunchHourLabel.text = cafeteriaInfo.serviceTime.weekDaysServiceTime[0]
+            weekDayDinnerHourLabel.text = cafeteriaInfo.serviceTime.weekDaysServiceTime[1]
+            
+        default:
+            weekDayLunchHourLabel.isHidden = true
+            weekDayDinnerHourLabel.isHidden = true
+            weekDaysServiceTimeLabel.isHidden = true
+        }
+        
+        // 주말 운영시간
+        switch weekendsTimeCount {
+        case 1:
+            weekendLunchHourLabel.isHidden = true
+            weekendDinnerHourLabel.isHidden = true
+            weekendsServiceTimeLabel.text = cafeteriaInfo.serviceTime.weekendsServiceTime[0]
+            weekendsServiceTimeLabel.isHidden = false
+            
+            if cafeteriaInfo.serviceTime.weekendsServiceTime[0].contains("휴점") {
+                weekendsServiceTimeLeading?.update(offset: 0)
+            } else {
+                weekendsServiceTimeLeading?.update(offset: -49)
+            }
+            
+        case 2:
+            weekendLunchHourLabel.isHidden = false
+            weekendDinnerHourLabel.isHidden = false
+            weekendsServiceTimeLabel.isHidden = true
+            weekendLunchHourLabel.text = cafeteriaInfo.serviceTime.weekendsServiceTime[0]
+            weekendDinnerHourLabel.text = cafeteriaInfo.serviceTime.weekendsServiceTime[1]
+            
+        default:
+            weekendLunchHourLabel.isHidden = true
+            weekendDinnerHourLabel.isHidden = true
+            weekendsServiceTimeLabel.isHidden = true
+        }
+        
+        cafeteriaMap.kf.setImage(with: URL(string: "\(baseURL.cafeteriaMapImageURL)\(cafeteriaInfo.cafeteriaMapImage)"))
     }
 }

@@ -42,3 +42,29 @@ struct HomeMenuInfo: Hashable, Codable {
         case likedMenu
     }
 }
+
+struct HomeCafeteriaInfo: Hashable, Codable {
+    let cafeteriaName: String
+    let cafeteriaLocation: String
+    let serviceTime: cafeteriaServiceHoutInfo
+    let cafeteriaMapImage: String
+    
+    enum CodingKeys: String, CodingKey {
+        case cafeteriaName = "name"
+        case cafeteriaLocation = "location"
+        case serviceTime = "operationTime"
+        case cafeteriaMapImage = "imageName"
+    }
+}
+
+struct cafeteriaServiceHoutInfo: Hashable, Codable {
+    let serviceHourTitle: String
+    let weekDaysServiceTime: [String]
+    let weekendsServiceTime: [String]
+    
+    enum CodingKeys: String, CodingKey {
+        case serviceHourTitle = "operation"
+        case weekDaysServiceTime = "weekdays"
+        case weekendsServiceTime = "weekends"
+    }
+}
