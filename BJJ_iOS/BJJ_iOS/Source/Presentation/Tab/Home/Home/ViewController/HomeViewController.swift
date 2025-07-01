@@ -65,7 +65,24 @@ final class HomeViewController: UIViewController {
         // TODO: 홈 탭으로 돌아올 때마다 무조건 학생식당 메뉴로 돌아옴. 이전에 선택한 식당으로 돌아가도록 설계 변경?
         reloadCafeteriaSection()
         fetchAllMenuData(cafeteriaName: "학생식당")
-        fetchCafeteriaInfo(cafeteriaName: "학생식당")
+        fetchCafeteriaInfo(cafeteriaName: "학생식당") { [weak self] in
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                self.cafeteriaInfoView.configureCafeteriaInfoView(
+                    with: self.cafeteriaInfo ?? HomeCafeteriaInfoSection(
+                        cafeteriaName: "",
+                        cafeteriaLocation: "",
+                        serviceTime: CafeteriaServiceTime(
+                            serviceHourTitle: "",
+                            weekDaysServiceTime: [],
+                            weekendsServiceTime: []
+                        ),
+                        cafeteriaMapImage: ""
+                    )
+                )
+            }
+        }
     }
     
     // MARK: - Bind
@@ -230,7 +247,7 @@ final class HomeViewController: UIViewController {
         }
     }
     
-    private func fetchCafeteriaInfo(cafeteriaName: String) {
+    private func fetchCafeteriaInfo(cafeteriaName: String, completion: @escaping () -> Void) {
         HomeAPI.fetchCafeteriaInfo(cafeteriaName: cafeteriaName) { result in
             switch result {
             case .success(let response):
@@ -244,6 +261,7 @@ final class HomeViewController: UIViewController {
                                 ),
                     cafeteriaMapImage: response.cafeteriaMapImage
                 )
+                completion()
                 
             case .failure(let error):
                 print("[Home fetchCafeteriaInfo Error]: \(error.localizedDescription)")
@@ -303,6 +321,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         // TODO: 색 변환 애니메이션 넣을지 말지
         
         let selectedSection = indexPath.section
+        var cafeteriaName: String
         
         if selectedSection == 0 { // 식당 섹션에서 선택 시
             previousCafeteriaIndex = presentCafeteriaIndex
@@ -311,22 +330,43 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             // 선택된 식당에 따른 메뉴 설정
             switch presentCafeteriaIndex {
             case 0:
-                fetchAllMenuData(cafeteriaName: "학생식당")
-                fetchCafeteriaInfo(cafeteriaName: "학생식당")
+                cafeteriaName = "학생식당"
+                
             case 1:
-                fetchAllMenuData(cafeteriaName: "2호관식당")
-                fetchCafeteriaInfo(cafeteriaName: "2호관식당")
+                cafeteriaName = "2호관식당"
+                
             case 2:
-                fetchAllMenuData(cafeteriaName: "제1기숙사식당")
-                fetchCafeteriaInfo(cafeteriaName: "제1기숙사식당")
+                cafeteriaName = "제1기숙사식당"
+                
             case 3:
-                fetchAllMenuData(cafeteriaName: "27호관식당")
-                fetchCafeteriaInfo(cafeteriaName: "27호관식당")
+                cafeteriaName = "27호관식당"
+                
             case 4:
-                fetchAllMenuData(cafeteriaName: "사범대식당")
-                fetchCafeteriaInfo(cafeteriaName: "사범대식당")
+                cafeteriaName = "사범대식당"
+                
             default:
                 currentMenus = []
+                cafeteriaName = ""
+            }
+            
+            fetchAllMenuData(cafeteriaName: cafeteriaName)
+            fetchCafeteriaInfo(cafeteriaName: cafeteriaName) { [weak self] in
+                guard let self = self else { return }
+                
+                DispatchQueue.main.async {
+                    self.cafeteriaInfoView.configureCafeteriaInfoView(
+                        with: self.cafeteriaInfo ?? HomeCafeteriaInfoSection(
+                            cafeteriaName: "",
+                            cafeteriaLocation: "",
+                            serviceTime: CafeteriaServiceTime(
+                                serviceHourTitle: "",
+                                weekDaysServiceTime: [],
+                                weekendsServiceTime: []
+                            ),
+                            cafeteriaMapImage: ""
+                        )
+                    )
+                }
             }
             
             // 식당 섹션의 이전에 선택했던 아이템, 현재 선택한 아이템만 업데이트
