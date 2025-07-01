@@ -257,12 +257,16 @@ final class HomeCafeteriaInfoView: UIView {
             }
             
         case 2:
+            weekDayLunchHourLabel.isHidden = false
+            weekDayDinnerHourLabel.isHidden = false
+            weekDaysServiceTimeLabel.isHidden = true
             weekDayLunchHourLabel.text = cafeteriaInfo.serviceTime.weekDaysServiceTime[0]
             weekDayDinnerHourLabel.text = cafeteriaInfo.serviceTime.weekDaysServiceTime[1]
             
         default:
             weekDayLunchHourLabel.isHidden = true
             weekDayDinnerHourLabel.isHidden = true
+            weekDaysServiceTimeLabel.isHidden = true
         }
         
         // 주말 운영시간
@@ -280,12 +284,16 @@ final class HomeCafeteriaInfoView: UIView {
             }
             
         case 2:
+            weekendLunchHourLabel.isHidden = false
+            weekendDinnerHourLabel.isHidden = false
+            weekendsServiceTimeLabel.isHidden = true
             weekendLunchHourLabel.text = cafeteriaInfo.serviceTime.weekendsServiceTime[0]
             weekendDinnerHourLabel.text = cafeteriaInfo.serviceTime.weekendsServiceTime[1]
             
         default:
             weekendLunchHourLabel.isHidden = true
             weekendDinnerHourLabel.isHidden = true
+            weekendsServiceTimeLabel.isHidden = true
         }
         
         cafeteriaMap.kf.setImage(with: URL(string: "\(baseURL.cafeteriaMapImageURL)\(cafeteriaInfo.cafeteriaMapImage)"))
