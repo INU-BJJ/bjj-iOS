@@ -26,6 +26,8 @@ final class SettingViewController: UIViewController {
     private lazy var navigateLikedMenuVCButton = UIButton().then {
         $0.setTitle("좋아요한 메뉴", for: .normal)
         $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
+        $0.contentHorizontalAlignment = .left
         $0.addTarget(self, action: #selector(didTapGoToLikedMenuVCButton), for: .touchUpInside)
     }
     
