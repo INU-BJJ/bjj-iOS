@@ -15,9 +15,10 @@ final class SettingViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private lazy var testEditNicknameButton = UIButton().then {
+    private lazy var editNicknameButton = UIButton().then {
         $0.setTitle("닉네임 변경하기", for: .normal)
         $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
         $0.addTarget(self, action: #selector(didTapEditNicknameButton), for: .touchUpInside)
     }
     
@@ -60,7 +61,7 @@ final class SettingViewController: UIViewController {
     
     private func setAddView() {
         [
-            testEditNicknameButton,
+            editNicknameButton,
             testGoToLikedMenuVCButton,
             testLogoutButton,
             testDeleteAccountButton
@@ -70,7 +71,7 @@ final class SettingViewController: UIViewController {
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        testEditNicknameButton.snp.makeConstraints {
+        editNicknameButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             $0.leading.equalToSuperview()
             $0.width.equalTo(200)
@@ -78,7 +79,7 @@ final class SettingViewController: UIViewController {
         }
         
         testGoToLikedMenuVCButton.snp.makeConstraints {
-            $0.top.equalTo(testEditNicknameButton.snp.bottom).offset(30)
+            $0.top.equalTo(editNicknameButton.snp.bottom).offset(30)
             $0.leading.equalToSuperview()
             $0.width.equalTo(200)
             $0.height.equalTo(50)
