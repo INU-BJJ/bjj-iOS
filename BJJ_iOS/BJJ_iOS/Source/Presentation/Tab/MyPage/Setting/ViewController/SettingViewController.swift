@@ -23,7 +23,7 @@ final class SettingViewController: UIViewController {
         $0.addTarget(self, action: #selector(didTapEditNicknameButton), for: .touchUpInside)
     }
     
-    private lazy var testGoToLikedMenuVCButton = UIButton().then {
+    private lazy var navigateLikedMenuVCButton = UIButton().then {
         $0.setTitle("좋아요한 메뉴", for: .normal)
         $0.setTitleColor(.black, for: .normal)
         $0.addTarget(self, action: #selector(didTapGoToLikedMenuVCButton), for: .touchUpInside)
@@ -63,7 +63,7 @@ final class SettingViewController: UIViewController {
     private func setAddView() {
         [
             editNicknameButton,
-            testGoToLikedMenuVCButton,
+            navigateLikedMenuVCButton,
             testLogoutButton,
             testDeleteAccountButton
         ].forEach(view.addSubview)
@@ -78,7 +78,7 @@ final class SettingViewController: UIViewController {
             $0.height.equalTo(18)
         }
         
-        testGoToLikedMenuVCButton.snp.makeConstraints {
+        navigateLikedMenuVCButton.snp.makeConstraints {
             $0.top.equalTo(editNicknameButton.snp.bottom).offset(30)
             $0.leading.equalToSuperview()
             $0.width.equalTo(200)
