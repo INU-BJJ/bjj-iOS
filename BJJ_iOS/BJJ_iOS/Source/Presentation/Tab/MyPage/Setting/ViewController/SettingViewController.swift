@@ -53,6 +53,7 @@ final class SettingViewController: UIViewController {
     
     private func setViewController() {
         view.backgroundColor = .white
+        setBackNaviBar("설정")
     }
     
     // MARK: - Set AddViews
