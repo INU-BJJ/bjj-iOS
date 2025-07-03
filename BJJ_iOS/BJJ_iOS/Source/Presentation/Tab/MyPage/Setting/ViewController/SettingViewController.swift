@@ -39,6 +39,10 @@ final class SettingViewController: UIViewController {
         $0.addTarget(self, action: #selector(didTapBlockedUserButton), for: .touchUpInside)
     }
     
+    private let separatingView = UIView().then {
+        $0.backgroundColor = .customColor(.backgroundGray)
+    }
+    
     private lazy var testLogoutButton = UIButton().then {
         $0.setTitle("로그아웃", for: .normal)
         $0.setTitleColor(.black, for: .normal)
@@ -75,6 +79,7 @@ final class SettingViewController: UIViewController {
             editNicknameButton,
             navigateLikedMenuVCButton,
             blockedUserButton,
+            separatingView,
             testLogoutButton,
             testDeleteAccountButton
         ].forEach(view.addSubview)
@@ -99,6 +104,12 @@ final class SettingViewController: UIViewController {
             $0.top.equalTo(navigateLikedMenuVCButton.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview().inset(24)
             $0.height.equalTo(18)
+        }
+        
+        separatingView.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(170)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(7)
         }
         
         testLogoutButton.snp.makeConstraints {
