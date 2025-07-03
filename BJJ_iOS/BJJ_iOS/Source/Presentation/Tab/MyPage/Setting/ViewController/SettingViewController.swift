@@ -81,10 +81,9 @@ final class SettingViewController: UIViewController {
         }
         
         navigateLikedMenuVCButton.snp.makeConstraints {
-            $0.top.equalTo(editNicknameButton.snp.bottom).offset(30)
-            $0.leading.equalToSuperview()
-            $0.width.equalTo(200)
-            $0.height.equalTo(50)
+            $0.top.equalTo(editNicknameButton.snp.bottom).offset(24)
+            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.height.equalTo(18)
         }
         
         testLogoutButton.snp.makeConstraints {
