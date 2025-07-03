@@ -31,6 +31,14 @@ final class SettingViewController: UIViewController {
         $0.addTarget(self, action: #selector(didTapGoToLikedMenuVCButton), for: .touchUpInside)
     }
     
+    private lazy var blockedUserButton = UIButton().then {
+        $0.setTitle("차단한 유저 보기", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
+        $0.contentHorizontalAlignment = .left
+        $0.addTarget(self, action: #selector(didTapBlockedUserButton), for: .touchUpInside)
+    }
+    
     private lazy var testLogoutButton = UIButton().then {
         $0.setTitle("로그아웃", for: .normal)
         $0.setTitleColor(.black, for: .normal)
@@ -66,6 +74,7 @@ final class SettingViewController: UIViewController {
         [
             editNicknameButton,
             navigateLikedMenuVCButton,
+            blockedUserButton,
             testLogoutButton,
             testDeleteAccountButton
         ].forEach(view.addSubview)
@@ -82,6 +91,12 @@ final class SettingViewController: UIViewController {
         
         navigateLikedMenuVCButton.snp.makeConstraints {
             $0.top.equalTo(editNicknameButton.snp.bottom).offset(24)
+            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.height.equalTo(18)
+        }
+        
+        blockedUserButton.snp.makeConstraints {
+            $0.top.equalTo(navigateLikedMenuVCButton.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview().inset(24)
             $0.height.equalTo(18)
         }
@@ -113,6 +128,10 @@ final class SettingViewController: UIViewController {
         DispatchQueue.main.async {
             self.presentLikedMenuViewController()
         }
+    }
+    
+    @objc private func didTapBlockedUserButton() {
+        // TODO: 차단한 유저 목록 fetch
     }
     
     @objc private func didTapLogoutButton() {
