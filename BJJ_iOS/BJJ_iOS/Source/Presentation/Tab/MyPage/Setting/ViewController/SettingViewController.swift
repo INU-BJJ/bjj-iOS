@@ -43,9 +43,11 @@ final class SettingViewController: UIViewController {
         $0.backgroundColor = .customColor(.backgroundGray)
     }
     
-    private lazy var testLogoutButton = UIButton().then {
+    private lazy var logoutButton = UIButton().then {
         $0.setTitle("로그아웃", for: .normal)
         $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard, 15)
+        $0.contentHorizontalAlignment = .left
         $0.addTarget(self, action: #selector(didTapLogoutButton), for: .touchUpInside)
     }
     
@@ -80,7 +82,7 @@ final class SettingViewController: UIViewController {
             navigateLikedMenuVCButton,
             blockedUserButton,
             separatingView,
-            testLogoutButton,
+            logoutButton,
             testDeleteAccountButton
         ].forEach(view.addSubview)
     }
@@ -112,11 +114,10 @@ final class SettingViewController: UIViewController {
             $0.height.equalTo(7)
         }
         
-        testLogoutButton.snp.makeConstraints {
-            $0.leading.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(100)
-            $0.width.equalTo(200)
-            $0.height.equalTo(50)
+        logoutButton.snp.makeConstraints {
+            $0.top.equalTo(separatingView.snp.bottom).offset(24)
+            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.height.equalTo(18)
         }
         
         testDeleteAccountButton.snp.makeConstraints {
