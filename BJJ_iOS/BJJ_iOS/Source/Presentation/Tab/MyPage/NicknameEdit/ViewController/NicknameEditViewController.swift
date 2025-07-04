@@ -15,12 +15,6 @@ final class NicknameEditViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let testStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.spacing = 30
-        $0.alignment = .center
-    }
-    
     private let testNickNameLabel = UILabel().then {
         $0.setLabelUI("닉네임", font: .pretendard, size: 15, color: .black)
     }
@@ -81,25 +75,17 @@ final class NicknameEditViewController: UIViewController {
     
     private func setAddView() {
         [
-            testStackView
-        ].forEach(view.addSubview)
-        
-        [
             testNickNameLabel,
             testNickNameTextField,
             testIsDupliCateButton,
             testIsValidLabel,
             testEditNicknameButton
-        ].forEach(testStackView.addArrangedSubview)
+        ].forEach(view.addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        testStackView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-        }
-        
         testIsDupliCateButton.snp.makeConstraints {
             $0.width.equalTo(200)
             $0.height.equalTo(50)
