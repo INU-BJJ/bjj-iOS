@@ -15,8 +15,8 @@ final class NicknameEditViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let testNickNameLabel = UILabel().then {
-        $0.setLabelUI("닉네임", font: .pretendard, size: 15, color: .black)
+    private let nicknameTitleLabel = UILabel().then {
+        $0.setLabelUI("닉네임", font: .pretendard_semibold, size: 15, color: .black)
     }
     
     private lazy var testNickNameTextField = UITextField().then {
@@ -75,7 +75,7 @@ final class NicknameEditViewController: UIViewController {
     
     private func setAddView() {
         [
-            testNickNameLabel,
+            nicknameTitleLabel,
             testNickNameTextField,
             testIsDupliCateButton,
             testIsValidLabel,
@@ -86,6 +86,11 @@ final class NicknameEditViewController: UIViewController {
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        nicknameTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
+            $0.leading.equalToSuperview().offset(20)
+        }
+        
         testIsDupliCateButton.snp.makeConstraints {
             $0.width.equalTo(200)
             $0.height.equalTo(50)
