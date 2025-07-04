@@ -51,9 +51,11 @@ final class SettingViewController: UIViewController {
         $0.addTarget(self, action: #selector(didTapLogoutButton), for: .touchUpInside)
     }
     
-    private lazy var testDeleteAccountButton = UIButton().then {
+    private lazy var deleteAccountButton = UIButton().then {
         $0.setTitle("탈퇴하기", for: .normal)
         $0.setTitleColor(.red, for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard, 15)
+        $0.contentHorizontalAlignment = .left
         $0.addTarget(self, action: #selector(didTapDeleteAccountButton), for: .touchUpInside)
     }
     
@@ -83,7 +85,7 @@ final class SettingViewController: UIViewController {
             blockedUserButton,
             separatingView,
             logoutButton,
-            testDeleteAccountButton
+            deleteAccountButton
         ].forEach(view.addSubview)
     }
     
@@ -120,11 +122,10 @@ final class SettingViewController: UIViewController {
             $0.height.equalTo(18)
         }
         
-        testDeleteAccountButton.snp.makeConstraints {
-            $0.leading.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(50)
-            $0.width.equalTo(200)
-            $0.height.equalTo(50)
+        deleteAccountButton.snp.makeConstraints {
+            $0.top.equalTo(logoutButton.snp.bottom).offset(24)
+            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.height.equalTo(18)
         }
     }
     
