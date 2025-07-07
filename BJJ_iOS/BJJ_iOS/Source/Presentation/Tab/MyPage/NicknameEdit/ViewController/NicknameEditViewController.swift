@@ -19,6 +19,10 @@ final class NicknameEditViewController: UIViewController {
         $0.setLabelUI("닉네임", font: .pretendard_semibold, size: 15, color: .black)
     }
     
+    private let nicknameSubTitleLabel = UILabel().then {
+        $0.setLabelUI("닉네임은 12글자까지 가능합니다.", font: .pretendard, size: 13, color: .midGray)
+    }
+    
     private lazy var testNickNameTextField = UITextField().then {
         $0.attributedPlaceholder = NSAttributedString(
             string: "닉네임",
@@ -76,6 +80,7 @@ final class NicknameEditViewController: UIViewController {
     private func setAddView() {
         [
             nicknameTitleLabel,
+            nicknameSubTitleLabel,
             testNickNameTextField,
             testIsDupliCateButton,
             testIsValidLabel,
@@ -89,6 +94,11 @@ final class NicknameEditViewController: UIViewController {
         nicknameTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
             $0.leading.equalToSuperview().offset(20)
+        }
+        
+        nicknameSubTitleLabel.snp.makeConstraints {
+            $0.centerY.equalTo(nicknameTitleLabel)
+            $0.leading.equalTo(nicknameTitleLabel.snp.trailing).offset(12)
         }
         
         testIsDupliCateButton.snp.makeConstraints {
