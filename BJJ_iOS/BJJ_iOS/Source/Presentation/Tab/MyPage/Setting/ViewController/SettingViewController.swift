@@ -15,27 +15,47 @@ final class SettingViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private lazy var testEditNicknameButton = UIButton().then {
+    private lazy var editNicknameButton = UIButton().then {
         $0.setTitle("닉네임 변경하기", for: .normal)
         $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
+        $0.contentHorizontalAlignment = .left
         $0.addTarget(self, action: #selector(didTapEditNicknameButton), for: .touchUpInside)
     }
     
-    private lazy var testGoToLikedMenuVCButton = UIButton().then {
+    private lazy var navigateLikedMenuVCButton = UIButton().then {
         $0.setTitle("좋아요한 메뉴", for: .normal)
         $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
+        $0.contentHorizontalAlignment = .left
         $0.addTarget(self, action: #selector(didTapGoToLikedMenuVCButton), for: .touchUpInside)
     }
     
-    private lazy var testLogoutButton = UIButton().then {
+    private lazy var blockedUserButton = UIButton().then {
+        $0.setTitle("차단한 유저 보기", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
+        $0.contentHorizontalAlignment = .left
+        $0.addTarget(self, action: #selector(didTapBlockedUserButton), for: .touchUpInside)
+    }
+    
+    private let separatingView = UIView().then {
+        $0.backgroundColor = .customColor(.backgroundGray)
+    }
+    
+    private lazy var logoutButton = UIButton().then {
         $0.setTitle("로그아웃", for: .normal)
         $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard, 15)
+        $0.contentHorizontalAlignment = .left
         $0.addTarget(self, action: #selector(didTapLogoutButton), for: .touchUpInside)
     }
     
-    private lazy var testDeleteAccountButton = UIButton().then {
+    private lazy var deleteAccountButton = UIButton().then {
         $0.setTitle("탈퇴하기", for: .normal)
         $0.setTitleColor(.red, for: .normal)
+        $0.titleLabel?.font = .customFont(.pretendard, 15)
+        $0.contentHorizontalAlignment = .left
         $0.addTarget(self, action: #selector(didTapDeleteAccountButton), for: .touchUpInside)
     }
     
@@ -53,48 +73,59 @@ final class SettingViewController: UIViewController {
     
     private func setViewController() {
         view.backgroundColor = .white
+        setBackNaviBar("설정")
     }
     
     // MARK: - Set AddViews
     
     private func setAddView() {
         [
-            testEditNicknameButton,
-            testGoToLikedMenuVCButton,
-            testLogoutButton,
-            testDeleteAccountButton
+            editNicknameButton,
+            navigateLikedMenuVCButton,
+            blockedUserButton,
+            separatingView,
+            logoutButton,
+            deleteAccountButton
         ].forEach(view.addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        testEditNicknameButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            $0.leading.equalToSuperview()
-            $0.width.equalTo(200)
-            $0.height.equalTo(50)
+        editNicknameButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
+            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.height.equalTo(18)
         }
         
-        testGoToLikedMenuVCButton.snp.makeConstraints {
-            $0.top.equalTo(testEditNicknameButton.snp.bottom).offset(30)
-            $0.leading.equalToSuperview()
-            $0.width.equalTo(200)
-            $0.height.equalTo(50)
+        navigateLikedMenuVCButton.snp.makeConstraints {
+            $0.top.equalTo(editNicknameButton.snp.bottom).offset(24)
+            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.height.equalTo(18)
         }
         
-        testLogoutButton.snp.makeConstraints {
-            $0.leading.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(100)
-            $0.width.equalTo(200)
-            $0.height.equalTo(50)
+        blockedUserButton.snp.makeConstraints {
+            $0.top.equalTo(navigateLikedMenuVCButton.snp.bottom).offset(24)
+            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.height.equalTo(18)
         }
         
-        testDeleteAccountButton.snp.makeConstraints {
-            $0.leading.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(50)
-            $0.width.equalTo(200)
-            $0.height.equalTo(50)
+        separatingView.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(170)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(7)
+        }
+        
+        logoutButton.snp.makeConstraints {
+            $0.top.equalTo(separatingView.snp.bottom).offset(24)
+            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.height.equalTo(18)
+        }
+        
+        deleteAccountButton.snp.makeConstraints {
+            $0.top.equalTo(logoutButton.snp.bottom).offset(24)
+            $0.horizontalEdges.equalToSuperview().inset(24)
+            $0.height.equalTo(18)
         }
     }
     
@@ -110,6 +141,10 @@ final class SettingViewController: UIViewController {
         DispatchQueue.main.async {
             self.presentLikedMenuViewController()
         }
+    }
+    
+    @objc private func didTapBlockedUserButton() {
+        // TODO: 차단한 유저 목록 fetch
     }
     
     @objc private func didTapLogoutButton() {

@@ -15,14 +15,12 @@ final class NicknameEditViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let testStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.spacing = 30
-        $0.alignment = .center
+    private let nicknameTitleLabel = UILabel().then {
+        $0.setLabelUI("닉네임", font: .pretendard_semibold, size: 15, color: .black)
     }
     
-    private let testNickNameLabel = UILabel().then {
-        $0.setLabelUI("닉네임", font: .pretendard, size: 15, color: .black)
+    private let nicknameSubTitleLabel = UILabel().then {
+        $0.setLabelUI("닉네임은 12글자까지 가능합니다.", font: .pretendard, size: 13, color: .midGray)
     }
     
     private lazy var testNickNameTextField = UITextField().then {
@@ -75,29 +73,33 @@ final class NicknameEditViewController: UIViewController {
     
     private func setViewController() {
         view.backgroundColor = .white
+        setBackNaviBar("닉네임 변경하기")
     }
     
     // MARK: - Set AddViews
     
     private func setAddView() {
         [
-            testStackView
-        ].forEach(view.addSubview)
-        
-        [
-            testNickNameLabel,
+            nicknameTitleLabel,
+            nicknameSubTitleLabel,
             testNickNameTextField,
             testIsDupliCateButton,
             testIsValidLabel,
             testEditNicknameButton
-        ].forEach(testStackView.addArrangedSubview)
+        ].forEach(view.addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        testStackView.snp.makeConstraints {
-            $0.center.equalToSuperview()
+        nicknameTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
+            $0.leading.equalToSuperview().offset(20)
+        }
+        
+        nicknameSubTitleLabel.snp.makeConstraints {
+            $0.centerY.equalTo(nicknameTitleLabel)
+            $0.leading.equalTo(nicknameTitleLabel.snp.trailing).offset(12)
         }
         
         testIsDupliCateButton.snp.makeConstraints {

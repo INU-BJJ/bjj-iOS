@@ -16,6 +16,7 @@ enum NetworkError: Error {
     case unknownError
 }
 
+// TODO: Swift Concurrency(async/await)로 리팩토링
 public func networkRequest<T: Decodable>(
     urlStr: String,
     method: HTTPMethod,
