@@ -73,6 +73,7 @@ final class NicknameEditViewController: UIViewController {
     
     private func setViewController() {
         view.backgroundColor = .white
+        setBackNaviBar("닉네임 변경하기")
     }
     
     // MARK: - Set AddViews
