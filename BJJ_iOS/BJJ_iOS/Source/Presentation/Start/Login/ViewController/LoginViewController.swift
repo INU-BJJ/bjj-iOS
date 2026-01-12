@@ -37,6 +37,22 @@ final class LoginViewController: BaseViewController {
         $0.setCornerRadius(radius: 10)
     }
     
+    private let greetingBubbleLabel2 = PaddingLabel(
+        padding: UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+    ).then {
+        $0.setLabelUI("지금 바로 평점을 남겨봐~", font: .pretendard_bold, size: 15, color: .mainColor)
+        $0.backgroundColor = .customColor(.subColor)
+        $0.setCornerRadius(radius: 10)
+    }
+    
+    private let greetingBubbleLabel3 = PaddingLabel(
+        padding: UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+    ).then {
+        $0.setLabelUI("식당 정보랑 메뉴도 바로 알 수 있어!", font: .pretendard_bold, size: 15, color: .mainColor)
+        $0.backgroundColor = .customColor(.subColor)
+        $0.setCornerRadius(radius: 10)
+    }
+    
     private let testLoginStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 30
@@ -88,6 +104,8 @@ final class LoginViewController: BaseViewController {
             logoIcon,
             appTitleLabel,
             greetingBubbleLabel1,
+            greetingBubbleLabel2,
+            greetingBubbleLabel3,
             testLoginStackView
         ].forEach(view.addSubview)
         
@@ -114,6 +132,16 @@ final class LoginViewController: BaseViewController {
         greetingBubbleLabel1.snp.makeConstraints {
             $0.top.equalTo(appTitleLabel.snp.bottom).offset(77)
             $0.leading.equalToSuperview().offset(17)
+        }
+        
+        greetingBubbleLabel2.snp.makeConstraints {
+            $0.top.equalTo(greetingBubbleLabel1.snp.bottom).offset(25)
+            $0.trailing.equalToSuperview().inset(20)
+        }
+        
+        greetingBubbleLabel3.snp.makeConstraints {
+            $0.top.equalTo(greetingBubbleLabel2.snp.bottom).offset(25)
+            $0.leading.equalToSuperview().offset(33)
         }
         
         testLoginStackView.snp.makeConstraints {
