@@ -117,6 +117,7 @@
 		3F876EB62D43728700C96096 /* String++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F876EB52D43728700C96096 /* String++Extensions.swift */; };
 		3F876EB82D43750300C96096 /* ReUseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F876EB72D43750300C96096 /* ReUseIdentifying.swift */; };
 		3F8D58DA2D787936009356AE /* NoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D58D92D787936009356AE /* NoticeView.swift */; };
+		3F9069912F1537AB00FDBC94 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9069902F1537AB00FDBC94 /* BaseViewController.swift */; };
 		3F94C8142D27BECC00364D0F /* MenuDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */; };
 		3F94C8162D27BEDC00364D0F /* MenuDetailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */; };
 		3F94C8182D27BEE800364D0F /* MenuDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */; };
@@ -306,6 +307,7 @@
 		3F876EB52D43728700C96096 /* String++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String++Extensions.swift"; sourceTree = "<group>"; };
 		3F876EB72D43750300C96096 /* ReUseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReUseIdentifying.swift; sourceTree = "<group>"; };
 		3F8D58D92D787936009356AE /* NoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeView.swift; sourceTree = "<group>"; };
+		3F9069902F1537AB00FDBC94 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailModel.swift; sourceTree = "<group>"; };
 		3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailAddress.swift; sourceTree = "<group>"; };
 		3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailAPI.swift; sourceTree = "<group>"; };
@@ -481,6 +483,7 @@
 		3F1613322CD87BB800A30369 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				3F90698F2F1537A300FDBC94 /* Base */,
 				3F4AB2212D5A07F0005D5D91 /* Model */,
 				3F1613332CD87BC900A30369 /* View */,
 				3F876EB72D43750300C96096 /* ReUseIdentifying.swift */,
@@ -1101,6 +1104,14 @@
 				3F858F402DAA532400F6C7F5 /* StoreViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3F90698F2F1537A300FDBC94 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				3F9069902F1537AB00FDBC94 /* BaseViewController.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 		3F94C8112D27BEAD00364D0F /* MenuDetail */ = {
@@ -1801,9 +1812,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-BJJ_iOS/Pods-BJJ_iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-BJJ_iOS/Pods-BJJ_iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1862,9 +1877,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-BJJ_iOS-BJJ_iOSUITests/Pods-BJJ_iOS-BJJ_iOSUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-BJJ_iOS-BJJ_iOSUITests/Pods-BJJ_iOS-BJJ_iOSUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2045,6 +2064,7 @@
 				3FCA676B2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift in Sources */,
 				3F6125292DA6A80E003B5851 /* MyPageViewController.swift in Sources */,
 				3FCA25442D818E1B00BF56C2 /* MenuRankingViewController.swift in Sources */,
+				3F9069912F1537AB00FDBC94 /* BaseViewController.swift in Sources */,
 				3F27E9412DACA15100CD2554 /* GachaViewController.swift in Sources */,
 				3FC6915F2D1D57B0004643D2 /* HomeModel.swift in Sources */,
 				3F7CC2D32DA2491B00062EF9 /* SignUpViewController.swift in Sources */,
