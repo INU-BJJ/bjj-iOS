@@ -59,12 +59,11 @@ final class LoginViewController: BaseViewController {
         $0.alignment = .center
     }
     
-    private lazy var kakaoLoginButton = UIButton().then {
-        $0.setTitle("카카오", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.borderColor = UIColor.yellow.cgColor
-        $0.layer.borderWidth = 1
-        $0.layer.cornerRadius = 10
+    private lazy var kakaoLoginButton = IconConfirmButton(
+        icon: .kakao,
+        text: "카카오로 시작하기",
+        backgroundColor: .kakaoYellow
+    ).then {
         $0.tag = 0
         $0.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
     }
