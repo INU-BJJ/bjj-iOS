@@ -118,6 +118,8 @@
 		3F876EB82D43750300C96096 /* ReUseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F876EB72D43750300C96096 /* ReUseIdentifying.swift */; };
 		3F8D58DA2D787936009356AE /* NoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D58D92D787936009356AE /* NoticeView.swift */; };
 		3F9069912F1537AB00FDBC94 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9069902F1537AB00FDBC94 /* BaseViewController.swift */; };
+		3F90699A2F15384700FDBC94 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 3F9069992F15384700FDBC94 /* RxCocoa */; };
+		3F90699C2F15384700FDBC94 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3F90699B2F15384700FDBC94 /* RxSwift */; };
 		3F94C8142D27BECC00364D0F /* MenuDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */; };
 		3F94C8162D27BEDC00364D0F /* MenuDetailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */; };
 		3F94C8182D27BEE800364D0F /* MenuDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */; };
@@ -374,6 +376,8 @@
 			files = (
 				3FEDD49F2CB2B3A8009617A5 /* PretendardKit in Frameworks */,
 				8CB8B6DAAA797515681E5BE4 /* Pods_BJJ_iOS.framework in Frameworks */,
+				3F90699C2F15384700FDBC94 /* RxSwift in Frameworks */,
+				3F90699A2F15384700FDBC94 /* RxCocoa in Frameworks */,
 				3F70549D2DCF77EC00647141 /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1685,6 +1689,8 @@
 			packageProductDependencies = (
 				3FEDD49E2CB2B3A8009617A5 /* PretendardKit */,
 				3F70549C2DCF77EC00647141 /* OrderedCollections */,
+				3F9069992F15384700FDBC94 /* RxCocoa */,
+				3F90699B2F15384700FDBC94 /* RxSwift */,
 			);
 			productName = BJJ_iOS;
 			productReference = 3F25B3E52CB282D7005C0907 /* BJJ_iOS.app */;
@@ -1764,6 +1770,7 @@
 			packageReferences = (
 				3FEDD49D2CB2B21B009617A5 /* XCRemoteSwiftPackageReference "PretendardKit" */,
 				3F70549B2DCF77EC00647141 /* XCRemoteSwiftPackageReference "swift-collections" */,
+				3F9069982F15384700FDBC94 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 3F25B3E62CB282D7005C0907 /* Products */;
 			projectDirPath = "";
@@ -2433,6 +2440,14 @@
 				minimumVersion = 1.1.4;
 			};
 		};
+		3F9069982F15384700FDBC94 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.9.1;
+			};
+		};
 		3FEDD49D2CB2B21B009617A5 /* XCRemoteSwiftPackageReference "PretendardKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/wookeon/PretendardKit.git";
@@ -2448,6 +2463,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3F70549B2DCF77EC00647141 /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = OrderedCollections;
+		};
+		3F9069992F15384700FDBC94 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F9069982F15384700FDBC94 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		3F90699B2F15384700FDBC94 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F9069982F15384700FDBC94 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
 		};
 		3FEDD49E2CB2B3A8009617A5 /* PretendardKit */ = {
 			isa = XCSwiftPackageProductDependency;
