@@ -29,6 +29,12 @@ final class LoginViewController: BaseViewController {
         $0.setLabelUI("밥점줘", font: .cafe24Ssurround, size: 23, color: .mainColor)
     }
     
+    private let greetingButtonLabel1 = PaddingLabel(
+        padding: UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+    ).then {
+        $0.setLabelUI("학식 뭐가 제일 맛있지?", font: .pretendard_bold, size: 15, color: .mainColor)
+    }
+    
     private let testLoginStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 30
@@ -79,6 +85,7 @@ final class LoginViewController: BaseViewController {
         [
             logoIcon,
             appTitleLabel,
+            greetingButtonLabel1,
             testLoginStackView
         ].forEach(view.addSubview)
         
@@ -100,6 +107,11 @@ final class LoginViewController: BaseViewController {
         appTitleLabel.snp.makeConstraints {
             $0.top.equalTo(logoIcon.snp.bottom).offset(13)
             $0.centerX.equalToSuperview()
+        }
+        
+        greetingButtonLabel1.snp.makeConstraints {
+            $0.top.equalTo(appTitleLabel.snp.bottom).offset(77)
+            $0.leading.equalToSuperview().offset(17)
         }
         
         testLoginStackView.snp.makeConstraints {
