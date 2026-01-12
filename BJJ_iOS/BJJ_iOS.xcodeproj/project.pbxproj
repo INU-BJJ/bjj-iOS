@@ -120,6 +120,7 @@
 		3F9069912F1537AB00FDBC94 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9069902F1537AB00FDBC94 /* BaseViewController.swift */; };
 		3F90699A2F15384700FDBC94 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 3F9069992F15384700FDBC94 /* RxCocoa */; };
 		3F90699C2F15384700FDBC94 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3F90699B2F15384700FDBC94 /* RxSwift */; };
+		3F90699E2F15391F00FDBC94 /* UIImageView++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F90699D2F15391F00FDBC94 /* UIImageView++Extensions.swift */; };
 		3F94C8142D27BECC00364D0F /* MenuDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */; };
 		3F94C8162D27BEDC00364D0F /* MenuDetailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */; };
 		3F94C8182D27BEE800364D0F /* MenuDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */; };
@@ -310,6 +311,7 @@
 		3F876EB72D43750300C96096 /* ReUseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReUseIdentifying.swift; sourceTree = "<group>"; };
 		3F8D58D92D787936009356AE /* NoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeView.swift; sourceTree = "<group>"; };
 		3F9069902F1537AB00FDBC94 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		3F90699D2F15391F00FDBC94 /* UIImageView++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView++Extensions.swift"; sourceTree = "<group>"; };
 		3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailModel.swift; sourceTree = "<group>"; };
 		3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailAddress.swift; sourceTree = "<group>"; };
 		3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailAPI.swift; sourceTree = "<group>"; };
@@ -659,6 +661,7 @@
 				3F876EB52D43728700C96096 /* String++Extensions.swift */,
 				3F3C74EB2D59D35C00D510A7 /* UIView++Extensions.swift */,
 				3FF1E92B2D67067000A237FA /* UITextView++Extensions.swift */,
+				3F90699D2F15391F00FDBC94 /* UIImageView++Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2001,6 +2004,7 @@
 				3F311D762D88604400F8D803 /* RankingAPI.swift in Sources */,
 				3F4831EA2D897C2E00B138A2 /* ReviewModalModel.swift in Sources */,
 				3F1C2B242DAE804A00AC3A36 /* LikedMenuSection.swift in Sources */,
+				3F90699E2F15391F00FDBC94 /* UIImageView++Extensions.swift in Sources */,
 				3F3AF8CF2D75AB6300D6C28A /* ReviewWriteSection.swift in Sources */,
 				3F1472412DACEF6300098C41 /* StoreAddress.swift in Sources */,
 				3F4831F02D89831700B138A2 /* ReviewModalSection.swift in Sources */,
