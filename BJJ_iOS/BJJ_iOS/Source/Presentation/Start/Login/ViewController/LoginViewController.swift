@@ -59,12 +59,22 @@ final class LoginViewController: BaseViewController {
         $0.alignment = .center
     }
     
+    private lazy var googleLoginButton = IconConfirmButton(
+        icon: .google,
+        text: "구글로 시작하기",
+        backgroundColor: .white
+    ).then {
+        $0.tag = 0
+        $0.setBorder(color: .customColor(.midGray))
+        $0.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
+    }
+    
     private lazy var kakaoLoginButton = IconConfirmButton(
         icon: .kakao,
         text: "카카오로 시작하기",
         backgroundColor: .kakaoYellow
     ).then {
-        $0.tag = 0
+        $0.tag = 1
         $0.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
     }
     
@@ -74,16 +84,6 @@ final class LoginViewController: BaseViewController {
         titleColor: .white,
         backgroundColor: .naverGreen
     ).then {
-        $0.tag = 1
-        $0.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
-    }
-    
-    private lazy var googleLoginButton = UIButton().then {
-        $0.setTitle("구글", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.borderColor = UIColor.gray.cgColor
-        $0.layer.borderWidth = 1
-        $0.layer.cornerRadius = 10
         $0.tag = 2
         $0.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
     }
@@ -109,9 +109,9 @@ final class LoginViewController: BaseViewController {
         ].forEach(view.addSubview)
         
         [
+            googleLoginButton,
             kakaoLoginButton,
-            naverLoginButton,
-            googleLoginButton
+            naverLoginButton
         ].forEach(loginStackView.addArrangedSubview)
     }
     
@@ -148,17 +148,17 @@ final class LoginViewController: BaseViewController {
             $0.horizontalEdges.equalToSuperview().inset(20)
         }
         
+        googleLoginButton.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(50)
+        }
+        
         kakaoLoginButton.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(50)
         }
         
         naverLoginButton.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(50)
-        }
-        
-        googleLoginButton.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(50)
         }
@@ -180,11 +180,11 @@ final class LoginViewController: BaseViewController {
         // TODO: 소셜 로그인 enum으로 깔끔하게 처리하기
         switch sender.tag {
         case 0:
-            provider = "kakao"
-        case 1:
-            provider = "naver"
-        case 2:
             provider = "google"
+        case 1:
+            provider = "kakao"
+        case 2:
+            provider = "naver"
         case 3:
             provider = "apple"
         default:
