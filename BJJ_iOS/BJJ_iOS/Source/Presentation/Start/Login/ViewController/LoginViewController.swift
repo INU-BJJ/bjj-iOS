@@ -20,6 +20,11 @@ final class LoginViewController: BaseViewController {
     
     // MARK: - UI Components
     
+    private let logoIcon = UIImageView().then {
+        $0.setImage(.logo)
+        $0.contentMode = .scaleAspectFill
+    }
+    
     private let testLoginStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 30
@@ -68,6 +73,7 @@ final class LoginViewController: BaseViewController {
     
     override func setHierarchy() {
         [
+            logoIcon,
             testLoginStackView
         ].forEach(view.addSubview)
         
@@ -81,6 +87,11 @@ final class LoginViewController: BaseViewController {
     // MARK: - Set Constraints
     
     override func setConstraints() {
+        logoIcon.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(141)
+            $0.centerX.equalToSuperview()
+        }
+        
         testLoginStackView.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
