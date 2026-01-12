@@ -11,7 +11,7 @@ import Then
 @preconcurrency import WebKit
 
 @MainActor
-final class LoginViewController: UIViewController {
+final class LoginViewController: BaseViewController {
     
     // MARK: - Properties
     
@@ -58,25 +58,15 @@ final class LoginViewController: UIViewController {
     
     private var loginWebView: WKWebView?
     
-    // MARK: - LifeCycle
+    // MARK: - Set UI
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setViewController()
-        setAddView()
-        setConstraints()
-    }
-    
-    // MARK: - Set ViewController
-    
-    private func setViewController() {
+    override func setUI() {
         view.backgroundColor = .white
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
             testLoginStackView
         ].forEach(view.addSubview)
@@ -90,7 +80,7 @@ final class LoginViewController: UIViewController {
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
+    override func setConstraints() {
         testLoginStackView.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
