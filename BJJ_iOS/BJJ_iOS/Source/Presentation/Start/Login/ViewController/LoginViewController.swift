@@ -68,12 +68,12 @@ final class LoginViewController: BaseViewController {
         $0.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
     }
     
-    private lazy var naverLoginButton = UIButton().then {
-        $0.setTitle("네이버", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.borderColor = UIColor.green.cgColor
-        $0.layer.borderWidth = 1
-        $0.layer.cornerRadius = 10
+    private lazy var naverLoginButton = IconConfirmButton(
+        icon: .naver,
+        text: "네이버로 시작하기",
+        titleColor: .white,
+        backgroundColor: .naverGreen
+    ).then {
         $0.tag = 1
         $0.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
     }
