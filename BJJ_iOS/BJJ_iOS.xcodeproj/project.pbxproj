@@ -127,6 +127,7 @@
 		3F94C8162D27BEDC00364D0F /* MenuDetailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */; };
 		3F94C8182D27BEE800364D0F /* MenuDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */; };
 		3F967AD62F15433A0053A5F1 /* IconConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F967AD52F15433A0053A5F1 /* IconConfirmButton.swift */; };
+		3F967ADA2F15442B0053A5F1 /* BaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F967AD92F15442B0053A5F1 /* BaseButton.swift */; };
 		3F96BE462DE31D4D009AED6F /* MenuReviewInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F96BE452DE31D4D009AED6F /* MenuReviewInfoView.swift */; };
 		3F996E572CD649C100910DE7 /* UIViewController++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */; };
 		3F996E612CD64D9800910DE7 /* MenuDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */; };
@@ -321,6 +322,7 @@
 		3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailAddress.swift; sourceTree = "<group>"; };
 		3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailAPI.swift; sourceTree = "<group>"; };
 		3F967AD52F15433A0053A5F1 /* IconConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconConfirmButton.swift; sourceTree = "<group>"; };
+		3F967AD92F15442B0053A5F1 /* BaseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseButton.swift; sourceTree = "<group>"; };
 		3F96BE452DE31D4D009AED6F /* MenuReviewInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewInfoView.swift; sourceTree = "<group>"; };
 		3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController++Extensions.swift"; sourceTree = "<group>"; };
 		3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailViewController.swift; sourceTree = "<group>"; };
@@ -495,9 +497,9 @@
 		3F1613322CD87BB800A30369 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				3F90698F2F1537A300FDBC94 /* Base */,
 				3F967AD42F15432F0053A5F1 /* UIButton */,
 				3F906A4F2F153F2A00FDBC94 /* UILabel */,
-				3F90698F2F1537A300FDBC94 /* Base */,
 				3F4AB2212D5A07F0005D5D91 /* Model */,
 				3F1613332CD87BC900A30369 /* View */,
 				3F876EB72D43750300C96096 /* ReUseIdentifying.swift */,
@@ -1126,6 +1128,7 @@
 			isa = PBXGroup;
 			children = (
 				3F9069902F1537AB00FDBC94 /* BaseViewController.swift */,
+				3F967AD92F15442B0053A5F1 /* BaseButton.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -2091,6 +2094,7 @@
 				3F87423F2D4FD87A004DF204 /* MyReviewHeaderView.swift in Sources */,
 				3F1472432DACEF6B00098C41 /* StoreAPI.swift in Sources */,
 				3F6947D62D8818430036BF2A /* ReviewInfoView.swift in Sources */,
+				3F967ADA2F15442B0053A5F1 /* BaseButton.swift in Sources */,
 				3F1A51AA2CD8941200029E09 /* MenuReviewHashTagCell.swift in Sources */,
 				3F1613312CD876C800A30369 /* MenuReviewListInfo.swift in Sources */,
 				3F1C2B1E2DAE5E5C00AC3A36 /* LikedMenuViewController.swift in Sources */,
