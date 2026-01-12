@@ -25,6 +25,10 @@ final class LoginViewController: BaseViewController {
         $0.contentMode = .scaleAspectFill
     }
     
+    private let appTitleLabel = UILabel().then {
+        $0.setLabelUI("밥점줘", font: .cafe24Ssurround, size: 23, color: .mainColor)
+    }
+    
     private let testLoginStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 30
@@ -74,6 +78,7 @@ final class LoginViewController: BaseViewController {
     override func setHierarchy() {
         [
             logoIcon,
+            appTitleLabel,
             testLoginStackView
         ].forEach(view.addSubview)
         
@@ -89,6 +94,11 @@ final class LoginViewController: BaseViewController {
     override func setConstraints() {
         logoIcon.snp.makeConstraints {
             $0.top.equalToSuperview().offset(141)
+            $0.centerX.equalToSuperview()
+        }
+        
+        appTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(logoIcon.snp.bottom).offset(13)
             $0.centerX.equalToSuperview()
         }
         

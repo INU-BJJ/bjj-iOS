@@ -121,6 +121,7 @@
 		3F90699A2F15384700FDBC94 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 3F9069992F15384700FDBC94 /* RxCocoa */; };
 		3F90699C2F15384700FDBC94 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3F90699B2F15384700FDBC94 /* RxSwift */; };
 		3F90699E2F15391F00FDBC94 /* UIImageView++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F90699D2F15391F00FDBC94 /* UIImageView++Extensions.swift */; };
+		3F906A4E2F153B6800FDBC94 /* Cafe24Ssurround.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F906A4D2F153B6800FDBC94 /* Cafe24Ssurround.ttf */; };
 		3F94C8142D27BECC00364D0F /* MenuDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */; };
 		3F94C8162D27BEDC00364D0F /* MenuDetailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */; };
 		3F94C8182D27BEE800364D0F /* MenuDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */; };
@@ -312,6 +313,7 @@
 		3F8D58D92D787936009356AE /* NoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeView.swift; sourceTree = "<group>"; };
 		3F9069902F1537AB00FDBC94 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		3F90699D2F15391F00FDBC94 /* UIImageView++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView++Extensions.swift"; sourceTree = "<group>"; };
+		3F906A4D2F153B6800FDBC94 /* Cafe24Ssurround.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Cafe24Ssurround.ttf; sourceTree = "<group>"; };
 		3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailModel.swift; sourceTree = "<group>"; };
 		3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailAddress.swift; sourceTree = "<group>"; };
 		3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailAPI.swift; sourceTree = "<group>"; };
@@ -513,6 +515,7 @@
 			isa = PBXGroup;
 			children = (
 				3F176A612D81990100700CBD /* RacingSansOne.ttf */,
+				3F906A4D2F153B6800FDBC94 /* Cafe24Ssurround.ttf */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -1792,6 +1795,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F176A622D81990100700CBD /* RacingSansOne.ttf in Resources */,
+				3F906A4E2F153B6800FDBC94 /* Cafe24Ssurround.ttf in Resources */,
 				3F25B3F22CB282D8005C0907 /* Assets.xcassets in Resources */,
 				3F25B3F52CB282D8005C0907 /* Base in Resources */,
 			);
