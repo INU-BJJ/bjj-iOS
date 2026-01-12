@@ -9,6 +9,9 @@ import UIKit
 
 enum ImageAsset: String {
     case logo
+    case google
+    case kakao
+    case naver
     
     var name: String {
         rawValue
