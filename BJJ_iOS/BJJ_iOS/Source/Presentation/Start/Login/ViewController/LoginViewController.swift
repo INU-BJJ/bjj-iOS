@@ -53,9 +53,9 @@ final class LoginViewController: BaseViewController {
         $0.setCornerRadius(radius: 10)
     }
     
-    private let testLoginStackView = UIStackView().then {
+    private let loginStackView = UIStackView().then {
         $0.axis = .vertical
-        $0.spacing = 30
+        $0.spacing = 11
         $0.alignment = .center
     }
     
@@ -106,14 +106,14 @@ final class LoginViewController: BaseViewController {
             greetingBubbleLabel1,
             greetingBubbleLabel2,
             greetingBubbleLabel3,
-            testLoginStackView
+            loginStackView
         ].forEach(view.addSubview)
         
         [
             kakaoLoginButton,
             naverLoginButton,
             googleLoginButton
-        ].forEach(testLoginStackView.addArrangedSubview)
+        ].forEach(loginStackView.addArrangedSubview)
     }
     
     // MARK: - Set Constraints
@@ -144,22 +144,23 @@ final class LoginViewController: BaseViewController {
             $0.leading.equalToSuperview().offset(33)
         }
         
-        testLoginStackView.snp.makeConstraints {
-            $0.center.equalToSuperview()
+        loginStackView.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(33)
+            $0.horizontalEdges.equalToSuperview().inset(20)
         }
         
         kakaoLoginButton.snp.makeConstraints {
-            $0.width.equalTo(200)
+            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(50)
         }
         
         naverLoginButton.snp.makeConstraints {
-            $0.width.equalTo(200)
+            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(50)
         }
         
         googleLoginButton.snp.makeConstraints {
-            $0.width.equalTo(200)
+            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(50)
         }
     }
