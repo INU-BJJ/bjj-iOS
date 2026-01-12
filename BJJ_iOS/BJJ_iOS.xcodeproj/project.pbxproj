@@ -117,9 +117,17 @@
 		3F876EB62D43728700C96096 /* String++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F876EB52D43728700C96096 /* String++Extensions.swift */; };
 		3F876EB82D43750300C96096 /* ReUseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F876EB72D43750300C96096 /* ReUseIdentifying.swift */; };
 		3F8D58DA2D787936009356AE /* NoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D58D92D787936009356AE /* NoticeView.swift */; };
+		3F9069912F1537AB00FDBC94 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9069902F1537AB00FDBC94 /* BaseViewController.swift */; };
+		3F90699A2F15384700FDBC94 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 3F9069992F15384700FDBC94 /* RxCocoa */; };
+		3F90699C2F15384700FDBC94 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3F90699B2F15384700FDBC94 /* RxSwift */; };
+		3F90699E2F15391F00FDBC94 /* UIImageView++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F90699D2F15391F00FDBC94 /* UIImageView++Extensions.swift */; };
+		3F906A4E2F153B6800FDBC94 /* Cafe24Ssurround.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F906A4D2F153B6800FDBC94 /* Cafe24Ssurround.ttf */; };
+		3F906A512F153F3000FDBC94 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F906A502F153F3000FDBC94 /* PaddingLabel.swift */; };
 		3F94C8142D27BECC00364D0F /* MenuDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */; };
 		3F94C8162D27BEDC00364D0F /* MenuDetailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */; };
 		3F94C8182D27BEE800364D0F /* MenuDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */; };
+		3F967AD62F15433A0053A5F1 /* IconConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F967AD52F15433A0053A5F1 /* IconConfirmButton.swift */; };
+		3F967ADA2F15442B0053A5F1 /* BaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F967AD92F15442B0053A5F1 /* BaseButton.swift */; };
 		3F96BE462DE31D4D009AED6F /* MenuReviewInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F96BE452DE31D4D009AED6F /* MenuReviewInfoView.swift */; };
 		3F996E572CD649C100910DE7 /* UIViewController++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */; };
 		3F996E612CD64D9800910DE7 /* MenuDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */; };
@@ -306,9 +314,15 @@
 		3F876EB52D43728700C96096 /* String++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String++Extensions.swift"; sourceTree = "<group>"; };
 		3F876EB72D43750300C96096 /* ReUseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReUseIdentifying.swift; sourceTree = "<group>"; };
 		3F8D58D92D787936009356AE /* NoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeView.swift; sourceTree = "<group>"; };
+		3F9069902F1537AB00FDBC94 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		3F90699D2F15391F00FDBC94 /* UIImageView++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView++Extensions.swift"; sourceTree = "<group>"; };
+		3F906A4D2F153B6800FDBC94 /* Cafe24Ssurround.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Cafe24Ssurround.ttf; sourceTree = "<group>"; };
+		3F906A502F153F3000FDBC94 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailModel.swift; sourceTree = "<group>"; };
 		3F94C8152D27BEDC00364D0F /* MenuDetailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailAddress.swift; sourceTree = "<group>"; };
 		3F94C8172D27BEE800364D0F /* MenuDetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailAPI.swift; sourceTree = "<group>"; };
+		3F967AD52F15433A0053A5F1 /* IconConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconConfirmButton.swift; sourceTree = "<group>"; };
+		3F967AD92F15442B0053A5F1 /* BaseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseButton.swift; sourceTree = "<group>"; };
 		3F96BE452DE31D4D009AED6F /* MenuReviewInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewInfoView.swift; sourceTree = "<group>"; };
 		3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController++Extensions.swift"; sourceTree = "<group>"; };
 		3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailViewController.swift; sourceTree = "<group>"; };
@@ -372,6 +386,8 @@
 			files = (
 				3FEDD49F2CB2B3A8009617A5 /* PretendardKit in Frameworks */,
 				8CB8B6DAAA797515681E5BE4 /* Pods_BJJ_iOS.framework in Frameworks */,
+				3F90699C2F15384700FDBC94 /* RxSwift in Frameworks */,
+				3F90699A2F15384700FDBC94 /* RxCocoa in Frameworks */,
 				3F70549D2DCF77EC00647141 /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -481,6 +497,9 @@
 		3F1613322CD87BB800A30369 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				3F90698F2F1537A300FDBC94 /* Base */,
+				3F967AD42F15432F0053A5F1 /* UIButton */,
+				3F906A4F2F153F2A00FDBC94 /* UILabel */,
 				3F4AB2212D5A07F0005D5D91 /* Model */,
 				3F1613332CD87BC900A30369 /* View */,
 				3F876EB72D43750300C96096 /* ReUseIdentifying.swift */,
@@ -504,6 +523,7 @@
 			isa = PBXGroup;
 			children = (
 				3F176A612D81990100700CBD /* RacingSansOne.ttf */,
+				3F906A4D2F153B6800FDBC94 /* Cafe24Ssurround.ttf */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -652,6 +672,7 @@
 				3F876EB52D43728700C96096 /* String++Extensions.swift */,
 				3F3C74EB2D59D35C00D510A7 /* UIView++Extensions.swift */,
 				3FF1E92B2D67067000A237FA /* UITextView++Extensions.swift */,
+				3F90699D2F15391F00FDBC94 /* UIImageView++Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1103,6 +1124,23 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		3F90698F2F1537A300FDBC94 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				3F9069902F1537AB00FDBC94 /* BaseViewController.swift */,
+				3F967AD92F15442B0053A5F1 /* BaseButton.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		3F906A4F2F153F2A00FDBC94 /* UILabel */ = {
+			isa = PBXGroup;
+			children = (
+				3F906A502F153F3000FDBC94 /* PaddingLabel.swift */,
+			);
+			path = UILabel;
+			sourceTree = "<group>";
+		};
 		3F94C8112D27BEAD00364D0F /* MenuDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -1119,6 +1157,14 @@
 				3F94C8132D27BECC00364D0F /* MenuDetailModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3F967AD42F15432F0053A5F1 /* UIButton */ = {
+			isa = PBXGroup;
+			children = (
+				3F967AD52F15433A0053A5F1 /* IconConfirmButton.swift */,
+			);
+			path = UIButton;
 			sourceTree = "<group>";
 		};
 		3F996E582CD64BE900910DE7 /* Home */ = {
@@ -1674,6 +1720,8 @@
 			packageProductDependencies = (
 				3FEDD49E2CB2B3A8009617A5 /* PretendardKit */,
 				3F70549C2DCF77EC00647141 /* OrderedCollections */,
+				3F9069992F15384700FDBC94 /* RxCocoa */,
+				3F90699B2F15384700FDBC94 /* RxSwift */,
 			);
 			productName = BJJ_iOS;
 			productReference = 3F25B3E52CB282D7005C0907 /* BJJ_iOS.app */;
@@ -1753,6 +1801,7 @@
 			packageReferences = (
 				3FEDD49D2CB2B21B009617A5 /* XCRemoteSwiftPackageReference "PretendardKit" */,
 				3F70549B2DCF77EC00647141 /* XCRemoteSwiftPackageReference "swift-collections" */,
+				3F9069982F15384700FDBC94 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 3F25B3E62CB282D7005C0907 /* Products */;
 			projectDirPath = "";
@@ -1771,6 +1820,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F176A622D81990100700CBD /* RacingSansOne.ttf in Resources */,
+				3F906A4E2F153B6800FDBC94 /* Cafe24Ssurround.ttf in Resources */,
 				3F25B3F22CB282D8005C0907 /* Assets.xcassets in Resources */,
 				3F25B3F52CB282D8005C0907 /* Base in Resources */,
 			);
@@ -1801,9 +1851,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-BJJ_iOS/Pods-BJJ_iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-BJJ_iOS/Pods-BJJ_iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1862,9 +1916,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-BJJ_iOS-BJJ_iOSUITests/Pods-BJJ_iOS-BJJ_iOSUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-BJJ_iOS-BJJ_iOSUITests/Pods-BJJ_iOS-BJJ_iOSUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1936,6 +1994,7 @@
 				3F8430272CE7208000B5A2F1 /* UITabBar++Extensions.swift in Sources */,
 				3FC1232D2DA5246B00676A09 /* MemberAPI.swift in Sources */,
 				3F2C66812DA793C300EA4E82 /* MyPageSection.swift in Sources */,
+				3F906A512F153F3000FDBC94 /* PaddingLabel.swift in Sources */,
 				3F0CF2562E00115500998FA9 /* ReportReviewAPI.swift in Sources */,
 				3FDC25642D6C7B5600ACBF8B /* MyReviewAPI.swift in Sources */,
 				3FB984622D5389710050D66A /* MyReviewDetailHashTagCell.swift in Sources */,
@@ -1975,6 +2034,7 @@
 				3F311D762D88604400F8D803 /* RankingAPI.swift in Sources */,
 				3F4831EA2D897C2E00B138A2 /* ReviewModalModel.swift in Sources */,
 				3F1C2B242DAE804A00AC3A36 /* LikedMenuSection.swift in Sources */,
+				3F90699E2F15391F00FDBC94 /* UIImageView++Extensions.swift in Sources */,
 				3F3AF8CF2D75AB6300D6C28A /* ReviewWriteSection.swift in Sources */,
 				3F1472412DACEF6300098C41 /* StoreAddress.swift in Sources */,
 				3F4831F02D89831700B138A2 /* ReviewModalSection.swift in Sources */,
@@ -2000,6 +2060,7 @@
 				3F6FC5752DFA9480004A08C5 /* ReviewPhotoGallerySection.swift in Sources */,
 				3FBA45B12CD749730038960A /* MenuHeader.swift in Sources */,
 				3F3C74EC2D59D35C00D510A7 /* UIView++Extensions.swift in Sources */,
+				3F967AD62F15433A0053A5F1 /* IconConfirmButton.swift in Sources */,
 				3F4DF56A2DF8197A006E047E /* ReviewPhotoCell.swift in Sources */,
 				3F16132B2CD86D3B00A30369 /* MenuReviewSorting.swift in Sources */,
 				3F3AF8C72D75A54A00D6C28A /* ReviewWriteModel.swift in Sources */,
@@ -2033,6 +2094,7 @@
 				3F87423F2D4FD87A004DF204 /* MyReviewHeaderView.swift in Sources */,
 				3F1472432DACEF6B00098C41 /* StoreAPI.swift in Sources */,
 				3F6947D62D8818430036BF2A /* ReviewInfoView.swift in Sources */,
+				3F967ADA2F15442B0053A5F1 /* BaseButton.swift in Sources */,
 				3F1A51AA2CD8941200029E09 /* MenuReviewHashTagCell.swift in Sources */,
 				3F1613312CD876C800A30369 /* MenuReviewListInfo.swift in Sources */,
 				3F1C2B1E2DAE5E5C00AC3A36 /* LikedMenuViewController.swift in Sources */,
@@ -2045,6 +2107,7 @@
 				3FCA676B2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift in Sources */,
 				3F6125292DA6A80E003B5851 /* MyPageViewController.swift in Sources */,
 				3FCA25442D818E1B00BF56C2 /* MenuRankingViewController.swift in Sources */,
+				3F9069912F1537AB00FDBC94 /* BaseViewController.swift in Sources */,
 				3F27E9412DACA15100CD2554 /* GachaViewController.swift in Sources */,
 				3FC6915F2D1D57B0004643D2 /* HomeModel.swift in Sources */,
 				3F7CC2D32DA2491B00062EF9 /* SignUpViewController.swift in Sources */,
@@ -2244,9 +2307,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justdinn.BJJ-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -2273,9 +2340,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.justdinn.BJJ-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -2405,6 +2476,14 @@
 				minimumVersion = 1.1.4;
 			};
 		};
+		3F9069982F15384700FDBC94 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.9.1;
+			};
+		};
 		3FEDD49D2CB2B21B009617A5 /* XCRemoteSwiftPackageReference "PretendardKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/wookeon/PretendardKit.git";
@@ -2420,6 +2499,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3F70549B2DCF77EC00647141 /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = OrderedCollections;
+		};
+		3F9069992F15384700FDBC94 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F9069982F15384700FDBC94 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		3F90699B2F15384700FDBC94 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F9069982F15384700FDBC94 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
 		};
 		3FEDD49E2CB2B3A8009617A5 /* PretendardKit */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -11,7 +11,7 @@ import Then
 @preconcurrency import WebKit
 
 @MainActor
-final class LoginViewController: UIViewController {
+final class LoginViewController: BaseViewController {
     
     // MARK: - Properties
     
@@ -20,93 +20,146 @@ final class LoginViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let testLoginStackView = UIStackView().then {
+    private let logoIcon = UIImageView().then {
+        $0.setImage(.logo)
+        $0.contentMode = .scaleAspectFill
+    }
+    
+    private let appTitleLabel = UILabel().then {
+        $0.setLabelUI("밥점줘", font: .cafe24Ssurround, size: 23, color: .mainColor)
+    }
+    
+    private let greetingBubbleLabel1 = PaddingLabel(
+        padding: UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+    ).then {
+        $0.setLabelUI("학식 뭐가 제일 맛있지?", font: .pretendard_bold, size: 15, color: .mainColor)
+        $0.backgroundColor = .customColor(.subColor)
+        $0.setCornerRadius(radius: 10)
+    }
+    
+    private let greetingBubbleLabel2 = PaddingLabel(
+        padding: UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+    ).then {
+        $0.setLabelUI("지금 바로 평점을 남겨봐~", font: .pretendard_bold, size: 15, color: .mainColor)
+        $0.backgroundColor = .customColor(.subColor)
+        $0.setCornerRadius(radius: 10)
+    }
+    
+    private let greetingBubbleLabel3 = PaddingLabel(
+        padding: UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+    ).then {
+        $0.setLabelUI("식당 정보랑 메뉴도 바로 알 수 있어!", font: .pretendard_bold, size: 15, color: .mainColor)
+        $0.backgroundColor = .customColor(.subColor)
+        $0.setCornerRadius(radius: 10)
+    }
+    
+    private let loginStackView = UIStackView().then {
         $0.axis = .vertical
-        $0.spacing = 30
+        $0.spacing = 11
         $0.alignment = .center
     }
     
-    private lazy var kakaoLoginButton = UIButton().then {
-        $0.setTitle("카카오", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.borderColor = UIColor.yellow.cgColor
-        $0.layer.borderWidth = 1
-        $0.layer.cornerRadius = 10
+    private lazy var googleLoginButton = IconConfirmButton(
+        icon: .google,
+        text: "구글로 시작하기",
+        backgroundColor: .white
+    ).then {
         $0.tag = 0
+        $0.setBorder(color: .customColor(.midGray))
         $0.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
     }
     
-    private lazy var naverLoginButton = UIButton().then {
-        $0.setTitle("네이버", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.borderColor = UIColor.green.cgColor
-        $0.layer.borderWidth = 1
-        $0.layer.cornerRadius = 10
+    private lazy var kakaoLoginButton = IconConfirmButton(
+        icon: .kakao,
+        text: "카카오로 시작하기",
+        backgroundColor: .kakaoYellow
+    ).then {
         $0.tag = 1
         $0.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
     }
     
-    private lazy var googleLoginButton = UIButton().then {
-        $0.setTitle("구글", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.borderColor = UIColor.gray.cgColor
-        $0.layer.borderWidth = 1
-        $0.layer.cornerRadius = 10
+    private lazy var naverLoginButton = IconConfirmButton(
+        icon: .naver,
+        text: "네이버로 시작하기",
+        titleColor: .white,
+        backgroundColor: .naverGreen
+    ).then {
         $0.tag = 2
         $0.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
     }
     
     private var loginWebView: WKWebView?
     
-    // MARK: - LifeCycle
+    // MARK: - Set UI
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setViewController()
-        setAddView()
-        setConstraints()
-    }
-    
-    // MARK: - Set ViewController
-    
-    private func setViewController() {
+    override func setUI() {
         view.backgroundColor = .white
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
-            testLoginStackView
+            logoIcon,
+            appTitleLabel,
+            greetingBubbleLabel1,
+            greetingBubbleLabel2,
+            greetingBubbleLabel3,
+            loginStackView
         ].forEach(view.addSubview)
         
         [
+            googleLoginButton,
             kakaoLoginButton,
-            naverLoginButton,
-            googleLoginButton
-        ].forEach(testLoginStackView.addArrangedSubview)
+            naverLoginButton
+        ].forEach(loginStackView.addArrangedSubview)
     }
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
-        testLoginStackView.snp.makeConstraints {
-            $0.center.equalToSuperview()
+    override func setConstraints() {
+        logoIcon.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(141)
+            $0.centerX.equalToSuperview()
+        }
+        
+        appTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(logoIcon.snp.bottom).offset(13)
+            $0.centerX.equalToSuperview()
+        }
+        
+        greetingBubbleLabel1.snp.makeConstraints {
+            $0.top.equalTo(appTitleLabel.snp.bottom).offset(77)
+            $0.leading.equalToSuperview().offset(17)
+        }
+        
+        greetingBubbleLabel2.snp.makeConstraints {
+            $0.top.equalTo(greetingBubbleLabel1.snp.bottom).offset(25)
+            $0.trailing.equalToSuperview().inset(20)
+        }
+        
+        greetingBubbleLabel3.snp.makeConstraints {
+            $0.top.equalTo(greetingBubbleLabel2.snp.bottom).offset(25)
+            $0.leading.equalToSuperview().offset(33)
+        }
+        
+        loginStackView.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(33)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+        }
+        
+        googleLoginButton.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(50)
         }
         
         kakaoLoginButton.snp.makeConstraints {
-            $0.width.equalTo(200)
+            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(50)
         }
         
         naverLoginButton.snp.makeConstraints {
-            $0.width.equalTo(200)
-            $0.height.equalTo(50)
-        }
-        
-        googleLoginButton.snp.makeConstraints {
-            $0.width.equalTo(200)
+            $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(50)
         }
     }
@@ -127,11 +180,11 @@ final class LoginViewController: UIViewController {
         // TODO: 소셜 로그인 enum으로 깔끔하게 처리하기
         switch sender.tag {
         case 0:
-            provider = "kakao"
-        case 1:
-            provider = "naver"
-        case 2:
             provider = "google"
+        case 1:
+            provider = "kakao"
+        case 2:
+            provider = "naver"
         case 3:
             provider = "apple"
         default:

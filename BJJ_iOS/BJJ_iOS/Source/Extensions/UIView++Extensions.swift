@@ -39,3 +39,18 @@ enum LineStyle {
         }
     }
 }
+
+extension UIView {
+    
+    // border 설정
+    func setBorder(color: UIColor = .systemRed, width: CGFloat = 1) {
+        layer.borderColor = color.cgColor
+        layer.borderWidth = width
+    }
+    
+    // cornerRadius 설정
+    func setCornerRadius(radius: CGFloat) {
+        layer.cornerRadius = radius
+        layer.masksToBounds = true
+    }
+}
