@@ -46,4 +46,19 @@ extension UIButton {
         
         return button
     }
+    
+    // UIButton 설정
+    func setButton(title: String, font: Fonts, size: CGFloat, color: UIColor) {
+        var config = UIButton.Configuration.plain()
+        
+        config.attributedTitle = AttributedString(
+            title,
+            attributes: AttributeContainer([
+                .font: UIFont.customFont(font, size),
+                .foregroundColor: color
+            ])
+        )
+        
+        configuration = config
+    }
 }
