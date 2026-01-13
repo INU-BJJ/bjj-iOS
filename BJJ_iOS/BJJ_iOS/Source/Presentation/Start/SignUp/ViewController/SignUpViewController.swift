@@ -82,6 +82,8 @@ final class SignUpViewController: BaseViewController {
         $0.isScrollEnabled = false
     }
     
+    private let consentSeparatingLine = SeparatingLine(color: .A_9_A_9_A_9)
+    
     private let allAgreeIcon = UIImageView().then {
         $0.contentMode = .scaleAspectFill
         $0.setImage(.bigEmptyBorderCheckBox)
@@ -128,6 +130,7 @@ final class SignUpViewController: BaseViewController {
             dividingLine,
             consentTitleLabel,
             consentCollectionView,
+            consentSeparatingLine,
             allAgreeIcon,
             allAgreeTitleLabel,
             signUpButton
@@ -204,6 +207,12 @@ final class SignUpViewController: BaseViewController {
             $0.top.equalTo(consentTitleLabel.snp.bottom).offset(11)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.height.equalTo(0) // 초기값, 데이터 바인딩 시 업데이트
+        }
+        
+        consentSeparatingLine.snp.makeConstraints {
+            $0.bottom.equalTo(allAgreeIcon.snp.top).offset(-12)
+            $0.horizontalEdges.equalTo(consentCollectionView)
+            $0.height.equalTo(1)
         }
         
         allAgreeIcon.snp.makeConstraints {
