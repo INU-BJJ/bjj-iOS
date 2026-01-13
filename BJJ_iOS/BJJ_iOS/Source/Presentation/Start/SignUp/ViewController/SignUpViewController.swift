@@ -35,6 +35,10 @@ final class SignUpViewController: BaseViewController {
         $0.setLabelUI("닉네임", font: .pretendard_semibold, size: 15, color: .black)
     }
     
+    private let nicknameGuideLabel = UILabel().then {
+        $0.setLabel("닉네임은 12글자까지 가능합니다.", font: .pretendard, size: 13, color: .B_9_B_9_B_9)
+    }
+    
     private lazy var testNickNameTextField = UITextField().then {
         $0.attributedPlaceholder = NSAttributedString(
             string: "닉네임",
@@ -94,6 +98,7 @@ final class SignUpViewController: BaseViewController {
             emailTitleLabel,
             emailTextField,
             nicknameTitleLabel,
+            nicknameGuideLabel,
             testNickNameTextField,
             testIsDupliCateButton,
             testIsValidLabel,
@@ -117,6 +122,11 @@ final class SignUpViewController: BaseViewController {
         nicknameTitleLabel.snp.makeConstraints {
             $0.top.equalTo(emailTextField.snp.bottom).offset(33)
             $0.leading.equalTo(emailTitleLabel)
+        }
+        
+        nicknameGuideLabel.snp.makeConstraints {
+            $0.centerY.equalTo(nicknameTitleLabel)
+            $0.leading.equalTo(nicknameTitleLabel.snp.trailing).offset(12)
         }
         
         testIsDupliCateButton.snp.makeConstraints {

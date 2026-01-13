@@ -15,6 +15,12 @@ extension UILabel {
         self.text = text
     }
     
+    func setLabel(_ text: String, font: Fonts, size: CGFloat, color: UIColor) {
+        self.textColor = color
+        self.font = .customFont(font, size)
+        self.text = text
+    }
+    
     func setLineSpacing(kernValue: Double = 0.0,
                         lineSpacing: CGFloat = 0.0,
                         lineHeightMultiple: CGFloat = 0.0) {
