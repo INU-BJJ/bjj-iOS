@@ -87,6 +87,10 @@ final class SignUpViewController: BaseViewController {
         $0.setImage(.bigEmptyBorderCheckBox)
     }
     
+    private let allAgreeTitleLabel = UILabel().then {
+        $0.setLabel("전체 동의", font: .pretendard_medium, size: 15, color: .black)
+    }
+    
     private lazy var signUpButton = ConfirmButton(title: "밥점줘 시작하기")
     
     // MARK: - LifeCycle
@@ -125,6 +129,7 @@ final class SignUpViewController: BaseViewController {
             consentTitleLabel,
             consentCollectionView,
             allAgreeIcon,
+            allAgreeTitleLabel,
             signUpButton
         ].forEach(view.addSubview)
     }
@@ -205,6 +210,11 @@ final class SignUpViewController: BaseViewController {
             $0.bottom.equalTo(signUpButton.snp.top).offset(-34)
             $0.leading.equalTo(signUpButton)
             $0.size.equalTo(24)
+        }
+        
+        allAgreeTitleLabel.snp.makeConstraints {
+            $0.centerY.equalTo(allAgreeIcon)
+            $0.leading.equalTo(allAgreeIcon.snp.trailing).offset(12)
         }
         
         signUpButton.snp.makeConstraints {
