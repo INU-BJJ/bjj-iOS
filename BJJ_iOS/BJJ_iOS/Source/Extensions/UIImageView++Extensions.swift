@@ -12,6 +12,10 @@ enum ImageAsset: String {
     case google
     case kakao
     case naver
+    case bigBorderCheckBox
+    case bigEmptyBorderCheckBox
+    case smallBorderCheckBox
+    case smallEmptyBorderCheckBox
     
     var name: String {
         rawValue
