@@ -131,6 +131,13 @@
 		3F96BE462DE31D4D009AED6F /* MenuReviewInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F96BE452DE31D4D009AED6F /* MenuReviewInfoView.swift */; };
 		3F996E572CD649C100910DE7 /* UIViewController++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */; };
 		3F996E612CD64D9800910DE7 /* MenuDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */; };
+		3F9A5F302F16250F00AB0576 /* UITextField++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A5F2F2F16250F00AB0576 /* UITextField++Extensions.swift */; };
+		3F9A5F322F16297300AB0576 /* SeparatingLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A5F312F16297300AB0576 /* SeparatingLine.swift */; };
+		3F9A5F352F16321700AB0576 /* ConsentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A5F342F16321700AB0576 /* ConsentModel.swift */; };
+		3F9A5F382F16323700AB0576 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A5F372F16323700AB0576 /* SignUpViewModel.swift */; };
+		3F9A5F3A2F16325C00AB0576 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A5F392F16325C00AB0576 /* BaseViewModel.swift */; };
+		3F9A5F412F16342200AB0576 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A5F402F16342200AB0576 /* BaseCollectionViewCell.swift */; };
+		3F9A5F442F16344E00AB0576 /* ConsentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A5F432F16344E00AB0576 /* ConsentCollectionViewCell.swift */; };
 		3FA055AC2D6B26ED00C72029 /* ReviewCategorySelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA055AB2D6B26ED00C72029 /* ReviewCategorySelectCell.swift */; };
 		3FA1D3232D7EDAAB00010931 /* MyReviewImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1D3222D7EDAAB00010931 /* MyReviewImageDetailViewController.swift */; };
 		3FADD2222D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FADD2212D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift */; };
@@ -156,6 +163,7 @@
 		3FC6915F2D1D57B0004643D2 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC6915E2D1D57B0004643D2 /* HomeModel.swift */; };
 		3FC691612D1D57C5004643D2 /* HomeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC691602D1D57C5004643D2 /* HomeAPI.swift */; };
 		3FC691642D1D646A004643D2 /* IgnoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC691632D1D646A004643D2 /* IgnoreData.swift */; };
+		3FC6B2202F1647E8004DFCE6 /* ConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC6B21F2F1647E8004DFCE6 /* ConfirmButton.swift */; };
 		3FCA25442D818E1B00BF56C2 /* MenuRankingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCA25432D818E1B00BF56C2 /* MenuRankingViewController.swift */; };
 		3FCA676B2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */; };
 		3FCAD7842DCC85A100A008CE /* MyReviewDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCAD7832DCC85A100A008CE /* MyReviewDetailModel.swift */; };
@@ -326,6 +334,13 @@
 		3F96BE452DE31D4D009AED6F /* MenuReviewInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewInfoView.swift; sourceTree = "<group>"; };
 		3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController++Extensions.swift"; sourceTree = "<group>"; };
 		3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailViewController.swift; sourceTree = "<group>"; };
+		3F9A5F2F2F16250F00AB0576 /* UITextField++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField++Extensions.swift"; sourceTree = "<group>"; };
+		3F9A5F312F16297300AB0576 /* SeparatingLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatingLine.swift; sourceTree = "<group>"; };
+		3F9A5F342F16321700AB0576 /* ConsentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentModel.swift; sourceTree = "<group>"; };
+		3F9A5F372F16323700AB0576 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		3F9A5F392F16325C00AB0576 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
+		3F9A5F402F16342200AB0576 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		3F9A5F432F16344E00AB0576 /* ConsentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentCollectionViewCell.swift; sourceTree = "<group>"; };
 		3FA055AB2D6B26ED00C72029 /* ReviewCategorySelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCategorySelectCell.swift; sourceTree = "<group>"; };
 		3FA1D3222D7EDAAB00010931 /* MyReviewImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewImageDetailViewController.swift; sourceTree = "<group>"; };
 		3FADD2212D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewImageDetailPageViewController.swift; sourceTree = "<group>"; };
@@ -351,6 +366,7 @@
 		3FC6915E2D1D57B0004643D2 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
 		3FC691602D1D57C5004643D2 /* HomeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAPI.swift; sourceTree = "<group>"; };
 		3FC691632D1D646A004643D2 /* IgnoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreData.swift; sourceTree = "<group>"; };
+		3FC6B21F2F1647E8004DFCE6 /* ConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmButton.swift; sourceTree = "<group>"; };
 		3FCA25432D818E1B00BF56C2 /* MenuRankingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRankingViewController.swift; sourceTree = "<group>"; };
 		3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewSeparatingView.swift; sourceTree = "<group>"; };
 		3FCAD7832DCC85A100A008CE /* MyReviewDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailModel.swift; sourceTree = "<group>"; };
@@ -515,6 +531,7 @@
 				3F8D58D92D787936009356AE /* NoticeView.swift */,
 				3F3AB7D62CB397F40013FABA /* MenuRatingView.swift */,
 				3F362D382DFD7BF8006C8094 /* AlertViewController.swift */,
+				3F9A5F312F16297300AB0576 /* SeparatingLine.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -673,6 +690,7 @@
 				3F3C74EB2D59D35C00D510A7 /* UIView++Extensions.swift */,
 				3FF1E92B2D67067000A237FA /* UITextView++Extensions.swift */,
 				3F90699D2F15391F00FDBC94 /* UIImageView++Extensions.swift */,
+				3F9A5F2F2F16250F00AB0576 /* UITextField++Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1093,6 +1111,9 @@
 		3F7CC2D02DA2490400062EF9 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
+				3F9A5F332F16321000AB0576 /* Model */,
+				3F9A5F3B2F16339D00AB0576 /* Cell */,
+				3F9A5F362F16322A00AB0576 /* ViewModel */,
 				3F7CC2D12DA2490E00062EF9 /* ViewController */,
 			);
 			path = SignUp;
@@ -1129,6 +1150,8 @@
 			children = (
 				3F9069902F1537AB00FDBC94 /* BaseViewController.swift */,
 				3F967AD92F15442B0053A5F1 /* BaseButton.swift */,
+				3F9A5F392F16325C00AB0576 /* BaseViewModel.swift */,
+				3F9A5F402F16342200AB0576 /* BaseCollectionViewCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1163,6 +1186,7 @@
 			isa = PBXGroup;
 			children = (
 				3F967AD52F15433A0053A5F1 /* IconConfirmButton.swift */,
+				3FC6B21F2F1647E8004DFCE6 /* ConfirmButton.swift */,
 			);
 			path = UIButton;
 			sourceTree = "<group>";
@@ -1224,6 +1248,30 @@
 				3F1613222CD8523400A30369 /* MenuItem.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3F9A5F332F16321000AB0576 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F9A5F342F16321700AB0576 /* ConsentModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3F9A5F362F16322A00AB0576 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3F9A5F372F16323700AB0576 /* SignUpViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3F9A5F3B2F16339D00AB0576 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				3F9A5F432F16344E00AB0576 /* ConsentCollectionViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		3FB396CD2DAE1BBA00EF87A8 /* NicknameEdit */ = {
@@ -1963,6 +2011,7 @@
 				3F1BC31A2D50DC7800B153BA /* CafeteriaMyReviewCell.swift in Sources */,
 				3F1472462DACF18000098C41 /* StoreSection.swift in Sources */,
 				3F03EEA82D5643F4007B3505 /* ReviewWriteViewController.swift in Sources */,
+				3F9A5F322F16297300AB0576 /* SeparatingLine.swift in Sources */,
 				3F61DF4D2CB31B1A00A019E8 /* HomeCafeteriaCell.swift in Sources */,
 				3FC0A66D2DA037B000FBFAEE /* SignUpAPI.swift in Sources */,
 				3F1C2B212DAE614B00AC3A36 /* LikedMenuCell.swift in Sources */,
@@ -1987,6 +2036,7 @@
 				3F94C8182D27BEE800364D0F /* MenuDetailAPI.swift in Sources */,
 				3F94C8162D27BEDC00364D0F /* MenuDetailAddress.swift in Sources */,
 				3F1A51A82CD890B300029E09 /* MenuReviewListHashTag.swift in Sources */,
+				3FC6B2202F1647E8004DFCE6 /* ConfirmButton.swift in Sources */,
 				3F3AF8CB2D75A57100D6C28A /* ReviewWriteAPI.swift in Sources */,
 				3F25B3ED2CB282D7005C0907 /* HomeViewController.swift in Sources */,
 				3FC123252DA5219800676A09 /* SettingViewController.swift in Sources */,
@@ -1997,6 +2047,7 @@
 				3F906A512F153F3000FDBC94 /* PaddingLabel.swift in Sources */,
 				3F0CF2562E00115500998FA9 /* ReportReviewAPI.swift in Sources */,
 				3FDC25642D6C7B5600ACBF8B /* MyReviewAPI.swift in Sources */,
+				3F9A5F382F16323700AB0576 /* SignUpViewModel.swift in Sources */,
 				3FB984622D5389710050D66A /* MyReviewDetailHashTagCell.swift in Sources */,
 				3FB396D82DAE1FA500EF87A8 /* SettingModel.swift in Sources */,
 				3F16131D2CD8487800A30369 /* MenuInfo.swift in Sources */,
@@ -2015,12 +2066,15 @@
 				3F61DF4F2CB31B2E00A019E8 /* HomeMenuCell.swift in Sources */,
 				3F61DF4B2CB3149600A019E8 /* HomeSection.swift in Sources */,
 				3F0CF25B2E002D5B00998FA9 /* ReportReviewSection.swift in Sources */,
+				3F9A5F442F16344E00AB0576 /* ConsentCollectionViewCell.swift in Sources */,
 				3FB984642D53918F0050D66A /* MyReviewDeleteModalViewController.swift in Sources */,
 				3F27E94A2DACB25600CD2554 /* GachaResultModel.swift in Sources */,
+				3F9A5F3A2F16325C00AB0576 /* BaseViewModel.swift in Sources */,
 				3F96BE462DE31D4D009AED6F /* MenuReviewInfoView.swift in Sources */,
 				3FC0A6692DA0378100FBFAEE /* SignUpAddress.swift in Sources */,
 				3F1613232CD8523400A30369 /* MenuItem.swift in Sources */,
 				3F27E9452DACAA1800CD2554 /* GachaResultViewController.swift in Sources */,
+				3F9A5F352F16321700AB0576 /* ConsentModel.swift in Sources */,
 				3F43F0DC2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift in Sources */,
 				3F1BC3182D50D8EE00B153BA /* CafeteriaMyReviewViewController.swift in Sources */,
 				3FB396D42DAE1F8900EF87A8 /* SettingAddress.swift in Sources */,
@@ -2079,6 +2133,7 @@
 				3F3265472D6C16F600AFC08E /* ReviewGuidelines.swift in Sources */,
 				3F6947D42D88146F0036BF2A /* ReviewModalViewController.swift in Sources */,
 				3F16132D2CD8737500A30369 /* MenuReviewList.swift in Sources */,
+				3F9A5F412F16342200AB0576 /* BaseCollectionViewCell.swift in Sources */,
 				3F1472492DACF90D00098C41 /* ItemTypeCell.swift in Sources */,
 				3FC0A66B2DA0379C00FBFAEE /* SignUpModel.swift in Sources */,
 				3FB396D62DAE1F9A00EF87A8 /* SettingAPI.swift in Sources */,
@@ -2107,6 +2162,7 @@
 				3FCA676B2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift in Sources */,
 				3F6125292DA6A80E003B5851 /* MyPageViewController.swift in Sources */,
 				3FCA25442D818E1B00BF56C2 /* MenuRankingViewController.swift in Sources */,
+				3F9A5F302F16250F00AB0576 /* UITextField++Extensions.swift in Sources */,
 				3F9069912F1537AB00FDBC94 /* BaseViewController.swift in Sources */,
 				3F27E9412DACA15100CD2554 /* GachaViewController.swift in Sources */,
 				3FC6915F2D1D57B0004643D2 /* HomeModel.swift in Sources */,
