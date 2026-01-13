@@ -84,6 +84,7 @@ final class SignUpViewController: BaseViewController {
     
     override func setUI() {
         view.backgroundColor = .white
+        setBackNaviBar("회원가입")
     }
     
     // MARK: - Set Hierarchy
@@ -104,7 +105,7 @@ final class SignUpViewController: BaseViewController {
     
     override func setConstraints() {
         emailTitleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(101)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             $0.leading.equalToSuperview().offset(20)
         }
         
