@@ -31,8 +31,8 @@ final class SignUpViewController: BaseViewController {
         $0.backgroundColor = .F_6_F_6_F_8
     }
     
-    private let testNickNameLabel = UILabel().then {
-        $0.setLabelUI("닉네임", font: .pretendard, size: 15, color: .black)
+    private let nicknameTitleLabel = UILabel().then {
+        $0.setLabelUI("닉네임", font: .pretendard_semibold, size: 15, color: .black)
     }
     
     private lazy var testNickNameTextField = UITextField().then {
@@ -93,7 +93,7 @@ final class SignUpViewController: BaseViewController {
         [
             emailTitleLabel,
             emailTextField,
-            testNickNameLabel,
+            nicknameTitleLabel,
             testNickNameTextField,
             testIsDupliCateButton,
             testIsValidLabel,
@@ -112,6 +112,11 @@ final class SignUpViewController: BaseViewController {
         emailTextField.snp.makeConstraints {
             $0.top.equalTo(emailTitleLabel.snp.bottom).offset(6)
             $0.horizontalEdges.equalToSuperview().inset(20)
+        }
+        
+        nicknameTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(emailTextField.snp.bottom).offset(33)
+            $0.leading.equalTo(emailTitleLabel)
         }
         
         testIsDupliCateButton.snp.makeConstraints {
