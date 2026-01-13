@@ -55,6 +55,10 @@ final class SignUpViewController: BaseViewController {
     
     private let dividingLine = SeparatingLine(color: .F_6_F_6_F_8)
     
+    private let consentTitleLabel = UILabel().then {
+        $0.setLabel("약관 동의", font: .pretendard_semibold, size: 15, color: .black)
+    }
+    
     private let testIsValidLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 15, color: .black)
         $0.isHidden = true
@@ -99,6 +103,7 @@ final class SignUpViewController: BaseViewController {
             nicknameTextFieldBorder,
             checkNicknameDupliCateButton,
             dividingLine,
+            consentTitleLabel,
             testIsValidLabel,
             testSignUpButton
         ].forEach(view.addSubview)
@@ -152,6 +157,11 @@ final class SignUpViewController: BaseViewController {
             $0.top.equalTo(checkNicknameDupliCateButton.snp.bottom).offset(245)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(7)
+        }
+        
+        consentTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(dividingLine.snp.bottom).offset(20)
+            $0.leading.equalToSuperview().offset(20)
         }
         
         testSignUpButton.snp.makeConstraints {
