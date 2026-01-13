@@ -57,6 +57,16 @@ final class SignUpViewController: BaseViewController {
         $0.setCornerRadius(radius: 27 / 2)
     }
     
+    private let validResultIcon = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+        $0.isHidden = true
+    }
+    
+    private let validResultLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard, size: 11, color: .black)
+        $0.isHidden = true
+    }
+    
     private let dividingLine = SeparatingLine(color: .F_6_F_6_F_8)
     
     private let consentTitleLabel = UILabel().then {
@@ -70,11 +80,6 @@ final class SignUpViewController: BaseViewController {
         $0.register(ConsentCollectionViewCell.self, forCellWithReuseIdentifier: ConsentCollectionViewCell.reuseIdentifier)
         $0.delegate = self
         $0.isScrollEnabled = false
-    }
-    
-    private let testIsValidLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 15, color: .black)
-        $0.isHidden = true
     }
     
     private lazy var testSignUpButton = UIButton().then {
@@ -115,10 +120,11 @@ final class SignUpViewController: BaseViewController {
             nicknameTextField,
             nicknameTextFieldBorder,
             checkNicknameDupliCateButton,
+            validResultIcon,
+            validResultLabel,
             dividingLine,
             consentTitleLabel,
             consentCollectionView,
-            testIsValidLabel,
             testSignUpButton
         ].forEach(view.addSubview)
     }
@@ -165,6 +171,17 @@ final class SignUpViewController: BaseViewController {
             $0.trailing.equalToSuperview().inset(20)
             $0.width.equalTo(77)
             $0.height.equalTo(27)
+        }
+        
+        validResultIcon.snp.makeConstraints {
+            $0.top.equalTo(nicknameTextFieldBorder.snp.bottom).offset(8)
+            $0.leading.equalTo(nicknameTextFieldBorder)
+            $0.size.equalTo(17)
+        }
+        
+        validResultLabel.snp.makeConstraints {
+            $0.centerY.equalTo(validResultIcon)
+            $0.leading.equalTo(validResultIcon.snp.trailing).offset(6)
         }
         
         dividingLine.snp.makeConstraints {
@@ -249,7 +266,8 @@ final class SignUpViewController: BaseViewController {
     @objc private func didNicknameChange(_ textField: UITextField) {
         testSignUpButton.isEnabled = false
         testSignUpButton.backgroundColor = .customColor(.midGray)
-        testIsValidLabel.isHidden = true
+        validResultIcon.isHidden = true
+        validResultLabel.isHidden = true
     }
     
     @objc private func didTapDupplicateButton() {
@@ -271,8 +289,10 @@ final class SignUpViewController: BaseViewController {
                 switch result {
                 case .success:
                     DispatchQueue.main.async {
-                        self.testIsValidLabel.isHidden = false
-                        self.testIsValidLabel.text = "✅ 사용 가능한 닉네임입니다."
+                        self.validResultIcon.isHidden = false
+                        self.validResultLabel.isHidden = false
+                        self.validResultIcon.setImage(.checkCircleGreen)
+                        self.validResultLabel.text = "사용 가능한 닉네임입니다."
                         self.testSignUpButton.backgroundColor = .customColor(.mainColor)
                         // TODO: 중복 확인 안하고 회원가입 버튼 눌렀을 경우 UI 디자인
                         self.testSignUpButton.isEnabled = true
@@ -281,8 +301,10 @@ final class SignUpViewController: BaseViewController {
                 case .failure(let error):
                     // TODO: 에러 처리 상세히 하기 - 인증정보 없음(토큰이 없는 경우(물론 여기 페이지까지 오면 토큰이 없는 경우는 없지만)에도 이미 존재하는 닉네임입니다로 뜸)
                     DispatchQueue.main.async {
-                        self.testIsValidLabel.isHidden = false
-                        self.testIsValidLabel.text = "❌이미 존재하는 닉네임입니다."
+                        self.validResultIcon.isHidden = false
+                        self.validResultLabel.isHidden = false
+                        self.validResultIcon.setImage(.checkCircleWarning)
+                        self.validResultLabel.text = "이미 존재하는 닉네임입니다."
                     }
                     print("[SignUpVC] error: \(error.localizedDescription)")
                 }
@@ -292,8 +314,10 @@ final class SignUpViewController: BaseViewController {
         // TODO: 아무것도 입력하지 않고 중복 확인 눌렀을 경우 UI 디자인
         else {
             DispatchQueue.main.async {
-                self.testIsValidLabel.isHidden = false
-                self.testIsValidLabel.text = "❌ 닉네임을 입력해주세요."
+                self.validResultIcon.isHidden = false
+                self.validResultLabel.isHidden = false
+                self.validResultIcon.setImage(.checkCircleWarning)
+                self.validResultLabel.text = "닉네임을 입력해주세요."
             }
             return
         }
