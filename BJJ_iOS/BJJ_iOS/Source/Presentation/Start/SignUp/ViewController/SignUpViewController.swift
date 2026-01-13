@@ -53,6 +53,8 @@ final class SignUpViewController: BaseViewController {
         $0.setCornerRadius(radius: 27 / 2)
     }
     
+    private let dividingLine = SeparatingLine(color: .F_6_F_6_F_8)
+    
     private let testIsValidLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard, size: 15, color: .black)
         $0.isHidden = true
@@ -96,6 +98,7 @@ final class SignUpViewController: BaseViewController {
             nicknameTextField,
             nicknameTextFieldBorder,
             checkNicknameDupliCateButton,
+            dividingLine,
             testIsValidLabel,
             testSignUpButton
         ].forEach(view.addSubview)
@@ -143,6 +146,12 @@ final class SignUpViewController: BaseViewController {
             $0.trailing.equalToSuperview().inset(20)
             $0.width.equalTo(77)
             $0.height.equalTo(27)
+        }
+        
+        dividingLine.snp.makeConstraints {
+            $0.top.equalTo(checkNicknameDupliCateButton.snp.bottom).offset(245)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(7)
         }
         
         testSignUpButton.snp.makeConstraints {
