@@ -82,13 +82,7 @@ final class SignUpViewController: BaseViewController {
         $0.isScrollEnabled = false
     }
     
-    private lazy var testSignUpButton = UIButton().then {
-        $0.setTitle("밥점줘 시작하기", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = .customColor(.midGray)
-        $0.isEnabled = false
-        $0.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
-    }
+    private lazy var signUpButton = ConfirmButton(title: "밥점줘 시작하기")
     
     // MARK: - LifeCycle
     
@@ -125,7 +119,7 @@ final class SignUpViewController: BaseViewController {
             dividingLine,
             consentTitleLabel,
             consentCollectionView,
-            testSignUpButton
+            signUpButton
         ].forEach(view.addSubview)
     }
     
@@ -201,9 +195,10 @@ final class SignUpViewController: BaseViewController {
             $0.height.equalTo(0) // 초기값, 데이터 바인딩 시 업데이트
         }
         
-        testSignUpButton.snp.makeConstraints {
-            $0.width.equalTo(200)
-            $0.height.equalTo(50)
+        signUpButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(40)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(47)
         }
     }
     
@@ -264,8 +259,8 @@ final class SignUpViewController: BaseViewController {
     // MARK: Objc Functions
     
     @objc private func didNicknameChange(_ textField: UITextField) {
-        testSignUpButton.isEnabled = false
-        testSignUpButton.backgroundColor = .customColor(.midGray)
+        signUpButton.isEnabled = false
+        signUpButton.backgroundColor = .customColor(.midGray)
         validResultIcon.isHidden = true
         validResultLabel.isHidden = true
     }
@@ -293,9 +288,9 @@ final class SignUpViewController: BaseViewController {
                         self.validResultLabel.isHidden = false
                         self.validResultIcon.setImage(.checkCircleGreen)
                         self.validResultLabel.text = "사용 가능한 닉네임입니다."
-                        self.testSignUpButton.backgroundColor = .customColor(.mainColor)
+                        self.signUpButton.backgroundColor = .customColor(.mainColor)
                         // TODO: 중복 확인 안하고 회원가입 버튼 눌렀을 경우 UI 디자인
-                        self.testSignUpButton.isEnabled = true
+                        self.signUpButton.isEnabled = true
                     }
                     
                 case .failure(let error):
