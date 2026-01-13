@@ -22,13 +22,13 @@ final class SignUpViewController: BaseViewController {
         $0.setLabelUI("이메일", font: .pretendard_semibold, size: 15, color: .black)
     }
     
-    private lazy var testEmailTextField = UITextField().then {
-        $0.text = email
-        $0.textColor = .customColor(.midGray)
-        $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
-        $0.layer.borderWidth = 1
-        $0.backgroundColor = .customColor(.lightGray)
-        $0.isEnabled = false
+    private lazy var emailTextField = PaddingLabel(
+        padding: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    ).then {
+        $0.setLabelUI(email, font: .pretendard, size: 13, color: .midGray)
+        $0.setCornerRadius(radius: 3)
+        $0.setBorder(color: .D_9_D_9_D_9)
+        $0.backgroundColor = .F_6_F_6_F_8
     }
     
     private let testNickNameLabel = UILabel().then {
@@ -92,7 +92,7 @@ final class SignUpViewController: BaseViewController {
     override func setHierarchy() {
         [
             emailTitleLabel,
-            testEmailTextField,
+            emailTextField,
             testNickNameLabel,
             testNickNameTextField,
             testIsDupliCateButton,
@@ -107,6 +107,11 @@ final class SignUpViewController: BaseViewController {
         emailTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             $0.leading.equalToSuperview().offset(20)
+        }
+        
+        emailTextField.snp.makeConstraints {
+            $0.top.equalTo(emailTitleLabel.snp.bottom).offset(6)
+            $0.horizontalEdges.equalToSuperview().inset(20)
         }
         
         testIsDupliCateButton.snp.makeConstraints {
