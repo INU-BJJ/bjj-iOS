@@ -18,8 +18,8 @@ final class SignUpViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let testEmailLabel = UILabel().then {
-        $0.setLabelUI("이메일", font: .pretendard, size: 15, color: .black)
+    private let emailTitleLabel = UILabel().then {
+        $0.setLabelUI("이메일", font: .pretendard_semibold, size: 15, color: .black)
     }
     
     private lazy var testEmailTextField = UITextField().then {
@@ -98,7 +98,7 @@ final class SignUpViewController: UIViewController {
     
     private func setAddView() {
         [
-            testEmailLabel,
+            emailTitleLabel,
             testEmailTextField,
             testNickNameLabel,
             testNickNameTextField,
@@ -111,6 +111,11 @@ final class SignUpViewController: UIViewController {
     // MARK: - Set Constraints
     
     private func setConstraints() {
+        emailTitleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(101)
+            $0.leading.equalToSuperview().offset(20)
+        }
+        
         testIsDupliCateButton.snp.makeConstraints {
             $0.width.equalTo(200)
             $0.height.equalTo(50)
