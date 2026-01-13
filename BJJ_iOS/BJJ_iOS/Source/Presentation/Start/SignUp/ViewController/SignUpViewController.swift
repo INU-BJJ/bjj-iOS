@@ -39,24 +39,14 @@ final class SignUpViewController: BaseViewController {
         $0.setLabel("닉네임은 12글자까지 가능합니다.", font: .pretendard, size: 13, color: .B_9_B_9_B_9)
     }
     
-    private lazy var testNickNameTextField = UITextField().then {
-        $0.attributedPlaceholder = NSAttributedString(
-            string: "닉네임",
-            attributes: [
-                NSAttributedString.Key.foregroundColor: UIColor.customColor(.midGray)
-            ]
-        )
-        $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
-        $0.layer.borderWidth = 1
-        $0.addTarget(self, action: #selector(didNicknameChange(_:)), for: .editingChanged)
+    private let nicknameTextField = UITextField().then {
+        $0.setTextField(placeholder: "닉네임", font: .pretendard, size: 13, leftPadding: 6)
     }
     
-    private lazy var testIsDupliCateButton = UIButton().then {
-        $0.setTitle("중복 확인", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.borderColor = UIColor.customColor(.mainColor).cgColor
-        $0.layer.borderWidth = 1
-        $0.addTarget(self, action: #selector(didTapDupplicateButton), for: .touchUpInside)
+    private lazy var checkNicknameDupliCateButton = UIButton().then {
+        $0.setButton(title: "중복 확인", font: .pretendard, size: 13, color: .black)
+        $0.setBorder(color: .customColor(.mainColor))
+        $0.setCornerRadius(radius: 27 / 2)
     }
     
     private let testIsValidLabel = UILabel().then {
@@ -99,8 +89,8 @@ final class SignUpViewController: BaseViewController {
             emailTextField,
             nicknameTitleLabel,
             nicknameGuideLabel,
-            testNickNameTextField,
-            testIsDupliCateButton,
+            nicknameTextField,
+            checkNicknameDupliCateButton,
             testIsValidLabel,
             testSignUpButton
         ].forEach(view.addSubview)
@@ -129,9 +119,18 @@ final class SignUpViewController: BaseViewController {
             $0.leading.equalTo(nicknameTitleLabel.snp.trailing).offset(12)
         }
         
-        testIsDupliCateButton.snp.makeConstraints {
-            $0.width.equalTo(200)
-            $0.height.equalTo(50)
+        nicknameTextField.snp.makeConstraints {
+            $0.centerY.equalTo(checkNicknameDupliCateButton)
+            $0.leading.equalTo(nicknameTitleLabel)
+            $0.trailing.equalTo(checkNicknameDupliCateButton.snp.leading).offset(-12)
+            $0.height.equalTo(17)
+        }
+        
+        checkNicknameDupliCateButton.snp.makeConstraints {
+            $0.top.equalTo(nicknameTitleLabel.snp.bottom).offset(7)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.width.equalTo(77)
+            $0.height.equalTo(27)
         }
         
         testSignUpButton.snp.makeConstraints {
@@ -149,7 +148,7 @@ final class SignUpViewController: BaseViewController {
     }
     
     @objc private func didTapDupplicateButton() {
-        postNickname(nickname: testNickNameTextField.text)
+        postNickname(nickname: nicknameTextField.text)
     }
     
     @objc private func didTapSignUpButton() {
@@ -197,7 +196,7 @@ final class SignUpViewController: BaseViewController {
     
     private func postLoginToken() {
         let userSignUpInfo: [String: String] = [
-            "nickname": testNickNameTextField.text!,    // TODO: 강제 언래핑 없애기
+            "nickname": nicknameTextField.text!,    // TODO: 강제 언래핑 없애기
             "email": email,
             "provider": provider
         ]
