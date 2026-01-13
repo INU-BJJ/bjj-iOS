@@ -45,6 +45,8 @@ final class SignUpViewController: BaseViewController {
         $0.setTextField(placeholder: "닉네임", font: .pretendard, size: 13, leftPadding: 6)
     }
     
+    private let nicknameTextFieldBorder = SeparatingLine()
+    
     private lazy var checkNicknameDupliCateButton = UIButton().then {
         $0.setButton(title: "중복 확인", font: .pretendard, size: 13, color: .black)
         $0.setBorder(color: .customColor(.mainColor))
@@ -92,6 +94,7 @@ final class SignUpViewController: BaseViewController {
             nicknameTitleLabel,
             nicknameGuideLabel,
             nicknameTextField,
+            nicknameTextFieldBorder,
             checkNicknameDupliCateButton,
             testIsValidLabel,
             testSignUpButton
@@ -126,6 +129,13 @@ final class SignUpViewController: BaseViewController {
             $0.leading.equalTo(nicknameTitleLabel)
             $0.trailing.equalTo(checkNicknameDupliCateButton.snp.leading).offset(-12)
             $0.height.equalTo(17)
+        }
+        
+        nicknameTextFieldBorder.snp.makeConstraints {
+            $0.bottom.equalTo(checkNicknameDupliCateButton)
+            $0.leading.equalTo(nicknameTextField)
+            $0.trailing.equalTo(checkNicknameDupliCateButton.snp.leading).offset(-6)
+            $0.height.equalTo(1)
         }
         
         checkNicknameDupliCateButton.snp.makeConstraints {
