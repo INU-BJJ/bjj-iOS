@@ -13,6 +13,10 @@ import RxCocoa
 
 final class SignUpViewController: BaseViewController {
     
+    // MARK: - ViewModel
+    
+    private let signUpViewModel = SignUpViewModel()
+    
     // MARK: - Properties
     
     private let email: String
@@ -57,6 +61,15 @@ final class SignUpViewController: BaseViewController {
     
     private let consentTitleLabel = UILabel().then {
         $0.setLabel("약관 동의", font: .pretendard_semibold, size: 15, color: .black)
+    }
+    
+    private lazy var consentCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createLayout()
+    ).then {
+        $0.register(ConsentCollectionViewCell.self, forCellWithReuseIdentifier: ConsentCollectionViewCell.reuseIdentifier)
+        $0.delegate = self
+        $0.isScrollEnabled = false
     }
     
     private let testIsValidLabel = UILabel().then {
@@ -104,6 +117,7 @@ final class SignUpViewController: BaseViewController {
             checkNicknameDupliCateButton,
             dividingLine,
             consentTitleLabel,
+            consentCollectionView,
             testIsValidLabel,
             testSignUpButton
         ].forEach(view.addSubview)
@@ -164,6 +178,12 @@ final class SignUpViewController: BaseViewController {
             $0.leading.equalToSuperview().offset(20)
         }
         
+        consentCollectionView.snp.makeConstraints {
+            $0.top.equalTo(consentTitleLabel.snp.bottom).offset(11)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(0) // 초기값, 데이터 바인딩 시 업데이트
+        }
+        
         testSignUpButton.snp.makeConstraints {
             $0.width.equalTo(200)
             $0.height.equalTo(50)
@@ -173,6 +193,8 @@ final class SignUpViewController: BaseViewController {
     // MARK: - Bind
 
     override func bind() {
+        let input = SignUpViewModel.Input()
+        let output = signUpViewModel.transform(input: input)
         
         // 닉네임 글자수 12자 제한
         nicknameTextField.rx.text.orEmpty
@@ -184,6 +206,42 @@ final class SignUpViewController: BaseViewController {
             }
             .bind(to: nicknameTextField.rx.text)
             .disposed(by: disposeBag)
+        
+        // 약관 동의 collectionView
+        output.consentList
+            .do(onNext: { [weak self] consentList in
+                guard let self = self else { return }
+                updateCollectionViewHeight(count: consentList.count)
+            })
+            .bind(to: consentCollectionView.rx.items(
+                cellIdentifier: ConsentCollectionViewCell.reuseIdentifier,
+                cellType: ConsentCollectionViewCell.self
+            )) { index, consent, cell in
+                cell.configureCell(with: consent)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    // MARK: - Create Layout
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 12
+
+        return layout
+    }
+    
+    // MARK: - Update CollectionView Height
+    
+    private func updateCollectionViewHeight(count: Int) {
+        let cellHeight: CGFloat = 20
+        let spacing: CGFloat = 12
+        let itemCount = count
+        let totalHeight = CGFloat(itemCount) * cellHeight + CGFloat(max(0, itemCount - 1)) * spacing
+        
+        self.consentCollectionView.snp.updateConstraints {
+            $0.height.equalTo(totalHeight)
+        }
     }
     
     // MARK: Objc Functions
@@ -265,5 +323,19 @@ final class SignUpViewController: BaseViewController {
                 print("[SignUpVC] Error: \(error.localizedDescription)")
             }
         }
+    }
+}
+
+// MARK: - UICollectionView Delegate FlowLayout
+
+extension SignUpViewController: UICollectionViewDelegateFlowLayout {
+    
+    // cell 사이즈
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 20)
     }
 }
