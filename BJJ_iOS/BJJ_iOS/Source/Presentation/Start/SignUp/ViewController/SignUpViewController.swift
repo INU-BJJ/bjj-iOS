@@ -82,6 +82,11 @@ final class SignUpViewController: BaseViewController {
         $0.isScrollEnabled = false
     }
     
+    private let allAgreeIcon = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+        $0.setImage(.bigEmptyBorderCheckBox)
+    }
+    
     private lazy var signUpButton = ConfirmButton(title: "밥점줘 시작하기")
     
     // MARK: - LifeCycle
@@ -119,6 +124,7 @@ final class SignUpViewController: BaseViewController {
             dividingLine,
             consentTitleLabel,
             consentCollectionView,
+            allAgreeIcon,
             signUpButton
         ].forEach(view.addSubview)
     }
@@ -193,6 +199,12 @@ final class SignUpViewController: BaseViewController {
             $0.top.equalTo(consentTitleLabel.snp.bottom).offset(11)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.height.equalTo(0) // 초기값, 데이터 바인딩 시 업데이트
+        }
+        
+        allAgreeIcon.snp.makeConstraints {
+            $0.bottom.equalTo(signUpButton.snp.top).offset(-34)
+            $0.leading.equalTo(signUpButton)
+            $0.size.equalTo(24)
         }
         
         signUpButton.snp.makeConstraints {
