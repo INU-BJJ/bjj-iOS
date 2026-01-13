@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
 final class SignUpViewController: BaseViewController {
     
@@ -137,6 +139,22 @@ final class SignUpViewController: BaseViewController {
             $0.width.equalTo(200)
             $0.height.equalTo(50)
         }
+    }
+    
+    // MARK: - Bind
+
+    override func bind() {
+        
+        // 닉네임 글자수 12자 제한
+        nicknameTextField.rx.text.orEmpty
+            .map { text -> String in
+                if text.count > 12 {
+                    return String(text.prefix(12))
+                }
+                return text
+            }
+            .bind(to: nicknameTextField.rx.text)
+            .disposed(by: disposeBag)
     }
     
     // MARK: Objc Functions
