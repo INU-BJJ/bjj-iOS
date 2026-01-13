@@ -132,6 +132,7 @@
 		3F996E572CD649C100910DE7 /* UIViewController++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */; };
 		3F996E612CD64D9800910DE7 /* MenuDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */; };
 		3F9A5F302F16250F00AB0576 /* UITextField++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A5F2F2F16250F00AB0576 /* UITextField++Extensions.swift */; };
+		3F9A5F322F16297300AB0576 /* SeparatingLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A5F312F16297300AB0576 /* SeparatingLine.swift */; };
 		3FA055AC2D6B26ED00C72029 /* ReviewCategorySelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA055AB2D6B26ED00C72029 /* ReviewCategorySelectCell.swift */; };
 		3FA1D3232D7EDAAB00010931 /* MyReviewImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1D3222D7EDAAB00010931 /* MyReviewImageDetailViewController.swift */; };
 		3FADD2222D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FADD2212D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift */; };
@@ -328,6 +329,7 @@
 		3F996E562CD649C100910DE7 /* UIViewController++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController++Extensions.swift"; sourceTree = "<group>"; };
 		3F996E602CD64D9800910DE7 /* MenuDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailViewController.swift; sourceTree = "<group>"; };
 		3F9A5F2F2F16250F00AB0576 /* UITextField++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField++Extensions.swift"; sourceTree = "<group>"; };
+		3F9A5F312F16297300AB0576 /* SeparatingLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatingLine.swift; sourceTree = "<group>"; };
 		3FA055AB2D6B26ED00C72029 /* ReviewCategorySelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCategorySelectCell.swift; sourceTree = "<group>"; };
 		3FA1D3222D7EDAAB00010931 /* MyReviewImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewImageDetailViewController.swift; sourceTree = "<group>"; };
 		3FADD2212D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewImageDetailPageViewController.swift; sourceTree = "<group>"; };
@@ -517,6 +519,7 @@
 				3F8D58D92D787936009356AE /* NoticeView.swift */,
 				3F3AB7D62CB397F40013FABA /* MenuRatingView.swift */,
 				3F362D382DFD7BF8006C8094 /* AlertViewController.swift */,
+				3F9A5F312F16297300AB0576 /* SeparatingLine.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1966,6 +1969,7 @@
 				3F1BC31A2D50DC7800B153BA /* CafeteriaMyReviewCell.swift in Sources */,
 				3F1472462DACF18000098C41 /* StoreSection.swift in Sources */,
 				3F03EEA82D5643F4007B3505 /* ReviewWriteViewController.swift in Sources */,
+				3F9A5F322F16297300AB0576 /* SeparatingLine.swift in Sources */,
 				3F61DF4D2CB31B1A00A019E8 /* HomeCafeteriaCell.swift in Sources */,
 				3FC0A66D2DA037B000FBFAEE /* SignUpAPI.swift in Sources */,
 				3F1C2B212DAE614B00AC3A36 /* LikedMenuCell.swift in Sources */,
