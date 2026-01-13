@@ -163,6 +163,7 @@
 		3FC6915F2D1D57B0004643D2 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC6915E2D1D57B0004643D2 /* HomeModel.swift */; };
 		3FC691612D1D57C5004643D2 /* HomeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC691602D1D57C5004643D2 /* HomeAPI.swift */; };
 		3FC691642D1D646A004643D2 /* IgnoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC691632D1D646A004643D2 /* IgnoreData.swift */; };
+		3FC6B2202F1647E8004DFCE6 /* ConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC6B21F2F1647E8004DFCE6 /* ConfirmButton.swift */; };
 		3FCA25442D818E1B00BF56C2 /* MenuRankingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCA25432D818E1B00BF56C2 /* MenuRankingViewController.swift */; };
 		3FCA676B2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */; };
 		3FCAD7842DCC85A100A008CE /* MyReviewDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCAD7832DCC85A100A008CE /* MyReviewDetailModel.swift */; };
@@ -365,6 +366,7 @@
 		3FC6915E2D1D57B0004643D2 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
 		3FC691602D1D57C5004643D2 /* HomeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAPI.swift; sourceTree = "<group>"; };
 		3FC691632D1D646A004643D2 /* IgnoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreData.swift; sourceTree = "<group>"; };
+		3FC6B21F2F1647E8004DFCE6 /* ConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmButton.swift; sourceTree = "<group>"; };
 		3FCA25432D818E1B00BF56C2 /* MenuRankingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRankingViewController.swift; sourceTree = "<group>"; };
 		3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewSeparatingView.swift; sourceTree = "<group>"; };
 		3FCAD7832DCC85A100A008CE /* MyReviewDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailModel.swift; sourceTree = "<group>"; };
@@ -1184,6 +1186,7 @@
 			isa = PBXGroup;
 			children = (
 				3F967AD52F15433A0053A5F1 /* IconConfirmButton.swift */,
+				3FC6B21F2F1647E8004DFCE6 /* ConfirmButton.swift */,
 			);
 			path = UIButton;
 			sourceTree = "<group>";
@@ -2033,6 +2036,7 @@
 				3F94C8182D27BEE800364D0F /* MenuDetailAPI.swift in Sources */,
 				3F94C8162D27BEDC00364D0F /* MenuDetailAddress.swift in Sources */,
 				3F1A51A82CD890B300029E09 /* MenuReviewListHashTag.swift in Sources */,
+				3FC6B2202F1647E8004DFCE6 /* ConfirmButton.swift in Sources */,
 				3F3AF8CB2D75A57100D6C28A /* ReviewWriteAPI.swift in Sources */,
 				3F25B3ED2CB282D7005C0907 /* HomeViewController.swift in Sources */,
 				3FC123252DA5219800676A09 /* SettingViewController.swift in Sources */,
