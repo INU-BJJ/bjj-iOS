@@ -193,18 +193,18 @@ final class SignUpViewController: BaseViewController {
         }
         
         dividingLine.snp.makeConstraints {
-            $0.top.equalTo(checkNicknameDupliCateButton.snp.bottom).offset(245)
+            $0.bottom.equalTo(consentTitleLabel.snp.top).offset(-20)
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(7)
         }
         
         consentTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(dividingLine.snp.bottom).offset(20)
+            $0.bottom.equalTo(consentCollectionView.snp.top).offset(-11)
             $0.leading.equalToSuperview().offset(20)
         }
         
         consentCollectionView.snp.makeConstraints {
-            $0.top.equalTo(consentTitleLabel.snp.bottom).offset(11)
+            $0.bottom.equalTo(consentSeparatingLine.snp.top).offset(-12)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.height.equalTo(0) // 초기값, 데이터 바인딩 시 업데이트
         }
