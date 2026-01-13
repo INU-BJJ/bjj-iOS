@@ -93,7 +93,9 @@ final class SignUpViewController: BaseViewController {
         $0.setLabel("전체 동의", font: .pretendard_medium, size: 15, color: .black)
     }
     
-    private lazy var signUpButton = ConfirmButton(title: "밥점줘 시작하기")
+    private let signUpButton = ConfirmButton(title: "밥점줘 시작하기").then {
+        $0.setUI(isEnabled: false)
+    }
     
     // MARK: - LifeCycle
     
