@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class SignUpViewController: UIViewController {
+final class SignUpViewController: BaseViewController {
     
     // MARK: - Properties
     
@@ -80,23 +80,15 @@ final class SignUpViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setViewController()
-        setAddView()
-        setConstraints()
-    }
+    // MARK: - Set UI
     
-    // MARK: - Set ViewController
-    
-    private func setViewController() {
+    override func setUI() {
         view.backgroundColor = .white
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
             emailTitleLabel,
             testEmailTextField,
@@ -110,7 +102,7 @@ final class SignUpViewController: UIViewController {
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
+    override func setConstraints() {
         emailTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(101)
             $0.leading.equalToSuperview().offset(20)
