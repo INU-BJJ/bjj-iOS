@@ -26,7 +26,7 @@ final class MyPageViewController: BaseViewController {
     
     private let nicknameView = MyPageNicknameView()
     
-    private let testCharacterImage = UIImageView()
+    private let characterImage = UIImageView()
     
     private let backgroundImage = UIImageView()
     
@@ -56,7 +56,7 @@ final class MyPageViewController: BaseViewController {
     override func setHierarchy() {
         [
             backgroundImage,
-            testCharacterImage,
+            characterImage,
             testStoreButton,
             nicknameView
         ].forEach(view.addSubview)
@@ -70,7 +70,7 @@ final class MyPageViewController: BaseViewController {
             $0.centerX.equalToSuperview()
         }
         
-        testCharacterImage.snp.makeConstraints {
+        characterImage.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(170)
             $0.centerX.equalToSuperview()
         }
@@ -105,13 +105,13 @@ final class MyPageViewController: BaseViewController {
         output.characterImageURL
             .drive(with: self) { owner, url in
                 guard let url = url else { return }
-                owner.testCharacterImage.sd_setImage(
+                owner.characterImage.sd_setImage(
                     with: url,
                     placeholderImage: nil,
                     options: [.retryFailed, .continueInBackground]
                 ) { _, _, _, _ in
                     UIView.animate(withDuration: 0) {
-                        owner.testCharacterImage.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+                        owner.characterImage.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
                     }
                 }
             }
