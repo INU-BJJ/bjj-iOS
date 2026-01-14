@@ -168,11 +168,7 @@ final class LoginViewController: BaseViewController {
     @objc private func didTapLoginButton(_ sender: UIButton) {
         let webViewConfig = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero, configuration: webViewConfig)
-//        webViewConfig.applicationNameForUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-//        https://sweetcoding.tistory.com/71
         webView.navigationDelegate = self
-        // TODO: userAgent 바꾸는 방법 말고 다른 방법 찾아보기
-//        https://velog.io/@jijiseong/웹뷰에서-소셜-로그인시-문제-해결하기
         webView.customUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         self.loginWebView = webView
         
@@ -210,7 +206,7 @@ extension LoginViewController: WKNavigationDelegate {
         if let url = navigationAction.request.url?.absoluteString {
             
             // 처음 회원가입하는 경우 (회원가입 진행)
-            if url.starts(with: "https://bjj.inuappcenter.kr/api/members/sign-up") {
+            if url.starts(with: baseURL.signUpURL) {
                 if let components = URLComponents(string: url) {
                     let queryItems = components.queryItems ?? []
                     
@@ -241,7 +237,7 @@ extension LoginViewController: WKNavigationDelegate {
             }
             
             // 이미 회원가입이 되어 있는 경우 (로그인 진행)
-            if url.starts(with: "https://bjj.inuappcenter.kr/api/members/success") {
+            if url.starts(with: baseURL.socialLoginURL) {
                 if let components = URLComponents(string: url) {
                     let queryItems = components.queryItems ?? []
                     let token = queryItems.first(where: { $0.name == "token" })?.value
