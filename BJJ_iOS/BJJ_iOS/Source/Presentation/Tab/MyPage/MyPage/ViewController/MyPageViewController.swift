@@ -18,9 +18,7 @@ final class MyPageViewController: BaseViewController {
     
     // MARK: - UI Components
     
-    private let testMyNicknameLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
-    }
+    private let nicknameView = MyPageNicknameView()
     
     private let testCharacterImage = UIImageView()
     
@@ -55,7 +53,7 @@ final class MyPageViewController: BaseViewController {
             guard let characterURL = URL(string: baseURL.characterImageURL + (self.myPageViewData?.characterImage ?? "")) else { return }
             guard let backgroundURL = URL(string: baseURL.backgroundImageURL + (self.myPageViewData?.backgroundImage ?? "")) else { return }
             
-            self.testMyNicknameLabel.text = "\(self.myPageViewData?.nickname ?? "")의 공간"
+            self.nicknameView.configureNickname(nickname: "\(self.myPageViewData?.nickname ?? "알 수 없음")의 공간")
             self.testCharacterImage.sd_setImage(
                 with: characterURL,
                 placeholderImage: nil,
@@ -79,8 +77,8 @@ final class MyPageViewController: BaseViewController {
     
     override func setHierarchy() {
         [
+            nicknameView,
             testBackgroundImage,
-            testMyNicknameLabel,
             testCharacterImage,
             testStoreButton
         ].forEach(view.addSubview)
@@ -89,8 +87,8 @@ final class MyPageViewController: BaseViewController {
     // MARK: - Set Constraints
     
     override func setConstraints() {
-        testMyNicknameLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(100)
+        nicknameView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.centerX.equalToSuperview()
         }
         
