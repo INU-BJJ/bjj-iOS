@@ -202,6 +202,15 @@ extension UIViewController {
         self.navigationController?.pushViewController(reportReviewVC, animated: true)
     }
     
+    // MARK: - Modal Present
+    
+    /// 랭킹 인포 모달 present
+    func presentRankingInfoViewController() {
+        let rankingInfoVC = RankingInfoViewController()
+        rankingInfoVC.modalPresentationStyle = .overFullScreen
+        present(rankingInfoVC, animated: true)
+    }
+    
     // MARK: - Alert
     
     /// AlertVC로 present

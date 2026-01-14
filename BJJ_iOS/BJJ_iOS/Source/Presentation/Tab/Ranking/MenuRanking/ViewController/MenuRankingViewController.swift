@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class MenuRankingViewController: UIViewController {
+final class MenuRankingViewController: BaseViewController {
     
     // MARK: - Properties
     
@@ -44,7 +44,6 @@ final class MenuRankingViewController: UIViewController {
         $0.setLabelUI("업데이트", font: .pretendard_medium, size: 11, color: .darkGray)
     }
     
-    // TODO: 안내 모달 창
     private let informationButton = UIButton().then {
         $0.setImage(UIImage(named: "Information"), for: .normal)
     }
@@ -63,11 +62,6 @@ final class MenuRankingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setViewController()
-        setAddView()
-        setConstraints()
-        setStackView()
         updateDateIfNeeded()
     }
     
@@ -77,15 +71,16 @@ final class MenuRankingViewController: UIViewController {
         fetchMenuRanking(pageNumber: currentPageNumber, pageSize: pageSize)
     }
     
-    // MARK: - Set ViewController
+    // MARK: - Set UI
     
-    private func setViewController() {
+    override func setUI() {
         view.backgroundColor = .customColor(.backgroundGray)
+        setStackView()
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
             menuRankingTitleLabel,
             menuRankingIcon,
@@ -102,7 +97,7 @@ final class MenuRankingViewController: UIViewController {
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
+    override func setConstraints() {
         menuRankingTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(62)
             $0.leading.equalToSuperview().offset(20)
@@ -130,6 +125,18 @@ final class MenuRankingViewController: UIViewController {
     private func setStackView() {
         dateUpdateStackView.setCustomSpacing(5, after: dateLabel)
         dateUpdateStackView.setCustomSpacing(4, after: updateLabel)
+    }
+    
+    // MARK: - Bind
+    
+    override func bind() {
+        
+        // 인포 버튼 탭
+        informationButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.presentRankingInfoViewController()
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Update Date
