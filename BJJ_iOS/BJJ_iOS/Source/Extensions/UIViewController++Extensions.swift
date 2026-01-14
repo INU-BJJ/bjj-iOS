@@ -110,6 +110,18 @@ extension UIViewController {
         navigationController?.navigationBar.standardAppearance = standardAppearance
     }
     
+    /// 상점 네비바
+    func setStoreNaviBar() {
+        let backButton = UIButton().then {
+            $0.setImage(UIImage(named: ImageAsset.BlackBackButton.name), for: .normal)
+            $0.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
+        }
+        
+        self.navigationItem.leftBarButtonItems = [
+            UIBarButtonItem(customView: backButton)
+        ]
+    }
+    
     // MARK: - Push ViewController
     
     /// MenuDetailVC로 push

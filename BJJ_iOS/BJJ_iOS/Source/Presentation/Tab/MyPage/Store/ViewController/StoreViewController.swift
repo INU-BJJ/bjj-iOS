@@ -10,7 +10,7 @@ import SnapKit
 import Then
 import OrderedCollections
 
-final class StoreViewController: UIViewController {
+final class StoreViewController: BaseViewController {
     
     // MARK: - Properties
     
@@ -51,15 +51,6 @@ final class StoreViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setViewController()
-        setAddView()
-        setConstraints()
-        setUI()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -70,10 +61,11 @@ final class StoreViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    // MARK: - Set ViewController
+    // MARK: - Set UI
     
-    private func setViewController() {
+    override func setUI() {
         view.backgroundColor = .white
+        setStoreNaviBar()
         
         NotificationCenter.default.addObserver(
             self,
@@ -81,11 +73,16 @@ final class StoreViewController: UIViewController {
             name: .didDismissFromGachaResultVC,
             object: nil
         )
+        
+        DispatchQueue.main.async {
+            // TODO: 백그라운드에서 포인트를 받아와서(마이아이템 API 호출) 뽑기하기 버튼 누를 때 포인트 UI 업데이트
+            self.testPointLabel.text = "\(self.point) P"
+        }
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
             testPointLabel,
             testGachaMachine,
@@ -95,7 +92,7 @@ final class StoreViewController: UIViewController {
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
+    override func setConstraints() {
         testPointLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(70)
             $0.trailing.equalToSuperview().inset(20)
@@ -110,15 +107,6 @@ final class StoreViewController: UIViewController {
             $0.top.equalTo(testGachaMachine.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.bottom.equalToSuperview()
-        }
-    }
-    
-    // MARK: - Set UI
-    
-    private func setUI() {
-        DispatchQueue.main.async {
-            // TODO: 백그라운드에서 포인트를 받아와서(마이아이템 API 호출) 뽑기하기 버튼 누를 때 포인트 UI 업데이트
-            self.testPointLabel.text = "\(self.point) P"
         }
     }
     
