@@ -125,19 +125,13 @@ final class MyPageViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        // 포인트
-        output.point
+        // 상점 버튼 탭
+        storeButton.rx.tap
+            .withLatestFrom(output.point)
+            .asDriver(onErrorJustReturn: 0)
             .drive(with: self) { owner, point in
-                // TODO: 포인트를 storeVC로 전달 및 네비게이션
+                owner.presentStoreViewController(point: point)
             }
             .disposed(by: disposeBag)
     }
-    
-//    // MARK: - Objc Functions
-//    
-//    @objc private func didTapStoreButton() {
-//        DispatchQueue.main.async {
-//            self.presentStoreViewController(point: self.currentPoint)
-//        }
-//    }
 }
