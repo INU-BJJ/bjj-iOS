@@ -15,7 +15,7 @@ final class LoginViewController: BaseViewController {
     
     // MARK: - Properties
     
-    private var provider = ""
+    private var loginType: SocialLoginType?
     
     // MARK: - UI Components
     
@@ -166,27 +166,16 @@ final class LoginViewController: BaseViewController {
     // MARK: - Objc Functions
     
     @objc private func didTapLoginButton(_ sender: UIButton) {
+        guard let loginType = SocialLoginType(rawValue: sender.tag) else { return }
+        self.loginType = loginType
+        
         let webViewConfig = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero, configuration: webViewConfig)
         webView.navigationDelegate = self
         webView.customUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         self.loginWebView = webView
         
-        // TODO: 소셜 로그인 enum으로 깔끔하게 처리하기
-        switch sender.tag {
-        case 0:
-            provider = "google"
-        case 1:
-            provider = "kakao"
-        case 2:
-            provider = "naver"
-        case 3:
-            provider = "apple"
-        default:
-            break
-        }
-        
-        guard let url = URL(string: baseURL.LOGIN_URL + provider) else { return }
+        guard let url = URL(string: baseURL.LOGIN_URL + loginType.provider) else { return }
         
         let request = URLRequest(url: url)
         let webVC = UIViewController()
@@ -213,12 +202,12 @@ extension LoginViewController: WKNavigationDelegate {
                     let email = queryItems.first(where: { $0.name == "email" })?.value
                     let token = queryItems.first(where: { $0.name == "token" })?.value
                     
-                    if let email = email, let token = token {
+                    if let email = email, let token = token, let loginType = loginType {
                         KeychainManager.create(token: token)
                         decisionHandler(.cancel)
                         dismiss(animated: true) { [weak self] in
                             guard let self = self else { return }
-                            let signUpVC = SignUpViewController(email: email, provider: provider)
+                            let signUpVC = SignUpViewController(email: email, provider: loginType.provider)
                             
                             if let navigationController = self.navigationController {
                                 navigationController.pushViewController(signUpVC, animated: true)
