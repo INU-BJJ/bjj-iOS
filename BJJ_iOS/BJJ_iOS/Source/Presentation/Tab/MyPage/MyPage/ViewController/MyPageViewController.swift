@@ -9,12 +9,18 @@ import UIKit
 import SnapKit
 import Then
 import SDWebImage
+import RxSwift
+import RxCocoa
 
 final class MyPageViewController: BaseViewController {
     
-    // MARK: - Properties
+    // MARK: - ViewModel
     
-    private var myPageViewData: MyPageSection?
+    private let viewModel = MyPageViewModel()
+    
+    // MARK: - Subjects
+    
+    private let viewWillAppearTrigger = PublishRelay<Void>()
     
     // MARK: - UI Components
     
@@ -29,48 +35,20 @@ final class MyPageViewController: BaseViewController {
         $0.setTitleColor(.black, for: .normal)
         $0.layer.borderColor = UIColor.customColor(.mainColor).cgColor
         $0.layer.borderWidth = 1
-        $0.addTarget(self, action: #selector(didTapStoreButton), for: .touchUpInside)
     }
     
     // MARK: - LifeCycle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // TODO: 닉네임을 자주 바꾸진 않으니까 닉네임만 조회하는 API 따로 요청?
-        fetchMyPageInfo() {
-            self.setUI()
-        }
+        viewWillAppearTrigger.accept(())
     }
     
     // MARK: - Set UI
-    
+
     override func setUI() {
         view.backgroundColor = .white
         setMyPageNaviBar()
-        
-        DispatchQueue.main.async {
-            guard let characterURL = URL(string: baseURL.characterImageURL + (self.myPageViewData?.characterImage ?? "")) else { return }
-            guard let backgroundURL = URL(string: baseURL.backgroundImageURL + (self.myPageViewData?.backgroundImage ?? "")) else { return }
-            
-            self.nicknameView.configureNickname(nickname: "\(self.myPageViewData?.nickname ?? "알 수 없음")의 공간")
-            self.testCharacterImage.sd_setImage(
-                with: characterURL,
-                placeholderImage: nil,
-                options: [.retryFailed, .continueInBackground]
-            ) { _, _, _, _ in
-                // TODO: 이미지 크기 변경
-                // 이미지 로드 완료 후 크기 확대
-                UIView.animate(withDuration: 0) {
-                    self.testCharacterImage.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
-                }
-            }
-            self.testBackgroundImage.sd_setImage(
-                with: backgroundURL,
-                placeholderImage: nil,
-                options: [.retryFailed, .continueInBackground]
-            )
-        }
     }
     
     // MARK: - Set Hierarchy
@@ -108,42 +86,62 @@ final class MyPageViewController: BaseViewController {
         }
     }
     
-    // MARK: - Fetch API Functions
-    
-    private func fetchMyPageInfo(completion: @escaping () -> Void) {
-        MyPageAPI.fetchMyPageInfo() { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let myPageInfo):
-                // self.myPageViewData = MyPageSection()과 같은 의미
-                myPageViewData = MyPageSection(
-                    nickname: myPageInfo.nickname,
-                    characterID: myPageInfo.characterID,
-                    characterImage: myPageInfo.characterImage,
-                    backgroundID: myPageInfo.backgroundID,
-                    backgroundImage: myPageInfo.backgroundImage,
-                    point: myPageInfo.point
-                )
-                
-                // TODO: patch items/{itemId} 부분 json 형태로 빈 응답이라도 반환해달라고 건의
-                // TODO: characterID, backgroundID가 null값으로 들어올 경우 기본 캐릭터 어떤걸 착용할건지 논의
-                
-                DispatchQueue.main.async {
-                    completion()
-                }
-                
-            case .failure(let error):
-                print("[MyPageVC] Error: \(error.localizedDescription)")
+    // MARK: - Bind
+
+    override func bind() {
+        let input = MyPageViewModel.Input(
+            viewWillAppear: viewWillAppearTrigger
+        )
+        let output = viewModel.transform(input: input)
+
+        // 닉네임
+        output.nickname
+            .drive(with: self) { owner, nickname in
+                owner.nicknameView.configureNickname(nickname: nickname)
             }
-        }
+            .disposed(by: disposeBag)
+
+        // 캐릭터 이미지
+        output.characterImageURL
+            .drive(with: self) { owner, url in
+                guard let url = url else { return }
+                owner.testCharacterImage.sd_setImage(
+                    with: url,
+                    placeholderImage: nil,
+                    options: [.retryFailed, .continueInBackground]
+                ) { _, _, _, _ in
+                    UIView.animate(withDuration: 0) {
+                        owner.testCharacterImage.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+                    }
+                }
+            }
+            .disposed(by: disposeBag)
+
+        // 배경 이미지
+        output.backgroundImageURL
+            .drive(with: self) { owner, url in
+                guard let url = url else { return }
+                owner.testBackgroundImage.sd_setImage(
+                    with: url,
+                    placeholderImage: nil,
+                    options: [.retryFailed, .continueInBackground]
+                )
+            }
+            .disposed(by: disposeBag)
+        
+        // 포인트
+        output.point
+            .drive(with: self) { owner, point in
+                // TODO: 포인트를 storeVC로 전달 및 네비게이션
+            }
+            .disposed(by: disposeBag)
     }
     
-    // MARK: - Objc Functions
-    
-    @objc private func didTapStoreButton() {
-        DispatchQueue.main.async {
-            self.presentStoreViewController(point: self.myPageViewData?.point ?? 0)
-        }
-    }
+//    // MARK: - Objc Functions
+//    
+//    @objc private func didTapStoreButton() {
+//        DispatchQueue.main.async {
+//            self.presentStoreViewController(point: self.currentPoint)
+//        }
+//    }
 }
