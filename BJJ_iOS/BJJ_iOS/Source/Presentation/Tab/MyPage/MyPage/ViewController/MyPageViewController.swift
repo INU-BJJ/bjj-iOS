@@ -30,11 +30,8 @@ final class MyPageViewController: BaseViewController {
     
     private let backgroundImage = UIImageView()
     
-    private lazy var testStoreButton = UIButton().then {
-        $0.setTitle("상점", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.layer.borderColor = UIColor.customColor(.mainColor).cgColor
-        $0.layer.borderWidth = 1
+    private lazy var storeButton = UIButton().then {
+        $0.setImage(UIImage(named: ImageAsset.store.name), for: .normal)
     }
     
     // MARK: - LifeCycle
@@ -57,7 +54,7 @@ final class MyPageViewController: BaseViewController {
         [
             backgroundImage,
             characterImage,
-            testStoreButton,
+            storeButton,
             nicknameView
         ].forEach(view.addSubview)
     }
@@ -79,10 +76,9 @@ final class MyPageViewController: BaseViewController {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
         
-        testStoreButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(130)
-            $0.leading.equalToSuperview().offset(20)
-            $0.width.height.equalTo(60)
+        storeButton.snp.makeConstraints {
+            $0.top.equalTo(nicknameView.snp.bottom).offset(23)
+            $0.leading.equalToSuperview().offset(29)
         }
     }
     

@@ -19,6 +19,7 @@ enum ImageAsset: String {
     case checkCircleGreen
     case checkCircleWarning
     case gear
+    case store
     
     var name: String {
         rawValue

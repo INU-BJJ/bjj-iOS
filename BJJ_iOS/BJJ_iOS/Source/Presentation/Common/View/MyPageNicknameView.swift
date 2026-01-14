@@ -63,7 +63,7 @@ final class MyPageNicknameView: BaseView {
         
         nicknameSpaceView.snp.makeConstraints {
             $0.top.equalTo(leftColumnView.snp.bottom)
-            $0.horizontalEdges.equalToSuperview()
+            $0.horizontalEdges.bottom.equalToSuperview()
             $0.height.equalTo(34)
         }
         
