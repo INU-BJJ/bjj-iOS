@@ -8,14 +8,21 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 @preconcurrency import WebKit
 
 @MainActor
 final class LoginViewController: BaseViewController {
     
-    // MARK: - Properties
+    // MARK: - ViewModel
     
-    private var loginType: SocialLoginType?
+    private let viewModel = LoginViewModel()
+    
+    // MARK: - Subjects
+    
+    private let webViewNavigationSubject = PublishSubject<String>()
+    private let navigationPolicySubject = PublishSubject<(WKNavigationActionPolicy) -> Void>()
     
     // MARK: - UI Components
     
@@ -58,34 +65,26 @@ final class LoginViewController: BaseViewController {
         $0.alignment = .center
     }
     
-    private lazy var googleLoginButton = IconConfirmButton(
+    private let googleLoginButton = IconConfirmButton(
         icon: .google,
         text: "구글로 시작하기",
         backgroundColor: .white
     ).then {
-        $0.tag = 0
         $0.setBorder(color: .customColor(.midGray))
-        $0.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
     }
-    
-    private lazy var kakaoLoginButton = IconConfirmButton(
+
+    private let kakaoLoginButton = IconConfirmButton(
         icon: .kakao,
         text: "카카오로 시작하기",
         backgroundColor: .kakaoYellow
-    ).then {
-        $0.tag = 1
-        $0.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
-    }
-    
-    private lazy var naverLoginButton = IconConfirmButton(
+    )
+
+    private let naverLoginButton = IconConfirmButton(
         icon: .naver,
         text: "네이버로 시작하기",
         titleColor: .white,
         backgroundColor: .naverGreen
-    ).then {
-        $0.tag = 2
-        $0.addTarget(self, action: #selector(didTapLoginButton(_:)), for: .touchUpInside)
-    }
+    )
     
     private var loginWebView: WKWebView?
     
@@ -163,26 +162,93 @@ final class LoginViewController: BaseViewController {
         }
     }
     
-    // MARK: - Objc Functions
-    
-    @objc private func didTapLoginButton(_ sender: UIButton) {
-        guard let loginType = SocialLoginType(rawValue: sender.tag) else { return }
-        self.loginType = loginType
+    // MARK: - Bind
+
+    override func bind() {
+        let input = LoginViewModel.Input(
+            googleLoginTap: googleLoginButton.rx.tap.asObservable(),
+            kakaoLoginTap: kakaoLoginButton.rx.tap.asObservable(),
+            naverLoginTap: naverLoginButton.rx.tap.asObservable(),
+            webViewNavigation: webViewNavigationSubject.asObservable()
+        )
+        let output = viewModel.transform(input: input)
         
+        // 웹뷰 표시
+        output.showWebView
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] request in
+                self?.showWebView(with: request)
+            })
+            .disposed(by: disposeBag)
+        
+        // 회원가입 화면으로 이동
+        output.navigateToSignUp
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] signUpData in
+                self?.navigateToSignUp(with: signUpData)
+            })
+            .disposed(by: disposeBag)
+        
+        // 탭바로 이동
+        output.navigateToTabBar
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] in
+                self?.navigateToTabBar()
+            })
+            .disposed(by: disposeBag)
+        
+        // 웹뷰 닫기
+        output.dismissWebView
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] in
+                self?.dismiss(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        // 네비게이션 정책 처리
+        Observable.zip(navigationPolicySubject, output.navigationPolicy)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { handler, policy in
+                switch policy {
+                case .allow:
+                    handler(.allow)
+                case .cancel:
+                    handler(.cancel)
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    // MARK: - Methods
+    
+    private func showWebView(with request: WebViewRequest) {
         let webViewConfig = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero, configuration: webViewConfig)
         webView.navigationDelegate = self
         webView.customUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         self.loginWebView = webView
         
-        guard let url = URL(string: baseURL.LOGIN_URL + loginType.provider) else { return }
-        
-        let request = URLRequest(url: url)
+        let urlRequest = URLRequest(url: request.url)
         let webVC = UIViewController()
         
-        webView.load(request)
+        webView.load(urlRequest)
         webVC.view = webView
         present(webVC, animated: true)
+    }
+    
+    private func navigateToSignUp(with data: SignUpData) {
+        let signUpVC = SignUpViewController(email: data.email, provider: data.provider)
+        
+        if let navigationController = navigationController {
+            navigationController.pushViewController(signUpVC, animated: true)
+        } else {
+            print("<< [LoginVC] navigationController가 nil입니다. pushViewController 실패")
+        }
+    }
+    
+    private func navigateToTabBar() {
+        let tabBarController = TabBarController()
+        navigationController?.setViewControllers([tabBarController], animated: true)
     }
 }
 
@@ -192,68 +258,15 @@ extension LoginViewController: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if let url = navigationAction.request.url?.absoluteString {
-            
-            // 처음 회원가입하는 경우 (회원가입 진행)
-            if url.starts(with: baseURL.signUpURL) {
-                if let components = URLComponents(string: url) {
-                    let queryItems = components.queryItems ?? []
-                    
-                    let email = queryItems.first(where: { $0.name == "email" })?.value
-                    let token = queryItems.first(where: { $0.name == "token" })?.value
-                    
-                    if let email = email, let token = token, let loginType = loginType {
-                        KeychainManager.create(token: token)
-                        decisionHandler(.cancel)
-                        dismiss(animated: true) { [weak self] in
-                            guard let self = self else { return }
-                            let signUpVC = SignUpViewController(email: email, provider: loginType.provider)
-                            
-                            if let navigationController = self.navigationController {
-                                navigationController.pushViewController(signUpVC, animated: true)
-                            } else {
-                                print("<< [LoginVC] navigationController가 nil입니다. pushViewController 실패")
-                                return
-                            }
-                        }
-                        return
-                    }
-                }
-                
-                decisionHandler(.cancel)
-                dismiss(animated: true)
-                return
-            }
-            
-            // 이미 회원가입이 되어 있는 경우 (로그인 진행)
-            if url.starts(with: baseURL.socialLoginURL) {
-                if let components = URLComponents(string: url) {
-                    let queryItems = components.queryItems ?? []
-                    let token = queryItems.first(where: { $0.name == "token" })?.value
-                    
-                    if let token = token {
-                        KeychainManager.create(token: token)
-                        decisionHandler(.cancel)
-                        dismiss(animated: true) { [weak self] in
-                            guard let self = self else { return }
-                            
-                            DispatchQueue.main.async {
-                                // TODO: 로그인 후 TabBarController로 안 넘어가는 버그 발생중
-                                // TODO: rootViewController를 TabBarController로 바꾸기
-                                let tabBarController = TabBarController()
-                                self.navigationController?.setViewControllers([tabBarController], animated: true)
-                            }
-                        }
-                        return
-                    }
-                }
-                
-                decisionHandler(.cancel)
-                dismiss(animated: true)
-                return
-            }
+        guard let url = navigationAction.request.url?.absoluteString else {
+            decisionHandler(.allow)
+            return
         }
         
-        decisionHandler(.allow)
+        // URL을 ViewModel로 전달
+        webViewNavigationSubject.onNext(url)
+        
+        // decisionHandler를 저장하여 ViewModel의 판단을 기다림
+        navigationPolicySubject.onNext(decisionHandler)
     }
 }
