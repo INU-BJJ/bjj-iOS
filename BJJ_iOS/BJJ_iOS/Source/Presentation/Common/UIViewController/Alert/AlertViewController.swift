@@ -14,6 +14,7 @@ final class AlertViewController: UIViewController {
     // MARK: - Properties
     
     private var alertType: AlertType
+    private let text: String
     
     // MARK: - UI Components
     
@@ -40,8 +41,9 @@ final class AlertViewController: UIViewController {
     
     // MARK: - LifeCycle
     
-    init(alertType: AlertType) {
+    init(alertType: AlertType, text: String) {
         self.alertType = alertType
+        self.text = text
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -124,7 +126,7 @@ final class AlertViewController: UIViewController {
     }
     
     private func setAlertViewUI() {
-        alertMessageLabel.text = alertType.title
+        alertMessageLabel.text = text
     }
     
     // MARK: - objc Functions

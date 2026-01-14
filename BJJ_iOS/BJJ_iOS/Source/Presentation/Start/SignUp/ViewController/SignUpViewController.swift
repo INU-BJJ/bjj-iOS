@@ -372,8 +372,8 @@ final class SignUpViewController: BaseViewController {
                         owner.navigationController?.setViewControllers([tabBarController], animated: true)
                     }
 
-                case .failure(let error):
-                    print("[SignUpVC] Error: \(error.localizedDescription)")
+                case .failure:
+                    owner.presentAlertViewController(alertType: .failure, title: "회원가입에 실패했습니다.\n다시 시도해주세요.")
                 }
             })
             .disposed(by: disposeBag)

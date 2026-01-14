@@ -179,7 +179,7 @@ final class NicknameEditViewController: UIViewController {
                     switch result {
                     case .success:
                         DispatchQueue.main.async {
-                            self.presentAlertViewController(alertType: .success(.nicknameEdit)) { [weak self] in
+                            self.presentAlertViewController(alertType: .success, title: "닉네임 변경에 성공했습니다!") { [weak self] in
                                 if let self = self {
                                     self.navigationController?.popViewController(animated: true)
                                 } else {
@@ -189,7 +189,7 @@ final class NicknameEditViewController: UIViewController {
                         }
                         
                     case .failure(let error):
-                        self.presentAlertViewController(alertType: .failure(.nicknameEdit))
+                        self.presentAlertViewController(alertType: .failure, title: "닉네임 변경에 실패했습니다.\n다시 시도해주세요.")
                         print("[NicknameEditVC] Error: \(error.localizedDescription)")
                     }
                 }
