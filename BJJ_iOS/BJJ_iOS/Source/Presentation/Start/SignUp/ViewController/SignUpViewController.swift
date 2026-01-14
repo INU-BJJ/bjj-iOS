@@ -357,19 +357,20 @@ final class SignUpViewController: BaseViewController {
             "email": email,
             "provider": provider
         ]
-        
+
         SignUpAPI.postLoginToken(params: userSignUpInfo) { result in
             switch result {
             case .success(let token):
                 let token = token.accessToken
-                KeychainManager.create(token: token)
-                
+                KeychainManager.create(value: token, key: .accessToken)
+                KeychainManager.delete(key: .tempToken)
+
                 DispatchQueue.main.async {
                     // TODO: rootViewController 바꾸는 방법으로 전환
                     let tabBarController = TabBarController()
                     self.navigationController?.setViewControllers([tabBarController], animated: true)
                 }
-            
+
             case .failure(let error):
                 // TODO: 에러 처리 상세하게
                 print("[SignUpVC] Error: \(error.localizedDescription)")

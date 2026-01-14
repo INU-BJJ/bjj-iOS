@@ -148,7 +148,7 @@ final class SettingViewController: UIViewController {
     }
     
     @objc private func didTapLogoutButton() {
-        KeychainManager.delete()
+        KeychainManager.delete(key: .accessToken)
         
         guard let sceneDelegate = UIApplication.shared.connectedScenes
                 .first(where: { $0.activationState == .foregroundActive })?.delegate as? SceneDelegate else {
@@ -165,7 +165,7 @@ final class SettingViewController: UIViewController {
         MemberAPI.deleteMemberInfo { result in
             switch result {
             case .success:
-                KeychainManager.delete()
+                KeychainManager.delete(key: .accessToken)
                 
                 DispatchQueue.main.async {
                     guard let sceneDelegate = UIApplication.shared.connectedScenes

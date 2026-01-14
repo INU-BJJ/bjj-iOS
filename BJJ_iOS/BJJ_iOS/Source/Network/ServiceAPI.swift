@@ -42,7 +42,7 @@ public func networkRequest<T: Decodable>(
         return
     }
     
-    guard let token = KeychainManager.read() else {
+    guard let token = KeychainManager.read(key: .accessToken) else {
         completion(.failure(NetworkError.invalidToken))
         return
     }
@@ -100,7 +100,7 @@ public func uploadNetworkRequest<T: Decodable>(
         return
     }
     
-    guard let token = KeychainManager.read() else {
+    guard let token = KeychainManager.read(key: .accessToken) else {
         completion(.failure(NetworkError.invalidToken))
         return
     }
