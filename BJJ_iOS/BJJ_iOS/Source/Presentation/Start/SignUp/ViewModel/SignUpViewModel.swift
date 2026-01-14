@@ -5,6 +5,7 @@
 //  Created by HyoTaek on 1/13/26.
 //
 
+import Foundation
 import RxSwift
 import RxCocoa
 
@@ -51,6 +52,7 @@ final class SignUpViewModel: BaseViewModel {
         let checkNicknameDuplicate: PublishRelay<String>
         let nickname: BehaviorRelay<String>
         let toggleAllAgreed: PublishRelay<Void>
+        let consentItemTapped: ControlEvent<IndexPath>
     }
     
     // MARK: - Output
@@ -80,6 +82,16 @@ final class SignUpViewModel: BaseViewModel {
                 for index in updatedConsents.indices {
                     updatedConsents[index].isAgreed = newState
                 }
+                self.consentList.accept(updatedConsents)
+            })
+            .disposed(by: disposeBag)
+        
+        // 개별 약관 동의 토글
+        input.consentItemTapped
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let self = self else { return }
+                var updatedConsents = self.consentList.value
+                updatedConsents[indexPath.item].isAgreed.toggle()
                 self.consentList.accept(updatedConsents)
             })
             .disposed(by: disposeBag)

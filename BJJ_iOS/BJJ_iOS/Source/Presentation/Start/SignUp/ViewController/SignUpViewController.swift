@@ -250,7 +250,8 @@ final class SignUpViewController: BaseViewController {
         let input = SignUpViewModel.Input(
             checkNicknameDuplicate: checkDuplicateRelay,
             nickname: nicknameRelay,
-            toggleAllAgreed: toggleAllAgreedRelay
+            toggleAllAgreed: toggleAllAgreedRelay,
+            consentItemTapped: consentCollectionView.rx.itemSelected
         )
         let output = signUpViewModel.transform(input: input)
 
