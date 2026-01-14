@@ -14,6 +14,11 @@ final class SignUpViewModel: BaseViewModel {
     
     private let disposeBag = DisposeBag()
     
+    // MARK: - Properties
+    
+    private let email: String
+    private let provider: String
+    
     // MARK: - DataSource
     
     private let consentList = BehaviorRelay(value: [
@@ -21,6 +26,13 @@ final class SignUpViewModel: BaseViewModel {
         ConsentModel(title: "(필수) 서비스 이용약관에 동의합니다.", isRequired: true, isAgreed: false),
         ConsentModel(title: "(필수) 개인정보 수집•이용에 동의합니다.", isRequired: true, isAgreed: false)
     ])
+    
+    // MARK: - Init
+    
+    init(email: String, provider: String) {
+        self.email = email
+        self.provider = provider
+    }
     
     // MARK: - Input
     

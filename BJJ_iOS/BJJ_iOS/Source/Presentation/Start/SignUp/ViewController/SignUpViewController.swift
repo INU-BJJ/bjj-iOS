@@ -15,12 +15,7 @@ final class SignUpViewController: BaseViewController {
     
     // MARK: - ViewModel
     
-    private let signUpViewModel = SignUpViewModel()
-    
-    // MARK: - Properties
-    
-    private let email: String
-    private let provider: String
+    private let signUpViewModel: SignUpViewModel
     
     // MARK: - UI Components
     
@@ -99,9 +94,8 @@ final class SignUpViewController: BaseViewController {
     
     // MARK: - LifeCycle
     
-    init(email: String, provider: String) {
-        self.email = email
-        self.provider = provider
+    init(viewModel: SignUpViewModel) {
+        signUpViewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
