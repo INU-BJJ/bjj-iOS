@@ -115,7 +115,6 @@ final class MenuRankingViewController: UIViewController {
         
         dateUpdateStackView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(101)
-            $0.leading.equalToSuperview().offset(254)
             $0.trailing.equalToSuperview().inset(20)
         }
         
