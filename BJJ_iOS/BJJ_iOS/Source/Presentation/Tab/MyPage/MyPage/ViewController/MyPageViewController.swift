@@ -10,7 +10,7 @@ import SnapKit
 import Then
 import SDWebImage
 
-final class MyPageViewController: UIViewController {
+final class MyPageViewController: BaseViewController {
     
     // MARK: - Properties
     
@@ -44,14 +44,6 @@ final class MyPageViewController: UIViewController {
     
     // MARK: - LifeCycle
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setViewController()
-        setAddView()
-        setConstraints()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -61,15 +53,39 @@ final class MyPageViewController: UIViewController {
         }
     }
     
-    // MARK: - Set ViewController
+    // MARK: - Set UI
     
-    private func setViewController() {
+    override func setUI() {
         view.backgroundColor = .white
+        setMyPageNaviBar()
+        
+        DispatchQueue.main.async {
+            guard let characterURL = URL(string: baseURL.characterImageURL + (self.myPageViewData?.characterImage ?? "")) else { return }
+            guard let backgroundURL = URL(string: baseURL.backgroundImageURL + (self.myPageViewData?.backgroundImage ?? "")) else { return }
+            
+            self.testMyNicknameLabel.text = "\(self.myPageViewData?.nickname ?? "")의 공간"
+            self.testCharacterImage.sd_setImage(
+                with: characterURL,
+                placeholderImage: nil,
+                options: [.retryFailed, .continueInBackground]
+            ) { _, _, _, _ in
+                // TODO: 이미지 크기 변경
+                // 이미지 로드 완료 후 크기 확대
+                UIView.animate(withDuration: 0) {
+                    self.testCharacterImage.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+                }
+            }
+            self.testBackgroundImage.sd_setImage(
+                with: backgroundURL,
+                placeholderImage: nil,
+                options: [.retryFailed, .continueInBackground]
+            )
+        }
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
             testBackgroundImage,
             testSettingButton,
@@ -81,7 +97,7 @@ final class MyPageViewController: UIViewController {
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
+    override func setConstraints() {
         testSettingButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.width.height.equalTo(60)
@@ -106,33 +122,6 @@ final class MyPageViewController: UIViewController {
             $0.top.equalToSuperview().offset(130)
             $0.leading.equalToSuperview().offset(20)
             $0.width.height.equalTo(60)
-        }
-    }
-    
-    // MARK: - Set UI
-    
-    private func setUI() {
-        DispatchQueue.main.async {
-            guard let characterURL = URL(string: baseURL.characterImageURL + (self.myPageViewData?.characterImage ?? "")) else { return }
-            guard let backgroundURL = URL(string: baseURL.backgroundImageURL + (self.myPageViewData?.backgroundImage ?? "")) else { return }
-            
-            self.testMyNicknameLabel.text = "\(self.myPageViewData?.nickname ?? "")의 공간"
-            self.testCharacterImage.sd_setImage(
-                with: characterURL,
-                placeholderImage: nil,
-                options: [.retryFailed, .continueInBackground]
-            ) { _, _, _, _ in
-                // TODO: 이미지 크기 변경
-                // 이미지 로드 완료 후 크기 확대
-                UIView.animate(withDuration: 0) {
-                    self.testCharacterImage.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
-                }
-            }
-            self.testBackgroundImage.sd_setImage(
-                with: backgroundURL,
-                placeholderImage: nil,
-                options: [.retryFailed, .continueInBackground]
-            )
         }
     }
     
