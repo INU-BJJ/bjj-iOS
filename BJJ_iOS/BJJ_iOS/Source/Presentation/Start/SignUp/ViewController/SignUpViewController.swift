@@ -79,6 +79,8 @@ final class SignUpViewController: BaseViewController {
     
     private let consentSeparatingLine = SeparatingLine(color: .A_9_A_9_A_9)
     
+    private let allAgreeButton = UIButton()
+    
     private let allAgreeIcon = UIImageView().then {
         $0.contentMode = .scaleAspectFill
         $0.setImage(.bigEmptyBorderCheckBox)
@@ -127,10 +129,14 @@ final class SignUpViewController: BaseViewController {
             consentTitleLabel,
             consentCollectionView,
             consentSeparatingLine,
-            allAgreeIcon,
-            allAgreeTitleLabel,
+            allAgreeButton,
             signUpButton
         ].forEach(view.addSubview)
+        
+        [
+            allAgreeIcon,
+            allAgreeTitleLabel
+        ].forEach(allAgreeButton.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -211,9 +217,13 @@ final class SignUpViewController: BaseViewController {
             $0.height.equalTo(1)
         }
         
-        allAgreeIcon.snp.makeConstraints {
+        allAgreeButton.snp.makeConstraints {
             $0.bottom.equalTo(signUpButton.snp.top).offset(-34)
-            $0.leading.equalTo(signUpButton)
+            $0.horizontalEdges.equalTo(signUpButton)
+        }
+        
+        allAgreeIcon.snp.makeConstraints {
+            $0.verticalEdges.leading.equalToSuperview()
             $0.size.equalTo(24)
         }
         
@@ -235,10 +245,12 @@ final class SignUpViewController: BaseViewController {
         // Input 생성
         let nicknameRelay = BehaviorRelay<String>(value: "")
         let checkDuplicateRelay = PublishRelay<String>()
+        let toggleAllAgreedRelay = PublishRelay<Void>()
 
         let input = SignUpViewModel.Input(
             checkNicknameDuplicate: checkDuplicateRelay,
-            nickname: nicknameRelay
+            nickname: nicknameRelay,
+            toggleAllAgreed: toggleAllAgreedRelay
         )
         let output = signUpViewModel.transform(input: input)
 
@@ -261,7 +273,12 @@ final class SignUpViewController: BaseViewController {
             .withLatestFrom(nicknameTextField.rx.text.orEmpty)
             .bind(to: checkDuplicateRelay)
             .disposed(by: disposeBag)
-        
+
+        // 전체 동의 버튼 탭
+        allAgreeButton.rx.tap
+            .bind(to: toggleAllAgreedRelay)
+            .disposed(by: disposeBag)
+
         // 이메일
         output.email
             .bind(to: emailTextField.rx.text)
@@ -314,6 +331,17 @@ final class SignUpViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
+        // 전체 동의 상태에 따른 아이콘 업데이트
+        output.isAllAgreed
+            .drive(with: self, onNext: { owner, isAllAgreed in
+                if isAllAgreed {
+                    owner.allAgreeIcon.setImage(.bigBorderCheckBox)
+                } else {
+                    owner.allAgreeIcon.setImage(.bigEmptyBorderCheckBox)
+                }
+            })
+            .disposed(by: disposeBag)
+
         // 회원가입 버튼 활성화 여부
         output.signUpButtonEnabled
             .drive(with: self, onNext: { owner, isEnabled in
