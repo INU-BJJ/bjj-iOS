@@ -24,6 +24,16 @@ final class RankingInfoViewController: BaseViewController {
         $0.setCornerRadius(radius: 10)
     }
     
+    private let rankingTitleLabel = UILabel().then {
+        $0.setLabel("랭킹 점수 설명", font: .pretendard_bold, size: 18, color: .black)
+    }
+    
+    private let rankingDescriptionLabel = UILabel().then {
+        $0.setLabel("랭킹의 만점은 10점 만점 기준입니다.\n업데이트는 한 학기 기준입니다.", font: .pretendard_medium, size: 13, color: ._999999)
+        $0.textAlignment = .center
+        $0.numberOfLines = 2
+    }
+    
     // MARK: - Set UI
     
     override func setUI() {
@@ -37,6 +47,11 @@ final class RankingInfoViewController: BaseViewController {
         [
             containerView
         ].forEach(view.addSubview)
+        
+        [
+            rankingTitleLabel,
+            rankingDescriptionLabel
+        ].forEach(containerView.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -44,7 +59,19 @@ final class RankingInfoViewController: BaseViewController {
     override func setConstraints() {
         containerView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(120)
+            $0.horizontalEdges.equalToSuperview().inset(16)
             $0.centerX.equalToSuperview()
+        }
+        
+        rankingTitleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(22)
+            $0.centerX.equalToSuperview()
+        }
+        
+        rankingDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(rankingTitleLabel.snp.bottom).offset(12)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(22)
         }
     }
     
