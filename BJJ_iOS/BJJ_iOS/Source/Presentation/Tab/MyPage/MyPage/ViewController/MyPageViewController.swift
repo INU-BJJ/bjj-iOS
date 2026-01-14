@@ -28,7 +28,7 @@ final class MyPageViewController: BaseViewController {
     
     private let testCharacterImage = UIImageView()
     
-    private let testBackgroundImage = UIImageView()
+    private let backgroundImage = UIImageView()
     
     private lazy var testStoreButton = UIButton().then {
         $0.setTitle("상점", for: .normal)
@@ -55,10 +55,10 @@ final class MyPageViewController: BaseViewController {
     
     override func setHierarchy() {
         [
-            nicknameView,
-            testBackgroundImage,
+            backgroundImage,
             testCharacterImage,
-            testStoreButton
+            testStoreButton,
+            nicknameView
         ].forEach(view.addSubview)
     }
     
@@ -75,8 +75,8 @@ final class MyPageViewController: BaseViewController {
             $0.centerX.equalToSuperview()
         }
         
-        testBackgroundImage.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        backgroundImage.snp.makeConstraints {
+            $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
         
         testStoreButton.snp.makeConstraints {
@@ -121,7 +121,7 @@ final class MyPageViewController: BaseViewController {
         output.backgroundImageURL
             .drive(with: self) { owner, url in
                 guard let url = url else { return }
-                owner.testBackgroundImage.sd_setImage(
+                owner.backgroundImage.sd_setImage(
                     with: url,
                     placeholderImage: nil,
                     options: [.retryFailed, .continueInBackground]
