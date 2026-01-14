@@ -9,28 +9,37 @@ import Foundation
 
 class KeychainManager {
     
-    static func create(token: String) {
+    // MARK: - Key Type
+    
+    enum KeyType: String {
+        case accessToken = "accessToken"
+        case tempToken = "tempToken"
+    }
+    
+    static func create(value: String, key: KeyType) {
         
-        guard let data = token.data(using: .utf8) else {
-            fatalError("토큰 직렬화 실패")
+        guard let data = value.data(using: .utf8) else {
+            fatalError("값 직렬화 실패")
         }
         
         let query: NSDictionary = [
             kSecClass: kSecClassGenericPassword,
-            kSecAttrAccount: "accessToken",
+            kSecAttrAccount: key.rawValue,
             kSecValueData: data
         ]
         
         SecItemDelete(query)
         
         let status = SecItemAdd(query, nil)
-        assert(status == errSecSuccess, "토큰 저장 실패")
+        assert(status == errSecSuccess, "\(key.rawValue) 저장 실패")
     }
     
-    static func read() -> String? {
+    // MARK: - Read
+    
+    static func read(key: KeyType) -> String? {
         let query: NSDictionary = [
             kSecClass: kSecClassGenericPassword,
-            kSecAttrAccount: "accessToken",
+            kSecAttrAccount: key.rawValue,
             kSecReturnData: kCFBooleanTrue as Any,
             kSecMatchLimit: kSecMatchLimitOne
         ]
@@ -44,23 +53,35 @@ class KeychainManager {
             // accessToken을 찾지 못한 경우 (회원 가입하기 이전 상황)
             return nil
         } else {
-            assert(status == errSecSuccess, "토큰 읽기 실패")
+            assert(status == errSecSuccess, "\(key.rawValue) 읽기 실패")
             return nil
         }
     }
     
-    static func delete() {
+    static func readBool(key: KeyType) -> Bool {
+        guard let value = read(key: key) else { return false }
+        return value == "true"
+    }
+    
+    // MARK: - Delete
+    
+    static func delete(key: KeyType) {
         let query: NSDictionary = [
             kSecClass: kSecClassGenericPassword,
-            kSecAttrAccount: "accessToken"
+            kSecAttrAccount: key.rawValue
         ]
         
         let status = SecItemDelete(query)
         
         if status == errSecItemNotFound {
-            print("삭제 가능 토큰 없음")
+            print("\(key.rawValue) 삭제 가능 항목 없음")
         } else {
-            assert(status == errSecSuccess, "토큰 삭제 실패")
+            assert(status == errSecSuccess, "\(key.rawValue) 삭제 실패")
         }
+    }
+    
+    /// 토큰 저장 유무 판별
+    static func hasToken(type: KeyType) -> Bool {
+        return read(key: type) != nil
     }
 }

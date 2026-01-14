@@ -167,6 +167,8 @@
 		3FCA25442D818E1B00BF56C2 /* MenuRankingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCA25432D818E1B00BF56C2 /* MenuRankingViewController.swift */; };
 		3FCA676B2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */; };
 		3FCAD7842DCC85A100A008CE /* MyReviewDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCAD7832DCC85A100A008CE /* MyReviewDetailModel.swift */; };
+		3FCC9A292F17181F004717AA /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCC9A282F17181F004717AA /* LoginViewModel.swift */; };
+		3FCC9A2E2F171F36004717AA /* SocialLoginType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCC9A2D2F171F36004717AA /* SocialLoginType.swift */; };
 		3FCF9B082D803C8E00FB8252 /* ReviewWriteCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCF9B072D803C8E00FB8252 /* ReviewWriteCollectionViewLayout.swift */; };
 		3FD68C1A2DFF05A30011B89B /* ReportReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD68C192DFF05A30011B89B /* ReportReviewViewController.swift */; };
 		3FD68C1C2DFF093C0011B89B /* ReportReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD68C1B2DFF093C0011B89B /* ReportReviewCell.swift */; };
@@ -370,6 +372,8 @@
 		3FCA25432D818E1B00BF56C2 /* MenuRankingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRankingViewController.swift; sourceTree = "<group>"; };
 		3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewSeparatingView.swift; sourceTree = "<group>"; };
 		3FCAD7832DCC85A100A008CE /* MyReviewDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailModel.swift; sourceTree = "<group>"; };
+		3FCC9A282F17181F004717AA /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		3FCC9A2D2F171F36004717AA /* SocialLoginType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginType.swift; sourceTree = "<group>"; };
 		3FCF9B072D803C8E00FB8252 /* ReviewWriteCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteCollectionViewLayout.swift; sourceTree = "<group>"; };
 		3FD68C192DFF05A30011B89B /* ReportReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportReviewViewController.swift; sourceTree = "<group>"; };
 		3FD68C1B2DFF093C0011B89B /* ReportReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportReviewCell.swift; sourceTree = "<group>"; };
@@ -1606,6 +1610,22 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		3FCC9A272F171812004717AA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3FCC9A282F17181F004717AA /* LoginViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3FCC9A2A2F171F14004717AA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3FCC9A2D2F171F36004717AA /* SocialLoginType.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		3FD68C152DFF04E60011B89B /* ReportReview */ = {
 			isa = PBXGroup;
 			children = (
@@ -1682,6 +1702,8 @@
 		3FE1862F2D9FCB200086EC6C /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				3FCC9A2A2F171F14004717AA /* Model */,
+				3FCC9A272F171812004717AA /* ViewModel */,
 				3FE186302D9FCB520086EC6C /* ViewController */,
 			);
 			path = Login;
@@ -2137,6 +2159,7 @@
 				3F1472492DACF90D00098C41 /* ItemTypeCell.swift in Sources */,
 				3FC0A66B2DA0379C00FBFAEE /* SignUpModel.swift in Sources */,
 				3FB396D62DAE1F9A00EF87A8 /* SettingAPI.swift in Sources */,
+				3FCC9A292F17181F004717AA /* LoginViewModel.swift in Sources */,
 				3F61252D2DA6ABAA003B5851 /* MyPageModel.swift in Sources */,
 				3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */,
 				3F311D742D88603B00F8D803 /* RankingAddress.swift in Sources */,
@@ -2163,6 +2186,7 @@
 				3F6125292DA6A80E003B5851 /* MyPageViewController.swift in Sources */,
 				3FCA25442D818E1B00BF56C2 /* MenuRankingViewController.swift in Sources */,
 				3F9A5F302F16250F00AB0576 /* UITextField++Extensions.swift in Sources */,
+				3FCC9A2E2F171F36004717AA /* SocialLoginType.swift in Sources */,
 				3F9069912F1537AB00FDBC94 /* BaseViewController.swift in Sources */,
 				3F27E9412DACA15100CD2554 /* GachaViewController.swift in Sources */,
 				3FC6915F2D1D57B0004643D2 /* HomeModel.swift in Sources */,
