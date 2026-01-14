@@ -232,10 +232,17 @@ final class SignUpViewController: BaseViewController {
     // MARK: - Bind
 
     override func bind() {
-        let input = SignUpViewModel.Input()
+        // Input 생성
+        let nicknameRelay = BehaviorRelay<String>(value: "")
+        let checkDuplicateRelay = PublishRelay<String>()
+
+        let input = SignUpViewModel.Input(
+            checkNicknameDuplicate: checkDuplicateRelay,
+            nickname: nicknameRelay
+        )
         let output = signUpViewModel.transform(input: input)
-        
-        // 닉네임 글자수 12자 제한
+
+        // 닉네임 글자수 12자 제한 및 Input으로 전달
         nicknameTextField.rx.text.orEmpty
             .map { text -> String in
                 if text.count > 12 {
@@ -243,7 +250,16 @@ final class SignUpViewController: BaseViewController {
                 }
                 return text
             }
+            .do(onNext: { text in
+                nicknameRelay.accept(text)
+            })
             .bind(to: nicknameTextField.rx.text)
+            .disposed(by: disposeBag)
+
+        // 중복 확인 버튼 탭 -> Input으로 전달
+        checkNicknameDupliCateButton.rx.tap
+            .withLatestFrom(nicknameTextField.rx.text.orEmpty)
+            .bind(to: checkDuplicateRelay)
             .disposed(by: disposeBag)
         
         // 이메일
@@ -263,6 +279,46 @@ final class SignUpViewController: BaseViewController {
             )) { index, consent, cell in
                 cell.configureCell(with: consent)
             }
+            .disposed(by: disposeBag)
+        
+        // 닉네임 검증 결과 -> UI 업데이트
+        output.nicknameValidationResult
+            .drive(with: self, onNext: { owner, state in
+                switch state {
+                case .idle:
+                    owner.validResultIcon.isHidden = true
+                    owner.validResultLabel.isHidden = true
+
+                case .loading:
+                    // 로딩 상태 처리 (필요시 추가)
+                    break
+
+                case .available:
+                    owner.validResultIcon.isHidden = false
+                    owner.validResultLabel.isHidden = false
+                    owner.validResultIcon.setImage(.checkCircleGreen)
+                    owner.validResultLabel.text = "사용 가능한 닉네임입니다."
+
+                case .duplicate:
+                    owner.validResultIcon.isHidden = false
+                    owner.validResultLabel.isHidden = false
+                    owner.validResultIcon.setImage(.checkCircleWarning)
+                    owner.validResultLabel.text = "이미 존재하는 닉네임입니다."
+
+                case .empty:
+                    owner.validResultIcon.isHidden = false
+                    owner.validResultLabel.isHidden = false
+                    owner.validResultIcon.setImage(.checkCircleWarning)
+                    owner.validResultLabel.text = "닉네임을 입력해주세요."
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        // 회원가입 버튼 활성화 여부
+        output.signUpButtonEnabled
+            .drive(with: self, onNext: { owner, isEnabled in
+                owner.signUpButton.setUI(isEnabled: isEnabled)
+            })
             .disposed(by: disposeBag)
     }
     
@@ -290,71 +346,17 @@ final class SignUpViewController: BaseViewController {
     
     // MARK: Objc Functions
     
-    @objc private func didNicknameChange(_ textField: UITextField) {
-        signUpButton.isEnabled = false
-        signUpButton.backgroundColor = .customColor(.midGray)
-        validResultIcon.isHidden = true
-        validResultLabel.isHidden = true
-    }
-    
-    @objc private func didTapDupplicateButton() {
-        postNickname(nickname: nicknameTextField.text)
-    }
-    
     @objc private func didTapSignUpButton() {
         postLoginToken()
     }
     
     // MARK: Post API
     
-    private func postNickname(nickname: String?) {
-        // 닉네임을 입력한 경우
-        if let nickname = nickname, !nickname.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            SignUpAPI.postNickname(nickname: nickname) { [weak self] result in
-                guard let self = self else { return }
-                
-                switch result {
-                case .success:
-                    DispatchQueue.main.async {
-                        self.validResultIcon.isHidden = false
-                        self.validResultLabel.isHidden = false
-                        self.validResultIcon.setImage(.checkCircleGreen)
-                        self.validResultLabel.text = "사용 가능한 닉네임입니다."
-                        self.signUpButton.backgroundColor = .customColor(.mainColor)
-                        // TODO: 중복 확인 안하고 회원가입 버튼 눌렀을 경우 UI 디자인
-                        self.signUpButton.isEnabled = true
-                    }
-                    
-                case .failure(let error):
-                    // TODO: 에러 처리 상세히 하기 - 인증정보 없음(토큰이 없는 경우(물론 여기 페이지까지 오면 토큰이 없는 경우는 없지만)에도 이미 존재하는 닉네임입니다로 뜸)
-                    DispatchQueue.main.async {
-                        self.validResultIcon.isHidden = false
-                        self.validResultLabel.isHidden = false
-                        self.validResultIcon.setImage(.checkCircleWarning)
-                        self.validResultLabel.text = "이미 존재하는 닉네임입니다."
-                    }
-                    print("[SignUpVC] error: \(error.localizedDescription)")
-                }
-            }
-        }
-        // 닉네임을 입력하지 않은 경우
-        // TODO: 아무것도 입력하지 않고 중복 확인 눌렀을 경우 UI 디자인
-        else {
-            DispatchQueue.main.async {
-                self.validResultIcon.isHidden = false
-                self.validResultLabel.isHidden = false
-                self.validResultIcon.setImage(.checkCircleWarning)
-                self.validResultLabel.text = "닉네임을 입력해주세요."
-            }
-            return
-        }
-    }
-    
     private func postLoginToken() {
         let userSignUpInfo: [String: String] = [
-            "nickname": nicknameTextField.text!,    // TODO: 강제 언래핑 없애기
-            "email": email,
-            "provider": provider
+            "nickname": nicknameTextField.text!,
+            "email": "email",
+            "provider": "provider"
         ]
 
         SignUpAPI.postLoginToken(params: userSignUpInfo) { result in
