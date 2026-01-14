@@ -127,6 +127,18 @@ final class MenuRankingViewController: BaseViewController {
         dateUpdateStackView.setCustomSpacing(4, after: updateLabel)
     }
     
+    // MARK: - Bind
+    
+    override func bind() {
+        
+        // 인포 버튼 탭
+        informationButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.presentRankingInfoViewController()
+            }
+            .disposed(by: disposeBag)
+    }
+    
     // MARK: - Update Date
     
     private func updateDateIfNeeded() {
