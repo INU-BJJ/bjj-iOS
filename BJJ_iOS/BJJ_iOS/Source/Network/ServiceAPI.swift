@@ -41,8 +41,14 @@ public func networkRequest<T: Decodable>(
         completion(.failure(NetworkError.invalidURL))
         return
     }
-    
-    guard let token = KeychainManager.read(key: .accessToken) else {
+
+    // accessToken이 없으면 tempToken 사용 (회원가입 플로우용)
+    let token: String
+    if let accessToken = KeychainManager.read(key: .accessToken) {
+        token = accessToken
+    } else if let tempToken = KeychainManager.read(key: .tempToken) {
+        token = tempToken
+    } else {
         completion(.failure(NetworkError.invalidToken))
         return
     }
