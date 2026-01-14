@@ -57,8 +57,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 extension SceneDelegate {
     
-    // 로그인 기록에 따른 첫 뷰컨트롤러 설정
-    
+    /// 로그인 기록에 따른 첫 뷰컨트롤러 설정
     func setRootViewController() {
         
         if KeychainManager.hasToken(type: .accessToken) {   // 토큰이 존재하는 경우: 홈 화면으로 이동

@@ -53,6 +53,7 @@ final class SignUpViewModel: BaseViewModel {
         let nickname: BehaviorRelay<String>
         let toggleAllAgreed: PublishRelay<Void>
         let consentItemTapped: ControlEvent<IndexPath>
+        let signUpButtonTapped: PublishRelay<Void>
     }
     
     // MARK: - Output
@@ -63,6 +64,7 @@ final class SignUpViewModel: BaseViewModel {
         let nicknameValidationResult: Driver<NicknameValidationState>
         let isAllAgreed: Driver<Bool>
         let signUpButtonEnabled: Driver<Bool>
+        let signUpResult: Driver<Result<String, Error>>
     }
     
     // MARK: - Transform
@@ -141,12 +143,22 @@ final class SignUpViewModel: BaseViewModel {
                 return false
             }
         
+        // 회원가입 버튼 탭 -> API 호출
+        let signUpResult = input.signUpButtonTapped
+            .withLatestFrom(input.nickname)
+            .flatMapLatest { [weak self] nickname -> Observable<Result<String, Error>> in
+                guard let self = self else { return .empty() }
+                return self.postSignUp(nickname: nickname)
+            }
+            .asDriver(onErrorJustReturn: .failure(NSError(domain: "SignUpError", code: -1, userInfo: nil)))
+        
         return Output(
             email: BehaviorRelay(value: email),
             consentList: consentList,
             nicknameValidationResult: validationResult,
             isAllAgreed: isAllAgreedDriver,
-            signUpButtonEnabled: signUpButtonEnabled
+            signUpButtonEnabled: signUpButtonEnabled,
+            signUpResult: signUpResult
         )
     }
 
@@ -162,6 +174,34 @@ final class SignUpViewModel: BaseViewModel {
 
                 case .failure:
                     observer.onNext(.duplicate)
+                    observer.onCompleted()
+                }
+            }
+            return Disposables.create()
+        }
+    }
+    
+    private func postSignUp(nickname: String) -> Observable<Result<String, Error>> {
+        return Observable.create { [weak self] observer in
+            guard let self = self else {
+                observer.onCompleted()
+                return Disposables.create()
+            }
+            
+            let userSignUpInfo: [String: String] = [
+                "nickname": nickname,
+                "email": email,
+                "provider": provider
+            ]
+            
+            SignUpAPI.postLoginToken(params: userSignUpInfo) { result in
+                switch result {
+                case .success(let signUpModel):
+                    observer.onNext(.success(signUpModel.accessToken))
+                    observer.onCompleted()
+
+                case .failure(let error):
+                    observer.onNext(.failure(error))
                     observer.onCompleted()
                 }
             }

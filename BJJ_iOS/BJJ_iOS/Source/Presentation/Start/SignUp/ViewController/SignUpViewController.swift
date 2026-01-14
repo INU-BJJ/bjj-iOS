@@ -246,12 +246,14 @@ final class SignUpViewController: BaseViewController {
         let nicknameRelay = BehaviorRelay<String>(value: "")
         let checkDuplicateRelay = PublishRelay<String>()
         let toggleAllAgreedRelay = PublishRelay<Void>()
+        let signUpButtonTappedRelay = PublishRelay<Void>()
 
         let input = SignUpViewModel.Input(
             checkNicknameDuplicate: checkDuplicateRelay,
             nickname: nicknameRelay,
             toggleAllAgreed: toggleAllAgreedRelay,
-            consentItemTapped: consentCollectionView.rx.itemSelected
+            consentItemTapped: consentCollectionView.rx.itemSelected,
+            signUpButtonTapped: signUpButtonTappedRelay
         )
         let output = signUpViewModel.transform(input: input)
 
@@ -278,6 +280,11 @@ final class SignUpViewController: BaseViewController {
         // 전체 동의 버튼 탭
         allAgreeButton.rx.tap
             .bind(to: toggleAllAgreedRelay)
+            .disposed(by: disposeBag)
+
+        // 회원가입 버튼 탭
+        signUpButton.rx.tap
+            .bind(to: signUpButtonTappedRelay)
             .disposed(by: disposeBag)
 
         // 이메일
@@ -349,6 +356,27 @@ final class SignUpViewController: BaseViewController {
                 owner.signUpButton.setUI(isEnabled: isEnabled)
             })
             .disposed(by: disposeBag)
+
+        // 회원가입 결과 처리
+        output.signUpResult
+            .drive(with: self, onNext: { owner, result in
+                switch result {
+                case .success(let accessToken):
+                    // 토큰 저장
+                    KeychainManager.create(value: accessToken, key: .accessToken)
+                    KeychainManager.delete(key: .tempToken)
+                    
+                    // TabBarController로 화면 전환
+                    DispatchQueue.main.async {
+                        let tabBarController = TabBarController()
+                        owner.navigationController?.setViewControllers([tabBarController], animated: true)
+                    }
+
+                case .failure(let error):
+                    print("[SignUpVC] Error: \(error.localizedDescription)")
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Create Layout
@@ -370,41 +398,6 @@ final class SignUpViewController: BaseViewController {
         
         self.consentCollectionView.snp.updateConstraints {
             $0.height.equalTo(totalHeight)
-        }
-    }
-    
-    // MARK: Objc Functions
-    
-    @objc private func didTapSignUpButton() {
-        postLoginToken()
-    }
-    
-    // MARK: Post API
-    
-    private func postLoginToken() {
-        let userSignUpInfo: [String: String] = [
-            "nickname": nicknameTextField.text!,
-            "email": "email",
-            "provider": "provider"
-        ]
-
-        SignUpAPI.postLoginToken(params: userSignUpInfo) { result in
-            switch result {
-            case .success(let token):
-                let token = token.accessToken
-                KeychainManager.create(value: token, key: .accessToken)
-                KeychainManager.delete(key: .tempToken)
-
-                DispatchQueue.main.async {
-                    // TODO: rootViewController 바꾸는 방법으로 전환
-                    let tabBarController = TabBarController()
-                    self.navigationController?.setViewControllers([tabBarController], animated: true)
-                }
-
-            case .failure(let error):
-                // TODO: 에러 처리 상세하게
-                print("[SignUpVC] Error: \(error.localizedDescription)")
-            }
         }
     }
 }
