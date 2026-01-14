@@ -5,11 +5,15 @@
 //  Created by HyoTaek on 1/14/26.
 //
 
-enum SocialLoginType: Int {
-    case google = 0
-    case kakao = 1
-    case naver = 2
-    case apple = 3
+import Foundation
+
+// MARK: - 소셜 로그인 타입
+
+enum SocialLoginType {
+    case google
+    case kakao
+    case naver
+    case apple
 
     var provider: String {
         switch self {
@@ -23,4 +27,25 @@ enum SocialLoginType: Int {
             return "apple"
         }
     }
+}
+
+// MARK: - 웹뷰 요청
+
+struct WebViewRequest {
+    let url: URL
+    let loginType: SocialLoginType
+}
+
+// MARK: - 회원가입 페이지 전달 데이터
+
+struct SignUpData {
+    let email: String
+    let provider: String
+}
+
+// MARK: - 웹뷰 네비게이션 허용 여부
+
+enum NavigationPolicy {
+    case allow
+    case cancel
 }
