@@ -15,7 +15,6 @@ final class LoginViewController: BaseViewController {
     
     // MARK: - Properties
     
-    private let LOGIN_URL = "https://bjj.inuappcenter.kr/oauth2/authorization/"
     private var provider = ""
     
     // MARK: - UI Components
@@ -191,7 +190,7 @@ final class LoginViewController: BaseViewController {
             break
         }
         
-        guard let url = URL(string: LOGIN_URL + provider) else { return }
+        guard let url = URL(string: baseURL.LOGIN_URL + provider) else { return }
         
         let request = URLRequest(url: url)
         let webVC = UIViewController()
