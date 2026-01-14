@@ -26,7 +26,7 @@ final class SignUpViewController: BaseViewController {
     private lazy var emailTextField = PaddingLabel(
         padding: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     ).then {
-        $0.setLabelUI(email, font: .pretendard, size: 13, color: .midGray)
+        $0.setLabelUI("", font: .pretendard, size: 13, color: .midGray)
         $0.setCornerRadius(radius: 3)
         $0.setBorder(color: .D_9_D_9_D_9)
         $0.backgroundColor = .F_6_F_6_F_8
@@ -244,6 +244,11 @@ final class SignUpViewController: BaseViewController {
                 return text
             }
             .bind(to: nicknameTextField.rx.text)
+            .disposed(by: disposeBag)
+        
+        // 이메일
+        output.email
+            .bind(to: emailTextField.rx.text)
             .disposed(by: disposeBag)
         
         // 약관 동의 collectionView

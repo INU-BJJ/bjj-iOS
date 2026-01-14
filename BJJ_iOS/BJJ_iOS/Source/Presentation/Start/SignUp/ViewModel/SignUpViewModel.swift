@@ -43,6 +43,7 @@ final class SignUpViewModel: BaseViewModel {
     // MARK: - Output
     
     struct Output {
+        let email: BehaviorRelay<String>
         let consentList: BehaviorRelay<[ConsentModel]>
     }
     
@@ -50,6 +51,7 @@ final class SignUpViewModel: BaseViewModel {
     
     func transform(input: Input) -> Output {
         return Output(
+            email: BehaviorRelay(value: email),
             consentList: consentList
         )
     }
