@@ -36,6 +36,9 @@
 		3F1C2B1E2DAE5E5C00AC3A36 /* LikedMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1C2B1D2DAE5E5C00AC3A36 /* LikedMenuViewController.swift */; };
 		3F1C2B212DAE614B00AC3A36 /* LikedMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1C2B202DAE614B00AC3A36 /* LikedMenuCell.swift */; };
 		3F1C2B242DAE804A00AC3A36 /* LikedMenuSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1C2B232DAE804A00AC3A36 /* LikedMenuSection.swift */; };
+		3F1F3E4D2F176E52002D0447 /* MyPageNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1F3E4C2F176E52002D0447 /* MyPageNicknameView.swift */; };
+		3F1F3E4F2F176E69002D0447 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1F3E4E2F176E69002D0447 /* BaseView.swift */; };
+		3F1F3E522F17783B002D0447 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1F3E512F17783B002D0447 /* MyPageViewModel.swift */; };
 		3F1FAD532D8D681C00570681 /* MenuReviewSortingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FAD522D8D681C00570681 /* MenuReviewSortingCell.swift */; };
 		3F1FAD552D8D71C500570681 /* MenuDetailCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FAD542D8D71C500570681 /* MenuDetailCollectionViewLayout.swift */; };
 		3F25B3E92CB282D7005C0907 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F25B3E82CB282D7005C0907 /* AppDelegate.swift */; };
@@ -241,6 +244,9 @@
 		3F1C2B1D2DAE5E5C00AC3A36 /* LikedMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedMenuViewController.swift; sourceTree = "<group>"; };
 		3F1C2B202DAE614B00AC3A36 /* LikedMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedMenuCell.swift; sourceTree = "<group>"; };
 		3F1C2B232DAE804A00AC3A36 /* LikedMenuSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedMenuSection.swift; sourceTree = "<group>"; };
+		3F1F3E4C2F176E52002D0447 /* MyPageNicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageNicknameView.swift; sourceTree = "<group>"; };
+		3F1F3E4E2F176E69002D0447 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		3F1F3E512F17783B002D0447 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		3F1FAD522D8D681C00570681 /* MenuReviewSortingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewSortingCell.swift; sourceTree = "<group>"; };
 		3F1FAD542D8D71C500570681 /* MenuDetailCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDetailCollectionViewLayout.swift; sourceTree = "<group>"; };
 		3F25B3E52CB282D7005C0907 /* BJJ_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BJJ_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -538,6 +544,7 @@
 				3F8D58D92D787936009356AE /* NoticeView.swift */,
 				3F3AB7D62CB397F40013FABA /* MenuRatingView.swift */,
 				3F9A5F312F16297300AB0576 /* SeparatingLine.swift */,
+				3F1F3E4C2F176E52002D0447 /* MyPageNicknameView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -608,6 +615,14 @@
 				3F1C2B232DAE804A00AC3A36 /* LikedMenuSection.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3F1F3E502F177831002D0447 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3F1F3E512F17783B002D0447 /* MyPageViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		3F25B3DC2CB282D7005C0907 = {
@@ -1064,6 +1079,7 @@
 			isa = PBXGroup;
 			children = (
 				3F2C667F2DA793B900EA4E82 /* Model */,
+				3F1F3E502F177831002D0447 /* ViewModel */,
 				3F6125272DA6A7FC003B5851 /* ViewController */,
 			);
 			path = MyPage;
@@ -1157,6 +1173,7 @@
 				3F967AD92F15442B0053A5F1 /* BaseButton.swift */,
 				3F9A5F392F16325C00AB0576 /* BaseViewModel.swift */,
 				3F9A5F402F16342200AB0576 /* BaseCollectionViewCell.swift */,
+				3F1F3E4E2F176E69002D0447 /* BaseView.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -2054,6 +2071,7 @@
 				3F03EEA82D5643F4007B3505 /* ReviewWriteViewController.swift in Sources */,
 				3F9A5F322F16297300AB0576 /* SeparatingLine.swift in Sources */,
 				3F61DF4D2CB31B1A00A019E8 /* HomeCafeteriaCell.swift in Sources */,
+				3F1F3E522F17783B002D0447 /* MyPageViewModel.swift in Sources */,
 				3FC0A66D2DA037B000FBFAEE /* SignUpAPI.swift in Sources */,
 				3F1C2B212DAE614B00AC3A36 /* LikedMenuCell.swift in Sources */,
 				3F0CF2582E00115F00998FA9 /* ReportReviewAddress.swift in Sources */,
@@ -2126,6 +2144,7 @@
 				3FB396D02DAE1C5800EF87A8 /* NicknameEditViewController.swift in Sources */,
 				3F61DF512CB31CCD00A019E8 /* UILabel++Extensions.swift in Sources */,
 				3F87423B2D4FB08E004DF204 /* MyReviewSection.swift in Sources */,
+				3F1F3E4D2F176E52002D0447 /* MyPageNicknameView.swift in Sources */,
 				3F311D762D88604400F8D803 /* RankingAPI.swift in Sources */,
 				3F4831EA2D897C2E00B138A2 /* ReviewModalModel.swift in Sources */,
 				3F1C2B242DAE804A00AC3A36 /* LikedMenuSection.swift in Sources */,
@@ -2214,6 +2233,7 @@
 				3F16131F2CD84D0E00A30369 /* MenuInfoCell.swift in Sources */,
 				3F1FAD552D8D71C500570681 /* MenuDetailCollectionViewLayout.swift in Sources */,
 				3F4831E52D89610300B138A2 /* MenuRankingSection.swift in Sources */,
+				3F1F3E4F2F176E69002D0447 /* BaseView.swift in Sources */,
 				3F996E572CD649C100910DE7 /* UIViewController++Extensions.swift in Sources */,
 				3F6947DA2D8833CD0036BF2A /* ReviewModalImageCell.swift in Sources */,
 			);

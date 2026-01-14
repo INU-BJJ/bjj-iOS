@@ -94,6 +94,22 @@ extension UIViewController {
         self.navigationController?.navigationBar.standardAppearance = standardAppearance
     }
     
+    /// 마이페이지 네비바
+    func setMyPageNaviBar() {
+        let titleLabel = UILabel().then {
+            $0.setLabelUI("마이페이지", font: .pretendard_bold, size: 18, color: .black)
+        }
+        let settingButton = self.navigationItem.makeImageButtonItem(self, action: #selector(settingTapped), imageName: "gear")
+        
+        navigationItem.titleView = titleLabel
+        navigationItem.rightBarButtonItem = settingButton
+        
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.backgroundColor = .white
+        
+        navigationController?.navigationBar.standardAppearance = standardAppearance
+    }
+    
     // MARK: - Push ViewController
     
     /// MenuDetailVC로 push
@@ -247,5 +263,12 @@ extension UIViewController {
         modalVC.modalPresentationStyle = .overCurrentContext
         
         present(modalVC, animated: true)
+    }
+    
+    /// 설정 버튼 탭
+    @objc func settingTapped() {
+        let settingVC = SettingViewController()
+        settingVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(settingVC, animated: true)
     }
 }
