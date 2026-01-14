@@ -15,12 +15,7 @@ final class SignUpViewController: BaseViewController {
     
     // MARK: - ViewModel
     
-    private let signUpViewModel = SignUpViewModel()
-    
-    // MARK: - Properties
-    
-    private let email: String
-    private let provider: String
+    private let signUpViewModel: SignUpViewModel
     
     // MARK: - UI Components
     
@@ -31,7 +26,7 @@ final class SignUpViewController: BaseViewController {
     private lazy var emailTextField = PaddingLabel(
         padding: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     ).then {
-        $0.setLabelUI(email, font: .pretendard, size: 13, color: .midGray)
+        $0.setLabelUI("", font: .pretendard, size: 13, color: .midGray)
         $0.setCornerRadius(radius: 3)
         $0.setBorder(color: .D_9_D_9_D_9)
         $0.backgroundColor = .F_6_F_6_F_8
@@ -84,6 +79,8 @@ final class SignUpViewController: BaseViewController {
     
     private let consentSeparatingLine = SeparatingLine(color: .A_9_A_9_A_9)
     
+    private let allAgreeButton = UIButton()
+    
     private let allAgreeIcon = UIImageView().then {
         $0.contentMode = .scaleAspectFill
         $0.setImage(.bigEmptyBorderCheckBox)
@@ -99,9 +96,8 @@ final class SignUpViewController: BaseViewController {
     
     // MARK: - LifeCycle
     
-    init(email: String, provider: String) {
-        self.email = email
-        self.provider = provider
+    init(viewModel: SignUpViewModel) {
+        signUpViewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -133,10 +129,14 @@ final class SignUpViewController: BaseViewController {
             consentTitleLabel,
             consentCollectionView,
             consentSeparatingLine,
-            allAgreeIcon,
-            allAgreeTitleLabel,
+            allAgreeButton,
             signUpButton
         ].forEach(view.addSubview)
+        
+        [
+            allAgreeIcon,
+            allAgreeTitleLabel
+        ].forEach(allAgreeButton.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -217,9 +217,13 @@ final class SignUpViewController: BaseViewController {
             $0.height.equalTo(1)
         }
         
-        allAgreeIcon.snp.makeConstraints {
+        allAgreeButton.snp.makeConstraints {
             $0.bottom.equalTo(signUpButton.snp.top).offset(-34)
-            $0.leading.equalTo(signUpButton)
+            $0.horizontalEdges.equalTo(signUpButton)
+        }
+        
+        allAgreeIcon.snp.makeConstraints {
+            $0.verticalEdges.leading.equalToSuperview()
             $0.size.equalTo(24)
         }
         
@@ -238,10 +242,22 @@ final class SignUpViewController: BaseViewController {
     // MARK: - Bind
 
     override func bind() {
-        let input = SignUpViewModel.Input()
+        // Input 생성
+        let nicknameRelay = BehaviorRelay<String>(value: "")
+        let checkDuplicateRelay = PublishRelay<String>()
+        let toggleAllAgreedRelay = PublishRelay<Void>()
+        let signUpButtonTappedRelay = PublishRelay<Void>()
+
+        let input = SignUpViewModel.Input(
+            checkNicknameDuplicate: checkDuplicateRelay,
+            nickname: nicknameRelay,
+            toggleAllAgreed: toggleAllAgreedRelay,
+            consentItemTapped: consentCollectionView.rx.itemSelected,
+            signUpButtonTapped: signUpButtonTappedRelay
+        )
         let output = signUpViewModel.transform(input: input)
-        
-        // 닉네임 글자수 12자 제한
+
+        // 닉네임 글자수 12자 제한 및 Input으로 전달
         nicknameTextField.rx.text.orEmpty
             .map { text -> String in
                 if text.count > 12 {
@@ -249,7 +265,31 @@ final class SignUpViewController: BaseViewController {
                 }
                 return text
             }
+            .do(onNext: { text in
+                nicknameRelay.accept(text)
+            })
             .bind(to: nicknameTextField.rx.text)
+            .disposed(by: disposeBag)
+
+        // 중복 확인 버튼 탭 -> Input으로 전달
+        checkNicknameDupliCateButton.rx.tap
+            .withLatestFrom(nicknameTextField.rx.text.orEmpty)
+            .bind(to: checkDuplicateRelay)
+            .disposed(by: disposeBag)
+
+        // 전체 동의 버튼 탭
+        allAgreeButton.rx.tap
+            .bind(to: toggleAllAgreedRelay)
+            .disposed(by: disposeBag)
+
+        // 회원가입 버튼 탭
+        signUpButton.rx.tap
+            .bind(to: signUpButtonTappedRelay)
+            .disposed(by: disposeBag)
+
+        // 이메일
+        output.email
+            .bind(to: emailTextField.rx.text)
             .disposed(by: disposeBag)
         
         // 약관 동의 collectionView
@@ -264,6 +304,78 @@ final class SignUpViewController: BaseViewController {
             )) { index, consent, cell in
                 cell.configureCell(with: consent)
             }
+            .disposed(by: disposeBag)
+        
+        // 닉네임 검증 결과 -> UI 업데이트
+        output.nicknameValidationResult
+            .drive(with: self, onNext: { owner, state in
+                switch state {
+                case .idle:
+                    owner.validResultIcon.isHidden = true
+                    owner.validResultLabel.isHidden = true
+
+                case .loading:
+                    // 로딩 상태 처리 (필요시 추가)
+                    break
+
+                case .available:
+                    owner.validResultIcon.isHidden = false
+                    owner.validResultLabel.isHidden = false
+                    owner.validResultIcon.setImage(.checkCircleGreen)
+                    owner.validResultLabel.text = "사용 가능한 닉네임입니다."
+
+                case .duplicate:
+                    owner.validResultIcon.isHidden = false
+                    owner.validResultLabel.isHidden = false
+                    owner.validResultIcon.setImage(.checkCircleWarning)
+                    owner.validResultLabel.text = "이미 존재하는 닉네임입니다."
+
+                case .empty:
+                    owner.validResultIcon.isHidden = false
+                    owner.validResultLabel.isHidden = false
+                    owner.validResultIcon.setImage(.checkCircleWarning)
+                    owner.validResultLabel.text = "닉네임을 입력해주세요."
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        // 전체 동의 상태에 따른 아이콘 업데이트
+        output.isAllAgreed
+            .drive(with: self, onNext: { owner, isAllAgreed in
+                if isAllAgreed {
+                    owner.allAgreeIcon.setImage(.bigBorderCheckBox)
+                } else {
+                    owner.allAgreeIcon.setImage(.bigEmptyBorderCheckBox)
+                }
+            })
+            .disposed(by: disposeBag)
+
+        // 회원가입 버튼 활성화 여부
+        output.signUpButtonEnabled
+            .drive(with: self, onNext: { owner, isEnabled in
+                owner.signUpButton.setUI(isEnabled: isEnabled)
+            })
+            .disposed(by: disposeBag)
+
+        // 회원가입 결과 처리
+        output.signUpResult
+            .drive(with: self, onNext: { owner, result in
+                switch result {
+                case .success(let accessToken):
+                    // 토큰 저장
+                    KeychainManager.create(value: accessToken, key: .accessToken)
+                    KeychainManager.delete(key: .tempToken)
+                    
+                    // TabBarController로 화면 전환
+                    DispatchQueue.main.async {
+                        let tabBarController = TabBarController()
+                        owner.navigationController?.setViewControllers([tabBarController], animated: true)
+                    }
+
+                case .failure:
+                    owner.presentAlertViewController(alertType: .failure, title: "회원가입에 실패했습니다.\n다시 시도해주세요.")
+                }
+            })
             .disposed(by: disposeBag)
     }
     
@@ -286,95 +398,6 @@ final class SignUpViewController: BaseViewController {
         
         self.consentCollectionView.snp.updateConstraints {
             $0.height.equalTo(totalHeight)
-        }
-    }
-    
-    // MARK: Objc Functions
-    
-    @objc private func didNicknameChange(_ textField: UITextField) {
-        signUpButton.isEnabled = false
-        signUpButton.backgroundColor = .customColor(.midGray)
-        validResultIcon.isHidden = true
-        validResultLabel.isHidden = true
-    }
-    
-    @objc private func didTapDupplicateButton() {
-        postNickname(nickname: nicknameTextField.text)
-    }
-    
-    @objc private func didTapSignUpButton() {
-        postLoginToken()
-    }
-    
-    // MARK: Post API
-    
-    private func postNickname(nickname: String?) {
-        // 닉네임을 입력한 경우
-        if let nickname = nickname, !nickname.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            SignUpAPI.postNickname(nickname: nickname) { [weak self] result in
-                guard let self = self else { return }
-                
-                switch result {
-                case .success:
-                    DispatchQueue.main.async {
-                        self.validResultIcon.isHidden = false
-                        self.validResultLabel.isHidden = false
-                        self.validResultIcon.setImage(.checkCircleGreen)
-                        self.validResultLabel.text = "사용 가능한 닉네임입니다."
-                        self.signUpButton.backgroundColor = .customColor(.mainColor)
-                        // TODO: 중복 확인 안하고 회원가입 버튼 눌렀을 경우 UI 디자인
-                        self.signUpButton.isEnabled = true
-                    }
-                    
-                case .failure(let error):
-                    // TODO: 에러 처리 상세히 하기 - 인증정보 없음(토큰이 없는 경우(물론 여기 페이지까지 오면 토큰이 없는 경우는 없지만)에도 이미 존재하는 닉네임입니다로 뜸)
-                    DispatchQueue.main.async {
-                        self.validResultIcon.isHidden = false
-                        self.validResultLabel.isHidden = false
-                        self.validResultIcon.setImage(.checkCircleWarning)
-                        self.validResultLabel.text = "이미 존재하는 닉네임입니다."
-                    }
-                    print("[SignUpVC] error: \(error.localizedDescription)")
-                }
-            }
-        }
-        // 닉네임을 입력하지 않은 경우
-        // TODO: 아무것도 입력하지 않고 중복 확인 눌렀을 경우 UI 디자인
-        else {
-            DispatchQueue.main.async {
-                self.validResultIcon.isHidden = false
-                self.validResultLabel.isHidden = false
-                self.validResultIcon.setImage(.checkCircleWarning)
-                self.validResultLabel.text = "닉네임을 입력해주세요."
-            }
-            return
-        }
-    }
-    
-    private func postLoginToken() {
-        let userSignUpInfo: [String: String] = [
-            "nickname": nicknameTextField.text!,    // TODO: 강제 언래핑 없애기
-            "email": email,
-            "provider": provider
-        ]
-
-        SignUpAPI.postLoginToken(params: userSignUpInfo) { result in
-            switch result {
-            case .success(let token):
-                let token = token.accessToken
-                KeychainManager.create(value: token, key: .accessToken)
-                KeychainManager.delete(key: .tempToken)
-
-                DispatchQueue.main.async {
-                    // TODO: rootViewController 바꾸는 방법으로 전환
-                    let tabBarController = TabBarController()
-                    self.navigationController?.setViewControllers([tabBarController], animated: true)
-                }
-
-            case .failure(let error):
-                // TODO: 에러 처리 상세하게
-                print("[SignUpVC] Error: \(error.localizedDescription)")
-            }
         }
     }
 }

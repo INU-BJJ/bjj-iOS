@@ -237,7 +237,8 @@ final class LoginViewController: BaseViewController {
     }
     
     private func navigateToSignUp(with data: SignUpData) {
-        let signUpVC = SignUpViewController(email: data.email, provider: data.provider)
+        let signUpViewModel = SignUpViewModel(email: data.email, provider: data.provider)
+        let signUpVC = SignUpViewController(viewModel: signUpViewModel)
         
         if let navigationController = navigationController {
             navigationController.pushViewController(signUpVC, animated: true)

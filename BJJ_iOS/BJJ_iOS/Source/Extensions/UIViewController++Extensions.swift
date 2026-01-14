@@ -195,14 +195,23 @@ extension UIViewController {
         self.navigationController?.pushViewController(likedMenuVC, animated: true)
     }
     
+    /// ReportReviewVC로 push
+    func presentReportReviewViewController(reviewID: Int) {
+        let reportReviewVC = ReportReviewViewController(reviewID: reviewID)
+        reportReviewVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(reportReviewVC, animated: true)
+    }
+    
+    // MARK: - Alert
+    
     /// AlertVC로 present
     func presentAlertViewController(
         alertType: AlertType,
-        // TODO: 팝업 시간 수정
+        title: String,
         duration: TimeInterval = 0.5,
         completion: (() -> Void)? = nil
     ) {
-        let alertVC = AlertViewController(alertType: alertType)
+        let alertVC = AlertViewController(alertType: alertType, text: title)
         alertVC.modalPresentationStyle = .overFullScreen
         alertVC.modalTransitionStyle   = .crossDissolve
         
@@ -211,13 +220,6 @@ extension UIViewController {
                 alertVC.dismiss(animated: true, completion: completion)
             }
         }
-    }
-    
-    /// ReportReviewVC로 push
-    func presentReportReviewViewController(reviewID: Int) {
-        let reportReviewVC = ReportReviewViewController(reviewID: reviewID)
-        reportReviewVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(reportReviewVC, animated: true)
     }
     
     // MARK: - objc Function
