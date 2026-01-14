@@ -98,6 +98,7 @@
 		3F61DF4F2CB31B2E00A019E8 /* HomeMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F61DF4E2CB31B2E00A019E8 /* HomeMenuCell.swift */; };
 		3F61DF512CB31CCD00A019E8 /* UILabel++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F61DF502CB31CCD00A019E8 /* UILabel++Extensions.swift */; };
 		3F61DF532CB320A900A019E8 /* UIButton++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F61DF522CB320A900A019E8 /* UIButton++Extensions.swift */; };
+		3F61F8822F176665004BC76A /* RankingInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F61F8812F176665004BC76A /* RankingInfoViewController.swift */; };
 		3F663E1B2D82D1500070E6CC /* MenuRankingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F663E1A2D82D1500070E6CC /* MenuRankingCell.swift */; };
 		3F663E1D2D82E86D0070E6CC /* MenuTopRankingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F663E1C2D82E86D0070E6CC /* MenuTopRankingCell.swift */; };
 		3F673C8E2DA437F60080FD23 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F673C8D2DA437F60080FD23 /* KeychainManager.swift */; };
@@ -306,6 +307,7 @@
 		3F61DF4E2CB31B2E00A019E8 /* HomeMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMenuCell.swift; sourceTree = "<group>"; };
 		3F61DF502CB31CCD00A019E8 /* UILabel++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel++Extensions.swift"; sourceTree = "<group>"; };
 		3F61DF522CB320A900A019E8 /* UIButton++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton++Extensions.swift"; sourceTree = "<group>"; };
+		3F61F8812F176665004BC76A /* RankingInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingInfoViewController.swift; sourceTree = "<group>"; };
 		3F663E1A2D82D1500070E6CC /* MenuRankingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRankingCell.swift; sourceTree = "<group>"; };
 		3F663E1C2D82E86D0070E6CC /* MenuTopRankingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTopRankingCell.swift; sourceTree = "<group>"; };
 		3F673C8D2DA437F60080FD23 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
@@ -1525,6 +1527,7 @@
 			isa = PBXGroup;
 			children = (
 				3FCA25432D818E1B00BF56C2 /* MenuRankingViewController.swift */,
+				3F61F8812F176665004BC76A /* RankingInfoViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -2156,6 +2159,7 @@
 				3F4DF56A2DF8197A006E047E /* ReviewPhotoCell.swift in Sources */,
 				3F16132B2CD86D3B00A30369 /* MenuReviewSorting.swift in Sources */,
 				3F3AF8C72D75A54A00D6C28A /* ReviewWriteModel.swift in Sources */,
+				3F61F8822F176665004BC76A /* RankingInfoViewController.swift in Sources */,
 				3F27E9512DACCFA100CD2554 /* GachaResultSection.swift in Sources */,
 				3F43F0DA2D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift in Sources */,
 				3F858F412DAA532400F6C7F5 /* StoreViewController.swift in Sources */,
