@@ -111,15 +111,19 @@ extension UIViewController {
     }
     
     /// 상점 네비바
-    func setStoreNaviBar() {
+    func setStoreNaviBar(point: Int) {
         let backButton = UIButton().then {
             $0.setImage(UIImage(named: ImageAsset.BlackBackButton.name), for: .normal)
             $0.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
+        }
+        let pointView = PointView().then {
+            $0.configurePointView(point: point)
         }
         
         self.navigationItem.leftBarButtonItems = [
             UIBarButtonItem(customView: backButton)
         ]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: pointView)
     }
     
     // MARK: - Push ViewController
