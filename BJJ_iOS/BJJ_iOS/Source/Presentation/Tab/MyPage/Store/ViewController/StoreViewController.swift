@@ -18,7 +18,11 @@ final class StoreViewController: BaseViewController {
     
     // MARK: - UI Components
     
-    private lazy var testGachaMachine = UIImageView().then {
+    private let gachaBubbleImage = UIImageView().then {
+        $0.setImage(.gachaBubble)
+    }
+    
+    private lazy var gachaMachine = UIImageView().then {
         $0.image = UIImage(named: "GachaMachine")
         $0.isUserInteractionEnabled = true
         $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapGachaMachine)))
@@ -73,7 +77,8 @@ final class StoreViewController: BaseViewController {
     
     override func setHierarchy() {
         [
-            testGachaMachine,
+            gachaBubbleImage,
+            gachaMachine,
             testAllItemCollectionView
         ].forEach(view.addSubview)
     }
@@ -81,13 +86,18 @@ final class StoreViewController: BaseViewController {
     // MARK: - Set Constraints
     
     override func setConstraints() {
-        testGachaMachine.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(100)
+        gachaBubbleImage.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(109.25)
+            $0.centerX.equalToSuperview()
+        }
+        
+        gachaMachine.snp.makeConstraints {
+            $0.top.equalTo(gachaBubbleImage).offset(26.75)
             $0.centerX.equalToSuperview()
         }
         
         testAllItemCollectionView.snp.makeConstraints {
-            $0.top.equalTo(testGachaMachine.snp.bottom).offset(20)
+            $0.top.equalTo(gachaMachine.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.bottom.equalToSuperview()
         }
