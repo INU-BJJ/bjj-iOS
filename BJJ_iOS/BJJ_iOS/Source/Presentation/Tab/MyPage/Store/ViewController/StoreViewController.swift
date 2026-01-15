@@ -18,6 +18,10 @@ final class StoreViewController: BaseViewController {
     
     // MARK: - UI Components
     
+    private let storeBackgroundImage = UIImageView().then {
+        $0.setImage(.storeBackground)
+    }
+    
     private let gachaBubbleImage = UIImageView().then {
         $0.setImage(.gachaBubble)
     }
@@ -77,6 +81,7 @@ final class StoreViewController: BaseViewController {
     
     override func setHierarchy() {
         [
+            storeBackgroundImage,
             gachaBubbleImage,
             gachaMachine,
             testAllItemCollectionView
@@ -86,6 +91,10 @@ final class StoreViewController: BaseViewController {
     // MARK: - Set Constraints
     
     override func setConstraints() {
+        storeBackgroundImage.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         gachaBubbleImage.snp.makeConstraints {
             $0.top.equalToSuperview().offset(109.25)
             $0.centerX.equalToSuperview()

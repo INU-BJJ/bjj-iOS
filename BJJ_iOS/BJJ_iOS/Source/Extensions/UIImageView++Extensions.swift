@@ -24,6 +24,7 @@ enum ImageAsset: String {
     case point
     case orangeInfo
     case gachaBubble
+    case storeBackground
     
     var name: String {
         rawValue
