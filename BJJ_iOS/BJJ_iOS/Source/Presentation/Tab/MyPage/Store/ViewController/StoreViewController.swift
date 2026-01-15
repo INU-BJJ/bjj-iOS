@@ -14,14 +14,9 @@ final class StoreViewController: BaseViewController {
     
     // MARK: - Properties
     
-    private var point: Int
     private var allItems: OrderedDictionary<String, [StoreSection]> = [:]
     
     // MARK: - UI Components
-    
-    private let testPointLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
-    }
     
     private lazy var testGachaMachine = UIImageView().then {
         $0.image = UIImage(named: "GachaMachine")
@@ -43,8 +38,8 @@ final class StoreViewController: BaseViewController {
     // MARK: - LifeCycle
     
     init(point: Int) {
-        self.point = point
         super.init(nibName: nil, bundle: nil)
+        setStoreNaviBar(point: point)
     }
     
     required init?(coder: NSCoder) {
@@ -65,7 +60,6 @@ final class StoreViewController: BaseViewController {
     
     override func setUI() {
         view.backgroundColor = .white
-        setStoreNaviBar()
         
         NotificationCenter.default.addObserver(
             self,
@@ -73,18 +67,12 @@ final class StoreViewController: BaseViewController {
             name: .didDismissFromGachaResultVC,
             object: nil
         )
-        
-        DispatchQueue.main.async {
-            // TODO: 백그라운드에서 포인트를 받아와서(마이아이템 API 호출) 뽑기하기 버튼 누를 때 포인트 UI 업데이트
-            self.testPointLabel.text = "\(self.point) P"
-        }
     }
     
     // MARK: - Set Hierarchy
     
     override func setHierarchy() {
         [
-            testPointLabel,
             testGachaMachine,
             testAllItemCollectionView
         ].forEach(view.addSubview)
@@ -93,11 +81,6 @@ final class StoreViewController: BaseViewController {
     // MARK: - Set Constraints
     
     override func setConstraints() {
-        testPointLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(70)
-            $0.trailing.equalToSuperview().inset(20)
-        }
-        
         testGachaMachine.snp.makeConstraints {
             $0.top.equalToSuperview().offset(100)
             $0.centerX.equalToSuperview()
