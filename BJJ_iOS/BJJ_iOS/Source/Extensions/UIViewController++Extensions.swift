@@ -116,12 +116,16 @@ extension UIViewController {
             $0.setImage(UIImage(named: ImageAsset.BlackBackButton.name), for: .normal)
             $0.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
         }
+        let infoButton = UIButton().then {
+            $0.setImage(UIImage(named: ImageAsset.orangeInfo.name), for: .normal)
+        }
         let pointView = PointView().then {
             $0.configurePointView(point: point)
         }
         
         self.navigationItem.leftBarButtonItems = [
-            UIBarButtonItem(customView: backButton)
+            UIBarButtonItem(customView: backButton),
+            UIBarButtonItem(customView: infoButton)
         ]
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: pointView)
     }
