@@ -21,6 +21,7 @@ enum ImageAsset: String {
     case gear
     case store
     case BlackBackButton
+    case pointView
     
     var name: String {
         rawValue
