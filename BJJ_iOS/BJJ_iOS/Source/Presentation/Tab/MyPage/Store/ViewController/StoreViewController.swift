@@ -39,15 +39,11 @@ final class StoreViewController: BaseViewController {
     }
     
     private let characterTabButton = UIButton().then {
-        $0.setButton(title: "캐릭터", font: .pretendard_bold, size: 14, color: .customColor(.mainColor))
-        $0.backgroundColor = .white
         $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         $0.setCornerRadius(radius: 8)
     }
     
     private let backgroundTabButton = UIButton().then {
-        $0.setButton(title: "배경", font: .pretendard_bold, size: 14, color: .white)
-        $0.backgroundColor = .customColor(.mainColor)
         $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         $0.setCornerRadius(radius: 8)
     }
@@ -174,25 +170,25 @@ final class StoreViewController: BaseViewController {
         // 탭(캐릭터, 배경) 업데이트
         output.selectedTab
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] itemType in
-                self?.updateTabButtonState(selectedTab: itemType)
+            .bind(with: self, onNext: { owner, itemType in
+                owner.updateTabButtonState(selectedTab: itemType)
             })
             .disposed(by: disposeBag)
     }
     
-    // MARK: - Helper Methods
+    // MARK: - Update Tab Button UI
     
     private func updateTabButtonState(selectedTab: ItemType) {
         switch selectedTab {
         case .character:
-            characterTabButton.setTitleColor(.customColor(.mainColor), for: .normal)
+            characterTabButton.setButton(title: "캐릭터", font: .pretendard_bold, size: 14, color: .customColor(.mainColor))
             characterTabButton.backgroundColor = .white
-            backgroundTabButton.setTitleColor(.white, for: .normal)
+            backgroundTabButton.setButton(title: "배경", font: .pretendard_bold, size: 14, color: .white)
             backgroundTabButton.backgroundColor = .customColor(.mainColor)
         case .background:
-            characterTabButton.setTitleColor(.white, for: .normal)
+            characterTabButton.setButton(title: "캐릭터", font: .pretendard_bold, size: 14, color: .white)
             characterTabButton.backgroundColor = .customColor(.mainColor)
-            backgroundTabButton.setTitleColor(.customColor(.mainColor), for: .normal)
+            backgroundTabButton.setButton(title: "배경", font: .pretendard_bold, size: 14, color: .customColor(.mainColor))
             backgroundTabButton.backgroundColor = .white
         }
     }
