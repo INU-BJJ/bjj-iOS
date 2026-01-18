@@ -10,26 +10,40 @@ import Foundation
 struct StoreSection: Hashable {
     let itemID: Int
     let itemName: String
-    let itemType: String
-    let itemRarity: String
+    let itemType: ItemType
+    let itemRarity: ItemRarity
     let itemImage: String
     let validPeriod: String?
     let isWearing: Bool
     let isOwned: Bool
 }
 
+enum ItemType: String {
+    case character = "CHARACTER"
+    case background = "BACKGROUND"
+
+    var title: String {
+        switch self {
+        case .character:
+            return "캐릭터"
+        case .background:
+            return "배경"
+        }
+    }
+}
+
 enum ItemRarity: String {
     case common = "COMMON"
     case normal = "NORMAL"
     case rare = "RARE"
-
-    var koreanTitle: String {
+    
+    var title: String {
         switch self {
-        case .common: 
+        case .common:
             return "흔함"
-        case .normal: 
+        case .normal:
             return "보통"
-        case .rare: 
+        case .rare:
             return "희귀"
         }
     }
