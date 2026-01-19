@@ -14,112 +14,17 @@ final class StoreViewModel: BaseViewModel {
     
     private let disposeBag = DisposeBag()
     
-    // MARK: - Dummy Data
+    // MARK: - Properties
     
-    private let dummyData: [ItemType: [ItemRarity: [StoreSection]]] = {
-        var data: [ItemType: [ItemRarity: [StoreSection]]] = [:]
-        
-        // 캐릭터 더미 데이터
-        let characterCommon = (1...8).map { index in
-            StoreSection(
-                itemID: index,
-                itemName: "흔한 캐릭터 \(index)",
-                itemType: .character,
-                itemRarity: .common,
-                itemImage: "placeholder",
-                validPeriod: index % 2 == 0 ? "7d" : nil,
-                isWearing: true,
-                isOwned: index % 3 == 0
-            )
-        }
-
-        let characterNormal = (101...108).map { index in
-            StoreSection(
-                itemID: index,
-                itemName: "보통 캐릭터 \(index - 100)",
-                itemType: .character,
-                itemRarity: .normal,
-                itemImage: "placeholder",
-                validPeriod: index % 2 == 0 ? "21h" : nil,
-                isWearing: false,
-                isOwned: index % 3 == 0
-            )
-        }
-
-        let characterRare = (201...208).map { index in
-            StoreSection(
-                itemID: index,
-                itemName: "희귀 캐릭터 \(index - 200)",
-                itemType: .character,
-                itemRarity: .rare,
-                itemImage: "placeholder",
-                validPeriod: index % 2 == 0 ? "50m" : nil,
-                isWearing: false,
-                isOwned: index % 3 == 0
-            )
-        }
-
-        data[.character] = [
-            .common: characterCommon,
-            .normal: characterNormal,
-            .rare: characterRare
-        ]
-
-        // 배경 더미 데이터
-        let backgroundCommon = (1001...1008).map { index in
-            StoreSection(
-                itemID: index,
-                itemName: "흔한 배경 \(index - 1000)",
-                itemType: .background,
-                itemRarity: .common,
-                itemImage: "placeholder",
-                validPeriod: index % 2 == 0 ? "1d" : nil,
-                isWearing: false,
-                isOwned: index % 3 == 0
-            )
-        }
-
-        let backgroundNormal = (1101...1108).map { index in
-            StoreSection(
-                itemID: index,
-                itemName: "보통 배경 \(index - 1100)",
-                itemType: .background,
-                itemRarity: .normal,
-                itemImage: "placeholder",
-                validPeriod: index % 2 == 0 ? "21h" : nil,
-                isWearing: false,
-                isOwned: index % 3 == 0
-            )
-        }
-
-        let backgroundRare = (1201...1208).map { index in
-            StoreSection(
-                itemID: index,
-                itemName: "희귀 배경 \(index - 1200)",
-                itemType: .background,
-                itemRarity: .rare,
-                itemImage: "placeholder",
-                validPeriod: index % 2 == 0 ? "50m" : nil,
-                isWearing: false,
-                isOwned: index % 3 == 0
-            )
-        }
-
-        data[.background] = [
-            .common: backgroundCommon,
-            .normal: backgroundNormal,
-            .rare: backgroundRare
-        ]
-
-        return data
-    }()
-
+    private let selectedTab = BehaviorRelay<ItemType>(value: .character)
+    
     // MARK: - Input
     
     struct Input {
-        let viewDidLoad: Observable<Void>
+        let viewWillAppear: Observable<Void>
         let characterTabTapped: Observable<Void>
         let backgroundTabTapped: Observable<Void>
+        let itemSelected: Observable<(itemType: String, itemID: Int)>
     }
     
     // MARK: - Output
@@ -127,27 +32,125 @@ final class StoreViewModel: BaseViewModel {
     struct Output {
         let items: Observable<[ItemRarity: [StoreSection]]>
         let selectedTab: Observable<ItemType>
+        let dismissToMyPage: Observable<Void>
     }
     
     // MARK: - Transform
 
     func transform(input: Input) -> Output {
-        // 선택된 탭 스트림 생성
-        let selectedTab = Observable.merge(
-            input.viewDidLoad.map { ItemType.character },
+        // 탭 선택 이벤트를 BehaviorRelay에 바인딩
+        Observable.merge(
             input.characterTabTapped.map { ItemType.character },
             input.backgroundTabTapped.map { ItemType.background }
         )
+        .bind(to: selectedTab)
+        .disposed(by: disposeBag)
 
-        // 선택된 탭에 따라 아이템 데이터 변환
-        let items = selectedTab
-            .map { [weak self] itemType -> [ItemRarity: [StoreSection]] in
-                return self?.dummyData[itemType] ?? [:]
+        // viewWillAppear 또는 탭 선택 시 아이템 새로고침
+        let refreshTrigger = Observable.merge(
+            input.viewWillAppear,
+            selectedTab.map { _ in () }
+        )
+
+        // 선택된 탭에 따라 아이템 데이터 가져오기
+        let items = refreshTrigger
+            .withLatestFrom(selectedTab)
+            .flatMapLatest { [weak self] itemType -> Observable<[ItemRarity: [StoreSection]]> in
+                guard let self = self else {
+                    return Observable.just([:])
+                }
+                
+                // 실제 API 호출
+                return self.fetchAllItems(itemType: itemType)
+            }
+            .share(replay: 1)
+
+        // 아이템 선택 시 PATCH 요청
+        let dismissToMyPage = input.itemSelected
+            .flatMapLatest { [weak self] (itemType, itemID) -> Observable<Void> in
+                guard let self = self else {
+                    return Observable.empty()
+                }
+                
+                return self.patchItem(itemType: itemType, itemID: itemID)
             }
 
         return Output(
             items: items,
-            selectedTab: selectedTab
+            selectedTab: selectedTab.asObservable(),
+            dismissToMyPage: dismissToMyPage
         )
+    }
+
+    // MARK: - API Methods
+
+    /// 전체 아이템 정보 가져오기
+    private func fetchAllItems(itemType: ItemType) -> Observable<[ItemRarity: [StoreSection]]> {
+        return Observable.create { observer in
+            StoreAPI.fetchAllItems(itemType: itemType) { result in
+                switch result {
+                case .success(let allItems):
+                    let items = allItems.map { item -> StoreSection in
+                        let type = ItemType(rawValue: item.itemType) ?? .character
+                        let imageURL = type == .character
+                              ? baseURL.characterImageURL + "dic_\(item.itemImage).svg"
+                              : baseURL.backgroundImageURL + "\(item.itemImage).svg"
+                        
+                        return StoreSection(
+                            itemID: item.itemID,
+                            itemName: item.itemName,
+                            itemType: type,
+                            itemRarity: ItemRarity(rawValue: item.itemRarity) ?? .common,
+                            itemImage: imageURL,
+                            validPeriod: item.validPeriod?.calculateItemValidPeriod(),
+                            isWearing: item.isWearing,
+                            isOwned: item.isOwned
+                        )
+                    }
+                    
+                    var itemsByRarity: [ItemRarity: [StoreSection]] = [:]
+                    for itemRarity in [ItemRarity.common, .normal, .rare] {
+                        itemsByRarity[itemRarity] = items.filter { $0.itemRarity == itemRarity }
+                    }
+                    
+                    observer.onNext(itemsByRarity)
+                    observer.onCompleted()
+                    
+                case .failure(let error):
+                    print("[StoreViewModel] Error: \(error.localizedDescription)")
+                    observer.onError(error)
+                }
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
+    /// 아이템 유효기간 갱신
+    private func refreshItemsValidity(itemType: ItemType) -> Observable<[ItemRarity: [StoreSection]]> {
+        return fetchAllItems(itemType: itemType)
+    }
+    
+    /// 아이템 착용
+    private func patchItem(itemType: String, itemID: Int) -> Observable<Void> {
+        return Observable.create { observer in
+            GachaResultAPI.patchItem(itemType: itemType, itemID: itemID) { result in
+                switch result {
+                case .success:
+                    // 성공 시 화면 닫기 이벤트 방출
+                    observer.onNext(())
+                    observer.onCompleted()
+
+                case .failure(let error):
+                    // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
+                    // 에러가 발생해도 일단 화면 닫기 (임시 처리)
+                    print("[StoreViewModel] Error: \(error.localizedDescription)")
+                    observer.onNext(())
+                    observer.onCompleted()
+                }
+            }
+
+            return Disposables.create()
+        }
     }
 }
