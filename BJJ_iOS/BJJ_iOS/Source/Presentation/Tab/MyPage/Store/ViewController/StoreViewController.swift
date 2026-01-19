@@ -182,13 +182,17 @@ final class StoreViewController: BaseViewController {
         switch selectedTab {
         case .character:
             characterTabButton.setButton(title: "캐릭터", font: .pretendard_bold, size: 14, color: .customColor(.mainColor))
+            characterTabButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 11, bottom: 1.5, trailing: 11)
             characterTabButton.backgroundColor = .white
             backgroundTabButton.setButton(title: "배경", font: .pretendard_bold, size: 14, color: .white)
+            backgroundTabButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 17, bottom: 1.5, trailing: 17)
             backgroundTabButton.backgroundColor = .customColor(.mainColor)
         case .background:
             characterTabButton.setButton(title: "캐릭터", font: .pretendard_bold, size: 14, color: .white)
+            characterTabButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 11, bottom: 1.5, trailing: 11)
             characterTabButton.backgroundColor = .customColor(.mainColor)
             backgroundTabButton.setButton(title: "배경", font: .pretendard_bold, size: 14, color: .customColor(.mainColor))
+            backgroundTabButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 17, bottom: 1.5, trailing: 17)
             backgroundTabButton.backgroundColor = .white
         }
     }
