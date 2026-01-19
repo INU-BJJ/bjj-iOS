@@ -8,9 +8,9 @@
 import UIKit
 import SnapKit
 import Then
-import OrderedCollections
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 final class StoreViewController: BaseViewController {
     
@@ -18,14 +18,37 @@ final class StoreViewController: BaseViewController {
     
     private let storeViewModel = StoreViewModel()
     
-    // MARK: - Properties
-    
-    private var allItems: OrderedDictionary<ItemRarity, [StoreSection]> = [:]
-    
     // MARK: - Subjects
     
     private var viewWillAppearTrigger = PublishRelay<Void>()
-    private var itemSelectedSubject = PublishSubject<(itemType: String, itemID: Int)>()
+    
+    // MARK: - DataSource
+    
+    private let dataSource = RxCollectionViewSectionedReloadDataSource<StoreSectionModel>(
+        configureCell: { dataSource, collectionView, indexPath, item in
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: ItemTypeCell.reuseIdentifier,
+                for: indexPath
+            ) as? ItemTypeCell else {
+                return UICollectionViewCell()
+            }
+            cell.configureCell(with: item)
+            return cell
+        },
+        configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
+            guard kind == UICollectionView.elementKindSectionHeader else {
+                return UICollectionReusableView()
+            }
+            let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: ItemSectionHeaderView.reuseIdentifier,
+                for: indexPath
+            ) as! ItemSectionHeaderView
+            let section = dataSource[indexPath.section]
+            header.configureHeaderView(itemRarity: section.header.title)
+            return header
+        }
+    )
     
     // MARK: - UI Components
     
@@ -51,15 +74,12 @@ final class StoreViewController: BaseViewController {
         $0.setCornerRadius(radius: 8)
     }
     
-    // TODO: 아이템 섹션을 rxDataSources로 나누기 + 캐릭터/배경 탭
     private lazy var allItemCollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: UICollectionViewFlowLayout()
+        collectionViewLayout: createFlowLayout()
     ).then {
         $0.register(ItemSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ItemSectionHeaderView.reuseIdentifier)
         $0.register(ItemTypeCell.self, forCellWithReuseIdentifier: ItemTypeCell.reuseIdentifier)
-        $0.delegate = self
-        $0.dataSource = self
         $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = .FFD_36_A
         $0.setBorder(color: .C_49_A_6_C, width: 1.5)
@@ -152,27 +172,27 @@ final class StoreViewController: BaseViewController {
     // MARK: - Bind
     
     override func bind() {
+        // 아이템 선택 이벤트 생성
+        let itemSelected = allItemCollectionView.rx.modelSelected(StoreSection.self)
+            .map { item -> (itemType: String, itemID: Int) in
+                return (itemType: item.itemType.rawValue, itemID: item.itemID)
+            }
+            .do(onNext: { item in
+                print("[StoreVC] 선택한 아이템 ID: \(item.itemID), 타입: \(item.itemType)")
+            })
+
         let input = StoreViewModel.Input(
             viewWillAppear: viewWillAppearTrigger.asObservable(),
             characterTabTapped: characterTabButton.rx.tap.asObservable(),
             backgroundTabTapped: backgroundTabButton.rx.tap.asObservable(),
-            itemSelected: itemSelectedSubject.asObservable()
+            itemSelected: itemSelected
         )
         let output = storeViewModel.transform(input: input)
         
-        // 아이템 데이터
+        // 아이템 데이터 바인딩
         output.items
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] items in
-                self?.allItems = OrderedDictionary(
-                    uniqueKeysWithValues: [ItemRarity.common, .normal, .rare]
-                        .compactMap { rarity in
-                            guard let itemArray = items[rarity], !itemArray.isEmpty else { return nil }
-                            return (rarity, itemArray)
-                        }
-                )
-                self?.allItemCollectionView.reloadData()
-            })
+            .bind(to: allItemCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
         // 탭(캐릭터, 배경) 업데이트
@@ -198,6 +218,26 @@ final class StoreViewController: BaseViewController {
                 owner.presentGachaViewController()
             }
             .disposed(by: disposeBag)
+    }
+    
+    // MARK: - Create Flow Layout
+    
+    private func createFlowLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+
+        // 아이템 사이즈 계산
+        let screenWidth = UIScreen.main.bounds.width
+        let collectionViewWidth = screenWidth - 40 // 양옆 20씩 inset
+        let itemWidth = (collectionViewWidth - (16*2) - (4*3)) / 4
+        let itemHeight: CGFloat = 92
+
+        layout.itemSize = CGSize(width: itemWidth, height: itemHeight)
+        layout.minimumInteritemSpacing = 4
+        layout.minimumLineSpacing = 4
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 50, right: 16)
+        layout.headerReferenceSize = CGSize(width: collectionViewWidth, height: 60)
+        
+        return layout
     }
     
     // MARK: - Update Tab Button UI
@@ -226,87 +266,6 @@ final class StoreViewController: BaseViewController {
     @objc private func refreshItemsValidity(_ notification: Notification) {
         // viewWillAppear 트리거를 호출하여 아이템 목록 새로고침
         viewWillAppearTrigger.accept(())
-    }
-}
-
-extension StoreViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
-    // MARK: - UICollectionView Section
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return allItems.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let key = allItems.keys[section]
-        
-        return allItems[key]?.count ?? 0
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemTypeCell.reuseIdentifier, for: indexPath) as? ItemTypeCell else {
-            return UICollectionViewCell()
-        }
-        
-        let key = allItems.keys[indexPath.section]
-        
-        if let item = allItems[key]?[indexPath.item] {
-            cell.configureCell(with: item)
-        }
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let key = allItems.keys[indexPath.section]
-        
-        if let item = allItems[key]?[indexPath.item] {
-            // ViewModel에 아이템 선택 이벤트 전달
-            itemSelectedSubject.onNext((itemType: item.itemType.rawValue, itemID: item.itemID))
-            print("[StoreVC] 선택한 아이템: \(item.itemName), 타입: \(item.itemType.title), 희귀도: \(item.itemRarity.title)")
-        }
-    }
-    
-    // MARK: - UICollectionView Header
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView() }
-
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ItemSectionHeaderView.reuseIdentifier, for: indexPath) as! ItemSectionHeaderView
-        let key = allItems.keys[indexPath.section]
-        let itemRarity = key.title
-        
-        header.setUI(itemRarity: itemRarity)
-        
-        return header
-    }
-    
-    // MARK: - UICollectionView Delegate
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let collectionViewWidth = collectionView.bounds.width
-        // collectionView 너비 - 양옆 padding - 아이템 사이 간격
-        let itemWidth = (collectionViewWidth - (16*2) - (4*3)) / 4
-        let itemHeight: CGFloat = 92
-        
-        return CGSize(width: itemWidth, height: itemHeight)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 4
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 4
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 16, bottom: 50, right: 16)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 60)
     }
 }
 

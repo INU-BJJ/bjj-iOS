@@ -54,7 +54,7 @@ final class ItemSectionHeaderView: UICollectionReusableView, ReuseIdentifying {
     
     // MARK: - Set UI
     
-    func setUI(itemRarity: String) {
+    func configureHeaderView(itemRarity: String) {
         itemRarityLabel.text = itemRarity
     }
 }
