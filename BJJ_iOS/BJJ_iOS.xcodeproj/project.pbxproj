@@ -94,6 +94,7 @@
 		3F4B09252CE1FC31005C56C2 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4B09242CE1FC31005C56C2 /* TabBarController.swift */; };
 		3F4DF56A2DF8197A006E047E /* ReviewPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4DF5692DF8197A006E047E /* ReviewPhotoCell.swift */; };
 		3F5617B82CF3312400B4912D /* MenuReviewImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5617B72CF3312400B4912D /* MenuReviewImageCell.swift */; };
+		3F5F842B2F1E3FE40029F4BE /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 3F5F842A2F1E3FE40029F4BE /* RxDataSources */; };
 		3F6125292DA6A80E003B5851 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6125282DA6A80E003B5851 /* MyPageViewController.swift */; };
 		3F61252D2DA6ABAA003B5851 /* MyPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F61252C2DA6ABAA003B5851 /* MyPageModel.swift */; };
 		3F61252F2DA6ABB6003B5851 /* MyPageAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F61252E2DA6ABB6003B5851 /* MyPageAddress.swift */; };
@@ -421,6 +422,7 @@
 				3FEDD49F2CB2B3A8009617A5 /* PretendardKit in Frameworks */,
 				8CB8B6DAAA797515681E5BE4 /* Pods_BJJ_iOS.framework in Frameworks */,
 				3F90699C2F15384700FDBC94 /* RxSwift in Frameworks */,
+				3F5F842B2F1E3FE40029F4BE /* RxDataSources in Frameworks */,
 				3F90699A2F15384700FDBC94 /* RxCocoa in Frameworks */,
 				3F70549D2DCF77EC00647141 /* OrderedCollections in Frameworks */,
 			);
@@ -1845,6 +1847,7 @@
 				3F70549C2DCF77EC00647141 /* OrderedCollections */,
 				3F9069992F15384700FDBC94 /* RxCocoa */,
 				3F90699B2F15384700FDBC94 /* RxSwift */,
+				3F5F842A2F1E3FE40029F4BE /* RxDataSources */,
 			);
 			productName = BJJ_iOS;
 			productReference = 3F25B3E52CB282D7005C0907 /* BJJ_iOS.app */;
@@ -1925,6 +1928,7 @@
 				3FEDD49D2CB2B21B009617A5 /* XCRemoteSwiftPackageReference "PretendardKit" */,
 				3F70549B2DCF77EC00647141 /* XCRemoteSwiftPackageReference "swift-collections" */,
 				3F9069982F15384700FDBC94 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				3F5F84292F1E3FE40029F4BE /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
 			productRefGroup = 3F25B3E62CB282D7005C0907 /* Products */;
 			projectDirPath = "";
@@ -2608,6 +2612,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3F5F84292F1E3FE40029F4BE /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
 		3F70549B2DCF77EC00647141 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-collections.git";
@@ -2635,6 +2647,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3F5F842A2F1E3FE40029F4BE /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F5F84292F1E3FE40029F4BE /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
+		};
 		3F70549C2DCF77EC00647141 /* OrderedCollections */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3F70549B2DCF77EC00647141 /* XCRemoteSwiftPackageReference "swift-collections" */;
