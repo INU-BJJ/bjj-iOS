@@ -102,21 +102,11 @@ final class StoreViewController: BaseViewController {
         viewWillAppearTrigger.accept(())
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
     
     // MARK: - Set UI
     
     override func setUI() {
         view.backgroundColor = .white
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(refreshItemsValidity),
-            name: .didDismissFromGachaResultVC,
-            object: nil
-        )
     }
     
     // MARK: - Set Hierarchy
@@ -172,20 +162,11 @@ final class StoreViewController: BaseViewController {
     // MARK: - Bind
     
     override func bind() {
-        // 아이템 선택 이벤트 생성
-        let itemSelected = allItemCollectionView.rx.modelSelected(StoreSection.self)
-            .map { item -> (itemType: String, itemID: Int) in
-                return (itemType: item.itemType.rawValue, itemID: item.itemID)
-            }
-            .do(onNext: { item in
-                print("[StoreVC] 선택한 아이템 ID: \(item.itemID), 타입: \(item.itemType)")
-            })
-
         let input = StoreViewModel.Input(
             viewWillAppear: viewWillAppearTrigger.asObservable(),
             characterTabTapped: characterTabButton.rx.tap.asObservable(),
             backgroundTabTapped: backgroundTabButton.rx.tap.asObservable(),
-            itemSelected: itemSelected
+            itemSelected: allItemCollectionView.rx.modelSelected(StoreSection.self)
         )
         let output = storeViewModel.transform(input: input)
         
@@ -260,15 +241,4 @@ final class StoreViewController: BaseViewController {
             backgroundTabButton.backgroundColor = .white
         }
     }
-    
-    // MARK: - Objc Functions
-
-    @objc private func refreshItemsValidity(_ notification: Notification) {
-        // viewWillAppear 트리거를 호출하여 아이템 목록 새로고침
-        viewWillAppearTrigger.accept(())
-    }
-}
-
-extension Notification.Name {
-    static let didDismissFromGachaResultVC = Notification.Name("didDismissFromGachaResultVC")
 }

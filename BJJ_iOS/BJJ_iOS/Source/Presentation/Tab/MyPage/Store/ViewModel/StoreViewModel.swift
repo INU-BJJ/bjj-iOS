@@ -24,7 +24,7 @@ final class StoreViewModel: BaseViewModel {
         let viewWillAppear: Observable<Void>
         let characterTabTapped: Observable<Void>
         let backgroundTabTapped: Observable<Void>
-        let itemSelected: Observable<(itemType: String, itemID: Int)>
+        let itemSelected: ControlEvent<StoreSection>
     }
     
     // MARK: - Output
@@ -67,12 +67,12 @@ final class StoreViewModel: BaseViewModel {
 
         // 아이템 선택 시 PATCH 요청
         let dismissToMyPage = input.itemSelected
-            .flatMapLatest { [weak self] (itemType, itemID) -> Observable<Void> in
+            .flatMapLatest { [weak self] item -> Observable<Void> in
                 guard let self = self else {
                     return Observable.empty()
                 }
                 
-                return self.patchItem(itemType: itemType, itemID: itemID)
+                return self.patchItem(itemType: item.itemType.rawValue, itemID: item.itemID)
             }
 
         return Output(
