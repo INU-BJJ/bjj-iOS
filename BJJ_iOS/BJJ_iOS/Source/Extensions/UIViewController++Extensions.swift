@@ -118,6 +118,7 @@ extension UIViewController {
         }
         let infoButton = UIButton().then {
             $0.setImage(UIImage(named: ImageAsset.orangeInfo.name), for: .normal)
+            $0.addTarget(self, action: #selector(itemInfoTapped), for: .touchUpInside)
         }
         let pointView = PointView().then {
             $0.configurePointView(point: point)
@@ -290,5 +291,12 @@ extension UIViewController {
         let settingVC = SettingViewController()
         settingVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(settingVC, animated: true)
+    }
+    
+    /// 아이템 확률 modal
+    @objc func itemInfoTapped() {
+        let itemProbabilityVC = ItemProbabilityViewController()
+        itemProbabilityVC.modalPresentationStyle = .overFullScreen
+        present(itemProbabilityVC, animated: true)
     }
 }

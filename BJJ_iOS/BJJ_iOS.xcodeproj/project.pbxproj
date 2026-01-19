@@ -80,6 +80,7 @@
 		3F3AF8CF2D75AB6300D6C28A /* ReviewWriteSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AF8CE2D75AB6300D6C28A /* ReviewWriteSection.swift */; };
 		3F3C74EC2D59D35C00D510A7 /* UIView++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3C74EB2D59D35C00D510A7 /* UIView++Extensions.swift */; };
 		3F3C74EF2D59E59D00D510A7 /* ReviewRatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3C74EE2D59E59D00D510A7 /* ReviewRatingCell.swift */; };
+		3F3D31C32F1E27DE00D7BFD1 /* ItemProbabilityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3D31C22F1E27DE00D7BFD1 /* ItemProbabilityViewController.swift */; };
 		3F43F0DA2D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0D92D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift */; };
 		3F43F0DC2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0DB2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift */; };
 		3F43F0DE2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0DD2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift */; };
@@ -294,6 +295,7 @@
 		3F3AF8CE2D75AB6300D6C28A /* ReviewWriteSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteSection.swift; sourceTree = "<group>"; };
 		3F3C74EB2D59D35C00D510A7 /* UIView++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView++Extensions.swift"; sourceTree = "<group>"; };
 		3F3C74EE2D59E59D00D510A7 /* ReviewRatingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRatingCell.swift; sourceTree = "<group>"; };
+		3F3D31C22F1E27DE00D7BFD1 /* ItemProbabilityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemProbabilityViewController.swift; sourceTree = "<group>"; };
 		3F43F0D92D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewAddress.swift; sourceTree = "<group>"; };
 		3F43F0DB2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewModel.swift; sourceTree = "<group>"; };
 		3F43F0DD2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewAPI.swift; sourceTree = "<group>"; };
@@ -1176,6 +1178,7 @@
 			isa = PBXGroup;
 			children = (
 				3F858F402DAA532400F6C7F5 /* StoreViewController.swift */,
+				3F3D31C22F1E27DE00D7BFD1 /* ItemProbabilityViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -2153,6 +2156,7 @@
 				3FB396D42DAE1F8900EF87A8 /* SettingAddress.swift in Sources */,
 				3FADD2222D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift in Sources */,
 				3FC68D922E0D96E300BCA1B6 /* HomeCafeteriaInfoView.swift in Sources */,
+				3F3D31C32F1E27DE00D7BFD1 /* ItemProbabilityViewController.swift in Sources */,
 				3F1613272CD8582D00A30369 /* MenuReviewCell.swift in Sources */,
 				3F2BE79A2D50ECD3005003CC /* MyReviewDetailSection.swift in Sources */,
 				3FB396D02DAE1C5800EF87A8 /* NicknameEditViewController.swift in Sources */,
