@@ -30,7 +30,7 @@ final class StoreViewModel: BaseViewModel {
     // MARK: - Output
     
     struct Output {
-        let items: Observable<[ItemRarity: [StoreSection]]>
+        let items: Observable<[StoreSectionModel]>
         let selectedTab: Observable<ItemType>
         let dismissToMyPage: Observable<Void>
     }
@@ -55,9 +55,9 @@ final class StoreViewModel: BaseViewModel {
         // 선택된 탭에 따라 아이템 데이터 가져오기
         let items = refreshTrigger
             .withLatestFrom(selectedTab)
-            .flatMapLatest { [weak self] itemType -> Observable<[ItemRarity: [StoreSection]]> in
+            .flatMapLatest { [weak self] itemType -> Observable<[StoreSectionModel]> in
                 guard let self = self else {
-                    return Observable.just([:])
+                    return Observable.just([])
                 }
                 
                 // 실제 API 호출
@@ -85,7 +85,7 @@ final class StoreViewModel: BaseViewModel {
     // MARK: - API Methods
 
     /// 전체 아이템 정보 가져오기
-    private func fetchAllItems(itemType: ItemType) -> Observable<[ItemRarity: [StoreSection]]> {
+    private func fetchAllItems(itemType: ItemType) -> Observable<[StoreSectionModel]> {
         return Observable.create { observer in
             StoreAPI.fetchAllItems(itemType: itemType) { result in
                 switch result {
@@ -95,7 +95,7 @@ final class StoreViewModel: BaseViewModel {
                         let imageURL = type == .character
                               ? baseURL.characterImageURL + "dic_\(item.itemImage).svg"
                               : baseURL.backgroundImageURL + "\(item.itemImage).svg"
-                        
+
                         return StoreSection(
                             itemID: item.itemID,
                             itemName: item.itemName,
@@ -107,27 +107,30 @@ final class StoreViewModel: BaseViewModel {
                             isOwned: item.isOwned
                         )
                     }
-                    
-                    var itemsByRarity: [ItemRarity: [StoreSection]] = [:]
-                    for itemRarity in [ItemRarity.common, .normal, .rare] {
-                        itemsByRarity[itemRarity] = items.filter { $0.itemRarity == itemRarity }
-                    }
-                    
-                    observer.onNext(itemsByRarity)
+
+                    // ItemRarity별로 섹션 모델 생성
+                    let sections: [StoreSectionModel] = [ItemRarity.common, .normal, .rare]
+                        .compactMap { rarity in
+                            let filteredItems = items.filter { $0.itemRarity == rarity }
+                            guard !filteredItems.isEmpty else { return nil }
+                            return StoreSectionModel(header: rarity, items: filteredItems)
+                        }
+
+                    observer.onNext(sections)
                     observer.onCompleted()
-                    
+
                 case .failure(let error):
                     print("[StoreViewModel] Error: \(error.localizedDescription)")
                     observer.onError(error)
                 }
             }
-            
+
             return Disposables.create()
         }
     }
     
     /// 아이템 유효기간 갱신
-    private func refreshItemsValidity(itemType: ItemType) -> Observable<[ItemRarity: [StoreSection]]> {
+    private func refreshItemsValidity(itemType: ItemType) -> Observable<[StoreSectionModel]> {
         return fetchAllItems(itemType: itemType)
     }
     
