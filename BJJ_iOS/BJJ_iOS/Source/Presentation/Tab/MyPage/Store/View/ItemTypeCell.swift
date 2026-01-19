@@ -108,7 +108,7 @@ final class ItemTypeCell: BaseCollectionViewCell<StoreSection> {
         if isWearing {
             contentView.setBorder(color: .clear)
             self.backgroundImage.image = nil
-            self.backgroundImage.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            self.backgroundImage.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         } else {
             self.backgroundImage.setImage(.cardBack)
         }
