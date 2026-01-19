@@ -26,8 +26,19 @@ final class GachaViewController: BaseViewController {
         $0.setCornerRadius(radius: 10)
     }
     
-    private let testGachaLabel = UILabel().then {
-        $0.setLabelUI("캐릭터 뽑기", font: .pretendard_bold, size: 15, color: .black)
+    private let gachaTitleLabel = UILabel().then {
+        $0.setLabelUI("캐릭터 뽑기", font: .pretendard_bold, size: 18, color: .black)
+    }
+    
+    private let gachaGuideLabel = UILabel().then {
+        $0.setLabel(
+            "뽑기를 해서 랜덤으로 캐릭터를 얻어요.\n뽑은 캐릭터는 7일의 유효기간이 있어요.",
+            font: .pretendard_medium,
+            size: 13,
+            color: ._999999
+        )
+        $0.numberOfLines = 2
+        $0.textAlignment = .center
     }
     
     private lazy var testGachaButton = UIButton().then {
@@ -50,7 +61,8 @@ final class GachaViewController: BaseViewController {
         view.addSubview(containerView)
         
         [
-            testGachaLabel,
+            gachaTitleLabel,
+            gachaGuideLabel,
             testGachaButton
         ].forEach(containerView.addSubview)
     }
@@ -63,13 +75,18 @@ final class GachaViewController: BaseViewController {
             $0.horizontalEdges.equalToSuperview().inset(16)
         }
         
-        testGachaLabel.snp.makeConstraints {
+        gachaTitleLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(22)
         }
         
+        gachaGuideLabel.snp.makeConstraints {
+            $0.top.equalTo(gachaTitleLabel.snp.bottom).offset(12)
+            $0.horizontalEdges.equalToSuperview().inset(22)
+        }
+        
         testGachaButton.snp.makeConstraints {
-            $0.top.equalTo(testGachaLabel.snp.bottom).offset(71)
+            $0.top.equalTo(gachaTitleLabel.snp.bottom).offset(71)
             $0.horizontalEdges.equalToSuperview().inset(116)
             $0.height.equalTo(40)
             $0.bottom.equalToSuperview().inset(22)
