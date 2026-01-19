@@ -15,7 +15,10 @@ final class ItemTypeCell: BaseCollectionViewCell<StoreSection> {
     // MARK: - Components
     
     private let itemImage = UIImageView().then {
-        $0.contentMode = .scaleAspectFill
+        $0.contentMode = .scaleAspectFit
+        $0.backgroundColor = .white
+        $0.setCornerRadius(radius: 4)
+        $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
     
     private let itemValidPeriodLabel = UILabel().then {
@@ -61,7 +64,7 @@ final class ItemTypeCell: BaseCollectionViewCell<StoreSection> {
     
     override func setConstraints() {
         itemImage.snp.makeConstraints {
-            $0.top.horizontalEdges.equalToSuperview()
+            $0.top.horizontalEdges.equalToSuperview().inset(2.5)
             $0.height.equalTo(69.5)
         }
         
@@ -89,13 +92,7 @@ final class ItemTypeCell: BaseCollectionViewCell<StoreSection> {
                     with: itemImageURL,
                     placeholderImage: nil,
                     options: [.retryFailed, .continueInBackground]
-                ) { _, _, _, _ in
-                    // TODO: 이미지 크기 변경
-                    // 이미지 로드 완료 후 크기 변경
-                    UIView.animate(withDuration: 0) {
-                        self.itemImage.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
-                    }
-                }
+                )
                 self.itemValidPeriodLabel.text = data.validPeriod
             } else {
                 self.updateBackgroundImage(isWearing: false)
