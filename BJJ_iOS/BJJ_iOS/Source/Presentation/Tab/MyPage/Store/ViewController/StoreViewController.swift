@@ -22,6 +22,11 @@ final class StoreViewController: BaseViewController {
     
     private var allItems: OrderedDictionary<ItemRarity, [StoreSection]> = [:]
     
+    // MARK: - Subjects
+    
+    private var viewWillAppearTrigger = PublishRelay<Void>()
+    private var itemSelectedSubject = PublishSubject<(itemType: String, itemID: Int)>()
+    
     // MARK: - UI Components
     
     private let storeBackgroundImage = UIImageView().then {
@@ -74,6 +79,7 @@ final class StoreViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewWillAppearTrigger.accept(())
     }
     
     deinit {
@@ -147,9 +153,10 @@ final class StoreViewController: BaseViewController {
     
     override func bind() {
         let input = StoreViewModel.Input(
-            viewDidLoad: Observable.just(()),
+            viewWillAppear: viewWillAppearTrigger.asObservable(),
             characterTabTapped: characterTabButton.rx.tap.asObservable(),
-            backgroundTabTapped: backgroundTabButton.rx.tap.asObservable()
+            backgroundTabTapped: backgroundTabButton.rx.tap.asObservable(),
+            itemSelected: itemSelectedSubject.asObservable()
         )
         let output = storeViewModel.transform(input: input)
         
@@ -176,6 +183,14 @@ final class StoreViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
+        // 마이페이지로 이동 (아이템 선택 후 PATCH 성공 시)
+        output.dismissToMyPage
+            .observe(on: MainScheduler.instance)
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.popToRootViewController(animated: true)
+            }
+            .disposed(by: disposeBag)
+
         // 뽑기 머신 탭
         gachaMachine.rx.tap
             .bind(with: self) { owner, _ in
@@ -206,87 +221,12 @@ final class StoreViewController: BaseViewController {
         }
     }
     
-    
     // MARK: - Objc Functions
-    
+
     @objc private func refreshItemsValidity(_ notification: Notification) {
-        // TODO: 더미 데이터 사용 중이므로 주석 처리
-        // TODO: 캐릭터인지 배경인지 정하기
-//        if let (itemRarity, itemID) = notification.object as? (String, Int) {
-//            fetchAllItems(itemType: "CHARACTER", reloadItem: (itemRarity: itemRarity, itemID: itemID))
-//        }
-//        else {
-//            print("[StoreVC] NotificationCenter Error: itemID를 받지 못했거나 형식이 맞지 않음")
-//        }
+        // viewWillAppear 트리거를 호출하여 아이템 목록 새로고침
+        viewWillAppearTrigger.accept(())
     }
-
-    // MARK: - Fetch API Functions (현재 더미 데이터 사용 중이므로 주석 처리)
-
-//    private func fetchAllItems(itemType: String, reloadItem: (itemRarity: String, itemID: Int)? = nil) {
-//        StoreAPI.fetchAllItems(itemType: itemType) { result in
-//            switch result {
-//            case .success(let allItems):
-//                let items = allItems.map {
-//                    StoreSection(
-//                        itemID: $0.itemID,
-//                        itemName: $0.itemName,
-//                        itemType: ItemType(rawValue: $0.itemType) ?? .character,
-//                        itemRarity: ItemRarity(rawValue: $0.itemRarity) ?? .common,
-//                        itemImage: $0.itemImage,
-//                        validPeriod: $0.validPeriod?.calculateItemValidPeriod(),
-//                        isWearing: $0.isWearing,
-//                        isOwned: $0.isOwned
-//                    )
-//                }
-//
-//                for itemRarity in [ItemRarity.common, .normal, .rare] {
-//                    self.allItems[itemRarity] = items.filter { $0.itemRarity == itemRarity }
-//                }
-//
-//                // TODO: 아이템이 배열에서 ordered dictionary로 바뀜. 새로고침하는 아이템 인덱스 수정 필요
-//                DispatchQueue.main.async {
-//                    UIView.performWithoutAnimation {
-//                        if let reloadItem = reloadItem,
-//                           let itemRarityEnum = ItemRarity(rawValue: reloadItem.itemRarity),
-//                           let sectionIndex = self.allItems.keys.firstIndex(of: itemRarityEnum),
-//                           let itemIndex = self.allItems[itemRarityEnum]?.firstIndex(where: { $0.itemID == reloadItem.itemID }) {
-//                            let indexPath = IndexPath(item: itemIndex, section: sectionIndex)
-//
-//                            self.testAllItemCollectionView.reloadItems(at: [indexPath])
-//                        } else {
-//                            self.testAllItemCollectionView.reloadData()
-//                        }
-//                    }
-//                }
-//
-//            case .failure(let error):
-//                print("[StoreVC] Error: \(error.localizedDescription)")
-//            }
-//        }
-//    }
-
-    // MARK: - Patch API Functions (현재 더미 데이터 사용 중이므로 주석 처리)
-
-//    private func patchItem(itemType: String, itemID: Int) {
-//        // TODO: 캐릭터인지 배경인지 구분해서 PATCH 요청 보내기
-//        // TODO: itemType, itemID가 없을 경우 빈 문자열과 0 보내지 말고 다른 방법 고민하기
-//        GachaResultAPI.patchItem(itemType: itemType, itemID: itemID) { result in
-//            switch result {
-//            case .success:
-//                // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
-//                DispatchQueue.main.async {
-//                    self.navigationController?.popToRootViewController(animated: true)
-//                }
-//
-//            case .failure(let error):
-//                // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
-//                DispatchQueue.main.async {
-//                    self.navigationController?.popToRootViewController(animated: true)
-//                }
-//                print("[GachaResultVC] Error: \(error.localizedDescription)")
-//            }
-//        }
-//    }
 }
 
 extension StoreViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -322,8 +262,8 @@ extension StoreViewController: UICollectionViewDataSource, UICollectionViewDeleg
         let key = allItems.keys[indexPath.section]
         
         if let item = allItems[key]?[indexPath.item] {
-            // TODO: 더미 데이터 사용 중이므로 주석 처리
-            // patchItem(itemType: item.itemType.rawValue, itemID: item.itemID)
+            // ViewModel에 아이템 선택 이벤트 전달
+            itemSelectedSubject.onNext((itemType: item.itemType.rawValue, itemID: item.itemID))
             print("[StoreVC] 선택한 아이템: \(item.itemName), 타입: \(item.itemType.title), 희귀도: \(item.itemRarity.title)")
         }
     }
