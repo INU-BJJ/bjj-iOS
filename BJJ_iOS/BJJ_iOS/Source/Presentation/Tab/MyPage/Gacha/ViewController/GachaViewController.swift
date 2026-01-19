@@ -41,10 +41,17 @@ final class GachaViewController: BaseViewController {
         $0.textAlignment = .center
     }
     
-    private lazy var testGachaButton = UIButton().then {
-        $0.setTitle("50", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.backgroundColor = .yellow
+    private lazy var gachaButton = UIButton().then {
+        $0.setButtonWithIcon(
+            title: "100",
+            font: .pretendard_medium,
+            size: 18,
+            textColor: .black,
+            icon: .point,
+            iconPadding: 7,
+            backgroundColor: .FFEB_62
+        )
+        $0.setCornerRadius(radius: 5)
         $0.addTarget(self, action: #selector(didTapGachaButton), for: .touchUpInside)
     }
     
@@ -63,7 +70,7 @@ final class GachaViewController: BaseViewController {
         [
             gachaTitleLabel,
             gachaGuideLabel,
-            testGachaButton
+            gachaButton
         ].forEach(containerView.addSubview)
     }
     
@@ -85,7 +92,7 @@ final class GachaViewController: BaseViewController {
             $0.horizontalEdges.equalToSuperview().inset(22)
         }
         
-        testGachaButton.snp.makeConstraints {
+        gachaButton.snp.makeConstraints {
             $0.top.equalTo(gachaTitleLabel.snp.bottom).offset(71)
             $0.horizontalEdges.equalToSuperview().inset(116)
             $0.height.equalTo(40)
