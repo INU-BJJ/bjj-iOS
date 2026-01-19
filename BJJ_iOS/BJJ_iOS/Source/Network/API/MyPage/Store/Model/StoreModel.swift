@@ -19,12 +19,12 @@ struct StoreModel: Codable {
     let isOwned: Bool
     
     enum CodingKeys: String, CodingKey {
-        case itemID = "itemId"
+        case itemID = "itemIdx"
         case itemName
         case itemType
         case itemRarity = "itemLevel"
         case itemImage = "imageName"
-        case validPeriod
+        case validPeriod = "expiresAt"
         case isWearing
         case isOwned
     }
