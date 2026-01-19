@@ -100,7 +100,7 @@ final class StoreViewModel: BaseViewModel {
                             itemID: item.itemID,
                             itemName: item.itemName,
                             itemType: type,
-                            itemRarity: ItemRarity(rawValue: item.itemRarity) ?? .common,
+                            itemRarity: ItemRarity(rawValue: item.itemRarity) ?? .common, // "DEFAULT" 등 매칭되지 않는 경우 common으로 분류
                             itemImage: imageURL,
                             validPeriod: item.validPeriod.flatMap { DateFormatterManager.shared.calculateItemValidPeriod(from: $0) },
                             isWearing: item.isWearing,
