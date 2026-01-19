@@ -23,12 +23,20 @@ final class ItemTypeCell: BaseCollectionViewCell<StoreSection> {
         $0.textAlignment = .center
     }
     
+    private let backgroundImage = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+        $0.isHidden = true
+    }
+    
+    // MARK: - Reset UI
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
         itemImage.image = nil
         itemValidPeriodLabel.text = nil
         itemImage.transform = .identity
+        backgroundImage.isHidden = true
     }
     
     // MARK: - Set UI
@@ -44,7 +52,8 @@ final class ItemTypeCell: BaseCollectionViewCell<StoreSection> {
     override func setHierarchy() {
         [
             itemImage,
-            itemValidPeriodLabel
+            itemValidPeriodLabel,
+            backgroundImage
         ].forEach(contentView.addSubview)
     }
     
@@ -60,6 +69,10 @@ final class ItemTypeCell: BaseCollectionViewCell<StoreSection> {
             $0.bottom.equalToSuperview().inset(4)
             $0.centerX.equalToSuperview()
         }
+        
+        backgroundImage.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
     
     // MARK: - Configure Cell
@@ -67,6 +80,9 @@ final class ItemTypeCell: BaseCollectionViewCell<StoreSection> {
     override func configureCell(with data: StoreSection) {
         DispatchQueue.main.async {
             if data.isOwned {
+                if data.isWearing {
+                    self.updateBackgroundImage(isWearing: true)
+                }
                 guard let characterURL = URL(string: baseURL.characterImageURL + (data.itemImage)) else { return }
                 
                 self.itemImage.sd_setImage(
@@ -81,7 +97,23 @@ final class ItemTypeCell: BaseCollectionViewCell<StoreSection> {
                     }
                 }
                 self.itemValidPeriodLabel.text = data.validPeriod
+            } else {
+                self.updateBackgroundImage(isWearing: false)
             }
+        }
+    }
+    
+    // MARK: - 배경 이미지 업데이트
+    
+    private func updateBackgroundImage(isWearing: Bool) {
+        self.backgroundImage.isHidden = false
+        
+        if isWearing {
+            contentView.setBorder(color: .clear)
+            self.backgroundImage.image = nil
+            self.backgroundImage.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        } else {
+            self.backgroundImage.setImage(.cardBack)
         }
     }
 }

@@ -28,7 +28,7 @@ final class StoreViewModel: BaseViewModel {
                 itemRarity: .common,
                 itemImage: "placeholder",
                 validPeriod: index % 2 == 0 ? "7d" : nil,
-                isWearing: false,
+                isWearing: true,
                 isOwned: index % 3 == 0
             )
         }
