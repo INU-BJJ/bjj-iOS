@@ -132,13 +132,6 @@ final class GachaResultViewController: UIViewController {
     }
     
     @objc private func dismissModal() {
-        if let itemID = drawnItemInfo?.itemID,
-           let itemRarity = drawnItemInfo?.itemRarity {
-            NotificationCenter.default.post(
-                name: .didDismissFromGachaResultVC,
-                object: (itemRarity, itemID)
-            )
-        }
         self.presentingViewController?.presentingViewController?.dismiss(animated: true)
     }
     
