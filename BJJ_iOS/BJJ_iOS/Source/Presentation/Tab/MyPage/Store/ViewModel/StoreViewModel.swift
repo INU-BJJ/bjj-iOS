@@ -102,7 +102,7 @@ final class StoreViewModel: BaseViewModel {
                             itemType: type,
                             itemRarity: ItemRarity(rawValue: item.itemRarity) ?? .common,
                             itemImage: imageURL,
-                            validPeriod: item.validPeriod?.calculateItemValidPeriod(),
+                            validPeriod: item.validPeriod.flatMap { DateFormatterManager.shared.calculateItemValidPeriod(from: $0) },
                             isWearing: item.isWearing,
                             isOwned: item.isOwned
                         )
