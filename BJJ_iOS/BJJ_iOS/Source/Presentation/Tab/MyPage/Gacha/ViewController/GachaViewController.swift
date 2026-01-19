@@ -8,20 +8,22 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
-final class GachaViewController: UIViewController {
+final class GachaViewController: BaseViewController {
     
     // MARK: - Properties
     
-    // MARK: - UI Components
-    
-    private lazy var testBackgroundView = UIView().then {
-        $0.backgroundColor = UIColor(white: 0, alpha: 0.5)
-        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissModal)))
+    private let backgroundTapGesture = UITapGestureRecognizer().then {
+        $0.cancelsTouchesInView = false
     }
     
-    private let testGachaView = UIView().then {
+    // MARK: - UI Components
+    
+    private let containerView = UIView().then {
         $0.backgroundColor = .white
+        $0.setCornerRadius(radius: 10)
     }
     
     private let testGachaLabel = UILabel().then {
@@ -35,40 +37,30 @@ final class GachaViewController: UIViewController {
         $0.addTarget(self, action: #selector(didTapGachaButton), for: .touchUpInside)
     }
     
-    // MARK: - LifeCycle
+    // MARK: - Set UI
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setAddView()
-        setConstraints()
+    override func setUI() {
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        view.addGestureRecognizer(backgroundTapGesture)
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
-        [
-            testBackgroundView,
-            testGachaView
-        ].forEach(view.addSubview)
+    override func setHierarchy() {
+        view.addSubview(containerView)
         
         [
             testGachaLabel,
             testGachaButton
-        ].forEach(testGachaView.addSubview)
+        ].forEach(containerView.addSubview)
     }
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
-        testBackgroundView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        testGachaView.snp.makeConstraints {
-            $0.center.equalToSuperview()
+    override func setConstraints() {
+        containerView.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(170)
         }
         
         testGachaLabel.snp.makeConstraints {
@@ -77,18 +69,26 @@ final class GachaViewController: UIViewController {
         }
         
         testGachaButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(22)
+            $0.top.equalTo(testGachaLabel.snp.bottom).offset(71)
             $0.horizontalEdges.equalToSuperview().inset(116)
             $0.height.equalTo(40)
+            $0.bottom.equalToSuperview().inset(22)
         }
     }
     
-    // MARK: - Objc Functions
+    // MARK: - Bind
     
-    @objc private func dismissModal() {
-        DispatchQueue.main.async {
-            self.dismiss(animated: true)
-        }
+    override func bind() {
+        
+        // 배경 탭
+        backgroundTapGesture.rx.event
+            .bind(with: self) { owner, gesture in
+                let location = gesture.location(in: owner.view)
+                if !owner.containerView.frame.contains(location) {
+                    owner.dismiss(animated: true)
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
     @objc private func didTapGachaButton() {
