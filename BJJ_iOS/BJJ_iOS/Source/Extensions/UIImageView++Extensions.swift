@@ -27,6 +27,7 @@ enum ImageAsset: String {
     case storeBackground
     case cardBack
     case itemProbability
+    case GachaMachine
     
     var name: String {
         rawValue

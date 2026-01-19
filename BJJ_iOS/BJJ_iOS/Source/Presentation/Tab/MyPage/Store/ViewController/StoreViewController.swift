@@ -32,10 +32,8 @@ final class StoreViewController: BaseViewController {
         $0.setImage(.gachaBubble)
     }
     
-    private lazy var gachaMachine = UIImageView().then {
-        $0.image = UIImage(named: "GachaMachine")
-        $0.isUserInteractionEnabled = true
-        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapGachaMachine)))
+    private let gachaMachine = UIButton().then {
+        $0.setImage(UIImage(named: ImageAsset.GachaMachine.name), for: .normal)
     }
     
     private let characterTabButton = UIButton().then {
@@ -177,6 +175,14 @@ final class StoreViewController: BaseViewController {
                 owner.updateTabButtonState(selectedTab: itemType)
             })
             .disposed(by: disposeBag)
+        
+        // 뽑기 머신 탭
+        gachaMachine.rx.tap
+            .bind(with: self) { owner, _ in
+                // TODO: 백그라운드에서 포인트를 받아와서(마이아이템 API 호출) 뽑기하기 버튼 누를 때 포인트 UI 업데이트
+                owner.presentGachaViewController()
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Update Tab Button UI
@@ -202,13 +208,6 @@ final class StoreViewController: BaseViewController {
     
     
     // MARK: - Objc Functions
-    
-    @objc private func didTapGachaMachine() {
-        DispatchQueue.main.async {
-            // TODO: 백그라운드에서 포인트를 받아와서(마이아이템 API 호출) 뽑기하기 버튼 누를 때 포인트 UI 업데이트
-            self.presentGachaViewController()
-        }
-    }
     
     @objc private func refreshItemsValidity(_ notification: Notification) {
         // TODO: 더미 데이터 사용 중이므로 주석 처리
