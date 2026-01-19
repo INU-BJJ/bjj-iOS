@@ -58,6 +58,9 @@ final class StoreViewController: BaseViewController {
         $0.delegate = self
         $0.dataSource = self
         $0.showsVerticalScrollIndicator = false
+        $0.backgroundColor = .FFD_36_A
+        $0.setBorder(color: .C_49_A_6_C, width: 1.5)
+        $0.setCornerRadius(radius: 16)
     }
     
     // MARK: - LifeCycle
@@ -138,7 +141,7 @@ final class StoreViewController: BaseViewController {
         testAllItemCollectionView.snp.makeConstraints {
             $0.top.equalTo(characterTabButton.snp.bottom)
             $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(35)
         }
     }
     
