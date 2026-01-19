@@ -83,10 +83,10 @@ final class ItemTypeCell: BaseCollectionViewCell<StoreSection> {
                 if data.isWearing {
                     self.updateBackgroundImage(isWearing: true)
                 }
-                guard let characterURL = URL(string: baseURL.characterImageURL + (data.itemImage)) else { return }
+                guard let itemImageURL = URL(string: data.itemImage) else { return }
                 
                 self.itemImage.sd_setImage(
-                    with: characterURL,
+                    with: itemImageURL,
                     placeholderImage: nil,
                     options: [.retryFailed, .continueInBackground]
                 ) { _, _, _, _ in
