@@ -49,7 +49,7 @@ final class StoreViewController: BaseViewController {
     }
     
     // TODO: 아이템 섹션을 rxDataSources로 나누기 + 캐릭터/배경 탭
-    private lazy var testAllItemCollectionView = UICollectionView(
+    private lazy var allItemCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout()
     ).then {
@@ -104,7 +104,7 @@ final class StoreViewController: BaseViewController {
             gachaMachine,
             characterTabButton,
             backgroundTabButton,
-            testAllItemCollectionView
+            allItemCollectionView
         ].forEach(view.addSubview)
     }
     
@@ -133,12 +133,12 @@ final class StoreViewController: BaseViewController {
         }
         
         backgroundTabButton.snp.makeConstraints {
-            $0.trailing.equalTo(testAllItemCollectionView).offset(-18)
+            $0.trailing.equalTo(allItemCollectionView).offset(-18)
             $0.top.equalTo(characterTabButton)
             $0.size.equalTo(characterTabButton)
         }
         
-        testAllItemCollectionView.snp.makeConstraints {
+        allItemCollectionView.snp.makeConstraints {
             $0.top.equalTo(characterTabButton.snp.bottom)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.bottom.equalToSuperview().inset(35)
@@ -166,7 +166,7 @@ final class StoreViewController: BaseViewController {
                             return (rarity, itemArray)
                         }
                 )
-                self?.testAllItemCollectionView.reloadData()
+                self?.allItemCollectionView.reloadData()
             })
             .disposed(by: disposeBag)
         
@@ -313,7 +313,7 @@ extension StoreViewController: UICollectionViewDataSource, UICollectionViewDeleg
         let key = allItems.keys[indexPath.section]
         
         if let item = allItems[key]?[indexPath.item] {
-            cell.setUI(itemInfo: item)
+            cell.configureCell(with: item)
         }
         
         return cell
