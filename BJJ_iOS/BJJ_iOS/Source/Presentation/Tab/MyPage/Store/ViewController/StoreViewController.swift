@@ -51,7 +51,7 @@ final class StoreViewController: BaseViewController {
     // TODO: 아이템 섹션을 rxDataSources로 나누기 + 캐릭터/배경 탭
     private lazy var testAllItemCollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: createCompositionalLayout()
+        collectionViewLayout: UICollectionViewFlowLayout()
     ).then {
         $0.register(ItemSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ItemSectionHeaderView.reuseIdentifier)
         $0.register(ItemTypeCell.self, forCellWithReuseIdentifier: ItemTypeCell.reuseIdentifier)
@@ -200,49 +200,6 @@ final class StoreViewController: BaseViewController {
         }
     }
     
-    // MARK: - Create Layout
-    
-    private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout { sectionIndex, environment in
-            // 헤더 설정
-            let headerSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(60)
-            )
-            let header = NSCollectionLayoutBoundarySupplementaryItem(
-                layoutSize: headerSize,
-                elementKind: UICollectionView.elementKindSectionHeader,
-                alignment: .top
-            )
-            
-            // 아이템 설정
-            let itemSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.2),
-                heightDimension: .absolute(92)
-            )
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            
-            // 그룹 설정
-            let groupSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(92)
-            )
-            let group = NSCollectionLayoutGroup.horizontal(
-                layoutSize: groupSize,
-                subitem: item,
-                count: 4
-            )
-            group.interItemSpacing = .fixed(4)
-            
-            // 섹션 설정
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: .zero, bottom: 50, trailing: .zero)
-            section.orthogonalScrollingBehavior = .none
-            section.boundarySupplementaryItems = [header]
-
-            return section
-        }
-    }
     
     // MARK: - Objc Functions
     
@@ -384,6 +341,33 @@ extension StoreViewController: UICollectionViewDataSource, UICollectionViewDeleg
         header.setUI(itemRarity: itemRarity)
         
         return header
+    }
+    
+    // MARK: - UICollectionView Delegate
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let collectionViewWidth = collectionView.bounds.width
+        // collectionView 너비 - 양옆 padding - 아이템 사이 간격
+        let itemWidth = (collectionViewWidth - (16*2) - (4*3)) / 4
+        let itemHeight: CGFloat = 92
+        
+        return CGSize(width: itemWidth, height: itemHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 4
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 4
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 16, bottom: 50, right: 16)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 60)
     }
 }
 

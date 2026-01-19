@@ -48,6 +48,7 @@ final class ItemSectionHeaderView: UICollectionReusableView, ReuseIdentifying {
         itemRarityLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(24)
             $0.centerX.equalToSuperview()
+            $0.height.equalTo(24)
         }
     }
     
