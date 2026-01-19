@@ -114,7 +114,6 @@
 		3F6947DA2D8833CD0036BF2A /* ReviewModalImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6947D92D8833CD0036BF2A /* ReviewModalImageCell.swift */; };
 		3F6F565E2CB2975C00A43EF6 /* UIFont++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6F565D2CB2975C00A43EF6 /* UIFont++Extensions.swift */; };
 		3F6FC5752DFA9480004A08C5 /* ReviewPhotoGallerySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6FC5742DFA9480004A08C5 /* ReviewPhotoGallerySection.swift */; };
-		3F70549D2DCF77EC00647141 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 3F70549C2DCF77EC00647141 /* OrderedCollections */; };
 		3F79BA5A2DFC10D30067224E /* APICancelToken .swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F79BA592DFC10D30067224E /* APICancelToken .swift */; };
 		3F7CC2D32DA2491B00062EF9 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7CC2D22DA2491B00062EF9 /* SignUpViewController.swift */; };
 		3F8430272CE7208000B5A2F1 /* UITabBar++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8430262CE7208000B5A2F1 /* UITabBar++Extensions.swift */; };
@@ -426,7 +425,6 @@
 				3F90699C2F15384700FDBC94 /* RxSwift in Frameworks */,
 				3F5F842B2F1E3FE40029F4BE /* RxDataSources in Frameworks */,
 				3F90699A2F15384700FDBC94 /* RxCocoa in Frameworks */,
-				3F70549D2DCF77EC00647141 /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1847,7 +1845,6 @@
 			name = BJJ_iOS;
 			packageProductDependencies = (
 				3FEDD49E2CB2B3A8009617A5 /* PretendardKit */,
-				3F70549C2DCF77EC00647141 /* OrderedCollections */,
 				3F9069992F15384700FDBC94 /* RxCocoa */,
 				3F90699B2F15384700FDBC94 /* RxSwift */,
 				3F5F842A2F1E3FE40029F4BE /* RxDataSources */,
@@ -1929,7 +1926,6 @@
 			mainGroup = 3F25B3DC2CB282D7005C0907;
 			packageReferences = (
 				3FEDD49D2CB2B21B009617A5 /* XCRemoteSwiftPackageReference "PretendardKit" */,
-				3F70549B2DCF77EC00647141 /* XCRemoteSwiftPackageReference "swift-collections" */,
 				3F9069982F15384700FDBC94 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				3F5F84292F1E3FE40029F4BE /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
@@ -2624,14 +2620,6 @@
 				minimumVersion = 5.0.2;
 			};
 		};
-		3F70549B2DCF77EC00647141 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-collections.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.4;
-			};
-		};
 		3F9069982F15384700FDBC94 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
@@ -2655,11 +2643,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3F5F84292F1E3FE40029F4BE /* XCRemoteSwiftPackageReference "RxDataSources" */;
 			productName = RxDataSources;
-		};
-		3F70549C2DCF77EC00647141 /* OrderedCollections */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3F70549B2DCF77EC00647141 /* XCRemoteSwiftPackageReference "swift-collections" */;
-			productName = OrderedCollections;
 		};
 		3F9069992F15384700FDBC94 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
