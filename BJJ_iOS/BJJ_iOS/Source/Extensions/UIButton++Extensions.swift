@@ -61,4 +61,28 @@ extension UIButton {
         
         configuration = config
     }
+    
+    // UIButton 아이콘과 타이틀 설정
+    func setButtonWithIcon(
+        title: String,
+        font: Fonts,
+        size: CGFloat,
+        textColor: UIColor,
+        icon: ImageAsset,
+        iconPadding: CGFloat,
+        backgroundColor: UIColor
+    ) {
+        var config = UIButton.Configuration.filled()
+        config.background.backgroundColor = backgroundColor
+        config.image = UIImage(named: icon.name)?.resize(to: CGSize(width: 26, height: 26))
+        config.imagePlacement = .leading
+        config.imagePadding = iconPadding
+        config.baseForegroundColor = textColor
+        
+        var titleAttr = AttributedString(title)
+        titleAttr.font = UIFont.customFont(font, size)
+        config.attributedTitle = titleAttr
+        
+        configuration = config
+    }
 }

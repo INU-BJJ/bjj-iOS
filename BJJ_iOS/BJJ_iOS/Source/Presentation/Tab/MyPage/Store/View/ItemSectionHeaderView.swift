@@ -11,14 +11,14 @@ import Then
 
 final class ItemSectionHeaderView: UICollectionReusableView, ReuseIdentifying {
     
-    // MARK: - UI Components
+    // MARK: - Components
     
-    private let testItemRarityBackgroundView = UIView().then {
-        $0.backgroundColor = .customColor(.subColor)
-    }
-    
-    private let testItemRarityLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_bold, size: 15, color: .black)
+    private let itemRarityLabel = PaddingLabel(
+        padding: UIEdgeInsets(top: 2, left: 22, bottom: 2, right: 22)
+    ).then {
+        $0.backgroundColor = .white
+        $0.setLabel("", font: .pretendard_semibold, size: 14, color: ._66280_C)
+        $0.setCornerRadius(radius: 5)
     }
     
     // MARK: - Initializer
@@ -38,30 +38,23 @@ final class ItemSectionHeaderView: UICollectionReusableView, ReuseIdentifying {
     
     private func setAddView() {
         [
-            testItemRarityBackgroundView
+            itemRarityLabel
         ].forEach(addSubview)
-        
-        [
-            testItemRarityLabel
-        ].forEach(testItemRarityBackgroundView.addSubview)
     }
     
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        testItemRarityBackgroundView.snp.makeConstraints {
-            $0.verticalEdges.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview().inset(130)
-        }
-        
-        testItemRarityLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
+        itemRarityLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(24)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(24)
         }
     }
     
     // MARK: - Set UI
     
     func setUI(itemRarity: String) {
-        testItemRarityLabel.text = itemRarity
+        itemRarityLabel.text = itemRarity
     }
 }

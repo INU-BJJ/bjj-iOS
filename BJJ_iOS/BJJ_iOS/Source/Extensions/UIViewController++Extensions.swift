@@ -110,6 +110,27 @@ extension UIViewController {
         navigationController?.navigationBar.standardAppearance = standardAppearance
     }
     
+    /// 상점 네비바
+    func setStoreNaviBar(point: Int) {
+        let backButton = UIButton().then {
+            $0.setImage(UIImage(named: ImageAsset.BlackBackButton.name), for: .normal)
+            $0.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
+        }
+        let infoButton = UIButton().then {
+            $0.setImage(UIImage(named: ImageAsset.orangeInfo.name), for: .normal)
+            $0.addTarget(self, action: #selector(itemInfoTapped), for: .touchUpInside)
+        }
+        let pointView = PointView().then {
+            $0.configurePointView(point: point)
+        }
+        
+        self.navigationItem.leftBarButtonItems = [
+            UIBarButtonItem(customView: backButton),
+            UIBarButtonItem(customView: infoButton)
+        ]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: pointView)
+    }
+    
     // MARK: - Push ViewController
     
     /// MenuDetailVC로 push
@@ -270,5 +291,12 @@ extension UIViewController {
         let settingVC = SettingViewController()
         settingVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(settingVC, animated: true)
+    }
+    
+    /// 아이템 확률 modal
+    @objc func itemInfoTapped() {
+        let itemProbabilityVC = ItemProbabilityViewController()
+        itemProbabilityVC.modalPresentationStyle = .overFullScreen
+        present(itemProbabilityVC, animated: true)
     }
 }

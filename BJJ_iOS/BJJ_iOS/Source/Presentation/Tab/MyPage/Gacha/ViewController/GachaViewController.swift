@@ -8,87 +8,111 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
-final class GachaViewController: UIViewController {
+final class GachaViewController: BaseViewController {
     
     // MARK: - Properties
     
+    private let backgroundTapGesture = UITapGestureRecognizer().then {
+        $0.cancelsTouchesInView = false
+    }
+    
     // MARK: - UI Components
     
-    private lazy var testBackgroundView = UIView().then {
-        $0.backgroundColor = UIColor(white: 0, alpha: 0.5)
-        $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissModal)))
-    }
-    
-    private let testGachaView = UIView().then {
+    private let containerView = UIView().then {
         $0.backgroundColor = .white
+        $0.setCornerRadius(radius: 10)
     }
     
-    private let testGachaLabel = UILabel().then {
-        $0.setLabelUI("캐릭터 뽑기", font: .pretendard_bold, size: 15, color: .black)
+    private let gachaTitleLabel = UILabel().then {
+        $0.setLabelUI("캐릭터 뽑기", font: .pretendard_bold, size: 18, color: .black)
     }
     
-    private lazy var testGachaButton = UIButton().then {
-        $0.setTitle("50", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.backgroundColor = .yellow
+    private let gachaGuideLabel = UILabel().then {
+        $0.setLabel(
+            "뽑기를 해서 랜덤으로 캐릭터를 얻어요.\n뽑은 캐릭터는 7일의 유효기간이 있어요.",
+            font: .pretendard_medium,
+            size: 13,
+            color: ._999999
+        )
+        $0.numberOfLines = 2
+        $0.textAlignment = .center
+    }
+    
+    private lazy var gachaButton = UIButton().then {
+        $0.setButtonWithIcon(
+            title: "100",
+            font: .pretendard_medium,
+            size: 18,
+            textColor: .black,
+            icon: .point,
+            iconPadding: 7,
+            backgroundColor: .FFEB_62
+        )
+        $0.setCornerRadius(radius: 5)
         $0.addTarget(self, action: #selector(didTapGachaButton), for: .touchUpInside)
     }
     
-    // MARK: - LifeCycle
+    // MARK: - Set UI
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setAddView()
-        setConstraints()
+    override func setUI() {
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        view.addGestureRecognizer(backgroundTapGesture)
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
-        [
-            testBackgroundView,
-            testGachaView
-        ].forEach(view.addSubview)
+    override func setHierarchy() {
+        view.addSubview(containerView)
         
         [
-            testGachaLabel,
-            testGachaButton
-        ].forEach(testGachaView.addSubview)
+            gachaTitleLabel,
+            gachaGuideLabel,
+            gachaButton
+        ].forEach(containerView.addSubview)
     }
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
-        testBackgroundView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        testGachaView.snp.makeConstraints {
-            $0.center.equalToSuperview()
+    override func setConstraints() {
+        containerView.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.height.equalTo(170)
         }
         
-        testGachaLabel.snp.makeConstraints {
+        gachaTitleLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(22)
         }
         
-        testGachaButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(22)
+        gachaGuideLabel.snp.makeConstraints {
+            $0.top.equalTo(gachaTitleLabel.snp.bottom).offset(12)
+            $0.horizontalEdges.equalToSuperview().inset(22)
+        }
+        
+        gachaButton.snp.makeConstraints {
+            $0.top.equalTo(gachaTitleLabel.snp.bottom).offset(71)
             $0.horizontalEdges.equalToSuperview().inset(116)
             $0.height.equalTo(40)
+            $0.bottom.equalToSuperview().inset(22)
         }
     }
     
-    // MARK: - Objc Functions
+    // MARK: - Bind
     
-    @objc private func dismissModal() {
-        DispatchQueue.main.async {
-            self.dismiss(animated: true)
-        }
+    override func bind() {
+        
+        // 배경 탭
+        backgroundTapGesture.rx.event
+            .bind(with: self) { owner, gesture in
+                let location = gesture.location(in: owner.view)
+                if !owner.containerView.frame.contains(location) {
+                    owner.dismiss(animated: true)
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
     @objc private func didTapGachaButton() {

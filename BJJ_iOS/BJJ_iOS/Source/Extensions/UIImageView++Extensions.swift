@@ -20,6 +20,14 @@ enum ImageAsset: String {
     case checkCircleWarning
     case gear
     case store
+    case BlackBackButton
+    case point
+    case orangeInfo
+    case gachaBubble
+    case storeBackground
+    case cardBack
+    case itemProbability
+    case GachaMachine
     
     var name: String {
         rawValue
