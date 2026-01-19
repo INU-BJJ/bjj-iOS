@@ -207,37 +207,36 @@ final class StoreViewController: BaseViewController {
             // 헤더 설정
             let headerSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(30)
+                heightDimension: .absolute(60)
             )
             let header = NSCollectionLayoutBoundarySupplementaryItem(
                 layoutSize: headerSize,
                 elementKind: UICollectionView.elementKindSectionHeader,
                 alignment: .top
             )
-            header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
             
             // 아이템 설정
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(0.2),
-                heightDimension: .absolute(100)
+                heightDimension: .absolute(92)
             )
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             // 그룹 설정
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(100)
+                heightDimension: .absolute(92)
             )
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: groupSize,
                 subitem: item,
                 count: 4
             )
-            group.interItemSpacing = .fixed(10)
+            group.interItemSpacing = .fixed(4)
             
             // 섹션 설정
             let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: .zero, bottom: 80, trailing: .zero)
+            section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: .zero, bottom: 50, trailing: .zero)
             section.orthogonalScrollingBehavior = .none
             section.boundarySupplementaryItems = [header]
 
