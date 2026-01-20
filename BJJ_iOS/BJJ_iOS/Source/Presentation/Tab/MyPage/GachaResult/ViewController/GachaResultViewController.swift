@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 import Then
 import SDWebImage
+import RxSwift
+import RxCocoa
 
 final class GachaResultViewController: BaseViewController {
     
@@ -18,9 +20,12 @@ final class GachaResultViewController: BaseViewController {
     
     // MARK: - UI Components
     
-    private lazy var testBackButton = UIButton().then {
-        $0.setImage(UIImage(named: "BlackBackButton"), for: .normal)
-        $0.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
+    private let backgroundImageView = UIImageView().then {
+        $0.setImage(.storeBackground)
+    }
+    
+    private let backButton = UIButton().then {
+        $0.setImage(UIImage(named: ImageAsset.BlackBackButton.name), for: .normal)
     }
     
     private let testDrawnCharacter = UIImageView()
@@ -40,17 +45,12 @@ final class GachaResultViewController: BaseViewController {
         $0.addTarget(self, action: #selector(didTapItemWearButton), for: .touchUpInside)
     }
     
-    // MARK: - Set UI
-    
-    override func setUI() {
-        view.backgroundColor = .systemGreen
-    }
-    
     // MARK: - Set Hierarchy
     
     override func setHierarchy() {
         [
-            testBackButton,
+            backgroundImageView,
+            backButton,
             testDrawnCharacter,
             testGachaPopUpView
         ].forEach(view.addSubview)
@@ -64,8 +64,13 @@ final class GachaResultViewController: BaseViewController {
     // MARK: - Set Constraints
     
     override func setConstraints() {
-        testBackButton.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().offset(100)
+        backgroundImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        backButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(60)
+            $0.leading.equalToSuperview().offset(20)
         }
         
         testDrawnCharacter.snp.makeConstraints {
@@ -89,6 +94,18 @@ final class GachaResultViewController: BaseViewController {
             $0.leading.equalToSuperview().offset(185)
             $0.trailing.equalToSuperview().inset(20)
         }
+    }
+    
+    // MARK: - Bind
+    
+    override func bind() {
+        
+        // 백버튼 탭
+        backButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.presentingViewController?.presentingViewController?.dismiss(animated: true)
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Configure
@@ -117,10 +134,6 @@ final class GachaResultViewController: BaseViewController {
     
     @objc private func didTapItemWearButton() {
         patchItem()
-    }
-    
-    @objc private func dismissModal() {
-        self.presentingViewController?.presentingViewController?.dismiss(animated: true)
     }
     
     // MARK: - Post API
