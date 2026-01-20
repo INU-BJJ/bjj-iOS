@@ -32,7 +32,7 @@ final class GachaResultViewController: BaseViewController {
         $0.setImage(UIImage(named: ImageAsset.BlackBackButton.name), for: .normal)
     }
     
-    private let testDrawnCharacter = UIImageView()
+    private let itemImageView = UIImageView()
     
     private let testGachaPopUpView = UIView().then {
         $0.backgroundColor = .white
@@ -67,7 +67,7 @@ final class GachaResultViewController: BaseViewController {
         [
             backgroundImageView,
             backButton,
-            testDrawnCharacter,
+            itemImageView,
             testGachaPopUpView
         ].forEach(view.addSubview)
         
@@ -89,8 +89,9 @@ final class GachaResultViewController: BaseViewController {
             $0.leading.equalToSuperview().offset(20)
         }
         
-        testDrawnCharacter.snp.makeConstraints {
-            $0.center.equalToSuperview()
+        itemImageView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().offset(221.52)
         }
         
         testGachaPopUpView.snp.makeConstraints {
@@ -135,7 +136,7 @@ final class GachaResultViewController: BaseViewController {
             guard let self = self else { return }
             guard let characterURL = URL(string: baseURL.characterImageURL + itemInfo.itemImage) else { return }
             
-            self.testDrawnCharacter.sd_setImage(
+            self.itemImageView.sd_setImage(
                 with: characterURL,
                 placeholderImage: nil,
                 options: [.retryFailed, .continueInBackground]
@@ -143,7 +144,7 @@ final class GachaResultViewController: BaseViewController {
                 // TODO: 이미지 크기 변경
                 // 이미지 로드 완료 후 크기 확대
                 UIView.animate(withDuration: 0) {
-                    self.testDrawnCharacter.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+                    self.itemImageView.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
                 }
             }
             self.testGachaLabel.text = "\(itemInfo.itemName) 등장!"
