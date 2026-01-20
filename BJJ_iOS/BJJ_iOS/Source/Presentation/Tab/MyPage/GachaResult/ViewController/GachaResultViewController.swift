@@ -34,8 +34,11 @@ final class GachaResultViewController: BaseViewController {
     
     private let itemImageView = UIImageView()
     
-    private let testGachaPopUpView = UIView().then {
+    private let gachaResultView = UIView().then {
         $0.backgroundColor = .white
+        $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        $0.setCornerRadius(radius: 25)
+        $0.setShadow(opacity: 0.1, shadowRadius: 7.5, x: 0, y: -3)
     }
     
     private let testGachaLabel = UILabel().then {
@@ -68,13 +71,13 @@ final class GachaResultViewController: BaseViewController {
             backgroundImageView,
             backButton,
             itemImageView,
-            testGachaPopUpView
+            gachaResultView
         ].forEach(view.addSubview)
         
         [
             testGachaLabel,
             testItemWearButton
-        ].forEach(testGachaPopUpView.addSubview)
+        ].forEach(gachaResultView.addSubview)
     }
     
     // MARK: - Set Constraints
@@ -94,10 +97,9 @@ final class GachaResultViewController: BaseViewController {
             $0.top.equalToSuperview().offset(221.52)
         }
         
-        testGachaPopUpView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(600)
-            $0.width.equalToSuperview()
-            $0.bottom.equalToSuperview()
+        gachaResultView.snp.makeConstraints {
+            $0.height.equalTo(260)
+            $0.bottom.horizontalEdges.equalToSuperview()
         }
         
         testGachaLabel.snp.makeConstraints {
