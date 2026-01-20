@@ -92,7 +92,7 @@ final class CafeteriaMyReviewViewController: UIViewController {
                             reviewRating: review.reviewRating,
                             reviewImages: review.reviewImages,
                             reviewLikedCount: review.reviewLikeCount,
-                            reviewCreatedDate: review.reviewCreatedDate.convertDateFormat(),
+                            reviewCreatedDate: DateFormatterManager.shared.convertDateFormat(from: review.reviewCreatedDate),
                             menuPairID: review.menuPairID,
                             mainMenuName: review.mainMenuName,
                             subMenuName: review.subMenuName,

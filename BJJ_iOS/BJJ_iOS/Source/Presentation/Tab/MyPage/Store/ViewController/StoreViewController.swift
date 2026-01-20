@@ -8,9 +8,9 @@
 import UIKit
 import SnapKit
 import Then
-import OrderedCollections
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 final class StoreViewController: BaseViewController {
     
@@ -18,9 +18,37 @@ final class StoreViewController: BaseViewController {
     
     private let storeViewModel = StoreViewModel()
     
-    // MARK: - Properties
+    // MARK: - Subjects
     
-    private var allItems: OrderedDictionary<ItemRarity, [StoreSection]> = [:]
+    private var viewWillAppearTrigger = PublishRelay<Void>()
+    
+    // MARK: - DataSource
+    
+    private let dataSource = RxCollectionViewSectionedReloadDataSource<StoreSectionModel>(
+        configureCell: { dataSource, collectionView, indexPath, item in
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: ItemTypeCell.reuseIdentifier,
+                for: indexPath
+            ) as? ItemTypeCell else {
+                return UICollectionViewCell()
+            }
+            cell.configureCell(with: item)
+            return cell
+        },
+        configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
+            guard kind == UICollectionView.elementKindSectionHeader else {
+                return UICollectionReusableView()
+            }
+            let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: ItemSectionHeaderView.reuseIdentifier,
+                for: indexPath
+            ) as! ItemSectionHeaderView
+            let section = dataSource[indexPath.section]
+            header.configureHeaderView(itemRarity: section.header.title)
+            return header
+        }
+    )
     
     // MARK: - UI Components
     
@@ -46,15 +74,12 @@ final class StoreViewController: BaseViewController {
         $0.setCornerRadius(radius: 8)
     }
     
-    // TODO: 아이템 섹션을 rxDataSources로 나누기 + 캐릭터/배경 탭
     private lazy var allItemCollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: UICollectionViewFlowLayout()
+        collectionViewLayout: createFlowLayout()
     ).then {
         $0.register(ItemSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ItemSectionHeaderView.reuseIdentifier)
         $0.register(ItemTypeCell.self, forCellWithReuseIdentifier: ItemTypeCell.reuseIdentifier)
-        $0.delegate = self
-        $0.dataSource = self
         $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = .FFD_36_A
         $0.setBorder(color: .C_49_A_6_C, width: 1.5)
@@ -74,23 +99,14 @@ final class StoreViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewWillAppearTrigger.accept(())
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
     
     // MARK: - Set UI
     
     override func setUI() {
         view.backgroundColor = .white
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(refreshItemsValidity),
-            name: .didDismissFromGachaResultVC,
-            object: nil
-        )
     }
     
     // MARK: - Set Hierarchy
@@ -147,25 +163,17 @@ final class StoreViewController: BaseViewController {
     
     override func bind() {
         let input = StoreViewModel.Input(
-            viewDidLoad: Observable.just(()),
+            viewWillAppear: viewWillAppearTrigger.asObservable(),
             characterTabTapped: characterTabButton.rx.tap.asObservable(),
-            backgroundTabTapped: backgroundTabButton.rx.tap.asObservable()
+            backgroundTabTapped: backgroundTabButton.rx.tap.asObservable(),
+            itemSelected: allItemCollectionView.rx.modelSelected(StoreSection.self)
         )
         let output = storeViewModel.transform(input: input)
         
-        // 아이템 데이터
+        // 아이템 데이터 바인딩
         output.items
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] items in
-                self?.allItems = OrderedDictionary(
-                    uniqueKeysWithValues: [ItemRarity.common, .normal, .rare]
-                        .compactMap { rarity in
-                            guard let itemArray = items[rarity], !itemArray.isEmpty else { return nil }
-                            return (rarity, itemArray)
-                        }
-                )
-                self?.allItemCollectionView.reloadData()
-            })
+            .bind(to: allItemCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
         // 탭(캐릭터, 배경) 업데이트
@@ -176,6 +184,14 @@ final class StoreViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
+        // 마이페이지로 이동 (아이템 선택 후 PATCH 성공 시)
+        output.dismissToMyPage
+            .observe(on: MainScheduler.instance)
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.popToRootViewController(animated: true)
+            }
+            .disposed(by: disposeBag)
+
         // 뽑기 머신 탭
         gachaMachine.rx.tap
             .bind(with: self) { owner, _ in
@@ -183,6 +199,26 @@ final class StoreViewController: BaseViewController {
                 owner.presentGachaViewController()
             }
             .disposed(by: disposeBag)
+    }
+    
+    // MARK: - Create Flow Layout
+    
+    private func createFlowLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+
+        // 아이템 사이즈 계산
+        let screenWidth = UIScreen.main.bounds.width
+        let collectionViewWidth = screenWidth - 40 // 양옆 20씩 inset
+        let itemWidth = (collectionViewWidth - (16*2) - (4*3)) / 4
+        let itemHeight: CGFloat = 92
+
+        layout.itemSize = CGSize(width: itemWidth, height: itemHeight)
+        layout.minimumInteritemSpacing = 4
+        layout.minimumLineSpacing = 7
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 50, right: 16)
+        layout.headerReferenceSize = CGSize(width: collectionViewWidth, height: 60)
+        
+        return layout
     }
     
     // MARK: - Update Tab Button UI
@@ -205,171 +241,4 @@ final class StoreViewController: BaseViewController {
             backgroundTabButton.backgroundColor = .white
         }
     }
-    
-    
-    // MARK: - Objc Functions
-    
-    @objc private func refreshItemsValidity(_ notification: Notification) {
-        // TODO: 더미 데이터 사용 중이므로 주석 처리
-        // TODO: 캐릭터인지 배경인지 정하기
-//        if let (itemRarity, itemID) = notification.object as? (String, Int) {
-//            fetchAllItems(itemType: "CHARACTER", reloadItem: (itemRarity: itemRarity, itemID: itemID))
-//        }
-//        else {
-//            print("[StoreVC] NotificationCenter Error: itemID를 받지 못했거나 형식이 맞지 않음")
-//        }
-    }
-
-    // MARK: - Fetch API Functions (현재 더미 데이터 사용 중이므로 주석 처리)
-
-//    private func fetchAllItems(itemType: String, reloadItem: (itemRarity: String, itemID: Int)? = nil) {
-//        StoreAPI.fetchAllItems(itemType: itemType) { result in
-//            switch result {
-//            case .success(let allItems):
-//                let items = allItems.map {
-//                    StoreSection(
-//                        itemID: $0.itemID,
-//                        itemName: $0.itemName,
-//                        itemType: ItemType(rawValue: $0.itemType) ?? .character,
-//                        itemRarity: ItemRarity(rawValue: $0.itemRarity) ?? .common,
-//                        itemImage: $0.itemImage,
-//                        validPeriod: $0.validPeriod?.calculateItemValidPeriod(),
-//                        isWearing: $0.isWearing,
-//                        isOwned: $0.isOwned
-//                    )
-//                }
-//
-//                for itemRarity in [ItemRarity.common, .normal, .rare] {
-//                    self.allItems[itemRarity] = items.filter { $0.itemRarity == itemRarity }
-//                }
-//
-//                // TODO: 아이템이 배열에서 ordered dictionary로 바뀜. 새로고침하는 아이템 인덱스 수정 필요
-//                DispatchQueue.main.async {
-//                    UIView.performWithoutAnimation {
-//                        if let reloadItem = reloadItem,
-//                           let itemRarityEnum = ItemRarity(rawValue: reloadItem.itemRarity),
-//                           let sectionIndex = self.allItems.keys.firstIndex(of: itemRarityEnum),
-//                           let itemIndex = self.allItems[itemRarityEnum]?.firstIndex(where: { $0.itemID == reloadItem.itemID }) {
-//                            let indexPath = IndexPath(item: itemIndex, section: sectionIndex)
-//
-//                            self.testAllItemCollectionView.reloadItems(at: [indexPath])
-//                        } else {
-//                            self.testAllItemCollectionView.reloadData()
-//                        }
-//                    }
-//                }
-//
-//            case .failure(let error):
-//                print("[StoreVC] Error: \(error.localizedDescription)")
-//            }
-//        }
-//    }
-
-    // MARK: - Patch API Functions (현재 더미 데이터 사용 중이므로 주석 처리)
-
-//    private func patchItem(itemType: String, itemID: Int) {
-//        // TODO: 캐릭터인지 배경인지 구분해서 PATCH 요청 보내기
-//        // TODO: itemType, itemID가 없을 경우 빈 문자열과 0 보내지 말고 다른 방법 고민하기
-//        GachaResultAPI.patchItem(itemType: itemType, itemID: itemID) { result in
-//            switch result {
-//            case .success:
-//                // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
-//                DispatchQueue.main.async {
-//                    self.navigationController?.popToRootViewController(animated: true)
-//                }
-//
-//            case .failure(let error):
-//                // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
-//                DispatchQueue.main.async {
-//                    self.navigationController?.popToRootViewController(animated: true)
-//                }
-//                print("[GachaResultVC] Error: \(error.localizedDescription)")
-//            }
-//        }
-//    }
-}
-
-extension StoreViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
-    // MARK: - UICollectionView Section
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return allItems.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let key = allItems.keys[section]
-        
-        return allItems[key]?.count ?? 0
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemTypeCell.reuseIdentifier, for: indexPath) as? ItemTypeCell else {
-            return UICollectionViewCell()
-        }
-        
-        let key = allItems.keys[indexPath.section]
-        
-        if let item = allItems[key]?[indexPath.item] {
-            cell.configureCell(with: item)
-        }
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let key = allItems.keys[indexPath.section]
-        
-        if let item = allItems[key]?[indexPath.item] {
-            // TODO: 더미 데이터 사용 중이므로 주석 처리
-            // patchItem(itemType: item.itemType.rawValue, itemID: item.itemID)
-            print("[StoreVC] 선택한 아이템: \(item.itemName), 타입: \(item.itemType.title), 희귀도: \(item.itemRarity.title)")
-        }
-    }
-    
-    // MARK: - UICollectionView Header
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView() }
-
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ItemSectionHeaderView.reuseIdentifier, for: indexPath) as! ItemSectionHeaderView
-        let key = allItems.keys[indexPath.section]
-        let itemRarity = key.title
-        
-        header.setUI(itemRarity: itemRarity)
-        
-        return header
-    }
-    
-    // MARK: - UICollectionView Delegate
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let collectionViewWidth = collectionView.bounds.width
-        // collectionView 너비 - 양옆 padding - 아이템 사이 간격
-        let itemWidth = (collectionViewWidth - (16*2) - (4*3)) / 4
-        let itemHeight: CGFloat = 92
-        
-        return CGSize(width: itemWidth, height: itemHeight)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 4
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 4
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 16, bottom: 50, right: 16)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 60)
-    }
-}
-
-extension Notification.Name {
-    static let didDismissFromGachaResultVC = Notification.Name("didDismissFromGachaResultVC")
 }

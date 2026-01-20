@@ -8,13 +8,12 @@
 import UIKit
 import SnapKit
 import Then
-import OrderedCollections
 
 final class MyReviewViewController: UIViewController {
-    
+
     // MARK: - Properties
-    
-    private var myReviews: OrderedDictionary<String, [MyReviewSection]> = [:]
+
+    private var myReviews: [String: [MyReviewSection]] = [:]
     private let cafeteriaOrder = ["학생식당", "2호관식당", "제1기숙사식당", "27호관식당", "사범대식당"]
     
     // MARK: - UI Components
@@ -109,7 +108,7 @@ final class MyReviewViewController: UIViewController {
                                 reviewRating: review.reviewRating,
                                 reviewImages: review.reviewImages,
                                 reviewLikedCount: review.reviewLikeCount,
-                                reviewCreatedDate: review.reviewCreatedDate.convertDateFormat(),
+                                reviewCreatedDate: DateFormatterManager.shared.convertDateFormat(from: review.reviewCreatedDate),
                                 menuPairID: review.menuPairID,
                                 mainMenuName: review.mainMenuName,
                                 subMenuName: review.subMenuName,
@@ -143,68 +142,75 @@ final class MyReviewViewController: UIViewController {
         reviewWriteVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(reviewWriteVC, animated: true)
     }
+
+    // MARK: - Helper Methods
+
+    private func getCafeteriaName(for section: Int) -> String {
+        let cafeteriasWithReviews = cafeteriaOrder.filter { myReviews[$0] != nil }
+        return cafeteriasWithReviews[section]
+    }
 }
 
 extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
-    
+
     // MARK: - TableView Section
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
-        return myReviews.count
+        return cafeteriaOrder.filter { myReviews[$0] != nil }.count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let cafeteria = myReviews.keys[section]
-        
+        let cafeteria = getCafeteriaName(for: section)
+
         return myReviews[cafeteria]?.count ?? 0
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MyReviewCell.reuseIdentifier, for: indexPath) as? MyReviewCell else {
             return UITableViewCell()
         }
-        
-        let cafeteria = myReviews.keys[indexPath.section]
-        
+
+        let cafeteria = getCafeteriaName(for: indexPath.section)
+
         if let review = myReviews[cafeteria]?[indexPath.row] {
             cell.configureMyReviewCell(with: review)
         }
-        
+
         cell.selectionStyle = .none
-        
+
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         // 셀당 높이 + 셀 간 간격 (63 + 10)
         return 73
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cafeteria = myReviews.keys[indexPath.section]
-        
+        let cafeteria = getCafeteriaName(for: indexPath.section)
+
         if let review = myReviews[cafeteria]?[indexPath.row] {
             let myReviewDetailVC = MyReviewDetailViewController(reviewID: review.reviewID)
-            
+
             myReviewDetailVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(myReviewDetailVC, animated: true)
         }
     }
-    
+
     //MARK: - TableView Header
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MyReviewHeaderView.reuseIdentifier) as? MyReviewHeaderView else {
             return nil
         }
-        
-        let cafeteria = myReviews.keys[section]
+
+        let cafeteria = getCafeteriaName(for: section)
         let reviewCountInSection = myReviews[cafeteria]?.count ?? 0
 
         headerView.configureMyReviewHeaderView(with: cafeteria, section: section)
         headerView.setReviewMoreButtonVisibility(reviewCountInSection >= 3)
         headerView.delegate = self
-        
+
         return headerView
     }
     
@@ -231,8 +237,8 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension MyReviewViewController: MyReviewHeaderViewDelegate {
     func didTapReviewMoreButton(in section: Int) {
-        let cafeteria = myReviews.keys[section]
-        
+        let cafeteria = getCafeteriaName(for: section)
+
         presentCafeteriaMyReviewViewController(title: cafeteria)
     }
 }

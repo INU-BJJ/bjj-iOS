@@ -1,5 +1,5 @@
 {
-  "originHash" : "5ebf8e444e04b727a08067becd7f879ffe79474a34edfcea4f995eaab6999279",
+  "originHash" : "a1a75b52b8286a37b4d5271bdc2ffab8c8b71718297c416f18d899a02b5607d3",
   "pins" : [
     {
       "identity" : "pretendardkit",
@@ -11,21 +11,21 @@
       }
     },
     {
+      "identity" : "rxdatasources",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RxSwiftCommunity/RxDataSources.git",
+      "state" : {
+        "revision" : "90c29b48b628479097fe775ed1966d75ac374518",
+        "version" : "5.0.2"
+      }
+    },
+    {
       "identity" : "rxswift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ReactiveX/RxSwift.git",
       "state" : {
         "revision" : "5004a18539bd68905c5939aa893075f578f4f03d",
         "version" : "6.9.1"
-      }
-    },
-    {
-      "identity" : "swift-collections",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-collections.git",
-      "state" : {
-        "revision" : "671108c96644956dddcd89dd59c203dcdb36cec7",
-        "version" : "1.1.4"
       }
     }
   ],

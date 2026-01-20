@@ -33,13 +33,14 @@ enum ItemType: String {
 }
 
 enum ItemRarity: String {
+    case `default` = "DEFAULT"
     case common = "COMMON"
     case normal = "NORMAL"
     case rare = "RARE"
-    
+
     var title: String {
         switch self {
-        case .common:
+        case .default, .common:
             return "흔함"
         case .normal:
             return "보통"
