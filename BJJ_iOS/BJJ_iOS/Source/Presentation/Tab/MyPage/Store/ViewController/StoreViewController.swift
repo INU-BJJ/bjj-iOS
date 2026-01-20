@@ -170,6 +170,14 @@ final class StoreViewController: BaseViewController {
         )
         let output = storeViewModel.transform(input: input)
         
+        // 아이템 유효기간 갱신 Notification 구독
+        NotificationCenter.default.rx
+            .notification(.itemValidPeriodRefresh)
+            .bind(with: self) { owner, _ in
+                owner.viewWillAppearTrigger.accept(())
+            }
+            .disposed(by: disposeBag)
+        
         // 아이템 데이터 바인딩
         output.items
             .observe(on: MainScheduler.instance)
@@ -194,9 +202,10 @@ final class StoreViewController: BaseViewController {
 
         // 뽑기 머신 탭
         gachaMachine.rx.tap
-            .bind(with: self) { owner, _ in
+            .withLatestFrom(output.selectedTab)
+            .bind(with: self) { owner, itemType in
                 // TODO: 백그라운드에서 포인트를 받아와서(마이아이템 API 호출) 뽑기하기 버튼 누를 때 포인트 UI 업데이트
-                owner.presentGachaViewController()
+                owner.presentGachaViewController(itemType: itemType)
             }
             .disposed(by: disposeBag)
     }

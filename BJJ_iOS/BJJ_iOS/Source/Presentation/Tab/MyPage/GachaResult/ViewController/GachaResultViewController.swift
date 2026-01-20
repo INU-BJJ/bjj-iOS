@@ -14,10 +14,6 @@ import RxCocoa
 
 final class GachaResultViewController: BaseViewController {
     
-    // MARK: - Properties
-    
-    private var drawnItemInfo: GachaResultSection?
-    
     // MARK: - ViewModel
     
     private let gachaResultViewModel: GachaResultViewModel
@@ -46,13 +42,7 @@ final class GachaResultViewController: BaseViewController {
     }
     
     private let gachaDescriptionLabel = UILabel().then {
-        // TODO: 캐릭터/배경 모두 유효기간 7일. itemType에 따라 문구 수정
-        $0.setLabel(
-            "뽑기를 해서 랜덤으로 캐릭터를 얻어요.\n뽑은 캐릭터는 7일의 유효기간이 있어요.",
-            font: .pretendard_semibold,
-            size: 15,
-            color: ._999999
-        )
+        $0.setLabel("", font: .pretendard_semibold, size: 15, color: ._999999)
         $0.numberOfLines = 2
         $0.textAlignment = .center
     }
@@ -105,7 +95,7 @@ final class GachaResultViewController: BaseViewController {
         
         itemImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(221.52)
+            $0.bottom.equalTo(gachaResultView.snp.top).offset(-153.89)
         }
         
         gachaResultView.snp.makeConstraints {
@@ -147,7 +137,9 @@ final class GachaResultViewController: BaseViewController {
         // 백버튼 탭
         backButton.rx.tap
             .bind(with: self) { owner, _ in
-                owner.presentingViewController?.presentingViewController?.dismiss(animated: true)
+                owner.presentingViewController?.presentingViewController?.dismiss(animated: true) {
+                    NotificationCenter.default.post(name: .itemValidPeriodRefresh, object: nil)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -157,56 +149,47 @@ final class GachaResultViewController: BaseViewController {
                 owner.patchItem()
             }
             .disposed(by: disposeBag)
-    }
-    
-    // MARK: - Configure
-    
-    private func configure(_ itemInfo: GachaResultModel) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            guard let characterURL = URL(string: baseURL.characterImageURL + itemInfo.itemImage) else { return }
-            
-            self.itemImageView.sd_setImage(
-                with: characterURL,
-                placeholderImage: nil,
-                options: [.retryFailed, .continueInBackground]
-            ) { _, _, _, _ in
-                // TODO: 이미지 크기 변경
-                // 이미지 로드 완료 후 크기 확대
-                UIView.animate(withDuration: 0) {
-                    self.itemImageView.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+        
+        // 뽑기 결과 설명 텍스트 설정
+        output.itemType
+            .bind(with: self, onNext: { owner, itemTexts in
+                owner.gachaDescriptionLabel.text = "뽑기를 해서 랜덤으로 \(itemTexts[0]) 얻어요.\n뽑은 \(itemTexts[1]) 7일의 유효기간이 있어요."
+            })
+            .disposed(by: disposeBag)
+        
+        // 아이템 이미지 URL 바인딩
+        output.itemImageURL
+            .drive(with: self, onNext: { owner, url in
+                guard let url = url else { return }
+                owner.itemImageView.sd_setImage(
+                    with: url,
+                    placeholderImage: nil,
+                    options: [.retryFailed, .continueInBackground]
+                ) { _, _, _, _ in
+                    // 이미지 로드 완료 후 크기 확대
+                    UIView.animate(withDuration: 0) {
+                        owner.itemImageView.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+                    }
                 }
-            }
-            self.gachaResultTitleLabel.text = "\(itemInfo.itemName) 등장!"
-        }
-    }
-    
-    // MARK: - Post API
-    
-    // TODO: GachaResultModel말고 GachaResultSection사용할지 말지 고민
-    private func postItemGacha(itemType: String, completion: @escaping (_ itemInfo: GachaResultModel) -> Void) {
-        GachaResultAPI.postItemGacha(itemType: itemType) { result in
-            switch result {
-            case .success(let itemInfo):
-                self.drawnItemInfo = GachaResultSection(
-                                        itemID: itemInfo.itemID,
-                                        itemType: itemInfo.itemType,
-                                        itemRarity: itemInfo.itemRarity
-                                     )
-                completion(itemInfo)
-                
-            case .failure(let error):
-                print("[GachaResultVC] Error: \(error.localizedDescription)")
-            }
-        }
+            })
+            .disposed(by: disposeBag)
+        
+        // 아이템 타이틀 바인딩
+        output.itemTitle
+            .drive(gachaResultTitleLabel.rx.text)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Patch API
     
     private func patchItem() {
-        // TODO: 캐릭터인지 배경인지 구분해서 PATCH 요청 보내기
-        // TODO: itemType, itemID가 없을 경우 빈 문자열과 0 보내지 말고 다른 방법 고민하기
-        GachaResultAPI.patchItem(itemType: drawnItemInfo?.itemType ?? "", itemID: drawnItemInfo?.itemID ?? 0) { result in
+        // ViewModel에서 drawnItemInfo 가져오기
+        guard let drawnItemInfo = gachaResultViewModel.getDrawnItemInfo() else {
+            print("[GachaResultVC] Error: drawnItemInfo is nil")
+            return
+        }
+        
+        GachaResultAPI.patchItem(itemType: drawnItemInfo.itemType, itemID: drawnItemInfo.itemID) { result in
             switch result {
             case .success:
                 // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.

@@ -147,11 +147,6 @@ final class StoreViewModel: BaseViewModel {
         }
     }
     
-    /// 아이템 유효기간 갱신
-    private func refreshItemsValidity(itemType: ItemType) -> Observable<[StoreSectionModel]> {
-        return fetchAllItems(itemType: itemType)
-    }
-    
     /// 아이템 착용
     private func patchItem(itemType: String, itemID: Int) -> Observable<Void> {
         return Observable.create { observer in

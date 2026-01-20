@@ -196,8 +196,8 @@ extension UIViewController {
     }
     
     /// GachaVC로 push
-    func presentGachaViewController() {
-        let gachaVC = GachaViewController()
+    func presentGachaViewController(itemType: ItemType) {
+        let gachaVC = GachaViewController(itemType: itemType)
         
         gachaVC.modalPresentationStyle = .overFullScreen
         present(gachaVC, animated: true)
