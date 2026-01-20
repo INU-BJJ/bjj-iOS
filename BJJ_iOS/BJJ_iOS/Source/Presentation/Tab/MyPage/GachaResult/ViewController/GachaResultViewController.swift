@@ -41,8 +41,8 @@ final class GachaResultViewController: BaseViewController {
         $0.setShadow(opacity: 0.1, shadowRadius: 7.5, x: 0, y: -3)
     }
     
-    private let testGachaLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
+    private let gachaResultTitleLabel = UILabel().then {
+        $0.setLabelUI("흔 한 양 파 등장!", font: .pretendard_semibold, size: 24, color: .black)
     }
     
     private lazy var testItemWearButton = UIButton().then {
@@ -75,7 +75,7 @@ final class GachaResultViewController: BaseViewController {
         ].forEach(view.addSubview)
         
         [
-            testGachaLabel,
+            gachaResultTitleLabel,
             testItemWearButton
         ].forEach(gachaResultView.addSubview)
     }
@@ -102,7 +102,7 @@ final class GachaResultViewController: BaseViewController {
             $0.bottom.horizontalEdges.equalToSuperview()
         }
         
-        testGachaLabel.snp.makeConstraints {
+        gachaResultTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(43)
             $0.centerX.equalToSuperview()
         }
@@ -149,7 +149,7 @@ final class GachaResultViewController: BaseViewController {
                     self.itemImageView.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
                 }
             }
-            self.testGachaLabel.text = "\(itemInfo.itemName) 등장!"
+            self.gachaResultTitleLabel.text = "\(itemInfo.itemName) 등장!"
         }
     }
     
