@@ -23,11 +23,11 @@ final class DateFormatterManager {
     }
     
     /// 아이템 유효기간 파싱용 포맷터 (재사용)
-    /// 형식: "yyyy-MM-dd'T'HH:mm:ss"
+    /// 형식: "yyyy-MM-dd'T'HH:mm:ss.SSSSSS" (마이크로초 포함)
     private let itemValidPeriodFormatter = DateFormatter().then {
         $0.locale = Locale(identifier: "ko_KR")
         $0.timeZone = TimeZone(identifier: "Asia/Seoul")
-        $0.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        $0.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
     }
     
     /// Calendar 인스턴스 (재사용)
@@ -57,7 +57,7 @@ final class DateFormatterManager {
     }
 
     /// 아이템 유효기간 계산
-    /// - Parameter dateString: 유효기간 날짜 문자열 (형식: "yyyy-MM-dd'T'HH:mm:ss")
+    /// - Parameter dateString: 유효기간 날짜 문자열 (형식: "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
     /// - Returns: 남은 기간 문자열 (d/h/m 형식) 또는 nil (파싱 실패 시)
     func calculateItemValidPeriod(from dateString: String) -> String? {
         guard let validDate = itemValidPeriodFormatter.date(from: dateString) else {
