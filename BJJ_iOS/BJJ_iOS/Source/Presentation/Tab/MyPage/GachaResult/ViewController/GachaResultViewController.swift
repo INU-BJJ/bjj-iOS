@@ -45,6 +45,18 @@ final class GachaResultViewController: BaseViewController {
         $0.setLabelUI("흔 한 양 파 등장!", font: .pretendard_semibold, size: 24, color: .black)
     }
     
+    private let gachaDescriptionLabel = UILabel().then {
+        // TODO: 캐릭터/배경 모두 유효기간 7일. itemType에 따라 문구 수정
+        $0.setLabel(
+            "뽑기를 해서 랜덤으로 캐릭터를 얻어요.\n뽑은 캐릭터는 7일의 유효기간이 있어요.",
+            font: .pretendard_semibold,
+            size: 15,
+            color: ._999999
+        )
+        $0.numberOfLines = 2
+        $0.textAlignment = .center
+    }
+    
     private lazy var testItemWearButton = UIButton().then {
         $0.setTitle("착용하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
@@ -76,6 +88,7 @@ final class GachaResultViewController: BaseViewController {
         
         [
             gachaResultTitleLabel,
+            gachaDescriptionLabel,
             testItemWearButton
         ].forEach(gachaResultView.addSubview)
     }
@@ -104,6 +117,11 @@ final class GachaResultViewController: BaseViewController {
         
         gachaResultTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(43)
+            $0.centerX.equalToSuperview()
+        }
+        
+        gachaDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(gachaResultTitleLabel.snp.bottom).offset(18)
             $0.centerX.equalToSuperview()
         }
         
