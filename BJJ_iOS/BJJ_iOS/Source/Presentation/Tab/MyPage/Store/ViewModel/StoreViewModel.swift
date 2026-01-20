@@ -95,23 +95,41 @@ final class StoreViewModel: BaseViewModel {
                         let imageURL = type == .character
                               ? baseURL.characterImageURL + "dic_\(item.itemImage).svg"
                               : baseURL.backgroundImageURL + "\(item.itemImage).svg"
+                        
+                        let rarity = ItemRarity(rawValue: item.itemRarity) ?? .default
+                        
+                        // default인 경우 "영구 보유", 그 외엔 validPeriod 계산
+                        let validPeriodText: String?
+                        if rarity == .default {
+                            validPeriodText = "영구 보유"
+                        } else {
+                            validPeriodText = item.validPeriod.flatMap { DateFormatterManager.shared.calculateItemValidPeriod(from: $0) }
+                        }
 
                         return StoreSection(
                             itemID: item.itemID,
                             itemName: item.itemName,
                             itemType: type,
-                            itemRarity: ItemRarity(rawValue: item.itemRarity) ?? .common, // "DEFAULT" 등 매칭되지 않는 경우 common으로 분류
+                            itemRarity: rarity,
                             itemImage: imageURL,
-                            validPeriod: item.validPeriod.flatMap { DateFormatterManager.shared.calculateItemValidPeriod(from: $0) },
+                            validPeriod: validPeriodText,
                             isWearing: item.isWearing,
                             isOwned: item.isOwned
                         )
                     }
 
                     // ItemRarity별로 섹션 모델 생성
+                    // default와 common은 "흔함" 섹션으로 통합
                     let sections: [StoreSectionModel] = [ItemRarity.common, .normal, .rare]
                         .compactMap { rarity in
-                            let filteredItems = items.filter { $0.itemRarity == rarity }
+                            let filteredItems = items.filter {
+                                if rarity == .common {
+                                    // common 섹션에는 default와 common 아이템 모두 포함
+                                    return $0.itemRarity == .default || $0.itemRarity == .common
+                                } else {
+                                    return $0.itemRarity == rarity
+                                }
+                            }
                             guard !filteredItems.isEmpty else { return nil }
                             return StoreSectionModel(header: rarity, items: filteredItems)
                         }
