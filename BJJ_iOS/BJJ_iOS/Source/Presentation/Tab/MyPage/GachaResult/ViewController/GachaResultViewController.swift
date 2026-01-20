@@ -130,7 +130,8 @@ final class GachaResultViewController: BaseViewController {
     
     override func bind() {
         let input = GachaResultViewModel.Input(
-            viewDidLoad: Observable.just(())
+            viewDidLoad: Observable.just(()),
+            itemWearButtonTapped: itemWearButton.rx.tap
         )
         let output = gachaResultViewModel.transform(input: input)
         
@@ -143,10 +144,45 @@ final class GachaResultViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        // 착용하기 버튼 탭
-        itemWearButton.rx.tap
+        // 닫기 버튼 탭
+        dismissButton.rx.tap
             .bind(with: self) { owner, _ in
-                owner.patchItem()
+                owner.presentingViewController?.presentingViewController?.dismiss(animated: true) {
+                    NotificationCenter.default.post(name: .itemValidPeriodRefresh, object: nil)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        // 아이템 착용 API 결과 처리
+        output.patchItemResult
+            .drive(with: self) { owner, result in
+                switch result {
+                case .success:
+                    owner.presentingViewController?.presentingViewController?.dismiss(animated: true) {
+                        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
+                           let tabBarController = sceneDelegate.window?.rootViewController as? UITabBarController,
+                           let viewControllers = tabBarController.viewControllers {
+
+                            for vc in viewControllers {
+                                if let navigationVC = vc as? UINavigationController,
+                                   navigationVC.viewControllers.first is MyPageViewController {
+                                    tabBarController.selectedViewController = navigationVC
+                                    navigationVC.popToRootViewController(animated: true)
+                                    break
+                                }
+                            }
+                        } else {
+                            print("[GachaResultVC] Error: TabBarController 또는 MyPageVC 탐색 실패")
+                        }
+                    }
+                    
+                case .failure:
+                    // 실패 시 에러 알림 표시
+                    owner.presentAlertViewController(
+                        alertType: .failure,
+                        title: "아이템 착용에 실패했습니다. 다시 시도해주세요."
+                    )
+                }
             }
             .disposed(by: disposeBag)
         
@@ -178,66 +214,5 @@ final class GachaResultViewController: BaseViewController {
         output.itemTitle
             .drive(gachaResultTitleLabel.rx.text)
             .disposed(by: disposeBag)
-    }
-    
-    // MARK: - Patch API
-    
-    private func patchItem() {
-        // ViewModel에서 drawnItemInfo 가져오기
-        guard let drawnItemInfo = gachaResultViewModel.getDrawnItemInfo() else {
-            print("[GachaResultVC] Error: drawnItemInfo is nil")
-            return
-        }
-        
-        GachaResultAPI.patchItem(itemType: drawnItemInfo.itemType, itemID: drawnItemInfo.itemID) { result in
-            switch result {
-            case .success:
-                // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
-                DispatchQueue.main.async {
-                    self.presentingViewController?.presentingViewController?.dismiss(animated: false) {
-                        
-                        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
-                           let tabBarController = sceneDelegate.window?.rootViewController as? UITabBarController,
-                           let viewControllers = tabBarController.viewControllers {
-                            
-                            for vc in viewControllers {
-                                if let navigationVC = vc as? UINavigationController,
-                                   navigationVC.viewControllers.first is MyPageViewController {
-                                    tabBarController.selectedViewController = navigationVC
-                                    navigationVC.popToRootViewController(animated: true)
-                                    break
-                                }
-                            }
-                        } else {
-                            print("[GachaResultVC] Error: TabBarController 또는 MyPageVC 탐색 실패")
-                        }
-                    }
-                }
-                
-            case .failure(let error):
-                // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
-                DispatchQueue.main.async {
-                    self.presentingViewController?.presentingViewController?.dismiss(animated: false) {
-                        
-                        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
-                           let tabBarController = sceneDelegate.window?.rootViewController as? UITabBarController,
-                           let viewControllers = tabBarController.viewControllers {
-                            
-                            for vc in viewControllers {
-                                if let navigationVC = vc as? UINavigationController,
-                                   navigationVC.viewControllers.first is MyPageViewController {
-                                    tabBarController.selectedViewController = navigationVC
-                                    navigationVC.popToRootViewController(animated: true)
-                                    break
-                                }
-                            }
-                        } else {
-                            print("[GachaResultVC] Error: TabBarController 또는 MyPageVC 탐색 실패")
-                        }
-                    }
-                }
-                print("[GachaResultVC] Error: \(error.localizedDescription)")
-            }
-        }
     }
 }

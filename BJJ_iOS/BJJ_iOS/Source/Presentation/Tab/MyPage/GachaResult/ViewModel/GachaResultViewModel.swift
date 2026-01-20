@@ -30,6 +30,7 @@ final class GachaResultViewModel: BaseViewModel {
     
     struct Input {
         let viewDidLoad: Observable<Void>
+        let itemWearButtonTapped: ControlEvent<Void>
     }
     
     // MARK: - Output
@@ -39,6 +40,7 @@ final class GachaResultViewModel: BaseViewModel {
         let drawnItem: Driver<GachaResultModel>
         let itemImageURL: Driver<URL?>
         let itemTitle: Driver<String>
+        let patchItemResult: Driver<Result<Void, Error>>
     }
     
     // MARK: - Transform
@@ -71,6 +73,21 @@ final class GachaResultViewModel: BaseViewModel {
             }
             .asDriver(onErrorJustReturn: "")
         
+        // 착용하기 버튼 탭 시 아이템 착용 API 호출
+        let patchItemResult = input.itemWearButtonTapped
+            .withLatestFrom(Observable.just(()))
+            .flatMapLatest { [weak self] _ -> Observable<Result<Void, Error>> in
+                guard let self = self,
+                      let drawnItemInfo = self.drawnItemInfo else {
+                    print("[GachaResultViewModel] Error: drawnItemInfo is nil")
+                    return Observable.just(.failure(NSError(domain: "GachaResultViewModel", code: -1, userInfo: [NSLocalizedDescriptionKey: "착용할 아이템 정보를 찾을 수 없습니다."])))
+                }
+                return self.patchItemWear(itemType: drawnItemInfo.itemType, itemID: drawnItemInfo.itemID)
+                    .map { .success(()) }
+                    .catch { error in Observable.just(.failure(error)) }
+            }
+            .asDriver(onErrorJustReturn: .failure(NSError(domain: "GachaResultViewModel", code: -1, userInfo: [NSLocalizedDescriptionKey: "알 수 없는 오류가 발생했습니다."])))
+
         return Output(
             itemType: BehaviorRelay(
                 value: itemType == .character ? ["캐릭터를", "캐릭터는"] : ["배경을", "배경은"]
@@ -86,7 +103,8 @@ final class GachaResultViewModel: BaseViewModel {
                 isOwned: false
             )),
             itemImageURL: itemImageURL,
-            itemTitle: itemTitle
+            itemTitle: itemTitle,
+            patchItemResult: patchItemResult
         )
     }
     
@@ -117,10 +135,22 @@ final class GachaResultViewModel: BaseViewModel {
         }
     }
     
-    // MARK: - Getter
-    
-    /// drawnItemInfo 가져오기 (착용하기 API 호출 시 사용)
-    func getDrawnItemInfo() -> GachaResultSection? {
-        return drawnItemInfo
+    /// 아이템 착용 API 호출
+    private func patchItemWear(itemType: String, itemID: Int) -> Observable<Void> {
+        return Observable.create { observer in
+            GachaResultAPI.patchItem(itemType: itemType, itemID: itemID) { result in
+                switch result {
+                case .success:
+                    observer.onNext(())
+                    observer.onCompleted()
+                    
+                case .failure(let error):
+                    print("[GachaResultViewModel] patchItem Error: \(error.localizedDescription)")
+                    observer.onError(error)
+                }
+            }
+
+            return Disposables.create()
+        }
     }
 }

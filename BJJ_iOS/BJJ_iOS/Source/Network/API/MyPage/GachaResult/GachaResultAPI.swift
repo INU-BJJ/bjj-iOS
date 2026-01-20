@@ -20,12 +20,12 @@ final class GachaResultAPI {
         )
     }
     
-    static func patchItem(itemType: String, itemID: Int, completion: @escaping (Result<Empty, Error>) -> Void) {
+    static func patchItem(itemType: String, itemID: Int, completion: @escaping (Result<EmptyResponse, Error>) -> Void) {
         networkRequest(
             urlStr: GachaResultAddress.patchItem(itemID).url,
             method: .patch,
             data: nil,
-            model: Empty.self,
+            model: EmptyResponse.self,
             query: ["itemType": itemType],
             completion: completion
         )
