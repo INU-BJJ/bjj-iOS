@@ -214,7 +214,7 @@ final class StoreViewController: BaseViewController {
 
         layout.itemSize = CGSize(width: itemWidth, height: itemHeight)
         layout.minimumInteritemSpacing = 4
-        layout.minimumLineSpacing = 4
+        layout.minimumLineSpacing = 7
         layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 50, right: 16)
         layout.headerReferenceSize = CGSize(width: collectionViewWidth, height: 60)
         
