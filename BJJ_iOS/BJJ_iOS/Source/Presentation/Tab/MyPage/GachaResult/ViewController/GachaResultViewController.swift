@@ -130,7 +130,8 @@ final class GachaResultViewController: BaseViewController {
     
     override func bind() {
         let input = GachaResultViewModel.Input(
-            viewDidLoad: Observable.just(())
+            viewDidLoad: Observable.just(()),
+            itemWearButtonTapped: itemWearButton.rx.tap
         )
         let output = gachaResultViewModel.transform(input: input)
         
@@ -143,10 +144,27 @@ final class GachaResultViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        // 착용하기 버튼 탭
-        itemWearButton.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.patchItem()
+        // 아이템 착용 성공 시 네비게이션
+        output.patchItemSuccess
+            .drive(with: self) { owner, _ in
+                // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
+                owner.presentingViewController?.presentingViewController?.dismiss(animated: false) {
+                    if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
+                       let tabBarController = sceneDelegate.window?.rootViewController as? UITabBarController,
+                       let viewControllers = tabBarController.viewControllers {
+
+                        for vc in viewControllers {
+                            if let navigationVC = vc as? UINavigationController,
+                               navigationVC.viewControllers.first is MyPageViewController {
+                                tabBarController.selectedViewController = navigationVC
+                                navigationVC.popToRootViewController(animated: true)
+                                break
+                            }
+                        }
+                    } else {
+                        print("[GachaResultVC] Error: TabBarController 또는 MyPageVC 탐색 실패")
+                    }
+                }
             }
             .disposed(by: disposeBag)
         
@@ -178,66 +196,5 @@ final class GachaResultViewController: BaseViewController {
         output.itemTitle
             .drive(gachaResultTitleLabel.rx.text)
             .disposed(by: disposeBag)
-    }
-    
-    // MARK: - Patch API
-    
-    private func patchItem() {
-        // ViewModel에서 drawnItemInfo 가져오기
-        guard let drawnItemInfo = gachaResultViewModel.getDrawnItemInfo() else {
-            print("[GachaResultVC] Error: drawnItemInfo is nil")
-            return
-        }
-        
-        GachaResultAPI.patchItem(itemType: drawnItemInfo.itemType, itemID: drawnItemInfo.itemID) { result in
-            switch result {
-            case .success:
-                // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
-                DispatchQueue.main.async {
-                    self.presentingViewController?.presentingViewController?.dismiss(animated: false) {
-                        
-                        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
-                           let tabBarController = sceneDelegate.window?.rootViewController as? UITabBarController,
-                           let viewControllers = tabBarController.viewControllers {
-                            
-                            for vc in viewControllers {
-                                if let navigationVC = vc as? UINavigationController,
-                                   navigationVC.viewControllers.first is MyPageViewController {
-                                    tabBarController.selectedViewController = navigationVC
-                                    navigationVC.popToRootViewController(animated: true)
-                                    break
-                                }
-                            }
-                        } else {
-                            print("[GachaResultVC] Error: TabBarController 또는 MyPageVC 탐색 실패")
-                        }
-                    }
-                }
-                
-            case .failure(let error):
-                // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
-                DispatchQueue.main.async {
-                    self.presentingViewController?.presentingViewController?.dismiss(animated: false) {
-                        
-                        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
-                           let tabBarController = sceneDelegate.window?.rootViewController as? UITabBarController,
-                           let viewControllers = tabBarController.viewControllers {
-                            
-                            for vc in viewControllers {
-                                if let navigationVC = vc as? UINavigationController,
-                                   navigationVC.viewControllers.first is MyPageViewController {
-                                    tabBarController.selectedViewController = navigationVC
-                                    navigationVC.popToRootViewController(animated: true)
-                                    break
-                                }
-                            }
-                        } else {
-                            print("[GachaResultVC] Error: TabBarController 또는 MyPageVC 탐색 실패")
-                        }
-                    }
-                }
-                print("[GachaResultVC] Error: \(error.localizedDescription)")
-            }
-        }
     }
 }

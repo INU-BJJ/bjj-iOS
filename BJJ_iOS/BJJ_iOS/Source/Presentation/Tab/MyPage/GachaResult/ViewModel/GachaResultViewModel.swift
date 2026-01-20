@@ -30,6 +30,7 @@ final class GachaResultViewModel: BaseViewModel {
     
     struct Input {
         let viewDidLoad: Observable<Void>
+        let itemWearButtonTapped: ControlEvent<Void>
     }
     
     // MARK: - Output
@@ -39,6 +40,7 @@ final class GachaResultViewModel: BaseViewModel {
         let drawnItem: Driver<GachaResultModel>
         let itemImageURL: Driver<URL?>
         let itemTitle: Driver<String>
+        let patchItemSuccess: Driver<Void>
     }
     
     // MARK: - Transform
@@ -71,6 +73,19 @@ final class GachaResultViewModel: BaseViewModel {
             }
             .asDriver(onErrorJustReturn: "")
         
+        // 착용하기 버튼 탭 시 아이템 착용 API 호출
+        let patchItemSuccess = input.itemWearButtonTapped
+            .withLatestFrom(Observable.just(()))
+            .flatMapLatest { [weak self] _ -> Observable<Void> in
+                guard let self = self,
+                      let drawnItemInfo = self.drawnItemInfo else {
+                    print("[GachaResultViewModel] Error: drawnItemInfo is nil")
+                    return Observable.empty()
+                }
+                return self.patchItemWear(itemType: drawnItemInfo.itemType, itemID: drawnItemInfo.itemID)
+            }
+            .asDriver(onErrorJustReturn: ())
+
         return Output(
             itemType: BehaviorRelay(
                 value: itemType == .character ? ["캐릭터를", "캐릭터는"] : ["배경을", "배경은"]
@@ -86,7 +101,8 @@ final class GachaResultViewModel: BaseViewModel {
                 isOwned: false
             )),
             itemImageURL: itemImageURL,
-            itemTitle: itemTitle
+            itemTitle: itemTitle,
+            patchItemSuccess: patchItemSuccess
         )
     }
     
@@ -117,10 +133,25 @@ final class GachaResultViewModel: BaseViewModel {
         }
     }
     
-    // MARK: - Getter
-    
-    /// drawnItemInfo 가져오기 (착용하기 API 호출 시 사용)
-    func getDrawnItemInfo() -> GachaResultSection? {
-        return drawnItemInfo
+    /// 아이템 착용 API 호출
+    private func patchItemWear(itemType: String, itemID: Int) -> Observable<Void> {
+        return Observable.create { observer in
+            GachaResultAPI.patchItem(itemType: itemType, itemID: itemID) { result in
+                switch result {
+                case .success:
+                    observer.onNext(())
+                    observer.onCompleted()
+                    
+                case .failure(let error):
+                    print("[GachaResultViewModel] patchItem Error: \(error.localizedDescription)")
+                    // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
+                    // 에러가 발생해도 성공으로 처리 (서버 응답 이슈)
+                    observer.onNext(())
+                    observer.onCompleted()
+                }
+            }
+
+            return Disposables.create()
+        }
     }
 }
