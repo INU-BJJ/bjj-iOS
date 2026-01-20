@@ -71,6 +71,7 @@ final class ItemTypeCell: BaseCollectionViewCell<StoreSection> {
         itemValidPeriodLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(4)
             $0.centerX.equalToSuperview()
+            $0.height.equalTo(16)
         }
         
         backgroundImage.snp.makeConstraints {

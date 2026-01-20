@@ -101,7 +101,7 @@ final class StoreViewModel: BaseViewModel {
                         // default인 경우 "영구 보유", 그 외엔 validPeriod 계산
                         let validPeriodText: String?
                         if rarity == .default {
-                            validPeriodText = "영구 보유"
+                            validPeriodText = "기본"
                         } else {
                             validPeriodText = item.validPeriod.flatMap { DateFormatterManager.shared.calculateItemValidPeriod(from: $0) }
                         }
