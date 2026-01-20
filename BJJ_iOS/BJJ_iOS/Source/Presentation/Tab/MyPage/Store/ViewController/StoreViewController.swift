@@ -86,17 +86,6 @@ final class StoreViewController: BaseViewController {
         $0.setCornerRadius(radius: 16)
     }
     
-    // MARK: - LifeCycle
-    
-    init(point: Int) {
-        super.init(nibName: nil, bundle: nil)
-        setStoreNaviBar(point: point)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewWillAppearTrigger.accept(())
@@ -107,6 +96,7 @@ final class StoreViewController: BaseViewController {
     
     override func setUI() {
         view.backgroundColor = .white
+        setStoreNaviBar(point: 0)
     }
     
     // MARK: - Set Hierarchy
@@ -169,6 +159,13 @@ final class StoreViewController: BaseViewController {
             itemSelected: allItemCollectionView.rx.modelSelected(StoreSection.self)
         )
         let output = storeViewModel.transform(input: input)
+        
+        // 포인트 바인딩
+        output.point
+            .drive(with: self) { owner, point in
+                owner.setStoreNaviBar(point: point)
+            }
+            .disposed(by: disposeBag)
         
         // 아이템 유효기간 갱신 Notification 구독
         NotificationCenter.default.rx

@@ -130,7 +130,7 @@ final class MyPageViewController: BaseViewController {
             .withLatestFrom(output.point)
             .asDriver(onErrorJustReturn: 0)
             .drive(with: self) { owner, point in
-                owner.presentStoreViewController(point: point)
+                owner.presentStoreViewController()
             }
             .disposed(by: disposeBag)
     }

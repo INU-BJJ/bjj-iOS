@@ -34,6 +34,7 @@ final class StoreViewModel: BaseViewModel {
         let items: Observable<[StoreSectionModel]>
         let selectedTab: Observable<ItemType>
         let patchItemResult: Driver<Result<Void, Error>>
+        let point: Driver<Int>
     }
     
     // MARK: - Transform
@@ -65,6 +66,16 @@ final class StoreViewModel: BaseViewModel {
                 return self.fetchAllItems(itemType: itemType)
             }
             .share(replay: 1)
+        
+        // viewWillAppear 시 포인트 정보 가져오기
+        let point = input.viewWillAppear
+            .flatMapLatest { [weak self] _ -> Observable<Int> in
+                guard let self = self else {
+                    return Observable.just(0)
+                }
+                return self.fetchMyPageInfo()
+            }
+            .asDriver(onErrorJustReturn: 0)
 
         // 아이템 선택 시 PATCH 요청
         let patchItemResult = input.itemSelected
@@ -82,7 +93,8 @@ final class StoreViewModel: BaseViewModel {
         return Output(
             items: items,
             selectedTab: selectedTab.asObservable(),
-            patchItemResult: patchItemResult
+            patchItemResult: patchItemResult,
+            point: point
         )
     }
 
@@ -162,6 +174,25 @@ final class StoreViewModel: BaseViewModel {
 
                 case .failure(let error):
                     print("[StoreViewModel] patchItem Error: \(error.localizedDescription)")
+                    observer.onError(error)
+                }
+            }
+
+            return Disposables.create()
+        }
+    }
+    
+    /// 마이페이지 정보 가져오기 (포인트 조회용)
+    private func fetchMyPageInfo() -> Observable<Int> {
+        return Observable.create { observer in
+            MyPageAPI.fetchMyPageInfo { result in
+                switch result {
+                case .success(let myPageInfo):
+                    observer.onNext(myPageInfo.point)
+                    observer.onCompleted()
+
+                case .failure(let error):
+                    print("[StoreViewModel] fetchMyPageInfo Error: \(error.localizedDescription)")
                     observer.onError(error)
                 }
             }
