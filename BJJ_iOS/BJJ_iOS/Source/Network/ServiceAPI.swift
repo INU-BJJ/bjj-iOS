@@ -76,6 +76,19 @@ public func networkRequest<T: Decodable>(
                 return
             }
             
+            // 200번대 성공 응답이지만 빈 응답인 경우 먼저 처리
+            if let statusCode = response.response?.statusCode,
+               (200..<300).contains(statusCode) {
+                
+                let isEmpty = response.data?.isEmpty ?? true
+                
+                if isEmpty, let emptyResponse = EmptyResponse() as? T {
+                    print("[ServiceAPI] Success with empty response (status: \(statusCode))")
+                    completion(.success(emptyResponse))
+                    return
+                }
+            }
+            
             switch response.result {
             case .success(let decodedData):
                 completion(.success(decodedData))
