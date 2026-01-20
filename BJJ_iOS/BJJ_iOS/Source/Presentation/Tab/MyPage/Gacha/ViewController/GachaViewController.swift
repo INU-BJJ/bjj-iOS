@@ -18,6 +18,7 @@ final class GachaViewController: BaseViewController {
     private let backgroundTapGesture = UITapGestureRecognizer().then {
         $0.cancelsTouchesInView = false
     }
+    private let itemType: ItemType
     
     // MARK: - UI Components
     
@@ -27,7 +28,7 @@ final class GachaViewController: BaseViewController {
     }
     
     private let gachaTitleLabel = UILabel().then {
-        $0.setLabelUI("캐릭터 뽑기", font: .pretendard_bold, size: 18, color: .black)
+        $0.setLabelUI("", font: .pretendard_bold, size: 18, color: .black)
     }
     
     private let gachaGuideLabel = UILabel().then {
@@ -53,6 +54,19 @@ final class GachaViewController: BaseViewController {
         )
         $0.setCornerRadius(radius: 5)
         $0.addTarget(self, action: #selector(didTapGachaButton), for: .touchUpInside)
+    }
+    
+    // MARK: - Init
+    
+    init(itemType: ItemType) {
+        self.itemType = itemType
+        gachaTitleLabel.text = itemType == .character ? "캐릭터 뽑기" : "배경 뽑기"
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Set UI
