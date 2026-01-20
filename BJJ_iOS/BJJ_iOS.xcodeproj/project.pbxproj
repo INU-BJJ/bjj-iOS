@@ -94,6 +94,7 @@
 		3F4B09252CE1FC31005C56C2 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4B09242CE1FC31005C56C2 /* TabBarController.swift */; };
 		3F4DF56A2DF8197A006E047E /* ReviewPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4DF5692DF8197A006E047E /* ReviewPhotoCell.swift */; };
 		3F5617B82CF3312400B4912D /* MenuReviewImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5617B72CF3312400B4912D /* MenuReviewImageCell.swift */; };
+		3F5F5E562F1F94C9001A8E99 /* Notification.Name++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5F5E552F1F94C9001A8E99 /* Notification.Name++Extensions.swift */; };
 		3F5F842B2F1E3FE40029F4BE /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 3F5F842A2F1E3FE40029F4BE /* RxDataSources */; };
 		3F5F842D2F1E40830029F4BE /* StoreSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5F842C2F1E40830029F4BE /* StoreSectionModel.swift */; };
 		3F5F843B2F1E4D160029F4BE /* DateFormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5F843A2F1E4D160029F4BE /* DateFormatterManager.swift */; };
@@ -311,6 +312,7 @@
 		3F4B09242CE1FC31005C56C2 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		3F4DF5692DF8197A006E047E /* ReviewPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPhotoCell.swift; sourceTree = "<group>"; };
 		3F5617B72CF3312400B4912D /* MenuReviewImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewImageCell.swift; sourceTree = "<group>"; };
+		3F5F5E552F1F94C9001A8E99 /* Notification.Name++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name++Extensions.swift"; sourceTree = "<group>"; };
 		3F5F842C2F1E40830029F4BE /* StoreSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSectionModel.swift; sourceTree = "<group>"; };
 		3F5F843A2F1E4D160029F4BE /* DateFormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterManager.swift; sourceTree = "<group>"; };
 		3F6125282DA6A80E003B5851 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
@@ -731,6 +733,7 @@
 				3FF1E92B2D67067000A237FA /* UITextView++Extensions.swift */,
 				3F90699D2F15391F00FDBC94 /* UIImageView++Extensions.swift */,
 				3F9A5F2F2F16250F00AB0576 /* UITextField++Extensions.swift */,
+				3F5F5E552F1F94C9001A8E99 /* Notification.Name++Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2187,6 +2190,7 @@
 				3F1472412DACEF6300098C41 /* StoreAddress.swift in Sources */,
 				3F4831F02D89831700B138A2 /* ReviewModalSection.swift in Sources */,
 				3F31AAE32D675C5700FDCC35 /* ReviewAddPhoto.swift in Sources */,
+				3F5F5E562F1F94C9001A8E99 /* Notification.Name++Extensions.swift in Sources */,
 				3F375BAA2D577323005015C1 /* ReviewCategorySelect.swift in Sources */,
 				3F8D58DA2D787936009356AE /* NoticeView.swift in Sources */,
 				3FCF9B082D803C8E00FB8252 /* ReviewWriteCollectionViewLayout.swift in Sources */,
