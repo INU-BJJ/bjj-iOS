@@ -9,108 +9,164 @@ import UIKit
 import SnapKit
 import Then
 import SDWebImage
+import RxSwift
+import RxCocoa
 
-final class GachaResultViewController: UIViewController {
+final class GachaResultViewController: BaseViewController {
     
     // MARK: - Properties
     
     private var drawnItemInfo: GachaResultSection?
     
+    // MARK: - ViewModel
+    
+    private let gachaResultViewModel: GachaResultViewModel
+    
     // MARK: - UI Components
     
-    private lazy var testBackButton = UIButton().then {
-        $0.setImage(UIImage(named: "BlackBackButton"), for: .normal)
-        $0.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
+    private let backgroundImageView = UIImageView().then {
+        $0.setImage(.storeBackground)
     }
     
-    private let testDrawnCharacter = UIImageView()
+    private let backButton = UIButton().then {
+        $0.setImage(UIImage(named: ImageAsset.BlackBackButton.name), for: .normal)
+    }
     
-    private let testGachaPopUpView = UIView().then {
+    private let itemImageView = UIImageView()
+    
+    private let gachaResultView = UIView().then {
         $0.backgroundColor = .white
+        $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        $0.setCornerRadius(radius: 25)
+        $0.setShadow(opacity: 0.1, shadowRadius: 7.5, x: 0, y: -3)
     }
     
-    private let testGachaLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_bold, size: 20, color: .black)
+    private let gachaResultTitleLabel = UILabel().then {
+        $0.setLabelUI("흔 한 양 파 등장!", font: .pretendard_semibold, size: 24, color: .black)
     }
     
-    private lazy var testItemWearButton = UIButton().then {
-        $0.setTitle("착용하기", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = .customColor(.mainColor)
-        $0.addTarget(self, action: #selector(didTapItemWearButton), for: .touchUpInside)
+    private let gachaDescriptionLabel = UILabel().then {
+        // TODO: 캐릭터/배경 모두 유효기간 7일. itemType에 따라 문구 수정
+        $0.setLabel(
+            "뽑기를 해서 랜덤으로 캐릭터를 얻어요.\n뽑은 캐릭터는 7일의 유효기간이 있어요.",
+            font: .pretendard_semibold,
+            size: 15,
+            color: ._999999
+        )
+        $0.numberOfLines = 2
+        $0.textAlignment = .center
     }
     
-    // MARK: - LifeCycle
+    private let dismissButton = ConfirmButton(title: "닫기", backgroundColor: .B_9_B_9_B_9)
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // TODO: 캐릭터인지 배경인지 구분해서 POST 요청 보내기
-        postItemGacha(itemType: "CHARACTER", completion: setUI)
-        setViewController()
-        setAddView()
-        setConstraints()
+    private lazy var itemWearButton = ConfirmButton(title: "착용하기")
+    
+    // MARK: - Init
+    
+    init(viewModel: GachaResultViewModel) {
+        gachaResultViewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
     }
     
-    // MARK: - Set ViewController
-    
-    private func setViewController() {
-        view.backgroundColor = .systemGreen
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
-            testBackButton,
-            testDrawnCharacter,
-            testGachaPopUpView
+            backgroundImageView,
+            backButton,
+            itemImageView,
+            gachaResultView
         ].forEach(view.addSubview)
         
         [
-            testGachaLabel,
-            testItemWearButton
-        ].forEach(testGachaPopUpView.addSubview)
+            gachaResultTitleLabel,
+            gachaDescriptionLabel,
+            dismissButton,
+            itemWearButton
+        ].forEach(gachaResultView.addSubview)
     }
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
-        testBackButton.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().offset(100)
+    override func setConstraints() {
+        backgroundImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
-        testDrawnCharacter.snp.makeConstraints {
-            $0.center.equalToSuperview()
+        backButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(60)
+            $0.leading.equalToSuperview().offset(20)
         }
         
-        testGachaPopUpView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(600)
-            $0.width.equalToSuperview()
-            $0.bottom.equalToSuperview()
+        itemImageView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().offset(221.52)
         }
         
-        testGachaLabel.snp.makeConstraints {
+        gachaResultView.snp.makeConstraints {
+            $0.height.equalTo(260)
+            $0.bottom.horizontalEdges.equalToSuperview()
+        }
+        
+        gachaResultTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(43)
             $0.centerX.equalToSuperview()
         }
         
-        testItemWearButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(173)
+        gachaDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(gachaResultTitleLabel.snp.bottom).offset(18)
+            $0.centerX.equalToSuperview()
+        }
+        
+        dismissButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(40)
-            $0.leading.equalToSuperview().offset(185)
+            $0.leading.equalTo(20)
+            $0.width.equalTo((UIScreen.main.bounds.width - 20 * 2 - 10) / 2)
+            $0.height.equalTo(47)
+        }
+        
+        itemWearButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.size.equalTo(dismissButton)
         }
     }
     
-    // MARK: - Set UI
+    // MARK: - Bind
     
-    private func setUI(_ itemInfo: GachaResultModel) {
+    override func bind() {
+        let input = GachaResultViewModel.Input(
+            viewDidLoad: Observable.just(())
+        )
+        let output = gachaResultViewModel.transform(input: input)
+        
+        // 백버튼 탭
+        backButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.presentingViewController?.presentingViewController?.dismiss(animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        // 착용하기 버튼 탭
+        itemWearButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.patchItem()
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    // MARK: - Configure
+    
+    private func configure(_ itemInfo: GachaResultModel) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             guard let characterURL = URL(string: baseURL.characterImageURL + itemInfo.itemImage) else { return }
             
-            self.testDrawnCharacter.sd_setImage(
+            self.itemImageView.sd_setImage(
                 with: characterURL,
                 placeholderImage: nil,
                 options: [.retryFailed, .continueInBackground]
@@ -118,21 +174,11 @@ final class GachaResultViewController: UIViewController {
                 // TODO: 이미지 크기 변경
                 // 이미지 로드 완료 후 크기 확대
                 UIView.animate(withDuration: 0) {
-                    self.testDrawnCharacter.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+                    self.itemImageView.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
                 }
             }
-            self.testGachaLabel.text = "\(itemInfo.itemName) 등장!"
+            self.gachaResultTitleLabel.text = "\(itemInfo.itemName) 등장!"
         }
-    }
-    
-    // MARK: - Objc Functions
-    
-    @objc private func didTapItemWearButton() {
-        patchItem()
-    }
-    
-    @objc private func dismissModal() {
-        self.presentingViewController?.presentingViewController?.dismiss(animated: true)
     }
     
     // MARK: - Post API

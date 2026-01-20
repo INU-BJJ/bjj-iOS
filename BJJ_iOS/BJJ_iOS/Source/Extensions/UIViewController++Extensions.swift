@@ -204,8 +204,9 @@ extension UIViewController {
     }
     
     /// GachaResultVC로 push
-    func presentGachaResultViewController() {
-        let gachaResultVC = GachaResultViewController()
+    func presentGachaResultViewController(itemType: ItemType) {
+        let gachaResultViewModel = GachaResultViewModel(itemType: itemType)
+        let gachaResultVC = GachaResultViewController(viewModel: gachaResultViewModel)
         
         gachaResultVC.modalPresentationStyle = .fullScreen
         present(gachaResultVC, animated: true)
