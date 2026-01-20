@@ -192,11 +192,20 @@ final class StoreViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
-        // 마이페이지로 이동 (아이템 선택 후 PATCH 성공 시)
-        output.dismissToMyPage
-            .observe(on: MainScheduler.instance)
-            .bind(with: self) { owner, _ in
-                owner.navigationController?.popToRootViewController(animated: true)
+        // 아이템 착용 API 결과 처리
+        output.patchItemResult
+            .drive(with: self) { owner, result in
+                switch result {
+                case .success:
+                    owner.navigationController?.popToRootViewController(animated: true)
+
+                case .failure:
+                    // 실패 시 에러 알림 표시
+                    owner.presentAlertViewController(
+                        alertType: .failure,
+                        title: "아이템 착용에 실패했습니다. 다시 시도해주세요."
+                    )
+                }
             }
             .disposed(by: disposeBag)
 

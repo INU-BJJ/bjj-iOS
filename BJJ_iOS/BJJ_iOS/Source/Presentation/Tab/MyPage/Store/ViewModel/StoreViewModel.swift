@@ -5,6 +5,7 @@
 //  Created by HyoTaek on 1/16/26.
 //
 
+import Foundation
 import RxSwift
 import RxCocoa
 
@@ -32,7 +33,7 @@ final class StoreViewModel: BaseViewModel {
     struct Output {
         let items: Observable<[StoreSectionModel]>
         let selectedTab: Observable<ItemType>
-        let dismissToMyPage: Observable<Void>
+        let patchItemResult: Driver<Result<Void, Error>>
     }
     
     // MARK: - Transform
@@ -66,19 +67,22 @@ final class StoreViewModel: BaseViewModel {
             .share(replay: 1)
 
         // 아이템 선택 시 PATCH 요청
-        let dismissToMyPage = input.itemSelected
-            .flatMapLatest { [weak self] item -> Observable<Void> in
+        let patchItemResult = input.itemSelected
+            .flatMapLatest { [weak self] item -> Observable<Result<Void, Error>> in
                 guard let self = self else {
-                    return Observable.empty()
+                    return Observable.just(.failure(NSError(domain: "StoreViewModel", code: -1, userInfo: [NSLocalizedDescriptionKey: "착용할 아이템 정보를 찾을 수 없습니다."])))
                 }
-                
+
                 return self.patchItem(itemType: item.itemType.rawValue, itemID: item.itemID)
+                    .map { .success(()) }
+                    .catch { error in Observable.just(.failure(error)) }
             }
+            .asDriver(onErrorJustReturn: .failure(NSError(domain: "StoreViewModel", code: -1, userInfo: [NSLocalizedDescriptionKey: "알 수 없는 오류가 발생했습니다."])))
 
         return Output(
             items: items,
             selectedTab: selectedTab.asObservable(),
-            dismissToMyPage: dismissToMyPage
+            patchItemResult: patchItemResult
         )
     }
 
@@ -153,16 +157,12 @@ final class StoreViewModel: BaseViewModel {
             GachaResultAPI.patchItem(itemType: itemType, itemID: itemID) { result in
                 switch result {
                 case .success:
-                    // 성공 시 화면 닫기 이벤트 방출
                     observer.onNext(())
                     observer.onCompleted()
 
                 case .failure(let error):
-                    // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
-                    // 에러가 발생해도 일단 화면 닫기 (임시 처리)
-                    print("[StoreViewModel] Error: \(error.localizedDescription)")
-                    observer.onNext(())
-                    observer.onCompleted()
+                    print("[StoreViewModel] patchItem Error: \(error.localizedDescription)")
+                    observer.onError(error)
                 }
             }
 
