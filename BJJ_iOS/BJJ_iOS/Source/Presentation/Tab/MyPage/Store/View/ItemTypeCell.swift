@@ -36,6 +36,7 @@ final class ItemTypeCell: BaseCollectionViewCell<StoreSection> {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        contentView.setBorder(color: .FF_9333, width: 2.5)
         itemImage.image = nil
         itemValidPeriodLabel.text = nil
         itemImage.transform = .identity
