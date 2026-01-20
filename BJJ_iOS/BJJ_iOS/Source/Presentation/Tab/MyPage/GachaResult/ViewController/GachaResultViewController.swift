@@ -59,12 +59,7 @@ final class GachaResultViewController: BaseViewController {
     
     private let dismissButton = ConfirmButton(title: "닫기", backgroundColor: .B_9_B_9_B_9)
     
-    private lazy var testItemWearButton = UIButton().then {
-        $0.setTitle("착용하기", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = .customColor(.mainColor)
-        $0.addTarget(self, action: #selector(didTapItemWearButton), for: .touchUpInside)
-    }
+    private lazy var itemWearButton = ConfirmButton(title: "착용하기")
     
     // MARK: - Init
     
@@ -92,7 +87,7 @@ final class GachaResultViewController: BaseViewController {
             gachaResultTitleLabel,
             gachaDescriptionLabel,
             dismissButton,
-            testItemWearButton
+            itemWearButton
         ].forEach(gachaResultView.addSubview)
     }
     
@@ -135,11 +130,9 @@ final class GachaResultViewController: BaseViewController {
             $0.height.equalTo(47)
         }
         
-        testItemWearButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(173)
-            $0.bottom.equalToSuperview().inset(40)
-            $0.leading.equalToSuperview().offset(185)
+        itemWearButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.size.equalTo(dismissButton)
         }
     }
     
@@ -155,6 +148,13 @@ final class GachaResultViewController: BaseViewController {
         backButton.rx.tap
             .bind(with: self) { owner, _ in
                 owner.presentingViewController?.presentingViewController?.dismiss(animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        // 착용하기 버튼 탭
+        itemWearButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.patchItem()
             }
             .disposed(by: disposeBag)
     }
@@ -179,12 +179,6 @@ final class GachaResultViewController: BaseViewController {
             }
             self.gachaResultTitleLabel.text = "\(itemInfo.itemName) 등장!"
         }
-    }
-    
-    // MARK: - Objc Functions
-    
-    @objc private func didTapItemWearButton() {
-        patchItem()
     }
     
     // MARK: - Post API
