@@ -10,7 +10,7 @@ import SnapKit
 import Then
 import SDWebImage
 
-final class GachaResultViewController: UIViewController {
+final class GachaResultViewController: BaseViewController {
     
     // MARK: - Properties
     
@@ -40,27 +40,15 @@ final class GachaResultViewController: UIViewController {
         $0.addTarget(self, action: #selector(didTapItemWearButton), for: .touchUpInside)
     }
     
-    // MARK: - LifeCycle
+    // MARK: - Set UI
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // TODO: 캐릭터인지 배경인지 구분해서 POST 요청 보내기
-        postItemGacha(itemType: "CHARACTER", completion: setUI)
-        setViewController()
-        setAddView()
-        setConstraints()
-    }
-    
-    // MARK: - Set ViewController
-    
-    private func setViewController() {
+    override func setUI() {
         view.backgroundColor = .systemGreen
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
             testBackButton,
             testDrawnCharacter,
@@ -75,7 +63,7 @@ final class GachaResultViewController: UIViewController {
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
+    override func setConstraints() {
         testBackButton.snp.makeConstraints {
             $0.top.leading.equalToSuperview().offset(100)
         }
@@ -103,9 +91,9 @@ final class GachaResultViewController: UIViewController {
         }
     }
     
-    // MARK: - Set UI
+    // MARK: - Configure
     
-    private func setUI(_ itemInfo: GachaResultModel) {
+    private func configure(_ itemInfo: GachaResultModel) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             guard let characterURL = URL(string: baseURL.characterImageURL + itemInfo.itemImage) else { return }
