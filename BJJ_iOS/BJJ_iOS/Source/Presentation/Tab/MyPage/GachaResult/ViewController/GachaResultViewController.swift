@@ -144,6 +144,15 @@ final class GachaResultViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        // 닫기 버튼 탭
+        dismissButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.presentingViewController?.presentingViewController?.dismiss(animated: true) {
+                    NotificationCenter.default.post(name: .itemValidPeriodRefresh, object: nil)
+                }
+            }
+            .disposed(by: disposeBag)
+        
         // 아이템 착용 API 결과 처리
         output.patchItemResult
             .drive(with: self) { owner, result in
