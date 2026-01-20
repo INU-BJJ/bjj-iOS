@@ -117,7 +117,8 @@ final class GachaViewController: BaseViewController {
     
     @objc private func didTapGachaButton() {
         DispatchQueue.main.async {
-            self.presentGachaResultViewController()
+            // TODO: 상점 페이지에서 캐릭터, 배경 탭의 상태를 전달받기.
+            self.presentGachaResultViewController(itemType: .character)
         }
     }
 }

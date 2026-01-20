@@ -18,6 +18,10 @@ final class GachaResultViewController: BaseViewController {
     
     private var drawnItemInfo: GachaResultSection?
     
+    // MARK: - ViewModel
+    
+    private let gachaResultViewModel: GachaResultViewModel
+    
     // MARK: - UI Components
     
     private let backgroundImageView = UIImageView().then {
@@ -43,6 +47,18 @@ final class GachaResultViewController: BaseViewController {
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .customColor(.mainColor)
         $0.addTarget(self, action: #selector(didTapItemWearButton), for: .touchUpInside)
+    }
+    
+    // MARK: - Init
+    
+    init(viewModel: GachaResultViewModel) {
+        gachaResultViewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Set Hierarchy
@@ -99,6 +115,10 @@ final class GachaResultViewController: BaseViewController {
     // MARK: - Bind
     
     override func bind() {
+        let input = GachaResultViewModel.Input(
+            viewDidLoad: Observable.just(())
+        )
+        let output = gachaResultViewModel.transform(input: input)
         
         // 백버튼 탭
         backButton.rx.tap
