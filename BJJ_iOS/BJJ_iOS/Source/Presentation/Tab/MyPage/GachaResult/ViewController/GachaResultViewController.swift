@@ -57,6 +57,8 @@ final class GachaResultViewController: BaseViewController {
         $0.textAlignment = .center
     }
     
+    private let dismissButton = ConfirmButton(title: "닫기", backgroundColor: .B_9_B_9_B_9)
+    
     private lazy var testItemWearButton = UIButton().then {
         $0.setTitle("착용하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
@@ -89,6 +91,7 @@ final class GachaResultViewController: BaseViewController {
         [
             gachaResultTitleLabel,
             gachaDescriptionLabel,
+            dismissButton,
             testItemWearButton
         ].forEach(gachaResultView.addSubview)
     }
@@ -123,6 +126,13 @@ final class GachaResultViewController: BaseViewController {
         gachaDescriptionLabel.snp.makeConstraints {
             $0.top.equalTo(gachaResultTitleLabel.snp.bottom).offset(18)
             $0.centerX.equalToSuperview()
+        }
+        
+        dismissButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(40)
+            $0.leading.equalTo(20)
+            $0.width.equalTo((UIScreen.main.bounds.width - 20 * 2 - 10) / 2)
+            $0.height.equalTo(47)
         }
         
         testItemWearButton.snp.makeConstraints {
