@@ -32,36 +32,21 @@ final class GachaViewController: BaseViewController {
     }
     
     private let gachaGuideLabel = UILabel().then {
-        $0.setLabel(
-            "뽑기를 해서 랜덤으로 캐릭터를 얻어요.\n뽑은 캐릭터는 7일의 유효기간이 있어요.",
-            font: .pretendard_medium,
-            size: 13,
-            color: ._999999
-        )
+        $0.setLabel("", font: .pretendard_medium, size: 13, color: ._999999)
         $0.numberOfLines = 2
         $0.textAlignment = .center
     }
     
-    private lazy var gachaButton = UIButton().then {
-        $0.setButtonWithIcon(
-            title: "100",
-            font: .pretendard_medium,
-            size: 18,
-            textColor: .black,
-            icon: .point,
-            iconPadding: 7,
-            backgroundColor: .FFEB_62
-        )
+    private let gachaButton = UIButton().then {
         $0.setCornerRadius(radius: 5)
-        $0.addTarget(self, action: #selector(didTapGachaButton), for: .touchUpInside)
     }
     
     // MARK: - Init
     
     init(itemType: ItemType) {
         self.itemType = itemType
-        gachaTitleLabel.text = itemType == .character ? "캐릭터 뽑기" : "배경 뽑기"
         super.init(nibName: nil, bundle: nil)
+        configureUI(itemType: itemType)
     }
     
     @available(*, unavailable)
@@ -127,12 +112,31 @@ final class GachaViewController: BaseViewController {
                 }
             }
             .disposed(by: disposeBag)
+        
+        // 뽑기 버튼 탭
+        gachaButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.presentGachaResultViewController(itemType: owner.itemType)
+            }
+            .disposed(by: disposeBag)
     }
     
-    @objc private func didTapGachaButton() {
-        DispatchQueue.main.async {
-            // TODO: 상점 페이지에서 캐릭터, 배경 탭의 상태를 전달받기.
-            self.presentGachaResultViewController(itemType: .character)
-        }
+    // MARK: - Configure UI
+    
+    private func configureUI(itemType: ItemType) {
+        let firstGuideMessage = itemType == .character ? "캐릭터를" : "배경을"
+        let secondGuideMessage = itemType == .character ? "캐릭터는" : "배경은"
+        
+        gachaTitleLabel.text = itemType == .character ? "캐릭터 뽑기" : "배경 뽑기"
+        gachaGuideLabel.text = "뽑기를 해서 랜덤으로 \(firstGuideMessage) 얻어요.\n뽑은 \(secondGuideMessage) 7일의 유효기간이 있어요."
+        gachaButton.setButtonWithIcon(
+            title: itemType == .character ? "50" : "100",
+            font: .pretendard_medium,
+            size: 18,
+            textColor: .black,
+            icon: .point,
+            iconPadding: 7,
+            backgroundColor: .FFEB_62
+        )
     }
 }
