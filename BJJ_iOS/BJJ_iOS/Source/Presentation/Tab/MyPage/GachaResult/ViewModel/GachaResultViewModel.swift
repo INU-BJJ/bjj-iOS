@@ -40,7 +40,7 @@ final class GachaResultViewModel: BaseViewModel {
         let drawnItem: Driver<GachaResultModel>
         let itemImageURL: Driver<URL?>
         let itemTitle: Driver<String>
-        let patchItemSuccess: Driver<Void>
+        let patchItemResult: Driver<Result<Void, Error>>
     }
     
     // MARK: - Transform
@@ -74,17 +74,19 @@ final class GachaResultViewModel: BaseViewModel {
             .asDriver(onErrorJustReturn: "")
         
         // 착용하기 버튼 탭 시 아이템 착용 API 호출
-        let patchItemSuccess = input.itemWearButtonTapped
+        let patchItemResult = input.itemWearButtonTapped
             .withLatestFrom(Observable.just(()))
-            .flatMapLatest { [weak self] _ -> Observable<Void> in
+            .flatMapLatest { [weak self] _ -> Observable<Result<Void, Error>> in
                 guard let self = self,
                       let drawnItemInfo = self.drawnItemInfo else {
                     print("[GachaResultViewModel] Error: drawnItemInfo is nil")
-                    return Observable.empty()
+                    return Observable.just(.failure(NSError(domain: "GachaResultViewModel", code: -1, userInfo: [NSLocalizedDescriptionKey: "착용할 아이템 정보를 찾을 수 없습니다."])))
                 }
                 return self.patchItemWear(itemType: drawnItemInfo.itemType, itemID: drawnItemInfo.itemID)
+                    .map { .success(()) }
+                    .catch { error in Observable.just(.failure(error)) }
             }
-            .asDriver(onErrorJustReturn: ())
+            .asDriver(onErrorJustReturn: .failure(NSError(domain: "GachaResultViewModel", code: -1, userInfo: [NSLocalizedDescriptionKey: "알 수 없는 오류가 발생했습니다."])))
 
         return Output(
             itemType: BehaviorRelay(
@@ -102,7 +104,7 @@ final class GachaResultViewModel: BaseViewModel {
             )),
             itemImageURL: itemImageURL,
             itemTitle: itemTitle,
-            patchItemSuccess: patchItemSuccess
+            patchItemResult: patchItemResult
         )
     }
     
@@ -144,10 +146,7 @@ final class GachaResultViewModel: BaseViewModel {
                     
                 case .failure(let error):
                     print("[GachaResultViewModel] patchItem Error: \(error.localizedDescription)")
-                    // TODO: 빈 응답이라도 보내줘야됨. 현재는 아무 응답도 받지 못해서 Empty로도 디코딩하지 못하는것.
-                    // 에러가 발생해도 성공으로 처리 (서버 응답 이슈)
-                    observer.onNext(())
-                    observer.onCompleted()
+                    observer.onError(error)
                 }
             }
 
