@@ -46,13 +46,7 @@ final class GachaResultViewController: BaseViewController {
     }
     
     private let gachaDescriptionLabel = UILabel().then {
-        // TODO: 캐릭터/배경 모두 유효기간 7일. itemType에 따라 문구 수정
-        $0.setLabel(
-            "뽑기를 해서 랜덤으로 캐릭터를 얻어요.\n뽑은 캐릭터는 7일의 유효기간이 있어요.",
-            font: .pretendard_semibold,
-            size: 15,
-            color: ._999999
-        )
+        $0.setLabel("", font: .pretendard_semibold, size: 15, color: ._999999)
         $0.numberOfLines = 2
         $0.textAlignment = .center
     }
@@ -156,6 +150,13 @@ final class GachaResultViewController: BaseViewController {
             .bind(with: self) { owner, _ in
                 owner.patchItem()
             }
+            .disposed(by: disposeBag)
+        
+        // 뽑기 결과 설명 텍스트 설정
+        output.itemType
+            .bind(with: self, onNext: { owner, itemTexts in
+                owner.gachaDescriptionLabel.text = "뽑기를 해서 랜덤으로 \(itemTexts[0]) 얻어요.\n뽑은 \(itemTexts[1]) 7일의 유효기간이 있어요."
+            })
             .disposed(by: disposeBag)
     }
     

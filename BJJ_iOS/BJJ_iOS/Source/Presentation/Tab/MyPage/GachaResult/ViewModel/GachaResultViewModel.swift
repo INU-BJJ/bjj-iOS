@@ -29,12 +29,16 @@ final class GachaResultViewModel: BaseViewModel {
     // MARK: - Output
     
     struct Output {
-        
+        let itemType: BehaviorRelay<[String]>
     }
     
     // MARK: - Transform
     
     func transform(input: Input) -> Output {
-        return Output()
+        return Output(
+            itemType: BehaviorRelay(
+                value: itemType == .character ? ["캐릭터를", "캐릭터는"] : ["배경을", "배경은"]
+            )
+        )
     }
 }
