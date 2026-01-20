@@ -137,7 +137,9 @@ final class GachaResultViewController: BaseViewController {
         // 백버튼 탭
         backButton.rx.tap
             .bind(with: self) { owner, _ in
-                owner.presentingViewController?.presentingViewController?.dismiss(animated: true)
+                owner.presentingViewController?.presentingViewController?.dismiss(animated: true) {
+                    NotificationCenter.default.post(name: .itemValidPeriodRefresh, object: nil)
+                }
             }
             .disposed(by: disposeBag)
         

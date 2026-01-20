@@ -170,6 +170,14 @@ final class StoreViewController: BaseViewController {
         )
         let output = storeViewModel.transform(input: input)
         
+        // 아이템 유효기간 갱신 Notification 구독
+        NotificationCenter.default.rx
+            .notification(.itemValidPeriodRefresh)
+            .bind(with: self) { owner, _ in
+                owner.viewWillAppearTrigger.accept(())
+            }
+            .disposed(by: disposeBag)
+        
         // 아이템 데이터 바인딩
         output.items
             .observe(on: MainScheduler.instance)
