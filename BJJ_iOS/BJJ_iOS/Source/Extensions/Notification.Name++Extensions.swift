@@ -9,4 +9,5 @@ import Foundation
 
 extension Notification.Name {
     static let itemValidPeriodRefresh = Notification.Name("itemValidPeriodRefresh")
+    static let pointRefresh = Notification.Name("pointRefresh")
 }

@@ -189,8 +189,8 @@ extension UIViewController {
     }
     
     /// StoreVC로 push
-    func presentStoreViewController(point: Int) {
-        let storeVC = StoreViewController(point: point)
+    func presentStoreViewController() {
+        let storeVC = StoreViewController()
         storeVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(storeVC, animated: true)
     }
