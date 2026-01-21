@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class SettingViewController: UIViewController {
+final class SettingViewController: BaseViewController {
     
     // MARK: - Properties
     
@@ -59,26 +59,16 @@ final class SettingViewController: UIViewController {
         $0.addTarget(self, action: #selector(didTapDeleteAccountButton), for: .touchUpInside)
     }
     
-    // MARK: - LifeCycle
+    // MARK: - Set UI
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setViewController()
-        setAddView()
-        setConstraints()
-    }
-    
-    // MARK: - Set ViewController
-    
-    private func setViewController() {
+    override func setUI() {
         view.backgroundColor = .white
         setBackNaviBar("설정")
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
             editNicknameButton,
             navigateLikedMenuVCButton,
@@ -91,7 +81,7 @@ final class SettingViewController: UIViewController {
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
+    override func setConstraints() {
         editNicknameButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
             $0.horizontalEdges.equalToSuperview().inset(24)
