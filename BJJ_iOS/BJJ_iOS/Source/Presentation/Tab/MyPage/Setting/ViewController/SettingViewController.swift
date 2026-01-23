@@ -106,25 +106,27 @@ final class SettingViewController: BaseViewController {
                 cell.configureCell(with: setting)
             }
             .disposed(by: disposeBag)
+        
+        // 설정 tableView cell 탭
+        settingTableView.rx.modelSelected(SettingMenu.self)
+            .bind(with: self) { owner, menu in
+                switch menu {
+                case .editNickname:
+                    owner.presentNicknameEditViewController()
+                case .likedMenu:
+                    owner.presentLikedMenuViewController()
+                case .servicePolicy:
+                    // TODO: 서비스 이용 약관 화면으로 이동
+                    break
+                case .personalPolicy:
+                    // TODO: 개인정보 처리방침 화면으로 이동
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Objc Functions
-    
-    @objc private func didTapEditNicknameButton() {
-        DispatchQueue.main.async {
-            self.presentNicknameEditViewController()
-        }
-    }
-    
-    @objc private func didTapGoToLikedMenuVCButton() {
-        DispatchQueue.main.async {
-            self.presentLikedMenuViewController()
-        }
-    }
-    
-    @objc private func didTapBlockedUserButton() {
-        // TODO: 차단한 유저 목록 fetch
-    }
     
     @objc private func didTapLogoutButton() {
         KeychainManager.delete(key: .accessToken)
