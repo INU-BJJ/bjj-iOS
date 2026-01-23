@@ -33,7 +33,8 @@ final class SettingTableViewCell: BaseTableViewCell<SettingMenu> {
     
     override func setConstraints() {
         titleLabel.snp.makeConstraints {
-            $0.verticalEdges.leading.equalToSuperview()
+            $0.top.leading.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(24)
         }
     }
     

@@ -19,7 +19,6 @@ final class SettingViewController: BaseViewController {
     
     // MARK: - UI Components
     
-    // TODO: UICollectionView + List Configuration
     private let settingTableView = UITableView().then {
         $0.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.reuseIdentifier)
         $0.separatorStyle = .none
@@ -67,7 +66,7 @@ final class SettingViewController: BaseViewController {
     
     override func setConstraints() {
         settingTableView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(106)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
             $0.horizontalEdges.equalToSuperview().inset(24)
             $0.bottom.equalTo(separatingView.snp.top)
         }
