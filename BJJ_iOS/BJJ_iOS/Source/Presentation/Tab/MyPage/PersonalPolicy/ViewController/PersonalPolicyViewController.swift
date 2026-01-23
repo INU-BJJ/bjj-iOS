@@ -1,5 +1,5 @@
 //
-//  ServicePolicyViewController.swift
+//  PersonalPolicyViewController.swift
 //  BJJ_iOS
 //
 //  Created by HyoTaek on 1/23/26.
@@ -12,11 +12,11 @@ import WebKit
 import RxSwift
 import RxCocoa
 
-final class ServicePolicyViewController: BaseViewController {
+final class PersonalPolicyViewController: BaseViewController {
 
     // MARK: - ViewModel
     
-    private let viewModel = ServicePolicyViewModel()
+    private let viewModel = PersonalPolicyViewModel()
     
     // MARK: - Components
     
@@ -26,7 +26,7 @@ final class ServicePolicyViewController: BaseViewController {
     
     override func setUI() {
         view.backgroundColor = .white
-        setBackNaviBar("서비스 이용약관")
+        setBackNaviBar("개인정보 처리방침")
     }
     
     // MARK: - Set Hierarchy
@@ -47,11 +47,11 @@ final class ServicePolicyViewController: BaseViewController {
     // MARK: - Bind
     
     override func bind() {
-        let input = ServicePolicyViewModel.Input(viewDidLoad: Observable.just(()))
+        let input = PersonalPolicyViewModel.Input(viewDidLoad: Observable.just(()))
         let output = viewModel.transform(input: input)
         
-        // 서비스 이용약관 웹뷰 로드
-        output.servicePolicyHTML
+        // 개인정보 처리방침 웹뷰 로드
+        output.personalPolicyHTML
             .drive(with: self) { owner, html in
                 owner.webView.loadHTMLString(html, baseURL: URL(string: baseURL.URL))
             }
