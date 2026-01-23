@@ -16,6 +16,11 @@ enum NetworkError: Error {
     case unknownError
 }
 
+public enum ResponseType {
+    case json
+    case html
+}
+
 // TODO: Swift Concurrency(async/await)로 리팩토링
 public func networkRequest<T: Decodable>(
     urlStr: String,
@@ -100,6 +105,82 @@ public func networkRequest<T: Decodable>(
                     print("\n<< [ServiceAPI] Error.localizedDescription: \(error.localizedDescription)\n")
                 }
                 
+                completion(.failure(error))
+            }
+        }
+}
+
+// HTML/String 응답을 받는 API 요청
+public func networkRequest(
+    urlStr: String,
+    method: HTTPMethod,
+    query: [String: Any]? = nil,
+    cancelToken: APICancelToken? = nil,
+    responseType: ResponseType,
+    completion: @escaping (Result<String, Error>) -> Void
+) {
+    let base = responseType == .html ? baseURL.homepageURL : baseURL.URL
+    guard var urlComponents = URLComponents(string: base + urlStr) else {
+        completion(.failure(NetworkError.invalidURL))
+        return
+    }
+
+    if let parameters = query {
+        urlComponents.queryItems = parameters.map { key, value in
+            URLQueryItem(name: key, value: "\(value)")
+        }
+    }
+
+    guard let url = urlComponents.url else {
+        completion(.failure(NetworkError.invalidURL))
+        return
+    }
+
+    // accessToken이 없으면 tempToken 사용 (회원가입 플로우용)
+    let token: String
+    if let accessToken = KeychainManager.read(key: .accessToken) {
+        token = accessToken
+    } else if let tempToken = KeychainManager.read(key: .tempToken) {
+        token = tempToken
+    } else {
+        completion(.failure(NetworkError.invalidToken))
+        return
+    }
+
+    var request = URLRequest(url: url)
+
+    // HTML 응답을 받기 위해 Accept 헤더와 Authorization 헤더 설정
+    request.allHTTPHeaderFields = [
+        "Accept": "text/html",
+        "Authorization": "Bearer \(token)"
+    ]
+    request.method = method
+
+    let apiRequest = AF.request(request)
+
+    cancelToken?.onRegister {
+        apiRequest.cancel()
+    }
+
+    apiRequest
+        .validate(statusCode: 200..<300)
+        .responseString { response in
+            if let error = response.error, error.isExplicitlyCancelledError {
+                print("[ServiceAPI] ErrorMsg: Request was explicitly cancelled, completion will not be called.")
+                return
+            }
+
+            switch response.result {
+            case .success(let htmlString):
+                completion(.success(htmlString))
+            case .failure(let error):
+                if let data = response.data,
+                   let errorMessage = String(data: data, encoding: .utf8) {
+                    print("\n<< [ServiceAPI] ErrorMsg: \(errorMessage)\n")
+                } else {
+                    print("\n<< [ServiceAPI] Error.localizedDescription: \(error.localizedDescription)\n")
+                }
+
                 completion(.failure(error))
             }
         }
