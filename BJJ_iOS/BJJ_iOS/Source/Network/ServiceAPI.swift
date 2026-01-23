@@ -136,23 +136,11 @@ public func networkRequest(
         return
     }
 
-    // accessToken이 없으면 tempToken 사용 (회원가입 플로우용)
-    let token: String
-    if let accessToken = KeychainManager.read(key: .accessToken) {
-        token = accessToken
-    } else if let tempToken = KeychainManager.read(key: .tempToken) {
-        token = tempToken
-    } else {
-        completion(.failure(NetworkError.invalidToken))
-        return
-    }
-
     var request = URLRequest(url: url)
 
-    // HTML 응답을 받기 위해 Accept 헤더와 Authorization 헤더 설정
+    // HTML 응답을 받기 위해 Accept 헤더 설정
     request.allHTTPHeaderFields = [
-        "Accept": "text/html",
-        "Authorization": "Bearer \(token)"
+        "Accept": "text/html"
     ]
     request.method = method
 
