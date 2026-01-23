@@ -5,6 +5,7 @@
 //  Created by HyoTaek on 1/23/26.
 //
 
+import Foundation
 import RxSwift
 import RxCocoa
 
@@ -19,7 +20,7 @@ final class NicknameEditViewModel: BaseViewModel {
     struct Input {
         let checkNicknameDuplicate: PublishRelay<String>
         let nickname: BehaviorRelay<String>
-//        let signUpButtonTapped: ControlEvent<Void>
+        let editNicknameButtonTapped: ControlEvent<Void>
     }
     
     // MARK: - Output
@@ -27,7 +28,7 @@ final class NicknameEditViewModel: BaseViewModel {
     struct Output {
         let nicknameValidationResult: Driver<NicknameValidationState>
         let editNicknameButtonEnabled: Driver<Bool>
-//        let signUpResult: Driver<Result<String, Error>>
+        let editNicknameResult: Driver<Result<String, Error>>
     }
     
     // MARK: - Transform
@@ -67,19 +68,20 @@ final class NicknameEditViewModel: BaseViewModel {
                 }
                 return false
             }
-//        
-//        // 회원가입 버튼 탭 -> API 호출
-//        let signUpResult = input.signUpButtonTapped
-//            .withLatestFrom(input.nickname)
-//            .flatMapLatest { [weak self] nickname -> Observable<Result<String, Error>> in
-//                guard let self = self else { return .empty() }
-//                return self.postSignUp(nickname: nickname)
-//            }
-//            .asDriver(onErrorJustReturn: .failure(NSError(domain: "SignUpError", code: -1, userInfo: nil)))
-//        
+        
+        // 닉네임 변경 버튼 탭 -> API 호출
+        let editNicknameResult = input.editNicknameButtonTapped
+            .withLatestFrom(input.nickname)
+            .flatMapLatest { [weak self] nickname -> Observable<Result<String, Error>> in
+                guard let self = self else { return .empty() }
+                return self.editNickname(nickname: nickname)
+            }
+            .asDriver(onErrorJustReturn: .failure(NSError(domain: "SignUpError", code: -1, userInfo: nil)))
+        
         return Output(
             nicknameValidationResult: validationResult,
-            editNicknameButtonEnabled: editNicknameButtonEnabled
+            editNicknameButtonEnabled: editNicknameButtonEnabled,
+            editNicknameResult: editNicknameResult
         )
     }
     
@@ -104,12 +106,12 @@ final class NicknameEditViewModel: BaseViewModel {
     }
     
     /// 닉네임 변경 API 요청
-    private func editNickname(nickname: String) -> Observable<Result<Void, Error>> {
+    private func editNickname(nickname: String) -> Observable<Result<String, Error>> {
         return Observable.create { observer in
             SettingAPI.patchNickname(nickname: nickname) { result in
                 switch result {
                 case .success:
-                    observer.onNext(.success(()))
+                    observer.onNext(.success(nickname))
                     observer.onCompleted()
 
                 case .failure(let error):

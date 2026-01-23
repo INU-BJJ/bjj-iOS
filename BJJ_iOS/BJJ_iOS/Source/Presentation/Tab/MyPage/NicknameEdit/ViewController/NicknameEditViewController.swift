@@ -138,7 +138,7 @@ final class NicknameEditViewController: BaseViewController {
         let input = NicknameEditViewModel.Input(
             checkNicknameDuplicate: checkDuplicateRelay,
             nickname: nicknameRelay,
-//            signUpButtonTapped: signUpButtonTappedRelay
+            editNicknameButtonTapped: editNicknameButton.rx.tap
         )
         let output = viewModel.transform(input: input)
         
@@ -202,25 +202,25 @@ final class NicknameEditViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
 
-//        // 회원가입 결과 처리
-//        output.signUpResult
-//            .drive(with: self, onNext: { owner, result in
-//                switch result {
-//                case .success(let accessToken):
-//                    // 토큰 저장
-//                    KeychainManager.create(value: accessToken, key: .accessToken)
-//                    KeychainManager.delete(key: .tempToken)
-//                    
-//                    // TabBarController로 화면 전환
-//                    DispatchQueue.main.async {
-//                        let tabBarController = TabBarController()
-//                        owner.navigationController?.setViewControllers([tabBarController], animated: true)
-//                    }
-//
-//                case .failure:
-//                    owner.presentAlertViewController(alertType: .failure, title: "회원가입에 실패했습니다.\n다시 시도해주세요.")
-//                }
-//            })
-//            .disposed(by: disposeBag)
+        // 닉네임 변경 결과 처리
+        output.editNicknameResult
+            .drive(with: self, onNext: { owner, result in
+                switch result {
+                case .success(let accessToken):
+                    owner.presentAlertViewController(
+                        alertType: .success,
+                        title: "닉네임 변경이 완료되었습니다."
+                    ) {
+                        // TODO: 설정 페이지로 popToVC
+                    }
+                    
+                case .failure:
+                    owner.presentAlertViewController(
+                        alertType: .failure,
+                        title: "닉네임 변경에 실패했습니다.\n다시 시도해주세요."
+                    )
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
