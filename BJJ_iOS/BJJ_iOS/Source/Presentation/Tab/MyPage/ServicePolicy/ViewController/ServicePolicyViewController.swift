@@ -27,8 +27,6 @@ final class ServicePolicyViewController: BaseViewController {
     override func setUI() {
         view.backgroundColor = .white
         setBackNaviBar("서비스 이용약관")
-        
-//        webView.loadHTMLString(htmlString, baseURL: baseURL)
     }
     
     // MARK: - Set Hierarchy
@@ -51,5 +49,12 @@ final class ServicePolicyViewController: BaseViewController {
     override func bind() {
         let input = ServicePolicyViewModel.Input(viewDidLoad: Observable.just(()))
         let output = viewModel.transform(input: input)
+        
+        // 서비스 이용약관 웹뷰 로드
+        output.servicePolicyHTML
+            .drive(with: self) { owner, html in
+                owner.webView.loadHTMLString(html, baseURL: URL(string: baseURL.URL))
+            }
+            .disposed(by: disposeBag)
     }
 }
