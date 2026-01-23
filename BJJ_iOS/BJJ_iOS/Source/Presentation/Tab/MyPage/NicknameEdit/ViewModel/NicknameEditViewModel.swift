@@ -86,6 +86,7 @@ final class NicknameEditViewModel: BaseViewModel {
     
     // MARK: - API Methods
     
+    /// 닉네임 중복 확인 API 요청
     private func checkNicknameDuplicate(nickname: String) -> Observable<NicknameValidationState> {
         return Observable.create { observer in
             SignUpAPI.postNickname(nickname: nickname) { result in
@@ -103,6 +104,22 @@ final class NicknameEditViewModel: BaseViewModel {
         }
     }
     
-    // TODO: 닉네임 변경 API 호출
+    /// 닉네임 변경 API 요청
+    private func editNickname(nickname: String) -> Observable<Result<Void, Error>> {
+        return Observable.create { observer in
+            SettingAPI.patchNickname(nickname: nickname) { result in
+                switch result {
+                case .success:
+                    observer.onNext(.success(()))
+                    observer.onCompleted()
+
+                case .failure(let error):
+                    observer.onNext(.failure(error))
+                    observer.onCompleted()
+                }
+            }
+            return Disposables.create()
+        }
+    }
 }
 

@@ -223,33 +223,4 @@ final class NicknameEditViewController: BaseViewController {
 //            })
 //            .disposed(by: disposeBag)
     }
-    
-    // MARK: - Patch API Functions
-    
-    private func patchNickname(nickname: String?) {
-        if let nickname = nickname, !nickname.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            SettingAPI.patchNickname(nickname: nickname) { [weak self] result in
-                guard let self = self else { return }
-                
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success:
-                        DispatchQueue.main.async {
-                            self.presentAlertViewController(alertType: .success, title: "닉네임 변경에 성공했습니다!") { [weak self] in
-                                if let self = self {
-                                    self.navigationController?.popViewController(animated: true)
-                                } else {
-                                    print("[NicknameEditVC] patchNickname: self 옵셔널 바인딩 실패")
-                                }
-                            }
-                        }
-                        
-                    case .failure(let error):
-                        self.presentAlertViewController(alertType: .failure, title: "닉네임 변경에 실패했습니다.\n다시 시도해주세요.")
-                        print("[NicknameEditVC] Error: \(error.localizedDescription)")
-                    }
-                }
-            }
-        }
-    }
 }
