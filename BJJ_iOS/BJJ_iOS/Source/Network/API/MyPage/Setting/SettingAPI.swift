@@ -40,4 +40,14 @@ final class SettingAPI {
             completion: completion
         )
     }
+    
+    /// 개인정보 처리방침 조회
+    static func fetchPersonalPolicy(completion: @escaping (Result<String, Error>) -> Void) {
+        networkRequest(
+            urlStr: SettingAddress.fetchPersonalPolicy.url,
+            method: .get,
+            responseType: .html,
+            completion: completion
+        )
+    }
 }
