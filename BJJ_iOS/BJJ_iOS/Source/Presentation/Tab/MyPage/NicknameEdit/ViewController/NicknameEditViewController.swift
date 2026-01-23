@@ -47,6 +47,8 @@ final class NicknameEditViewController: BaseViewController {
         $0.isHidden = true
     }
     
+    private let editNicknameButton = ConfirmButton(title: "닉네임 변경하기")
+    
     // MARK: - Set UI
     
     override func setUI() {
@@ -64,7 +66,8 @@ final class NicknameEditViewController: BaseViewController {
             nicknameTextFieldBorder,
             checkNicknameDupliCateButton,
             validResultIcon,
-            validResultLabel
+            validResultLabel,
+            editNicknameButton
         ].forEach(view.addSubview)
     }
     
@@ -111,6 +114,12 @@ final class NicknameEditViewController: BaseViewController {
         validResultLabel.snp.makeConstraints {
             $0.centerY.equalTo(validResultIcon)
             $0.leading.equalTo(validResultIcon.snp.trailing).offset(6)
+        }
+        
+        editNicknameButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(40)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(47)
         }
     }
     
