@@ -16,7 +16,7 @@ final class SettingViewModel: BaseViewModel {
     
     // MARK: - DataSource
     
-    private let settingList = BehaviorRelay(value: ["닉네임 변경하기", "좋아요한 메뉴", "서비스 이용 약관", "개인정보 처리방침"])
+    private let settingList = BehaviorRelay(value: SettingMenu.allCases)
     
     // MARK: - Input
     
@@ -27,7 +27,7 @@ final class SettingViewModel: BaseViewModel {
     // MARK: - Output
     
     struct Output {
-        let settingList: BehaviorRelay<[String]>
+        let settingList: BehaviorRelay<[SettingMenu]>
     }
     
     // MARK: - Transform
