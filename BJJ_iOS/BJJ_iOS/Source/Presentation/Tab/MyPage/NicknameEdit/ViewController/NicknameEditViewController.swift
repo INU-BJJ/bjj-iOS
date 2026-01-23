@@ -206,7 +206,7 @@ final class NicknameEditViewController: BaseViewController {
         output.editNicknameResult
             .drive(with: self, onNext: { owner, result in
                 switch result {
-                case .success(let accessToken):
+                case .success:
                     owner.presentAlertViewController(
                         alertType: .success,
                         title: "닉네임 변경이 완료되었습니다."
