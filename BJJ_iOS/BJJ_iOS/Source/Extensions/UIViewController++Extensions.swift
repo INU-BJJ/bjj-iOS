@@ -240,6 +240,13 @@ extension UIViewController {
         self.navigationController?.pushViewController(reportReviewVC, animated: true)
     }
     
+    /// ServiceVC로 push
+    func pushServicePolicyVC() {
+        let servicePolicyVC = ServicePolicyViewController()
+        servicePolicyVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(servicePolicyVC, animated: true)
+    }
+    
     // MARK: - Modal Present
     
     /// 랭킹 인포 모달 present

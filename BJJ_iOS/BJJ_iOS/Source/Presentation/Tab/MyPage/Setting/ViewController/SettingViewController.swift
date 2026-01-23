@@ -115,8 +115,7 @@ final class SettingViewController: BaseViewController {
                 case .likedMenu:
                     owner.presentLikedMenuViewController()
                 case .servicePolicy:
-                    // TODO: 서비스 이용 약관 화면으로 이동
-                    break
+                    owner.pushServicePolicyVC()
                 case .personalPolicy:
                     // TODO: 개인정보 처리방침 화면으로 이동
                     break
