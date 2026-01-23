@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class NicknameEditViewController: UIViewController {
+final class NicknameEditViewController: BaseViewController {
     
     // MARK: - Properties
     
@@ -59,26 +59,16 @@ final class NicknameEditViewController: UIViewController {
         $0.addTarget(self, action: #selector(didTapEditNicknameButton), for: .touchUpInside)
     }
     
-    // MARK: - LifeCycle
+    // MARK: - Set UI
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setViewController()
-        setAddView()
-        setConstraints()
-    }
-    
-    // MARK: - Set ViewController
-    
-    private func setViewController() {
+    override func setUI() {
         view.backgroundColor = .white
         setBackNaviBar("닉네임 변경하기")
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
             nicknameTitleLabel,
             nicknameSubTitleLabel,
@@ -91,7 +81,7 @@ final class NicknameEditViewController: UIViewController {
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
+    override func setConstraints() {
         nicknameTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
             $0.leading.equalToSuperview().offset(20)
