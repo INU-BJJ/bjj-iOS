@@ -136,11 +136,17 @@ final class NicknameEditViewController: BaseViewController {
         let checkDuplicateRelay = PublishRelay<String>()
         
         let input = NicknameEditViewModel.Input(
+            viewDidLoad: Observable.just(()),
             checkNicknameDuplicate: checkDuplicateRelay,
             nickname: nicknameRelay,
             editNicknameButtonTapped: editNicknameButton.rx.tap
         )
         let output = viewModel.transform(input: input)
+        
+        // 닉네임
+        output.nickname
+            .bind(to: nicknameTextField.rx.text)
+            .disposed(by: disposeBag)
         
         // 닉네임 글자수 12자 제한 및 Input으로 전달
         nicknameTextField.rx.text.orEmpty

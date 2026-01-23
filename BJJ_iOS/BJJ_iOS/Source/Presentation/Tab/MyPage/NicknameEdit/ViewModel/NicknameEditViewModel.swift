@@ -18,6 +18,7 @@ final class NicknameEditViewModel: BaseViewModel {
     // MARK: - Input
     
     struct Input {
+        let viewDidLoad: Observable<Void>
         let checkNicknameDuplicate: PublishRelay<String>
         let nickname: BehaviorRelay<String>
         let editNicknameButtonTapped: ControlEvent<Void>
@@ -26,6 +27,7 @@ final class NicknameEditViewModel: BaseViewModel {
     // MARK: - Output
     
     struct Output {
+        let nickname: Observable<String>
         let nicknameValidationResult: Driver<NicknameValidationState>
         let editNicknameButtonEnabled: Driver<Bool>
         let editNicknameResult: Driver<Result<String, Error>>
@@ -34,6 +36,11 @@ final class NicknameEditViewModel: BaseViewModel {
     // MARK: - Transform
     
     func transform(input: Input) -> Output {
+        
+        // viewDidLoad 시 현재 닉네임 조회
+        let nickname = input.viewDidLoad
+            .withUnretained(self)
+            .flatMapLatest { _ in return self.fetchNickname() }
         
         // 닉네임 변경 시 검증 결과 초기화
         let nicknameChanged = input.nickname
@@ -79,6 +86,7 @@ final class NicknameEditViewModel: BaseViewModel {
             .asDriver(onErrorJustReturn: .failure(NSError(domain: "SignUpError", code: -1, userInfo: nil)))
         
         return Output(
+            nickname: nickname,
             nicknameValidationResult: validationResult,
             editNicknameButtonEnabled: editNicknameButtonEnabled,
             editNicknameResult: editNicknameResult
@@ -86,6 +94,23 @@ final class NicknameEditViewModel: BaseViewModel {
     }
     
     // MARK: - API Methods
+    
+    /// 닉네임 조회 API 요청
+    private func fetchNickname() -> Observable<String> {
+        return Observable.create { observer in
+            MemberAPI.fetchMemberInfo { result in
+                switch result {
+                case .success(let memberInfo):
+                    observer.onNext(memberInfo.nickname)
+                    observer.onCompleted()
+
+                case .failure(let error):
+                    observer.onError(error)
+                }
+            }
+            return Disposables.create()
+        }
+    }
     
     /// 닉네임 중복 확인 API 요청
     private func checkNicknameDuplicate(nickname: String) -> Observable<NicknameValidationState> {
