@@ -117,8 +117,7 @@ final class SettingViewController: BaseViewController {
                 case .servicePolicy:
                     owner.pushServicePolicyVC()
                 case .personalPolicy:
-                    // TODO: 개인정보 처리방침 화면으로 이동
-                    break
+                    owner.pushPersonalPolicyVC()
                 }
             }
             .disposed(by: disposeBag)

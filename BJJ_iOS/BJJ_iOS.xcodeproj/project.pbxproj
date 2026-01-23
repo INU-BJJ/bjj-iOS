@@ -78,6 +78,7 @@
 		3F3AB7D72CB397F40013FABA /* MenuRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AB7D62CB397F40013FABA /* MenuRatingView.swift */; };
 		3F3AB7D92CB3D59C0013FABA /* HomeTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AB7D82CB3D59C0013FABA /* HomeTopView.swift */; };
 		3F3AE9B32F2380B50090E1FD /* ServicePolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AE9B22F2380B50090E1FD /* ServicePolicyViewModel.swift */; };
+		3F3AE9BC2F23ADAD0090E1FD /* PersonalPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AE9BB2F23ADAD0090E1FD /* PersonalPolicyViewController.swift */; };
 		3F3AF8C72D75A54A00D6C28A /* ReviewWriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AF8C62D75A54A00D6C28A /* ReviewWriteModel.swift */; };
 		3F3AF8C92D75A55E00D6C28A /* ReviewWriteAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AF8C82D75A55E00D6C28A /* ReviewWriteAddress.swift */; };
 		3F3AF8CB2D75A57100D6C28A /* ReviewWriteAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AF8CA2D75A57100D6C28A /* ReviewWriteAPI.swift */; };
@@ -302,6 +303,7 @@
 		3F3AB7D62CB397F40013FABA /* MenuRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRatingView.swift; sourceTree = "<group>"; };
 		3F3AB7D82CB3D59C0013FABA /* HomeTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTopView.swift; sourceTree = "<group>"; };
 		3F3AE9B22F2380B50090E1FD /* ServicePolicyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicePolicyViewModel.swift; sourceTree = "<group>"; };
+		3F3AE9BB2F23ADAD0090E1FD /* PersonalPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalPolicyViewController.swift; sourceTree = "<group>"; };
 		3F3AF8C62D75A54A00D6C28A /* ReviewWriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteModel.swift; sourceTree = "<group>"; };
 		3F3AF8C82D75A55E00D6C28A /* ReviewWriteAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteAddress.swift; sourceTree = "<group>"; };
 		3F3AF8CA2D75A57100D6C28A /* ReviewWriteAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteAPI.swift; sourceTree = "<group>"; };
@@ -1002,6 +1004,22 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		3F3AE9B92F23AD990090E1FD /* PersonalPolicy */ = {
+			isa = PBXGroup;
+			children = (
+				3F3AE9BA2F23ADA40090E1FD /* ViewController */,
+			);
+			path = PersonalPolicy;
+			sourceTree = "<group>";
+		};
+		3F3AE9BA2F23ADA40090E1FD /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F3AE9BB2F23ADAD0090E1FD /* PersonalPolicyViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		3F3AF8C42D75A52C00D6C28A /* ReviewWrite */ = {
 			isa = PBXGroup;
 			children = (
@@ -1514,6 +1532,7 @@
 				3FB396CD2DAE1BBA00EF87A8 /* NicknameEdit */,
 				3F1C2B1B2DAE5DD400AC3A36 /* LikedMenu */,
 				3FA5C7A52F2378E4007B370E /* ServicePolicy */,
+				3F3AE9B92F23AD990090E1FD /* PersonalPolicy */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -2173,6 +2192,7 @@
 				3FFAB73C2CF1CF0B00D09749 /* UINavigationItem++Extensions.swift in Sources */,
 				3FB984602D5378A30050D66A /* MyReviewDetailImageCell.swift in Sources */,
 				3F5F843B2F1E4D160029F4BE /* DateFormatterManager.swift in Sources */,
+				3F3AE9BC2F23ADAD0090E1FD /* PersonalPolicyViewController.swift in Sources */,
 				3F663E1B2D82D1500070E6CC /* MenuRankingCell.swift in Sources */,
 				3F3AB7D72CB397F40013FABA /* MenuRatingView.swift in Sources */,
 				3FA055AC2D6B26ED00C72029 /* ReviewCategorySelectCell.swift in Sources */,
