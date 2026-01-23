@@ -8,35 +8,21 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
 final class SettingViewController: BaseViewController {
     
-    // MARK: - Properties
+    // MARK: - ViewModel
+    
+    private let viewModel = SettingViewModel()
     
     // MARK: - UI Components
     
-    private lazy var editNicknameButton = UIButton().then {
-        $0.setTitle("닉네임 변경하기", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
-        $0.contentHorizontalAlignment = .left
-        $0.addTarget(self, action: #selector(didTapEditNicknameButton), for: .touchUpInside)
-    }
-    
-    private lazy var navigateLikedMenuVCButton = UIButton().then {
-        $0.setTitle("좋아요한 메뉴", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
-        $0.contentHorizontalAlignment = .left
-        $0.addTarget(self, action: #selector(didTapGoToLikedMenuVCButton), for: .touchUpInside)
-    }
-    
-    private lazy var blockedUserButton = UIButton().then {
-        $0.setTitle("차단한 유저 보기", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
-        $0.contentHorizontalAlignment = .left
-        $0.addTarget(self, action: #selector(didTapBlockedUserButton), for: .touchUpInside)
+    // TODO: UICollectionView + List Configuration
+    private let settingTableView = UITableView().then {
+        $0.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.reuseIdentifier)
+        $0.separatorStyle = .none
     }
     
     private let separatingView = UIView().then {
@@ -70,9 +56,7 @@ final class SettingViewController: BaseViewController {
     
     override func setHierarchy() {
         [
-            editNicknameButton,
-            navigateLikedMenuVCButton,
-            blockedUserButton,
+            settingTableView,
             separatingView,
             logoutButton,
             deleteAccountButton
@@ -82,22 +66,10 @@ final class SettingViewController: BaseViewController {
     // MARK: - Set Constraints
     
     override func setConstraints() {
-        editNicknameButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
+        settingTableView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(106)
             $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.height.equalTo(18)
-        }
-        
-        navigateLikedMenuVCButton.snp.makeConstraints {
-            $0.top.equalTo(editNicknameButton.snp.bottom).offset(24)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.height.equalTo(18)
-        }
-        
-        blockedUserButton.snp.makeConstraints {
-            $0.top.equalTo(navigateLikedMenuVCButton.snp.bottom).offset(24)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.height.equalTo(18)
+            $0.bottom.equalTo(separatingView.snp.top)
         }
         
         separatingView.snp.makeConstraints {
@@ -117,6 +89,23 @@ final class SettingViewController: BaseViewController {
             $0.horizontalEdges.equalToSuperview().inset(24)
             $0.height.equalTo(18)
         }
+    }
+    
+    // MARK: - Bind
+    
+    override func bind() {
+        let input = SettingViewModel.Input()
+        let output = viewModel.transform(input: input)
+        
+        // 설정 메뉴
+        output.settingList
+            .bind(to: settingTableView.rx.items(
+                cellIdentifier: SettingTableViewCell.reuseIdentifier,
+                cellType: SettingTableViewCell.self)
+            ) { index, setting, cell in
+                cell.configureCell(with: setting)
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Objc Functions

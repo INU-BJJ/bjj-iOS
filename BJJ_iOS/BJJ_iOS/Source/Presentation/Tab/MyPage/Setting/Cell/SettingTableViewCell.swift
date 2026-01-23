@@ -17,6 +17,12 @@ final class SettingTableViewCell: BaseTableViewCell<String> {
         $0.setLabel("", font: .pretendard_semibold, size: 15, color: .black)
     }
     
+    // MARK: - Set UI
+    
+    override func setUI() {
+        selectionStyle = .none
+    }
+    
     // MARK: - Set Hierarchy
     
     override func setHierarchy() {
@@ -29,5 +35,11 @@ final class SettingTableViewCell: BaseTableViewCell<String> {
         titleLabel.snp.makeConstraints {
             $0.verticalEdges.leading.equalToSuperview()
         }
+    }
+    
+    // MARK: - Configure Cell
+    
+    override func configureCell(with data: String) {
+        titleLabel.text = data
     }
 }
