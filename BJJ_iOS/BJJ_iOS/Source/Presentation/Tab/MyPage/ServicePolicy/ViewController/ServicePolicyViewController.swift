@@ -9,9 +9,15 @@ import UIKit
 import SnapKit
 import Then
 import WebKit
+import RxSwift
+import RxCocoa
 
 final class ServicePolicyViewController: BaseViewController {
 
+    // MARK: - ViewModel
+    
+    private let viewModel = ServicePolicyViewModel()
+    
     // MARK: - Components
     
     private let webView = WKWebView()
@@ -38,5 +44,12 @@ final class ServicePolicyViewController: BaseViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.horizontalEdges.bottom.equalToSuperview()
         }
+    }
+    
+    // MARK: - Bind
+    
+    override func bind() {
+        let input = ServicePolicyViewModel.Input(viewDidLoad: Observable.just(()))
+        let output = viewModel.transform(input: input)
     }
 }
