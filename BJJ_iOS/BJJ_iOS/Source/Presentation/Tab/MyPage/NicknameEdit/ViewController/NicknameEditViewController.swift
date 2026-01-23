@@ -195,12 +195,12 @@ final class NicknameEditViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
 
-//        // 회원가입 버튼 활성화 여부
-//        output.signUpButtonEnabled
-//            .drive(with: self, onNext: { owner, isEnabled in
-//                owner.signUpButton.setUI(isEnabled: isEnabled)
-//            })
-//            .disposed(by: disposeBag)
+        // 닉네임 변경 버튼 활성화 여부
+        output.editNicknameButtonEnabled
+            .drive(with: self, onNext: { owner, isEnabled in
+                owner.editNicknameButton.setUI(isEnabled: isEnabled)
+            })
+            .disposed(by: disposeBag)
 
 //        // 회원가입 결과 처리
 //        output.signUpResult

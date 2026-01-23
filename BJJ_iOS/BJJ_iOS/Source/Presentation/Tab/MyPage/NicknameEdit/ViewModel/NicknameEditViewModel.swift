@@ -19,14 +19,14 @@ final class NicknameEditViewModel: BaseViewModel {
     struct Input {
         let checkNicknameDuplicate: PublishRelay<String>
         let nickname: BehaviorRelay<String>
-//        let signUpButtonTapped: PublishRelay<Void>
+//        let signUpButtonTapped: ControlEvent<Void>
     }
     
     // MARK: - Output
     
     struct Output {
         let nicknameValidationResult: Driver<NicknameValidationState>
-//        let signUpButtonEnabled: Driver<Bool>
+        let editNicknameButtonEnabled: Driver<Bool>
 //        let signUpResult: Driver<Result<String, Error>>
     }
     
@@ -59,14 +59,14 @@ final class NicknameEditViewModel: BaseViewModel {
         let validationResult = Observable.merge(nicknameChanged, nicknameValidation)
             .asDriver(onErrorJustReturn: .idle)
         
-//        // 회원가입 버튼 활성화 여부 (닉네임 검증 성공 AND 전체 동의)
-//        let signUpButtonEnabled = Driver.combineLatest(validationResult, isAllAgreedDriver)
-//            .map { state, isAllAgreed in
-//                if case .available = state, isAllAgreed {
-//                    return true
-//                }
-//                return false
-//            }
+        // 닉네임 변경 버튼 활성화 여부 (닉네임 검증 성공)
+        let editNicknameButtonEnabled = validationResult
+            .map { state in
+                if case .available = state {
+                    return true
+                }
+                return false
+            }
 //        
 //        // 회원가입 버튼 탭 -> API 호출
 //        let signUpResult = input.signUpButtonTapped
@@ -79,8 +79,7 @@ final class NicknameEditViewModel: BaseViewModel {
 //        
         return Output(
             nicknameValidationResult: validationResult,
-//            signUpButtonEnabled: signUpButtonEnabled,
-//            signUpResult: signUpResult
+            editNicknameButtonEnabled: editNicknameButtonEnabled
         )
     }
     
