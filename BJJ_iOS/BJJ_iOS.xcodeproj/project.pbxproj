@@ -151,6 +151,7 @@
 		3F9A5F442F16344E00AB0576 /* ConsentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A5F432F16344E00AB0576 /* ConsentCollectionViewCell.swift */; };
 		3FA055AC2D6B26ED00C72029 /* ReviewCategorySelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA055AB2D6B26ED00C72029 /* ReviewCategorySelectCell.swift */; };
 		3FA1D3232D7EDAAB00010931 /* MyReviewImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1D3222D7EDAAB00010931 /* MyReviewImageDetailViewController.swift */; };
+		3FA5C7A42F2374F1007B370E /* SettingMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA5C7A32F2374F1007B370E /* SettingMenu.swift */; };
 		3FA69D422F1F7A630058E6AA /* GachaResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA69D412F1F7A630058E6AA /* GachaResultViewModel.swift */; };
 		3FADD2222D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FADD2212D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift */; };
 		3FB396D02DAE1C5800EF87A8 /* NicknameEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB396CF2DAE1C5800EF87A8 /* NicknameEditViewController.swift */; };
@@ -369,6 +370,7 @@
 		3F9A5F432F16344E00AB0576 /* ConsentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentCollectionViewCell.swift; sourceTree = "<group>"; };
 		3FA055AB2D6B26ED00C72029 /* ReviewCategorySelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCategorySelectCell.swift; sourceTree = "<group>"; };
 		3FA1D3222D7EDAAB00010931 /* MyReviewImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewImageDetailViewController.swift; sourceTree = "<group>"; };
+		3FA5C7A32F2374F1007B370E /* SettingMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMenu.swift; sourceTree = "<group>"; };
 		3FA69D412F1F7A630058E6AA /* GachaResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GachaResultViewModel.swift; sourceTree = "<group>"; };
 		3FADD2212D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewImageDetailPageViewController.swift; sourceTree = "<group>"; };
 		3FB396CF2DAE1C5800EF87A8 /* NicknameEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameEditViewController.swift; sourceTree = "<group>"; };
@@ -1106,6 +1108,7 @@
 		3F6125232DA6A693003B5851 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				3FA5C7A22F2374EB007B370E /* Model */,
 				3FC1232E2DA5263900676A09 /* Cell */,
 				3F2EB1FC2F20C023008C61CA /* ViewModel */,
 				3FC123232DA5218600676A09 /* ViewController */,
@@ -1336,6 +1339,14 @@
 				3F9A5F432F16344E00AB0576 /* ConsentCollectionViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		3FA5C7A22F2374EB007B370E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3FA5C7A32F2374F1007B370E /* SettingMenu.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		3FA69D402F1F7A540058E6AA /* ViewModel */ = {
@@ -2239,6 +2250,7 @@
 				3F43F0DA2D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift in Sources */,
 				3F858F412DAA532400F6C7F5 /* StoreViewController.swift in Sources */,
 				3F31AAE12D675C3100FDCC35 /* ReviewAddPhotoCell.swift in Sources */,
+				3FA5C7A42F2374F1007B370E /* SettingMenu.swift in Sources */,
 				3F2B0EB32D7966E30059AA2B /* NoticeViewType.swift in Sources */,
 				3F25B3E92CB282D7005C0907 /* AppDelegate.swift in Sources */,
 				3FE53C122DE1A1F500FBA99E /* MenuReviewListCell.swift in Sources */,
