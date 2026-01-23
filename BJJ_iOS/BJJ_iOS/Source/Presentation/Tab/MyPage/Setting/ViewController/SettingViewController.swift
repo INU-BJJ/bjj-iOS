@@ -8,35 +8,20 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
-final class SettingViewController: UIViewController {
+final class SettingViewController: BaseViewController {
     
-    // MARK: - Properties
+    // MARK: - ViewModel
+    
+    private let viewModel = SettingViewModel()
     
     // MARK: - UI Components
     
-    private lazy var editNicknameButton = UIButton().then {
-        $0.setTitle("닉네임 변경하기", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
-        $0.contentHorizontalAlignment = .left
-        $0.addTarget(self, action: #selector(didTapEditNicknameButton), for: .touchUpInside)
-    }
-    
-    private lazy var navigateLikedMenuVCButton = UIButton().then {
-        $0.setTitle("좋아요한 메뉴", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
-        $0.contentHorizontalAlignment = .left
-        $0.addTarget(self, action: #selector(didTapGoToLikedMenuVCButton), for: .touchUpInside)
-    }
-    
-    private lazy var blockedUserButton = UIButton().then {
-        $0.setTitle("차단한 유저 보기", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
-        $0.contentHorizontalAlignment = .left
-        $0.addTarget(self, action: #selector(didTapBlockedUserButton), for: .touchUpInside)
+    private let settingTableView = UITableView().then {
+        $0.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.reuseIdentifier)
+        $0.separatorStyle = .none
     }
     
     private let separatingView = UIView().then {
@@ -59,30 +44,18 @@ final class SettingViewController: UIViewController {
         $0.addTarget(self, action: #selector(didTapDeleteAccountButton), for: .touchUpInside)
     }
     
-    // MARK: - LifeCycle
+    // MARK: - Set UI
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setViewController()
-        setAddView()
-        setConstraints()
-    }
-    
-    // MARK: - Set ViewController
-    
-    private func setViewController() {
+    override func setUI() {
         view.backgroundColor = .white
         setBackNaviBar("설정")
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
-            editNicknameButton,
-            navigateLikedMenuVCButton,
-            blockedUserButton,
+            settingTableView,
             separatingView,
             logoutButton,
             deleteAccountButton
@@ -91,23 +64,11 @@ final class SettingViewController: UIViewController {
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
-        editNicknameButton.snp.makeConstraints {
+    override func setConstraints() {
+        settingTableView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
             $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.height.equalTo(18)
-        }
-        
-        navigateLikedMenuVCButton.snp.makeConstraints {
-            $0.top.equalTo(editNicknameButton.snp.bottom).offset(24)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.height.equalTo(18)
-        }
-        
-        blockedUserButton.snp.makeConstraints {
-            $0.top.equalTo(navigateLikedMenuVCButton.snp.bottom).offset(24)
-            $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.height.equalTo(18)
+            $0.bottom.equalTo(separatingView.snp.top)
         }
         
         separatingView.snp.makeConstraints {
@@ -129,23 +90,41 @@ final class SettingViewController: UIViewController {
         }
     }
     
+    // MARK: - Bind
+    
+    override func bind() {
+        let input = SettingViewModel.Input()
+        let output = viewModel.transform(input: input)
+        
+        // 설정 메뉴
+        output.settingList
+            .bind(to: settingTableView.rx.items(
+                cellIdentifier: SettingTableViewCell.reuseIdentifier,
+                cellType: SettingTableViewCell.self)
+            ) { index, setting, cell in
+                cell.configureCell(with: setting)
+            }
+            .disposed(by: disposeBag)
+        
+        // 설정 tableView cell 탭
+        settingTableView.rx.modelSelected(SettingMenu.self)
+            .bind(with: self) { owner, menu in
+                switch menu {
+                case .editNickname:
+                    owner.presentNicknameEditViewController()
+                case .likedMenu:
+                    owner.presentLikedMenuViewController()
+                case .servicePolicy:
+                    owner.pushServicePolicyVC()
+                case .personalPolicy:
+                    // TODO: 개인정보 처리방침 화면으로 이동
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
+    }
+    
     // MARK: - Objc Functions
-    
-    @objc private func didTapEditNicknameButton() {
-        DispatchQueue.main.async {
-            self.presentNicknameEditViewController()
-        }
-    }
-    
-    @objc private func didTapGoToLikedMenuVCButton() {
-        DispatchQueue.main.async {
-            self.presentLikedMenuViewController()
-        }
-    }
-    
-    @objc private func didTapBlockedUserButton() {
-        // TODO: 차단한 유저 목록 fetch
-    }
     
     @objc private func didTapLogoutButton() {
         KeychainManager.delete(key: .accessToken)
