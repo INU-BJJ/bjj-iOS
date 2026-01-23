@@ -8,10 +8,14 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
 final class NicknameEditViewController: BaseViewController {
     
-    // MARK: - Properties
+    // MARK: - ViewModel
+    
+    private let viewModel = NicknameEditViewModel()
     
     // MARK: - UI Components
     
@@ -123,60 +127,102 @@ final class NicknameEditViewController: BaseViewController {
         }
     }
     
-    // MARK: Objc Functions
+    // MARK: - Bind
     
-//    @objc private func didNicknameChange(_ textField: UITextField) {
-//        checkNicknameDupliCateButton.isEnabled = false
-//        checkNicknameDupliCateButton.backgroundColor = .customColor(.midGray)
-//        checkNicknameDupliCateButton.isHidden = true
-//    }
-//    
-//    @objc private func didTapDupplicateButton() {
-//        postNickname(nickname: testNickNameTextField.text)
-//    }
-//    
-//    @objc private func didTapEditNicknameButton() {
-//        patchNickname(nickname: testNickNameTextField.text)
-//    }
-    
-    // MARK: Post API
-    
-//    private func postNickname(nickname: String?) {
-//        // 닉네임을 입력한 경우
-//        if let nickname = nickname, !nickname.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-//            SignUpAPI.postNickname(nickname: nickname) { [weak self] result in
-//                guard let self = self else { return }
-//                
+    override func bind() {
+        
+        // Input 생성
+        let nicknameRelay = BehaviorRelay<String>(value: "")
+        let checkDuplicateRelay = PublishRelay<String>()
+        
+        let input = NicknameEditViewModel.Input(
+            checkNicknameDuplicate: checkDuplicateRelay,
+            nickname: nicknameRelay,
+//            signUpButtonTapped: signUpButtonTappedRelay
+        )
+        let output = viewModel.transform(input: input)
+        
+        // 닉네임 글자수 12자 제한 및 Input으로 전달
+        nicknameTextField.rx.text.orEmpty
+            .map { text -> String in
+                if text.count > 12 {
+                    return String(text.prefix(12))
+                }
+                return text
+            }
+            .do(onNext: { text in
+                nicknameRelay.accept(text)
+            })
+            .bind(to: nicknameTextField.rx.text)
+            .disposed(by: disposeBag)
+
+        // 중복 확인 버튼 탭 -> Input으로 전달
+        checkNicknameDupliCateButton.rx.tap
+            .withLatestFrom(nicknameTextField.rx.text.orEmpty)
+            .bind(to: checkDuplicateRelay)
+            .disposed(by: disposeBag)
+        
+        // 닉네임 검증 결과 -> UI 업데이트
+        output.nicknameValidationResult
+            .drive(with: self, onNext: { owner, state in
+                switch state {
+                case .idle:
+                    owner.validResultIcon.isHidden = true
+                    owner.validResultLabel.isHidden = true
+
+                case .loading:
+                    // 로딩 상태 처리 (필요시 추가)
+                    break
+
+                case .available:
+                    owner.validResultIcon.isHidden = false
+                    owner.validResultLabel.isHidden = false
+                    owner.validResultIcon.setImage(.checkCircleGreen)
+                    owner.validResultLabel.text = "사용 가능한 닉네임입니다."
+
+                case .duplicate:
+                    owner.validResultIcon.isHidden = false
+                    owner.validResultLabel.isHidden = false
+                    owner.validResultIcon.setImage(.checkCircleWarning)
+                    owner.validResultLabel.text = "이미 존재하는 닉네임입니다."
+
+                case .empty:
+                    owner.validResultIcon.isHidden = false
+                    owner.validResultLabel.isHidden = false
+                    owner.validResultIcon.setImage(.checkCircleWarning)
+                    owner.validResultLabel.text = "닉네임을 입력해주세요."
+                }
+            })
+            .disposed(by: disposeBag)
+
+//        // 회원가입 버튼 활성화 여부
+//        output.signUpButtonEnabled
+//            .drive(with: self, onNext: { owner, isEnabled in
+//                owner.signUpButton.setUI(isEnabled: isEnabled)
+//            })
+//            .disposed(by: disposeBag)
+
+//        // 회원가입 결과 처리
+//        output.signUpResult
+//            .drive(with: self, onNext: { owner, result in
 //                switch result {
-//                case .success:
-//                    DispatchQueue.main.async {
-//                        self.testIsValidLabel.isHidden = false
-//                        self.testIsValidLabel.text = "✅ 사용 가능한 닉네임입니다."
-//                        self.testEditNicknameButton.backgroundColor = .customColor(.mainColor)
-//                        // TODO: 중복 확인 안하고 회원가입 버튼 눌렀을 경우 UI 디자인
-//                        self.testEditNicknameButton.isEnabled = true
-//                    }
+//                case .success(let accessToken):
+//                    // 토큰 저장
+//                    KeychainManager.create(value: accessToken, key: .accessToken)
+//                    KeychainManager.delete(key: .tempToken)
 //                    
-//                case .failure(let error):
-//                    // TODO: 에러 처리 상세히 하기 - 인증정보 없음(토큰이 없는 경우(물론 여기 페이지까지 오면 토큰이 없는 경우는 없지만)에도 이미 존재하는 닉네임입니다로 뜸)
+//                    // TabBarController로 화면 전환
 //                    DispatchQueue.main.async {
-//                        self.testIsValidLabel.isHidden = false
-//                        self.testIsValidLabel.text = "❌이미 존재하는 닉네임입니다."
+//                        let tabBarController = TabBarController()
+//                        owner.navigationController?.setViewControllers([tabBarController], animated: true)
 //                    }
-//                    print("[SignUpVC] error: \(error.localizedDescription)")
+//
+//                case .failure:
+//                    owner.presentAlertViewController(alertType: .failure, title: "회원가입에 실패했습니다.\n다시 시도해주세요.")
 //                }
-//            }
-//        }
-//        // 닉네임을 입력하지 않은 경우
-//        // TODO: 아무것도 입력하지 않고 중복 확인 눌렀을 경우 UI 디자인
-//        else {
-//            DispatchQueue.main.async {
-//                self.testIsValidLabel.isHidden = false
-//                self.testIsValidLabel.text = "❌ 닉네임을 입력해주세요."
-//            }
-//            return
-//        }
-//    }
+//            })
+//            .disposed(by: disposeBag)
+    }
     
     // MARK: - Patch API Functions
     

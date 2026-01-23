@@ -162,6 +162,7 @@
 		3FB396D42DAE1F8900EF87A8 /* SettingAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB396D32DAE1F8900EF87A8 /* SettingAddress.swift */; };
 		3FB396D62DAE1F9A00EF87A8 /* SettingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB396D52DAE1F9A00EF87A8 /* SettingAPI.swift */; };
 		3FB396D82DAE1FA500EF87A8 /* SettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB396D72DAE1FA500EF87A8 /* SettingModel.swift */; };
+		3FB76F3A2F23B89F00DD2901 /* NicknameEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB76F392F23B89F00DD2901 /* NicknameEditViewModel.swift */; };
 		3FB984602D5378A30050D66A /* MyReviewDetailImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB9845F2D5378A30050D66A /* MyReviewDetailImageCell.swift */; };
 		3FB984622D5389710050D66A /* MyReviewDetailHashTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB984612D5389710050D66A /* MyReviewDetailHashTagCell.swift */; };
 		3FB984642D53918F0050D66A /* MyReviewDeleteModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB984632D53918F0050D66A /* MyReviewDeleteModalViewController.swift */; };
@@ -385,6 +386,7 @@
 		3FB396D32DAE1F8900EF87A8 /* SettingAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAddress.swift; sourceTree = "<group>"; };
 		3FB396D52DAE1F9A00EF87A8 /* SettingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAPI.swift; sourceTree = "<group>"; };
 		3FB396D72DAE1FA500EF87A8 /* SettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingModel.swift; sourceTree = "<group>"; };
+		3FB76F392F23B89F00DD2901 /* NicknameEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameEditViewModel.swift; sourceTree = "<group>"; };
 		3FB9845F2D5378A30050D66A /* MyReviewDetailImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailImageCell.swift; sourceTree = "<group>"; };
 		3FB984612D5389710050D66A /* MyReviewDetailHashTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailHashTagCell.swift; sourceTree = "<group>"; };
 		3FB984632D53918F0050D66A /* MyReviewDeleteModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDeleteModalViewController.swift; sourceTree = "<group>"; };
@@ -1418,6 +1420,7 @@
 		3FB396CD2DAE1BBA00EF87A8 /* NicknameEdit */ = {
 			isa = PBXGroup;
 			children = (
+				3FB76F382F23B88E00DD2901 /* ViewModel */,
 				3FB396CE2DAE1C4700EF87A8 /* ViewController */,
 			);
 			path = NicknameEdit;
@@ -1447,6 +1450,14 @@
 				3FB396D72DAE1FA500EF87A8 /* SettingModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3FB76F382F23B88E00DD2901 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3FB76F392F23B89F00DD2901 /* NicknameEditViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		3FBBE9792F17489E00889765 /* UIViewController */ = {
@@ -2335,6 +2346,7 @@
 				3F61252D2DA6ABAA003B5851 /* MyPageModel.swift in Sources */,
 				3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */,
 				3F311D742D88603B00F8D803 /* RankingAddress.swift in Sources */,
+				3FB76F3A2F23B89F00DD2901 /* NicknameEditViewModel.swift in Sources */,
 				3F1FAD532D8D681C00570681 /* MenuReviewSortingCell.swift in Sources */,
 				3F1613292CD8584100A30369 /* MenuReviewHeaderView.swift in Sources */,
 				3F362D372DFD7BC8006C8094 /* AlertType.swift in Sources */,
