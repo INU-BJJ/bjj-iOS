@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class SettingTableViewCell: BaseTableViewCell<String> {
+final class SettingTableViewCell: BaseTableViewCell<SettingMenu> {
     
     // MARK: Components
     
@@ -39,7 +39,7 @@ final class SettingTableViewCell: BaseTableViewCell<String> {
     
     // MARK: - Configure Cell
     
-    override func configureCell(with data: String) {
-        titleLabel.text = data
+    override func configureCell(with data: SettingMenu) {
+        titleLabel.text = data.title
     }
 }
