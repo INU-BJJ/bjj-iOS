@@ -211,7 +211,7 @@ final class NicknameEditViewController: BaseViewController {
                         alertType: .success,
                         title: "닉네임 변경이 완료되었습니다."
                     ) {
-                        // TODO: 설정 페이지로 popToVC
+                        owner.popViewController()
                     }
                     
                 case .failure:
