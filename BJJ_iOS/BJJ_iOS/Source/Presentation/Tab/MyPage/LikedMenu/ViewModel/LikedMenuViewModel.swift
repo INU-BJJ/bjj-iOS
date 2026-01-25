@@ -17,9 +17,9 @@ final class LikedMenuViewModel: BaseViewModel {
     // MARK: - DataSource
     
     private let likedMenuList = BehaviorRelay(value: [
-        "우삼겹떡볶이 * 핫도그",
-        "김치볶음밥",
-        "우삼겹떡볶이 * 핫도그"
+        LikedMenuSection(menuID: 0, menuName: "우삼겹떡볶이 * 핫도그"),
+        LikedMenuSection(menuID: 1, menuName: "김치볶음밥"),
+        LikedMenuSection(menuID: 2, menuName: "우삼겹떡볶이 * 핫도그")
     ])
     
     // MARK: - Input
@@ -31,7 +31,7 @@ final class LikedMenuViewModel: BaseViewModel {
     // MARK: - Ouptut
     
     struct Output {
-        let likedMenuList: BehaviorRelay<[String]>
+        let likedMenuList: BehaviorRelay<[LikedMenuSection]>
     }
     
     // MARK: - Transform
