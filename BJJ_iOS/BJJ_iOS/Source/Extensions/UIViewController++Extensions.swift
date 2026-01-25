@@ -255,8 +255,9 @@ extension UIViewController {
     }
     
     /// BannerVC로 push
-    func pushBannerVC() {
-        let bannerVC = BannerViewController()
+    func pushBannerVC(bannerURI: String) {
+        let bannerViewModel = BannerViewModel(bannerURI: bannerURI)
+        let bannerVC = BannerViewController(viewModel: bannerViewModel)
         bannerVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(bannerVC, animated: true)
     }
