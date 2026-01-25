@@ -17,6 +17,10 @@ final class LikedMenuViewController: BaseViewController {
     
     private let viewModel = LikedMenuViewModel()
     
+    // MARK: - Relay
+    
+    private let fetchLikedMenuTrigger = PublishRelay<Void>()
+    
     // MARK: - UI Components
     
     private let likedMenuNotifiLabel = UILabel().then {
@@ -32,6 +36,15 @@ final class LikedMenuViewController: BaseViewController {
         collectionViewLayout: createLayout()
     ).then {
         $0.register(LikedMenuCell.self, forCellWithReuseIdentifier: LikedMenuCell.reuseIdentifier)
+    }
+    
+    // MARK: - Life Cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // 좋아요한 메뉴 조회
+        fetchLikedMenuTrigger.accept(())
     }
     
     // MARK: - Set UI
@@ -74,7 +87,7 @@ final class LikedMenuViewController: BaseViewController {
     
     override func bind() {
         let input = LikedMenuViewModel.Input(
-            viewDidLoad: Observable.just(())
+            fetchLikedMenuTrigger: fetchLikedMenuTrigger.asObservable()
         )
         let output = viewModel.transform(input: input)
         
@@ -83,8 +96,17 @@ final class LikedMenuViewController: BaseViewController {
             .bind(to: likedMenuCollectionView.rx.items(
                 cellIdentifier: LikedMenuCell.reuseIdentifier,
                 cellType: LikedMenuCell.self
-            )) { index, likedMenu, cell in
+            )) { [weak self] index, likedMenu, cell in
+                guard let self = self else { return }
+                
+                // cell 바인딩
                 cell.configureCell(with: likedMenu)
+                // 좋아요 버튼 탭 시 재조회
+                cell.likeButton.rx.tap
+                    .bind(with: self, onNext: { owner, _ in
+                        owner.fetchLikedMenuTrigger.accept(())
+                    })
+                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
     }

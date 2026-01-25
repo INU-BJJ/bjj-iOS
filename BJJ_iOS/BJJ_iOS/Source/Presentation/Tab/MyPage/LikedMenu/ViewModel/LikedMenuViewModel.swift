@@ -17,7 +17,7 @@ final class LikedMenuViewModel: BaseViewModel {
     // MARK: - Input
     
     struct Input {
-        let viewDidLoad: Observable<Void>
+        let fetchLikedMenuTrigger: Observable<Void>
     }
     
     // MARK: - Ouptut
@@ -30,8 +30,8 @@ final class LikedMenuViewModel: BaseViewModel {
     
     func transform(input: Input) -> Output {
         
-        // viewDidLoad 시 좋아요한 메뉴 가져오기
-        let likedMenuList = input.viewDidLoad
+        // fetchLikedMenuTrigger 이벤트 발생 시 좋아요한 메뉴 가져오기
+        let likedMenuList = input.fetchLikedMenuTrigger
             .flatMapLatest { [weak self] _ -> Observable<[LikedMenuSection]> in
                 guard let self = self else {
                     return Observable.just([])
