@@ -8,12 +8,19 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
 final class LikedMenuViewController: BaseViewController {
     
     // MARK: - ViewModel
     
     private let viewModel = LikedMenuViewModel()
+    
+    // MARK: - Relay
+    
+    private let fetchLikedMenuTrigger = PublishRelay<Void>()
+    private let toggleMenuLikeTrigger = PublishRelay<Int>()
     
     // MARK: - UI Components
     
@@ -30,6 +37,15 @@ final class LikedMenuViewController: BaseViewController {
         collectionViewLayout: createLayout()
     ).then {
         $0.register(LikedMenuCell.self, forCellWithReuseIdentifier: LikedMenuCell.reuseIdentifier)
+    }
+    
+    // MARK: - Life Cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // 좋아요한 메뉴 조회
+        fetchLikedMenuTrigger.accept(())
     }
     
     // MARK: - Set UI
@@ -71,7 +87,10 @@ final class LikedMenuViewController: BaseViewController {
     // MARK: - Bind
     
     override func bind() {
-        let input = LikedMenuViewModel.Input()
+        let input = LikedMenuViewModel.Input(
+            fetchLikedMenuTrigger: fetchLikedMenuTrigger.asObservable(),
+            toggleMenuLike: toggleMenuLikeTrigger.asObservable()
+        )
         let output = viewModel.transform(input: input)
         
         // 좋아요한 메뉴
@@ -79,8 +98,17 @@ final class LikedMenuViewController: BaseViewController {
             .bind(to: likedMenuCollectionView.rx.items(
                 cellIdentifier: LikedMenuCell.reuseIdentifier,
                 cellType: LikedMenuCell.self
-            )) { index, likedMenu, cell in
+            )) { [weak self] index, likedMenu, cell in
+                guard let self = self else { return }
+                
+                // cell 바인딩
                 cell.configureCell(with: likedMenu)
+                // 좋아요 버튼 탭 시 좋아요 토글
+                cell.likeButton.rx.tap
+                    .bind(with: self, onNext: { owner, _ in
+                        owner.toggleMenuLikeTrigger.accept(likedMenu.menuID)
+                    })
+                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
     }
@@ -96,41 +124,4 @@ final class LikedMenuViewController: BaseViewController {
         
         return layout
     }
-    
-//    // MARK: - Fetch API Functions
-//    
-//    private func fetchLikedMenu() {
-//        SettingAPI.fetchLikedMenu() { [weak self] result in
-//            guard let self = self else { return }
-//            
-//            switch result {
-//            case .success(let likedMenuList):
-//                self.likedMenuList = likedMenuList.map {
-//                    LikedMenuSection(menuID: $0.menuID, menuName: $0.menuName)
-//                }
-//                
-//                DispatchQueue.main.async {
-//                    self.testLikedMenuTableView.reloadData()
-//                }
-//                
-//            case .failure(let error):
-//                print("[LikedMenuVC] Error: \(error.localizedDescription)")
-//            }
-//        }
-//    }
 }
-
-//extension LikedMenuViewController: UITableViewDataSource, UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        likedMenuList.count
-//    }
-//    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: LikedMenuCell.reuseIdentifier, for: indexPath) as? LikedMenuCell else {
-//            return UITableViewCell()
-//        }
-//        cell.setCellUI(with: likedMenuList[indexPath.row])
-//        
-//        return cell
-//    }
-//}

@@ -8,8 +8,13 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
 
 final class LikedMenuCell: BaseCollectionViewCell<LikedMenuSection> {
+    
+    // MARK: - DisposeBag
+    
+    var disposeBag = DisposeBag()
     
     // MARK: - UI Components
     
@@ -17,8 +22,18 @@ final class LikedMenuCell: BaseCollectionViewCell<LikedMenuSection> {
         $0.setLabelUI("", font: .pretendard_semibold, size: 15, color: .black)
     }
     
-    private let likeButton = UIButton().then {
-        $0.setImage(UIImage(named: ImageAsset.EmptyHeart.name), for: .normal)
+    let likeButton = UIButton().then {
+        $0.setImage(UIImage(named: ImageAsset.Heart.name), for: .normal)
+    }
+    
+    // MARK: - Reset
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        // 초기화
+        disposeBag = DisposeBag()
+        menuNameLabel.text = nil
     }
     
     // MARK: - Set UI
