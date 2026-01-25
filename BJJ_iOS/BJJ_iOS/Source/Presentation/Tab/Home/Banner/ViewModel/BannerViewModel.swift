@@ -27,18 +27,18 @@ final class BannerViewModel: BaseViewModel {
     // MARK: - Input
     
     struct Input {
-        let viewDidLoad: Observable<Void>
+        
     }
     
     // MARK: - Output
     
     struct Output {
-        
+        let bannerURI: BehaviorRelay<String>
     }
     
     // MARK: - Transform
     
     func transform(input: Input) -> Output {
-        return Output()
+        return Output(bannerURI: BehaviorRelay(value: bannerURI))
     }
 }
