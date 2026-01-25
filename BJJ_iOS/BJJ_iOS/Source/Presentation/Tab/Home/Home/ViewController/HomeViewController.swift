@@ -20,6 +20,8 @@ final class HomeViewController: BaseViewController {
     // MARK: - Relay
     
     private let viewWillAppearTrigger = PublishRelay<Void>()
+    private let viewWillDisappearTrigger = PublishRelay<Void>()
+    private let userDidScrollBannerTrigger = PublishRelay<Int>()
     
     // MARK: - Properties
     
@@ -88,11 +90,18 @@ final class HomeViewController: BaseViewController {
         viewWillAppearTrigger.accept(())
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewWillDisappearTrigger.accept(())
+    }
+    
     // MARK: - Bind
     
     override func bind() {
         let input = HomeViewModel.Input(
-            viewWillAppear: viewWillAppearTrigger
+            viewWillAppear: viewWillAppearTrigger,
+            viewWillDisappear: viewWillDisappearTrigger,
+            userDidScrollBanner: userDidScrollBannerTrigger
         )
         let output = viewModel.transform(input: input)
         
@@ -108,6 +117,37 @@ final class HomeViewController: BaseViewController {
                         owner.pushBannerVC(bannerURI: banner.uri)
                     }
                     .disposed(by: cell.disposeBag)
+            }
+            .disposed(by: disposeBag)
+        
+        // 자동 스크롤
+        output.scrollToIndex
+            .drive(with: self) { owner, index in
+                let collectionView = owner.homeTopView.bannerCollectionView
+                let itemCount = collectionView.numberOfItems(inSection: 0)
+
+                if index < itemCount {
+                    // contentOffset.y를 유지하면서 x만 변경
+                    let currentY = collectionView.contentOffset.y
+                    let targetX = CGFloat(index) * collectionView.frame.width
+                    let targetOffset = CGPoint(x: targetX, y: currentY)
+
+                    collectionView.setContentOffset(targetOffset, animated: true)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        // 사용자 스크롤 감지
+        homeTopView.bannerCollectionView.rx.didEndDecelerating
+            .bind(with: self) { owner, _ in
+                let collectionView = owner.homeTopView.bannerCollectionView
+                let centerPoint = CGPoint(
+                    x: collectionView.contentOffset.x + collectionView.frame.width / 2,
+                    y: collectionView.frame.height / 2
+                )
+                if let indexPath = collectionView.indexPathForItem(at: centerPoint) {
+                    owner.userDidScrollBannerTrigger.accept(indexPath.item)
+                }
             }
             .disposed(by: disposeBag)
     }
