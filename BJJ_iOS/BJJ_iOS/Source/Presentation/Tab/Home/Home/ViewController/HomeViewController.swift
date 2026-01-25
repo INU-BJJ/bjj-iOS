@@ -8,9 +8,19 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
 final class HomeViewController: BaseViewController {
 
+    // MARK: - ViewModel
+    
+    private let viewModel = HomeViewModel()
+    
+    // MARK: - Relay
+    
+    private let viewWillAppearTrigger = PublishRelay<Void>()
+    
     // MARK: - Properties
     
     private var previousCafeteriaIndex: Int = 0
@@ -75,12 +85,23 @@ final class HomeViewController: BaseViewController {
                 )
             }
         }
+        viewWillAppearTrigger.accept(())
     }
     
     // MARK: - Bind
     
     override func bind() {
+        let input = HomeViewModel.Input(
+            viewWillAppear: viewWillAppearTrigger
+        )
+        let output = viewModel.transform(input: input)
         
+        // 배너 리스트
+        output.bannerList
+            .drive(with: self) { owner, bannerList in
+                print("<< bannerList: \(bannerList)")
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Set UI
