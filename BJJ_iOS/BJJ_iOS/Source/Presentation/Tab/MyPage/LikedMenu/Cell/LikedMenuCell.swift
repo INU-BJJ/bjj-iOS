@@ -13,29 +13,36 @@ final class LikedMenuCell: BaseCollectionViewCell<LikedMenuSection> {
     
     // MARK: - UI Components
     
-    private let testMenuNameLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard, size: 15, color: .black)
+    private let menuNameLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_semibold, size: 15, color: .black)
+    }
+    
+    // MARK: - Set UI
+    
+    override func setUI() {
+        contentView.setBorder(color: .B_9_B_9_B_9, width: 0.5)
     }
     
     // MARK: - Set Hierarchy
     
     override func setHierarchy() {
         [
-            testMenuNameLabel
+            menuNameLabel
         ].forEach(contentView.addSubview)
     }
     
     // MARK: - Set Constraints
     
     override func setConstraints() {
-        testMenuNameLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
+        menuNameLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(9)
+            $0.centerY.equalToSuperview()
         }
     }
     
     // MARK: - Configure Cell
     
     override func configureCell(with data: LikedMenuSection) {
-        testMenuNameLabel.text = data.menuName
+        menuNameLabel.text = data.menuName
     }
 }
