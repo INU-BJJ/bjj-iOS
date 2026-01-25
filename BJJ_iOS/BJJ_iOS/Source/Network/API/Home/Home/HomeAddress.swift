@@ -10,6 +10,7 @@ import Foundation
 enum HomeAddress {
     case fetchAllMenuInfo
     case fetchCafeteriaInfo(String)
+    case fetchBannerList
     
     var url: String {
         switch self {
@@ -17,6 +18,8 @@ enum HomeAddress {
             return "today-diets"
         case .fetchCafeteriaInfo(let cafeteriaName):
             return "cafeterias/\(cafeteriaName)"
+        case .fetchBannerList:
+            return "banners"
         }
     }
 }
