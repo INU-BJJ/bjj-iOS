@@ -9,13 +9,31 @@ import UIKit
 import SnapKit
 import Then
 import WebKit
+import RxSwift
 
 final class BannerCollectionViewCell: BaseCollectionViewCell<Banner> {
+
+    // MARK: - Properties
+
+    var disposeBag = DisposeBag()
+
+    lazy var bannerTapGesture = UITapGestureRecognizer().then {
+        $0.delegate = self
+    }
     
     // MARK: - Components
     
-    private let bannerWebView = WKWebView().then {
+    lazy var bannerWebView = WKWebView().then {
         $0.scrollView.isScrollEnabled = false
+        $0.addGestureRecognizer(bannerTapGesture)
+    }
+    
+    // MARK: - Reset
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        disposeBag = DisposeBag()
     }
     
     // MARK: - Set Hierarchy
@@ -74,5 +92,13 @@ final class BannerCollectionViewCell: BaseCollectionViewCell<Banner> {
         </body>
         </html>
         """
+    }
+}
+
+// MARK: - UIGestureRecognizer Delegate
+
+extension BannerCollectionViewCell: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }

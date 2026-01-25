@@ -103,6 +103,11 @@ final class HomeViewController: BaseViewController {
                 cellType: BannerCollectionViewCell.self
             )) { index, banner, cell in
                 cell.configureCell(with: banner)
+                cell.bannerTapGesture.rx.event
+                    .bind(with: self) { owner, _ in
+                        
+                    }
+                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
     }
