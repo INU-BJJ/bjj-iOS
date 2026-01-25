@@ -19,6 +19,7 @@ final class HomeTopView: BaseView {
     ).then {
         $0.register(BannerCollectionViewCell.self, forCellWithReuseIdentifier: BannerCollectionViewCell.reuseIdentifier)
         $0.showsHorizontalScrollIndicator = false
+        $0.isPagingEnabled = true
     }
     
     // MARK: - Set Hierarchy
