@@ -20,9 +20,9 @@ enum SettingAddress {
         case .fetchLikedMenu:
             return "menus/liked"
         case .fetchServicePolicy:
-            return "policy/terms"
+            return "/policy/terms"
         case .fetchPersonalPolicy:
-            return "policy/privacy"
+            return "/policy/privacy"
         }
     }
 }

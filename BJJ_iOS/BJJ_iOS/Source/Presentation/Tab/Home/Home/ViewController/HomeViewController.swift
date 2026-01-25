@@ -8,9 +8,21 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
-final class HomeViewController: UIViewController {
+final class HomeViewController: BaseViewController {
 
+    // MARK: - ViewModel
+    
+    private let viewModel = HomeViewModel()
+    
+    // MARK: - Relay
+    
+    private let viewWillAppearTrigger = PublishRelay<Void>()
+    private let viewWillDisappearTrigger = PublishRelay<Void>()
+    private let userDidScrollBannerTrigger = PublishRelay<Int>()
+    
     // MARK: - Properties
     
     private var previousCafeteriaIndex: Int = 0
@@ -51,14 +63,6 @@ final class HomeViewController: UIViewController {
     
     // MARK: - LifeCycle
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setUI()
-        setAddView()
-        setConstraints()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -83,27 +87,137 @@ final class HomeViewController: UIViewController {
                 )
             }
         }
+        viewWillAppearTrigger.accept(())
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewWillDisappearTrigger.accept(())
     }
     
     // MARK: - Bind
     
-    func bind() {
+    override func bind() {
+        let input = HomeViewModel.Input(
+            viewWillAppear: viewWillAppearTrigger,
+            viewWillDisappear: viewWillDisappearTrigger,
+            userDidScrollBanner: userDidScrollBannerTrigger
+        )
+        let output = viewModel.transform(input: input)
         
-        // MARK: - Action
+        // 배너 리스트
+        output.bannerList
+            .drive(homeTopView.bannerCollectionView.rx.items(
+                cellIdentifier: BannerCollectionViewCell.reuseIdentifier,
+                cellType: BannerCollectionViewCell.self
+            )) { index, banner, cell in
+                cell.configureCell(with: banner)
+                cell.bannerTapGesture.rx.event
+                    .bind(with: self) { owner, _ in
+                        owner.pushBannerVC(bannerURI: banner.uri)
+                    }
+                    .disposed(by: cell.disposeBag)
+            }
+            .disposed(by: disposeBag)
         
-        // MARK: - State
+        // 배너 리스트가 로드된 후 초기 위치를 인덱스 1로 설정 (진짜 첫 번째 배너)
+        output.bannerList
+            .drive(with: self) { owner, banners in
+                guard banners.count > 1 else { return }
+
+                // 레이아웃이 완료된 후 설정해야 정확한 contentOffset 계산 가능
+                DispatchQueue.main.async {
+                    let collectionView = owner.homeTopView.bannerCollectionView
+
+                    // 레이아웃 강제 업데이트
+                    collectionView.layoutIfNeeded()
+
+                    // frame.width가 0이 아닐 때만 설정
+                    guard collectionView.frame.width > 0 else { return }
+
+                    // X축만 인덱스 1로 이동, Y축은 현재 값 유지
+                    let currentY = collectionView.contentOffset.y
+                    let initialOffset = CGPoint(x: collectionView.frame.width, y: currentY)
+                    collectionView.setContentOffset(initialOffset, animated: false)
+                }
+            }
+            .disposed(by: disposeBag)
         
+        // 자동 스크롤
+        output.scrollToIndex
+            .drive(with: self) { owner, index in
+                let collectionView = owner.homeTopView.bannerCollectionView
+                let itemCount = collectionView.numberOfItems(inSection: 0)
+
+                if index < itemCount {
+                    // X축만 변경, Y축은 현재 값 유지
+                    let currentY = collectionView.contentOffset.y
+                    let targetX = CGFloat(index) * collectionView.frame.width
+                    let targetOffset = CGPoint(x: targetX, y: currentY)
+
+                    collectionView.setContentOffset(targetOffset, animated: true)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        // 사용자 스크롤 감지 및 무한 스크롤 처리
+        homeTopView.bannerCollectionView.rx.didEndDecelerating
+            .bind(with: self) { owner, _ in
+                owner.handleInfiniteScroll()
+            }
+            .disposed(by: disposeBag)
+
+        // 자동 스크롤 종료 시 무한 스크롤 처리
+        homeTopView.bannerCollectionView.rx.didEndScrollingAnimation
+            .bind(with: self) { owner, _ in
+                owner.handleInfiniteScroll()
+            }
+            .disposed(by: disposeBag)
+    }
+
+    // MARK: - Handle Infinite Scroll
+    
+    /// 무한 스크롤 처리: 가짜 아이템에 도달하면 진짜 아이템으로 순간이동
+    private func handleInfiniteScroll() {
+        let collectionView = homeTopView.bannerCollectionView
+        let itemCount = collectionView.numberOfItems(inSection: 0)
+
+        guard itemCount > 2 else { return } // 중복 아이템이 없으면 무한 스크롤 불필요
+
+        // 현재 인덱스 계산
+        let currentIndex = Int(round(collectionView.contentOffset.x / collectionView.frame.width))
+
+        // 현재 Y값 저장 (순간이동 시에도 유지)
+        let currentY = collectionView.contentOffset.y
+        
+        // 가짜 아이템 위치 판단 및 순간이동
+        if currentIndex == 0 {
+            // 가짜 마지막 아이템 (인덱스 0) → 진짜 마지막 아이템 (인덱스 itemCount - 2)
+            let realLastIndex = itemCount - 2
+            let targetOffset = CGPoint(x: CGFloat(realLastIndex) * collectionView.frame.width, y: currentY)
+            collectionView.setContentOffset(targetOffset, animated: false)
+            userDidScrollBannerTrigger.accept(realLastIndex)
+        } else if currentIndex == itemCount - 1 {
+            // 가짜 첫 아이템 (인덱스 itemCount - 1) → 진짜 첫 아이템 (인덱스 1)
+            let realFirstIndex = 1
+            let targetOffset = CGPoint(x: CGFloat(realFirstIndex) * collectionView.frame.width, y: currentY)
+            collectionView.setContentOffset(targetOffset, animated: false)
+            userDidScrollBannerTrigger.accept(realFirstIndex)
+        } else {
+            // 진짜 아이템 위치에서는 타이머 재시작만 수행
+            userDidScrollBannerTrigger.accept(currentIndex)
+        }
     }
     
     // MARK: - Set UI
     
-    private func setUI() {
+    override func setUI() {
         view.backgroundColor = .customColor(.backgroundGray)
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
             homeTopView,
             scrollView
@@ -119,11 +233,10 @@ final class HomeViewController: UIViewController {
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
+    override func setConstraints() {
         homeTopView.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top)
-            $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(182)
+            $0.top.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(215)
         }
         
         scrollView.snp.makeConstraints {

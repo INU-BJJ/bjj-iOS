@@ -9,56 +9,45 @@ import UIKit
 import SnapKit
 import Then
 
-final class HomeTopView: UIView {
+final class HomeTopView: BaseView {
     
-    // MARK: Properties
+    // MARK: - Components
     
-    private let jumbotronText = """
-                                  오늘의 인기 메뉴를
-                                  알아볼까요?
-                                """
-    // MARK: UI Components
-    
-    private lazy var jumbotronLabel = UILabel().then {
-        $0.setLabelUI(jumbotronText, font: .pretendard_semibold, size: 24, color: .black)
-        $0.numberOfLines = 0
+    lazy var bannerCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createLayout()
+    ).then {
+        $0.register(BannerCollectionViewCell.self, forCellWithReuseIdentifier: BannerCollectionViewCell.reuseIdentifier)
+        $0.showsHorizontalScrollIndicator = false
+        $0.isPagingEnabled = true
     }
     
-    // MARK: LifeCycle
-        
-    init() {
-        super.init(frame: .zero)
-        
-        setUI()
-        setAddView()
-        setConstraints()
-    }
+    // MARK: - Set Hierarchy
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: Set UI
-        
-    private func setUI() {
-        backgroundColor = .customColor(.mainColor)
-    }
-    
-    // MARK: Set AddViews
-    
-    private func setAddView() {
+    override func setHierarchy() {
         [
-         jumbotronLabel
+            bannerCollectionView
         ].forEach(addSubview)
     }
     
-    // MARK: Set Constraints
+    // MARK: - Set Constraints
     
-    private func setConstraints() {
-        jumbotronLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(52)
-            $0.leading.equalToSuperview().offset(31)
-            $0.bottom.equalToSuperview().offset(18)
+    override func setConstraints() {
+        bannerCollectionView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
+    }
+    
+    // MARK: - Create Layout
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewFlowLayout()
+        
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 215)
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        
+        return layout
     }
 }

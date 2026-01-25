@@ -22,14 +22,18 @@ final class LikedMenuViewModel: BaseViewModel {
     }
     
     // MARK: - Ouptut
-    
+
     struct Output {
         let likedMenuList: Observable<[LikedMenuSection]>
+        let errorMessage: Observable<String>
     }
     
     // MARK: - Transform
     
     func transform(input: Input) -> Output {
+
+        // 에러 메시지 전달용 Relay
+        let errorMessageRelay = PublishRelay<String>()
 
         // 좋아요 토글 후 재조회
         let toggledMenuList = input.toggleMenuLike
@@ -49,17 +53,17 @@ final class LikedMenuViewModel: BaseViewModel {
                                 })
                                 .disposed(by: self.disposeBag)
 
-                        case .failure(let error):
-                            // TODO: 토스트 메시지 띄우기
-                            print("<< 좋아요 실패")
-                            observer.onError(error)
+                        case .failure:
+                            // 좋아요 토글 실패 시 에러 메시지 방출
+                            errorMessageRelay.accept("좋아요 토글에 실패했습니다.\n다시 시도해주세요.")
+                            observer.onNext([])
                         }
                     }
 
                     return Disposables.create()
                 }
             }
-        
+
         // fetchLikedMenuTrigger 이벤트 발생 시 좋아요한 메뉴 가져오기
         let fetchedMenuList = input.fetchLikedMenuTrigger
             .flatMapLatest { [weak self] _ -> Observable<[LikedMenuSection]> in
@@ -69,12 +73,15 @@ final class LikedMenuViewModel: BaseViewModel {
 
                 return self.fetchLikedMenu()
             }
-        
+
         // 두 스트림 합치기
         let likedMenuList = Observable.merge(fetchedMenuList, toggledMenuList)
             .share(replay: 1)
-        
-        return Output(likedMenuList: likedMenuList)
+
+        return Output(
+            likedMenuList: likedMenuList,
+            errorMessage: errorMessageRelay.asObservable()
+        )
     }
 
     // MARK: - API Methods

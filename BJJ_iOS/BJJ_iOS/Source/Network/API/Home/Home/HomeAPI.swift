@@ -28,4 +28,15 @@ final class HomeAPI {
             completion: completion
         )
     }
+    
+    /// 배너 정보 조회
+    static func fetchBannerList(completion: @escaping (Result<[BannerDTO], Error>) -> Void) {
+        networkRequest(
+            urlStr: HomeAddress.fetchBannerList.url,
+            method: .get,
+            data: nil,
+            model: [BannerDTO].self,
+            completion: completion
+        )
+    }
 }

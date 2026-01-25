@@ -68,3 +68,9 @@ struct cafeteriaServiceHoutInfo: Hashable, Codable {
         case weekendsServiceTime = "weekends"
     }
 }
+
+// 배너 DTO
+struct BannerDTO: Codable {
+    let imageName: String
+    let pageUri: String
+}

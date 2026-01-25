@@ -58,3 +58,9 @@ struct CafeteriaServiceTime: Hashable {
     let weekDaysServiceTime: [String]
     let weekendsServiceTime: [String]
 }
+
+// 배너 모델
+struct Banner {
+    let image: String
+    let uri: String
+}

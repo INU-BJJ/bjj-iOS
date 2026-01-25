@@ -111,6 +111,16 @@ final class LikedMenuViewController: BaseViewController {
                     .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
+        
+        // 에러 메시지 처리
+        output.errorMessage
+            .bind(with: self, onNext: { owner, message in
+                owner.presentAlertViewController(
+                    alertType: .failure,
+                    title: message
+                )
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Create Layout

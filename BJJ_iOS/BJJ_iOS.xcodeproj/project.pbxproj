@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		3F03EEA82D5643F4007B3505 /* ReviewWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F03EEA72D5643F4007B3505 /* ReviewWriteViewController.swift */; };
 		3F059C702F193C8300218AAE /* StoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F059C6F2F193C8300218AAE /* StoreViewModel.swift */; };
+		3F0BC86F2F26375E0078D6E5 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BC86E2F26375E0078D6E5 /* HomeViewModel.swift */; };
+		3F0BC8722F2657D30078D6E5 /* BannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BC8712F2657D30078D6E5 /* BannerCollectionViewCell.swift */; };
+		3F0BC8792F266E1D0078D6E5 /* BannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BC8782F266E1D0078D6E5 /* BannerViewController.swift */; };
+		3F0BC87C2F266EE50078D6E5 /* BannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BC87B2F266EE50078D6E5 /* BannerViewModel.swift */; };
 		3F0CF2562E00115500998FA9 /* ReportReviewAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CF2552E00115500998FA9 /* ReportReviewAPI.swift */; };
 		3F0CF2582E00115F00998FA9 /* ReportReviewAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CF2572E00115F00998FA9 /* ReportReviewAddress.swift */; };
 		3F0CF25B2E002D5B00998FA9 /* ReportReviewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CF25A2E002D5B00998FA9 /* ReportReviewSection.swift */; };
@@ -233,6 +237,10 @@
 		33515C51778C5C5E22CDE88A /* Pods_BJJ_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BJJ_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F03EEA72D5643F4007B3505 /* ReviewWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteViewController.swift; sourceTree = "<group>"; };
 		3F059C6F2F193C8300218AAE /* StoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewModel.swift; sourceTree = "<group>"; };
+		3F0BC86E2F26375E0078D6E5 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		3F0BC8712F2657D30078D6E5 /* BannerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCollectionViewCell.swift; sourceTree = "<group>"; };
+		3F0BC8782F266E1D0078D6E5 /* BannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerViewController.swift; sourceTree = "<group>"; };
+		3F0BC87B2F266EE50078D6E5 /* BannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerViewModel.swift; sourceTree = "<group>"; };
 		3F0CF2552E00115500998FA9 /* ReportReviewAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportReviewAPI.swift; sourceTree = "<group>"; };
 		3F0CF2572E00115F00998FA9 /* ReportReviewAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportReviewAddress.swift; sourceTree = "<group>"; };
 		3F0CF25A2E002D5B00998FA9 /* ReportReviewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportReviewSection.swift; sourceTree = "<group>"; };
@@ -518,6 +526,47 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		3F0BC86D2F2637590078D6E5 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BC86E2F26375E0078D6E5 /* HomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3F0BC8702F2657C50078D6E5 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BC8712F2657D30078D6E5 /* BannerCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		3F0BC8762F266DFB0078D6E5 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BC87A2F266EDB0078D6E5 /* ViewModel */,
+				3F0BC8772F266E130078D6E5 /* ViewController */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
+		3F0BC8772F266E130078D6E5 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BC8782F266E1D0078D6E5 /* BannerViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		3F0BC87A2F266EDB0078D6E5 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BC87B2F266EE50078D6E5 /* BannerViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		3F0CF2512E00112800998FA9 /* ReportReview */ = {
 			isa = PBXGroup;
 			children = (
@@ -796,6 +845,7 @@
 				3F996E582CD64BE900910DE7 /* Home */,
 				3F996E592CD64BFC00910DE7 /* MenuDetail */,
 				3F4DF5652DF8193F006E047E /* ReviewPhotoGallery */,
+				3F0BC8762F266DFB0078D6E5 /* Banner */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1316,8 +1366,10 @@
 			isa = PBXGroup;
 			children = (
 				3F25B4242CB28483005C0907 /* Model */,
+				3F0BC8702F2657C50078D6E5 /* Cell */,
 				3F25B4222CB28458005C0907 /* Reactor */,
 				3F25B4212CB28450005C0907 /* View */,
+				3F0BC86D2F2637590078D6E5 /* ViewModel */,
 				3F25B4202CB2844A005C0907 /* ViewController */,
 			);
 			path = Home;
@@ -2245,6 +2297,7 @@
 				3F1A51A82CD890B300029E09 /* MenuReviewListHashTag.swift in Sources */,
 				3FC6B2202F1647E8004DFCE6 /* ConfirmButton.swift in Sources */,
 				3F3AF8CB2D75A57100D6C28A /* ReviewWriteAPI.swift in Sources */,
+				3F0BC86F2F26375E0078D6E5 /* HomeViewModel.swift in Sources */,
 				3F25B3ED2CB282D7005C0907 /* HomeViewController.swift in Sources */,
 				3FC123252DA5219800676A09 /* SettingViewController.swift in Sources */,
 				3F1A51AC2CD8C38900029E09 /* SeparatingLineView.swift in Sources */,
@@ -2302,6 +2355,7 @@
 				3F90699E2F15391F00FDBC94 /* UIImageView++Extensions.swift in Sources */,
 				3F3AF8CF2D75AB6300D6C28A /* ReviewWriteSection.swift in Sources */,
 				3F1472412DACEF6300098C41 /* StoreAddress.swift in Sources */,
+				3F0BC8792F266E1D0078D6E5 /* BannerViewController.swift in Sources */,
 				3F4831F02D89831700B138A2 /* ReviewModalSection.swift in Sources */,
 				3F31AAE32D675C5700FDCC35 /* ReviewAddPhoto.swift in Sources */,
 				3F5F5E562F1F94C9001A8E99 /* Notification.Name++Extensions.swift in Sources */,
@@ -2325,6 +2379,7 @@
 				3F6FC5752DFA9480004A08C5 /* ReviewPhotoGallerySection.swift in Sources */,
 				3FBA45B12CD749730038960A /* MenuHeader.swift in Sources */,
 				3F3C74EC2D59D35C00D510A7 /* UIView++Extensions.swift in Sources */,
+				3F0BC8722F2657D30078D6E5 /* BannerCollectionViewCell.swift in Sources */,
 				3F967AD62F15433A0053A5F1 /* IconConfirmButton.swift in Sources */,
 				3FF0C6202F1789C000DD35E9 /* PointView.swift in Sources */,
 				3F059C702F193C8300218AAE /* StoreViewModel.swift in Sources */,
@@ -2351,6 +2406,7 @@
 				3F16132D2CD8737500A30369 /* MenuReviewList.swift in Sources */,
 				3F9A5F412F16342200AB0576 /* BaseCollectionViewCell.swift in Sources */,
 				3F1472492DACF90D00098C41 /* ItemTypeCell.swift in Sources */,
+				3F0BC87C2F266EE50078D6E5 /* BannerViewModel.swift in Sources */,
 				3FC0A66B2DA0379C00FBFAEE /* SignUpModel.swift in Sources */,
 				3F2EB1FE2F20C02D008C61CA /* SettingViewModel.swift in Sources */,
 				3FB396D62DAE1F9A00EF87A8 /* SettingAPI.swift in Sources */,
