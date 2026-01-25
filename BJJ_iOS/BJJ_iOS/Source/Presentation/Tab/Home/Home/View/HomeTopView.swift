@@ -13,32 +13,32 @@ final class HomeTopView: BaseView {
     
     // MARK: - Components
     
-    private lazy var jumbotronLabel = UILabel().then {
-        $0.setLabelUI("오늘의 인기 메뉴", font: .pretendard_semibold, size: 24, color: .black)
-        $0.numberOfLines = 0
-    }
-    
-    // MARK: - Set UI
-        
-    override func setUI() {
-        backgroundColor = .customColor(.mainColor)
-    }
+    private lazy var bannerCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createLayout()
+    )
     
     // MARK: - Set Hierarchy
     
     override func setHierarchy() {
         [
-         jumbotronLabel
+            bannerCollectionView
         ].forEach(addSubview)
     }
     
     // MARK: - Set Constraints
     
     override func setConstraints() {
-        jumbotronLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(52)
-            $0.leading.equalToSuperview().offset(31)
-            $0.bottom.equalToSuperview().offset(18)
+        bannerCollectionView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
+    }
+    
+    // MARK: - Create Layout
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewFlowLayout()
+        
+        return layout
     }
 }
