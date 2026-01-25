@@ -11,6 +11,10 @@ import Then
 
 final class LikedMenuViewController: BaseViewController {
     
+    // MARK: - ViewModel
+    
+    private let viewModel = LikedMenuViewModel()
+    
     // MARK: - UI Components
     
     private let likedMenuNotifiLabel = UILabel().then {
@@ -21,8 +25,11 @@ final class LikedMenuViewController: BaseViewController {
         $0.onTintColor = .customColor(.mainColor)
     }
     
-    private lazy var testLikedMenuTableView = UITableView().then {
-        $0.register(LikedMenuCell.self, forCellReuseIdentifier: LikedMenuCell.reuseIdentifier)
+    private lazy var likedMenuCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createLayout()
+    ).then {
+        $0.register(LikedMenuCell.self, forCellWithReuseIdentifier: LikedMenuCell.reuseIdentifier)
     }
     
     // MARK: - Set UI
@@ -38,7 +45,7 @@ final class LikedMenuViewController: BaseViewController {
         [
             likedMenuNotifiLabel,
             likeNotifySwitch,
-            testLikedMenuTableView
+            likedMenuCollectionView
         ].forEach(view.addSubview)
     }
     
@@ -54,11 +61,40 @@ final class LikedMenuViewController: BaseViewController {
             $0.trailing.equalToSuperview().inset(22)
         }
         
-        testLikedMenuTableView.snp.makeConstraints {
-            $0.top.equalTo(likedMenuNotifiLabel.snp.bottom).offset(30)
-            $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview()
+        likedMenuCollectionView.snp.makeConstraints {
+            $0.top.equalTo(likeNotifySwitch.snp.bottom).offset(24)
+            $0.horizontalEdges.equalToSuperview().inset(15)
+            $0.bottom.equalToSuperview().inset(40)
         }
+    }
+    
+    // MARK: - Bind
+    
+    override func bind() {
+        let input = LikedMenuViewModel.Input()
+        let output = viewModel.transform(input: input)
+        
+        // 좋아요한 메뉴
+        output.likedMenuList
+            .bind(to: likedMenuCollectionView.rx.items(
+                cellIdentifier: LikedMenuCell.reuseIdentifier,
+                cellType: LikedMenuCell.self
+            )) { index, likedMenu, cell in
+                cell.configureCell(with: likedMenu)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    // MARK: - Create Layout
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewFlowLayout()
+    
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 30, height: 45)
+        layout.minimumLineSpacing = 10
+        
+        return layout
     }
     
 //    // MARK: - Fetch API Functions
