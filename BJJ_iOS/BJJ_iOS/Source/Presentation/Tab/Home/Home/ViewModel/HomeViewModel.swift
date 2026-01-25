@@ -78,14 +78,16 @@ final class HomeViewModel: BaseViewModel {
         // 타이머 이벤트를 병합
         let timerEvents = Observable.merge(autoScrollTimer, userScrollRestart)
         
-        // 현재 인덱스 계산 (타이머 이벤트마다 +1, 마지막이면 0으로)
+        // 현재 인덱스 계산 (타이머 이벤트마다 +1, 마지막이면 1로 리셋)
+        // 무한 스크롤: [3, 1, 2, 3, 1]에서 1 → 2 → 3 → 4 → 1 순환
         let scrollToIndex = timerEvents
             .withLatestFrom(bannerCount) { _, count in count }
-            .scan(0) { currentIndex, count in
+            .scan(1) { currentIndex, count in
                 let nextIndex = currentIndex + 1
-                return nextIndex >= count ? 0 : nextIndex
+                // 마지막 가짜 아이템(count - 1) 다음은 진짜 첫 아이템(1)로
+                return nextIndex >= count ? 1 : nextIndex
             }
-            .asDriver(onErrorJustReturn: 0)
+            .asDriver(onErrorJustReturn: 1)
         
         return Output(
             bannerList: bannerList,
