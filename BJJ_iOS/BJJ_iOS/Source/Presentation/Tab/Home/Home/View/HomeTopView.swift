@@ -44,7 +44,7 @@ final class HomeTopView: BaseView {
         let layout = UICollectionViewFlowLayout()
         
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 182)
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 215)
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
         

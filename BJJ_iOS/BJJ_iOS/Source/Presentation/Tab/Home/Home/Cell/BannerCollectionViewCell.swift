@@ -14,7 +14,7 @@ final class BannerCollectionViewCell: BaseCollectionViewCell<Banner> {
     
     // MARK: - Components
     
-    private lazy var bannerWebView = WKWebView().then {
+    private let bannerWebView = WKWebView().then {
         $0.scrollView.isScrollEnabled = false
     }
     
@@ -55,7 +55,7 @@ final class BannerCollectionViewCell: BaseCollectionViewCell<Banner> {
                     padding: 0;
                 }
                 body {
-                    width: 100vw;
+                    width: 105vw;
                     height: 182px;
                     display: flex;
                     align-items: center;
