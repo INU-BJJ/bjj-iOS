@@ -23,7 +23,7 @@ final class LikedMenuCell: BaseCollectionViewCell<LikedMenuSection> {
     }
     
     let likeButton = UIButton().then {
-        $0.setImage(UIImage(named: ImageAsset.EmptyHeart.name), for: .normal)
+        $0.setImage(UIImage(named: ImageAsset.Heart.name), for: .normal)
     }
     
     // MARK: - Reset
@@ -34,7 +34,6 @@ final class LikedMenuCell: BaseCollectionViewCell<LikedMenuSection> {
         // 초기화
         disposeBag = DisposeBag()
         menuNameLabel.text = nil
-        likeButton.setImage(UIImage(named: ImageAsset.EmptyHeart.name), for: .normal)
     }
     
     // MARK: - Set UI
