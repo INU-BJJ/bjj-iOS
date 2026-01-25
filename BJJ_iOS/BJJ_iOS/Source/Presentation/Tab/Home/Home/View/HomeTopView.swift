@@ -13,10 +13,13 @@ final class HomeTopView: BaseView {
     
     // MARK: - Components
     
-    private lazy var bannerCollectionView = UICollectionView(
+    lazy var bannerCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createLayout()
-    )
+    ).then {
+        $0.register(BannerCollectionViewCell.self, forCellWithReuseIdentifier: BannerCollectionViewCell.reuseIdentifier)
+        $0.showsHorizontalScrollIndicator = false
+    }
     
     // MARK: - Set Hierarchy
     
@@ -38,6 +41,11 @@ final class HomeTopView: BaseView {
     
     private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
+        
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 182)
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
         
         return layout
     }

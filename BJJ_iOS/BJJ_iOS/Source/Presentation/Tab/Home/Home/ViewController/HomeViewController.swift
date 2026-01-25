@@ -98,8 +98,11 @@ final class HomeViewController: BaseViewController {
         
         // 배너 리스트
         output.bannerList
-            .drive(with: self) { owner, bannerList in
-                print("<< bannerList: \(bannerList)")
+            .drive(homeTopView.bannerCollectionView.rx.items(
+                cellIdentifier: BannerCollectionViewCell.reuseIdentifier,
+                cellType: BannerCollectionViewCell.self
+            )) { index, banner, cell in
+                cell.configureCell(with: banner)
             }
             .disposed(by: disposeBag)
     }
