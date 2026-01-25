@@ -36,6 +36,20 @@ final class HomeViewModel: BaseViewModel {
                 }
                 return self.fetchBannerList()
             }
+            .map { banners -> [Banner] in
+                // 무한 스크롤을 위해 앞뒤에 중복 아이템 추가
+                // 원본: [1, 2, 3] → 변환: [3, 1, 2, 3, 1]
+                guard banners.count > 0 else { return banners }
+                
+                var infiniteScrollBanners = banners
+                if let last = banners.last {
+                    infiniteScrollBanners.insert(last, at: 0) // 마지막 아이템을 맨 앞에 추가
+                }
+                if let first = banners.first {
+                    infiniteScrollBanners.append(first) // 첫 번째 아이템을 맨 뒤에 추가
+                }
+                return infiniteScrollBanners
+            }
             .asDriver(onErrorJustReturn: [])
 
         // 배너 개수를 추적

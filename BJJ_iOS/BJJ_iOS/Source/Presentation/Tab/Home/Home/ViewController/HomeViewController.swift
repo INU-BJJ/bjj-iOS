@@ -120,6 +120,29 @@ final class HomeViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        // 배너 리스트가 로드된 후 초기 위치를 인덱스 1로 설정 (진짜 첫 번째 배너)
+        output.bannerList
+            .drive(with: self) { owner, banners in
+                guard banners.count > 1 else { return }
+
+                // 레이아웃이 완료된 후 설정해야 정확한 contentOffset 계산 가능
+                DispatchQueue.main.async {
+                    let collectionView = owner.homeTopView.bannerCollectionView
+
+                    // 레이아웃 강제 업데이트
+                    collectionView.layoutIfNeeded()
+
+                    // frame.width가 0이 아닐 때만 설정
+                    guard collectionView.frame.width > 0 else { return }
+
+                    // X축만 인덱스 1로 이동, Y축은 현재 값 유지
+                    let currentY = collectionView.contentOffset.y
+                    let initialOffset = CGPoint(x: collectionView.frame.width, y: currentY)
+                    collectionView.setContentOffset(initialOffset, animated: false)
+                }
+            }
+            .disposed(by: disposeBag)
+        
         // 자동 스크롤
         output.scrollToIndex
             .drive(with: self) { owner, index in
@@ -127,7 +150,7 @@ final class HomeViewController: BaseViewController {
                 let itemCount = collectionView.numberOfItems(inSection: 0)
 
                 if index < itemCount {
-                    // contentOffset.y를 유지하면서 x만 변경
+                    // X축만 변경, Y축은 현재 값 유지
                     let currentY = collectionView.contentOffset.y
                     let targetX = CGFloat(index) * collectionView.frame.width
                     let targetOffset = CGPoint(x: targetX, y: currentY)
@@ -137,19 +160,53 @@ final class HomeViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        // 사용자 스크롤 감지
+        // 사용자 스크롤 감지 및 무한 스크롤 처리
         homeTopView.bannerCollectionView.rx.didEndDecelerating
             .bind(with: self) { owner, _ in
-                let collectionView = owner.homeTopView.bannerCollectionView
-                let centerPoint = CGPoint(
-                    x: collectionView.contentOffset.x + collectionView.frame.width / 2,
-                    y: collectionView.frame.height / 2
-                )
-                if let indexPath = collectionView.indexPathForItem(at: centerPoint) {
-                    owner.userDidScrollBannerTrigger.accept(indexPath.item)
-                }
+                owner.handleInfiniteScroll()
             }
             .disposed(by: disposeBag)
+
+        // 자동 스크롤 종료 시 무한 스크롤 처리
+        homeTopView.bannerCollectionView.rx.didEndScrollingAnimation
+            .bind(with: self) { owner, _ in
+                owner.handleInfiniteScroll()
+            }
+            .disposed(by: disposeBag)
+    }
+
+    // MARK: - Handle Infinite Scroll
+    
+    /// 무한 스크롤 처리: 가짜 아이템에 도달하면 진짜 아이템으로 순간이동
+    private func handleInfiniteScroll() {
+        let collectionView = homeTopView.bannerCollectionView
+        let itemCount = collectionView.numberOfItems(inSection: 0)
+
+        guard itemCount > 2 else { return } // 중복 아이템이 없으면 무한 스크롤 불필요
+
+        // 현재 인덱스 계산
+        let currentIndex = Int(round(collectionView.contentOffset.x / collectionView.frame.width))
+
+        // 현재 Y값 저장 (순간이동 시에도 유지)
+        let currentY = collectionView.contentOffset.y
+        
+        // 가짜 아이템 위치 판단 및 순간이동
+        if currentIndex == 0 {
+            // 가짜 마지막 아이템 (인덱스 0) → 진짜 마지막 아이템 (인덱스 itemCount - 2)
+            let realLastIndex = itemCount - 2
+            let targetOffset = CGPoint(x: CGFloat(realLastIndex) * collectionView.frame.width, y: currentY)
+            collectionView.setContentOffset(targetOffset, animated: false)
+            userDidScrollBannerTrigger.accept(realLastIndex)
+        } else if currentIndex == itemCount - 1 {
+            // 가짜 첫 아이템 (인덱스 itemCount - 1) → 진짜 첫 아이템 (인덱스 1)
+            let realFirstIndex = 1
+            let targetOffset = CGPoint(x: CGFloat(realFirstIndex) * collectionView.frame.width, y: currentY)
+            collectionView.setContentOffset(targetOffset, animated: false)
+            userDidScrollBannerTrigger.accept(realFirstIndex)
+        } else {
+            // 진짜 아이템 위치에서는 타이머 재시작만 수행
+            userDidScrollBannerTrigger.accept(currentIndex)
+        }
     }
     
     // MARK: - Set UI
