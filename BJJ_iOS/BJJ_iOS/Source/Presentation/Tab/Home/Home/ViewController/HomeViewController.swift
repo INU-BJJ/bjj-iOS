@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class HomeViewController: UIViewController {
+final class HomeViewController: BaseViewController {
 
     // MARK: - Properties
     
@@ -51,14 +51,6 @@ final class HomeViewController: UIViewController {
     
     // MARK: - LifeCycle
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setUI()
-        setAddView()
-        setConstraints()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -87,23 +79,19 @@ final class HomeViewController: UIViewController {
     
     // MARK: - Bind
     
-    func bind() {
-        
-        // MARK: - Action
-        
-        // MARK: - State
+    override func bind() {
         
     }
     
     // MARK: - Set UI
     
-    private func setUI() {
+    override func setUI() {
         view.backgroundColor = .customColor(.backgroundGray)
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
             homeTopView,
             scrollView
@@ -119,7 +107,7 @@ final class HomeViewController: UIViewController {
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
+    override func setConstraints() {
         homeTopView.snp.makeConstraints {
             $0.top.equalTo(view.snp.top)
             $0.horizontalEdges.equalToSuperview()
