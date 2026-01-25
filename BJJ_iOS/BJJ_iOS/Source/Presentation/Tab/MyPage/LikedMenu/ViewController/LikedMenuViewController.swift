@@ -9,104 +9,128 @@ import UIKit
 import SnapKit
 import Then
 
-final class LikedMenuViewController: UIViewController {
+final class LikedMenuViewController: BaseViewController {
     
-    // MARK: - Properties
+    // MARK: - ViewModel
     
-    private var likedMenuList: [LikedMenuSection] = []
+    private let viewModel = LikedMenuViewModel()
     
     // MARK: - UI Components
     
-    private let testLikedMenuNotifiLabel = UILabel().then {
-        $0.setLabelUI("좋아요 알림 받기", font: .pretendard, size: 15, color: .black)
+    private let likedMenuNotifiLabel = UILabel().then {
+        $0.setLabelUI("좋아요 알림 받기", font: .pretendard_semibold, size: 15, color: .black)
     }
     
-    private lazy var testLikedMenuTableView = UITableView().then {
-        $0.register(LikedMenuCell.self, forCellReuseIdentifier: LikedMenuCell.reuseIdentifier)
-        $0.dataSource = self
-        $0.delegate = self
+    private let likeNotifySwitch = UISwitch().then {
+        $0.onTintColor = .customColor(.mainColor)
     }
     
-    // MARK: - LifeCycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setViewController()
-        setAddView()
-        setConstraints()
+    private lazy var likedMenuCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: createLayout()
+    ).then {
+        $0.register(LikedMenuCell.self, forCellWithReuseIdentifier: LikedMenuCell.reuseIdentifier)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        fetchLikedMenu()
-    }
+    // MARK: - Set UI
     
-    // MARK: - Set ViewController
-    
-    private func setViewController() {
+    override func setUI() {
         view.backgroundColor = .white
+        setBackNaviBar("좋아요한 메뉴")
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
-            testLikedMenuNotifiLabel,
-            testLikedMenuTableView
+            likedMenuNotifiLabel,
+            likeNotifySwitch,
+            likedMenuCollectionView
         ].forEach(view.addSubview)
     }
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
-        testLikedMenuNotifiLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.equalToSuperview().offset(20)
+    override func setConstraints() {
+        likedMenuNotifiLabel.snp.makeConstraints {
+            $0.top.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
         }
         
-        testLikedMenuTableView.snp.makeConstraints {
-            $0.top.equalTo(testLikedMenuNotifiLabel.snp.bottom).offset(30)
-            $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview()
+        likeNotifySwitch.snp.makeConstraints {
+            $0.centerY.equalTo(likedMenuNotifiLabel)
+            $0.trailing.equalToSuperview().inset(22)
+        }
+        
+        likedMenuCollectionView.snp.makeConstraints {
+            $0.top.equalTo(likeNotifySwitch.snp.bottom).offset(24)
+            $0.horizontalEdges.equalToSuperview().inset(15)
+            $0.bottom.equalToSuperview().inset(40)
         }
     }
     
-    // MARK: - Fetch API Functions
+    // MARK: - Bind
     
-    private func fetchLikedMenu() {
-        SettingAPI.fetchLikedMenu() { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let likedMenuList):
-                self.likedMenuList = likedMenuList.map {
-                    LikedMenuSection(menuID: $0.menuID, menuName: $0.menuName)
-                }
-                
-                DispatchQueue.main.async {
-                    self.testLikedMenuTableView.reloadData()
-                }
-                
-            case .failure(let error):
-                print("[LikedMenuVC] Error: \(error.localizedDescription)")
+    override func bind() {
+        let input = LikedMenuViewModel.Input()
+        let output = viewModel.transform(input: input)
+        
+        // 좋아요한 메뉴
+        output.likedMenuList
+            .bind(to: likedMenuCollectionView.rx.items(
+                cellIdentifier: LikedMenuCell.reuseIdentifier,
+                cellType: LikedMenuCell.self
+            )) { index, likedMenu, cell in
+                cell.configureCell(with: likedMenu)
             }
-        }
+            .disposed(by: disposeBag)
     }
+    
+    // MARK: - Create Layout
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewFlowLayout()
+    
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 30, height: 45)
+        layout.minimumLineSpacing = 10
+        
+        return layout
+    }
+    
+//    // MARK: - Fetch API Functions
+//    
+//    private func fetchLikedMenu() {
+//        SettingAPI.fetchLikedMenu() { [weak self] result in
+//            guard let self = self else { return }
+//            
+//            switch result {
+//            case .success(let likedMenuList):
+//                self.likedMenuList = likedMenuList.map {
+//                    LikedMenuSection(menuID: $0.menuID, menuName: $0.menuName)
+//                }
+//                
+//                DispatchQueue.main.async {
+//                    self.testLikedMenuTableView.reloadData()
+//                }
+//                
+//            case .failure(let error):
+//                print("[LikedMenuVC] Error: \(error.localizedDescription)")
+//            }
+//        }
+//    }
 }
 
-extension LikedMenuViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        likedMenuList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: LikedMenuCell.reuseIdentifier, for: indexPath) as? LikedMenuCell else {
-            return UITableViewCell()
-        }
-        cell.setCellUI(with: likedMenuList[indexPath.row])
-        
-        return cell
-    }
-}
+//extension LikedMenuViewController: UITableViewDataSource, UITableViewDelegate {
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        likedMenuList.count
+//    }
+//    
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        guard let cell = tableView.dequeueReusableCell(withIdentifier: LikedMenuCell.reuseIdentifier, for: indexPath) as? LikedMenuCell else {
+//            return UITableViewCell()
+//        }
+//        cell.setCellUI(with: likedMenuList[indexPath.row])
+//        
+//        return cell
+//    }
+//}

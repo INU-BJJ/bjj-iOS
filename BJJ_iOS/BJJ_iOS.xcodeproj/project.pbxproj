@@ -90,6 +90,7 @@
 		3F43F0DA2D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0D92D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift */; };
 		3F43F0DC2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0DB2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift */; };
 		3F43F0DE2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0DD2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift */; };
+		3F46A54C2F2623A200CDB1AF /* LikedMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F46A54B2F2623A200CDB1AF /* LikedMenuViewModel.swift */; };
 		3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F47B9E72CD7716C00F8E2CB /* UIImage++Extensions.swift */; };
 		3F4831E52D89610300B138A2 /* MenuRankingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4831E42D89610300B138A2 /* MenuRankingSection.swift */; };
 		3F4831EA2D897C2E00B138A2 /* ReviewModalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4831E92D897C2E00B138A2 /* ReviewModalModel.swift */; };
@@ -162,6 +163,7 @@
 		3FB396D42DAE1F8900EF87A8 /* SettingAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB396D32DAE1F8900EF87A8 /* SettingAddress.swift */; };
 		3FB396D62DAE1F9A00EF87A8 /* SettingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB396D52DAE1F9A00EF87A8 /* SettingAPI.swift */; };
 		3FB396D82DAE1FA500EF87A8 /* SettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB396D72DAE1FA500EF87A8 /* SettingModel.swift */; };
+		3FB76F3A2F23B89F00DD2901 /* NicknameEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB76F392F23B89F00DD2901 /* NicknameEditViewModel.swift */; };
 		3FB984602D5378A30050D66A /* MyReviewDetailImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB9845F2D5378A30050D66A /* MyReviewDetailImageCell.swift */; };
 		3FB984622D5389710050D66A /* MyReviewDetailHashTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB984612D5389710050D66A /* MyReviewDetailHashTagCell.swift */; };
 		3FB984642D53918F0050D66A /* MyReviewDeleteModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB984632D53918F0050D66A /* MyReviewDeleteModalViewController.swift */; };
@@ -316,6 +318,7 @@
 		3F43F0D92D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewAddress.swift; sourceTree = "<group>"; };
 		3F43F0DB2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewModel.swift; sourceTree = "<group>"; };
 		3F43F0DD2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewAPI.swift; sourceTree = "<group>"; };
+		3F46A54B2F2623A200CDB1AF /* LikedMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedMenuViewModel.swift; sourceTree = "<group>"; };
 		3F47B9E72CD7716C00F8E2CB /* UIImage++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage++Extensions.swift"; sourceTree = "<group>"; };
 		3F4831E42D89610300B138A2 /* MenuRankingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRankingSection.swift; sourceTree = "<group>"; };
 		3F4831E92D897C2E00B138A2 /* ReviewModalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModalModel.swift; sourceTree = "<group>"; };
@@ -385,6 +388,7 @@
 		3FB396D32DAE1F8900EF87A8 /* SettingAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAddress.swift; sourceTree = "<group>"; };
 		3FB396D52DAE1F9A00EF87A8 /* SettingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAPI.swift; sourceTree = "<group>"; };
 		3FB396D72DAE1FA500EF87A8 /* SettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingModel.swift; sourceTree = "<group>"; };
+		3FB76F392F23B89F00DD2901 /* NicknameEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameEditViewModel.swift; sourceTree = "<group>"; };
 		3FB9845F2D5378A30050D66A /* MyReviewDetailImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailImageCell.swift; sourceTree = "<group>"; };
 		3FB984612D5389710050D66A /* MyReviewDetailHashTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailHashTagCell.swift; sourceTree = "<group>"; };
 		3FB984632D53918F0050D66A /* MyReviewDeleteModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDeleteModalViewController.swift; sourceTree = "<group>"; };
@@ -625,7 +629,8 @@
 			isa = PBXGroup;
 			children = (
 				3F1C2B222DAE804000AC3A36 /* Model */,
-				3F1C2B1F2DAE613E00AC3A36 /* View */,
+				3F1C2B1F2DAE613E00AC3A36 /* Cell */,
+				3F46A54A2F26239400CDB1AF /* ViewModel */,
 				3F1C2B1C2DAE5E4C00AC3A36 /* ViewController */,
 			);
 			path = LikedMenu;
@@ -639,12 +644,12 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		3F1C2B1F2DAE613E00AC3A36 /* View */ = {
+		3F1C2B1F2DAE613E00AC3A36 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
 				3F1C2B202DAE614B00AC3A36 /* LikedMenuCell.swift */,
 			);
-			path = View;
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		3F1C2B222DAE804000AC3A36 /* Model */ = {
@@ -1075,6 +1080,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		3F46A54A2F26239400CDB1AF /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3F46A54B2F2623A200CDB1AF /* LikedMenuViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		3F4831E62D897B7C00B138A2 /* MenuRanking */ = {
 			isa = PBXGroup;
 			children = (
@@ -1418,6 +1431,7 @@
 		3FB396CD2DAE1BBA00EF87A8 /* NicknameEdit */ = {
 			isa = PBXGroup;
 			children = (
+				3FB76F382F23B88E00DD2901 /* ViewModel */,
 				3FB396CE2DAE1C4700EF87A8 /* ViewController */,
 			);
 			path = NicknameEdit;
@@ -1447,6 +1461,14 @@
 				3FB396D72DAE1FA500EF87A8 /* SettingModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3FB76F382F23B88E00DD2901 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3FB76F392F23B89F00DD2901 /* NicknameEditViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		3FBBE9792F17489E00889765 /* UIViewController */ = {
@@ -2311,6 +2333,7 @@
 				3F3AF8C72D75A54A00D6C28A /* ReviewWriteModel.swift in Sources */,
 				3F61F8822F176665004BC76A /* RankingInfoViewController.swift in Sources */,
 				3F27E9512DACCFA100CD2554 /* GachaResultSection.swift in Sources */,
+				3F46A54C2F2623A200CDB1AF /* LikedMenuViewModel.swift in Sources */,
 				3F43F0DA2D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift in Sources */,
 				3F858F412DAA532400F6C7F5 /* StoreViewController.swift in Sources */,
 				3F31AAE12D675C3100FDCC35 /* ReviewAddPhotoCell.swift in Sources */,
@@ -2335,6 +2358,7 @@
 				3F61252D2DA6ABAA003B5851 /* MyPageModel.swift in Sources */,
 				3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */,
 				3F311D742D88603B00F8D803 /* RankingAddress.swift in Sources */,
+				3FB76F3A2F23B89F00DD2901 /* NicknameEditViewModel.swift in Sources */,
 				3F1FAD532D8D681C00570681 /* MenuReviewSortingCell.swift in Sources */,
 				3F1613292CD8584100A30369 /* MenuReviewHeaderView.swift in Sources */,
 				3F362D372DFD7BC8006C8094 /* AlertType.swift in Sources */,

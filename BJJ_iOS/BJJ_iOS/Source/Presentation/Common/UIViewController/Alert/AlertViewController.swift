@@ -8,35 +8,38 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
-final class AlertViewController: UIViewController {
+final class AlertViewController: BaseViewController {
 
     // MARK: - Properties
     
     private var alertType: AlertType
     private let text: String
-    
-    // MARK: - UI Components
-    
-    private let alertView = UIView().then {
-        $0.backgroundColor = .clear
+    private let backgroundTapGesture = UITapGestureRecognizer().then {
+        $0.cancelsTouchesInView = false
     }
+    
+    // MARK: - Components
     
     private let circleIconView = UIView().then {
         $0.backgroundColor = .white
+        $0.setCornerRadius(radius: 79 / 2)
     }
     
     private lazy var alertImageView = UIImageView().then {
         $0.image = UIImage(named: alertType.imageName)
+        $0.contentMode = .scaleAspectFit
     }
     
-    private let alertMessageView = UIView().then {
-        $0.backgroundColor = .white
-        $0.layer.cornerRadius = 10
-    }
-    
-    private let alertMessageLabel = UILabel().then {
+    private let alertMessageLabel = PaddingLabel(
+        padding: UIEdgeInsets(top: 24, left: 23.5, bottom: 24, right: 23.5)
+    ).then {
         $0.setLabelUI("", font: .pretendard_semibold, size: 15, color: .black)
+        $0.setCornerRadius(radius: 10)
+        $0.backgroundColor = .white
+        $0.textAlignment = .center
     }
     
     // MARK: - LifeCycle
@@ -51,87 +54,61 @@ final class AlertViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setViewController()
-        setAddView()
-        setConstraints()
-        setAlertViewUI()
-    }
+    // MARK: - Set UI
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        circleIconView.layoutIfNeeded()
-        circleIconView.layer.cornerRadius = circleIconView.bounds.width / 2
-    }
-    
-    // MARK: - Set ViewController
-    
-    private func setViewController() {
+    override func setUI() {
         view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissModal)))
+        view.addGestureRecognizer(backgroundTapGesture)
+        alertMessageLabel.text = text
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
-            alertView
-        ].forEach(view.addSubview)
-        
-        [
-            alertMessageView,
             circleIconView,
-            alertMessageLabel
-        ].forEach(alertView.addSubview)
-        
-        [
+            alertMessageLabel,
             alertImageView
-        ].forEach(circleIconView.addSubview)
+        ].forEach(view.addSubview)
     }
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
-        alertView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(351)
-            $0.horizontalEdges.equalToSuperview().inset(62)
-            $0.bottom.equalToSuperview().inset(369)
-        }
-        
+    override func setConstraints() {
         circleIconView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview().inset(87)
-            $0.bottom.equalToSuperview().inset(37)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(240)
+            $0.centerX.equalToSuperview()
+            $0.size.equalTo(79)
         }
         
         alertImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(11)
-            $0.horizontalEdges.equalToSuperview().inset(12)
-            $0.bottom.equalToSuperview().inset(13)
-        }
-        
-        alertMessageView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(58)
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.top.equalTo(circleIconView).offset(11)
+            $0.horizontalEdges.equalTo(circleIconView).inset(12)
+            $0.bottom.equalTo(circleIconView).inset(13)
         }
         
         alertMessageLabel.snp.makeConstraints {
-            $0.centerX.equalTo(alertMessageView)
-            $0.centerY.equalTo(alertMessageView)
+            $0.top.equalTo(circleIconView).offset(46)
+            $0.horizontalEdges.equalToSuperview().inset(56)
+            $0.centerX.equalToSuperview()
         }
     }
     
-    private func setAlertViewUI() {
-        alertMessageLabel.text = text
-    }
+    // MARK: - Bind
     
-    // MARK: - objc Functions
-    
-    @objc private func dismissModal() {
-        self.dismiss(animated: true)
+    override func bind() {
+        
+        // 배경 탭
+        backgroundTapGesture.rx.event
+            .bind(with: self) { owner, gesture in
+                let location = gesture.location(in: owner.view)
+                let circleIconFrame = owner.circleIconView.frame
+                let alertMessageFrame = owner.alertMessageLabel.frame
+                
+                if !circleIconFrame.contains(location) && !alertMessageFrame.contains(location) {
+                    owner.dismiss(animated: true)
+                }
+            }
+            .disposed(by: disposeBag)
     }
 }
