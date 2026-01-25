@@ -13,8 +13,8 @@ final class LikedMenuViewController: BaseViewController {
     
     // MARK: - UI Components
     
-    private let testLikedMenuNotifiLabel = UILabel().then {
-        $0.setLabelUI("좋아요 알림 받기", font: .pretendard, size: 15, color: .black)
+    private let likedMenuNotifiLabel = UILabel().then {
+        $0.setLabelUI("좋아요 알림 받기", font: .pretendard_semibold, size: 15, color: .black)
     }
     
     private lazy var testLikedMenuTableView = UITableView().then {
@@ -32,7 +32,7 @@ final class LikedMenuViewController: BaseViewController {
     
     override func setHierarchy() {
         [
-            testLikedMenuNotifiLabel,
+            likedMenuNotifiLabel,
             testLikedMenuTableView
         ].forEach(view.addSubview)
     }
@@ -40,13 +40,12 @@ final class LikedMenuViewController: BaseViewController {
     // MARK: - Set Constraints
     
     override func setConstraints() {
-        testLikedMenuNotifiLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.equalToSuperview().offset(20)
+        likedMenuNotifiLabel.snp.makeConstraints {
+            $0.top.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
         }
         
         testLikedMenuTableView.snp.makeConstraints {
-            $0.top.equalTo(testLikedMenuNotifiLabel.snp.bottom).offset(30)
+            $0.top.equalTo(likedMenuNotifiLabel.snp.bottom).offset(30)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.bottom.equalToSuperview()
         }
