@@ -90,6 +90,7 @@
 		3F43F0DA2D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0D92D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift */; };
 		3F43F0DC2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0DB2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift */; };
 		3F43F0DE2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43F0DD2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift */; };
+		3F46A54C2F2623A200CDB1AF /* LikedMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F46A54B2F2623A200CDB1AF /* LikedMenuViewModel.swift */; };
 		3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F47B9E72CD7716C00F8E2CB /* UIImage++Extensions.swift */; };
 		3F4831E52D89610300B138A2 /* MenuRankingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4831E42D89610300B138A2 /* MenuRankingSection.swift */; };
 		3F4831EA2D897C2E00B138A2 /* ReviewModalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4831E92D897C2E00B138A2 /* ReviewModalModel.swift */; };
@@ -317,6 +318,7 @@
 		3F43F0D92D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewAddress.swift; sourceTree = "<group>"; };
 		3F43F0DB2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewModel.swift; sourceTree = "<group>"; };
 		3F43F0DD2D7838FD0018E7E8 /* CafeteriaMyReviewAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CafeteriaMyReviewAPI.swift; sourceTree = "<group>"; };
+		3F46A54B2F2623A200CDB1AF /* LikedMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedMenuViewModel.swift; sourceTree = "<group>"; };
 		3F47B9E72CD7716C00F8E2CB /* UIImage++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage++Extensions.swift"; sourceTree = "<group>"; };
 		3F4831E42D89610300B138A2 /* MenuRankingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRankingSection.swift; sourceTree = "<group>"; };
 		3F4831E92D897C2E00B138A2 /* ReviewModalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModalModel.swift; sourceTree = "<group>"; };
@@ -628,6 +630,7 @@
 			children = (
 				3F1C2B222DAE804000AC3A36 /* Model */,
 				3F1C2B1F2DAE613E00AC3A36 /* View */,
+				3F46A54A2F26239400CDB1AF /* ViewModel */,
 				3F1C2B1C2DAE5E4C00AC3A36 /* ViewController */,
 			);
 			path = LikedMenu;
@@ -1075,6 +1078,14 @@
 				3F43F0DB2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3F46A54A2F26239400CDB1AF /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3F46A54B2F2623A200CDB1AF /* LikedMenuViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		3F4831E62D897B7C00B138A2 /* MenuRanking */ = {
@@ -2322,6 +2333,7 @@
 				3F3AF8C72D75A54A00D6C28A /* ReviewWriteModel.swift in Sources */,
 				3F61F8822F176665004BC76A /* RankingInfoViewController.swift in Sources */,
 				3F27E9512DACCFA100CD2554 /* GachaResultSection.swift in Sources */,
+				3F46A54C2F2623A200CDB1AF /* LikedMenuViewModel.swift in Sources */,
 				3F43F0DA2D7838E10018E7E8 /* CafeteriaMyReviewAddress.swift in Sources */,
 				3F858F412DAA532400F6C7F5 /* StoreViewController.swift in Sources */,
 				3F31AAE12D675C3100FDCC35 /* ReviewAddPhotoCell.swift in Sources */,
