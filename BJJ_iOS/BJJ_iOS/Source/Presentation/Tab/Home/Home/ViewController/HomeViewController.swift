@@ -105,7 +105,7 @@ final class HomeViewController: BaseViewController {
                 cell.configureCell(with: banner)
                 cell.bannerTapGesture.rx.event
                     .bind(with: self) { owner, _ in
-                        
+                        owner.pushBannerVC()
                     }
                     .disposed(by: cell.disposeBag)
             }

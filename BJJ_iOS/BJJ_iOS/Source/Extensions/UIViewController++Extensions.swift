@@ -254,6 +254,13 @@ extension UIViewController {
         navigationController?.pushViewController(personalPolicyVC, animated: true)
     }
     
+    /// BannerVC로 push
+    func pushBannerVC() {
+        let bannerVC = BannerViewController()
+        bannerVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(bannerVC, animated: true)
+    }
+    
     // MARK: - Modal Present
     
     /// 랭킹 인포 모달 present
