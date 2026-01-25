@@ -17,6 +17,10 @@ final class LikedMenuCell: BaseCollectionViewCell<LikedMenuSection> {
         $0.setLabelUI("", font: .pretendard_semibold, size: 15, color: .black)
     }
     
+    private let likeButton = UIButton().then {
+        $0.setImage(UIImage(named: ImageAsset.EmptyHeart.name), for: .normal)
+    }
+    
     // MARK: - Set UI
     
     override func setUI() {
@@ -27,7 +31,8 @@ final class LikedMenuCell: BaseCollectionViewCell<LikedMenuSection> {
     
     override func setHierarchy() {
         [
-            menuNameLabel
+            menuNameLabel,
+            likeButton
         ].forEach(contentView.addSubview)
     }
     
@@ -37,6 +42,13 @@ final class LikedMenuCell: BaseCollectionViewCell<LikedMenuSection> {
         menuNameLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(9)
             $0.centerY.equalToSuperview()
+        }
+        
+        likeButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(14)
+            $0.width.equalTo(16.88889)
+            $0.height.equalTo(16)
         }
     }
     
