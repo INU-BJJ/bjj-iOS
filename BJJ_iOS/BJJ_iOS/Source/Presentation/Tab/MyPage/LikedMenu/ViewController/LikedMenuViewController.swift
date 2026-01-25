@@ -20,6 +20,7 @@ final class LikedMenuViewController: BaseViewController {
     // MARK: - Relay
     
     private let fetchLikedMenuTrigger = PublishRelay<Void>()
+    private let toggleMenuLikeTrigger = PublishRelay<Int>()
     
     // MARK: - UI Components
     
@@ -87,7 +88,8 @@ final class LikedMenuViewController: BaseViewController {
     
     override func bind() {
         let input = LikedMenuViewModel.Input(
-            fetchLikedMenuTrigger: fetchLikedMenuTrigger.asObservable()
+            fetchLikedMenuTrigger: fetchLikedMenuTrigger.asObservable(),
+            toggleMenuLike: toggleMenuLikeTrigger.asObservable()
         )
         let output = viewModel.transform(input: input)
         
@@ -101,10 +103,10 @@ final class LikedMenuViewController: BaseViewController {
                 
                 // cell 바인딩
                 cell.configureCell(with: likedMenu)
-                // 좋아요 버튼 탭 시 재조회
+                // 좋아요 버튼 탭 시 좋아요 토글
                 cell.likeButton.rx.tap
                     .bind(with: self, onNext: { owner, _ in
-                        owner.fetchLikedMenuTrigger.accept(())
+                        owner.toggleMenuLikeTrigger.accept(likedMenu.menuID)
                     })
                     .disposed(by: cell.disposeBag)
             }
