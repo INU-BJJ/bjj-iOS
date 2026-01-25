@@ -14,29 +14,61 @@ final class LikedMenuViewModel: BaseViewModel {
     
     private let disposeBag = DisposeBag()
     
-    // MARK: - DataSource
-    
-    private let likedMenuList = BehaviorRelay(value: [
-        LikedMenuSection(menuID: 0, menuName: "우삼겹떡볶이 * 핫도그"),
-        LikedMenuSection(menuID: 1, menuName: "김치볶음밥"),
-        LikedMenuSection(menuID: 2, menuName: "우삼겹떡볶이 * 핫도그")
-    ])
-    
     // MARK: - Input
     
     struct Input {
-        
+        let viewDidLoad: Observable<Void>
     }
     
     // MARK: - Ouptut
     
     struct Output {
-        let likedMenuList: BehaviorRelay<[LikedMenuSection]>
+        let likedMenuList: Observable<[LikedMenuSection]>
     }
     
     // MARK: - Transform
     
     func transform(input: Input) -> Output {
+        
+        // viewDidLoad 시 좋아요한 메뉴 가져오기
+        let likedMenuList = input.viewDidLoad
+            .flatMapLatest { [weak self] _ -> Observable<[LikedMenuSection]> in
+                guard let self = self else {
+                    return Observable.just([])
+                }
+
+                return self.fetchLikedMenu()
+            }
+            .share(replay: 1)
+        
         return Output(likedMenuList: likedMenuList)
+    }
+
+    // MARK: - API Methods
+    
+    /// 좋아요한 메뉴 정보 가져오기
+    private func fetchLikedMenu() -> Observable<[LikedMenuSection]> {
+        return Observable.create { observer in
+            SettingAPI.fetchLikedMenu { result in
+                switch result {
+                case .success(let likedMenus):
+                    let sections = likedMenus.map { menu -> LikedMenuSection in
+                        LikedMenuSection(
+                            menuID: menu.menuID,
+                            menuName: menu.menuName
+                        )
+                    }
+                    
+                    observer.onNext(sections)
+                    observer.onCompleted()
+                    
+                case .failure(let error):
+                    print("[LikedMenuViewModel] Error: \(error.localizedDescription)")
+                    observer.onError(error)
+                }
+            }
+            
+            return Disposables.create()
+        }
     }
 }

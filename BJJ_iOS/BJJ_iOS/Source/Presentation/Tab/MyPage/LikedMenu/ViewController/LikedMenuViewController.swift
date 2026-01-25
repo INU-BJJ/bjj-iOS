@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
 final class LikedMenuViewController: BaseViewController {
     
@@ -71,7 +73,9 @@ final class LikedMenuViewController: BaseViewController {
     // MARK: - Bind
     
     override func bind() {
-        let input = LikedMenuViewModel.Input()
+        let input = LikedMenuViewModel.Input(
+            viewDidLoad: Observable.just(())
+        )
         let output = viewModel.transform(input: input)
         
         // 좋아요한 메뉴
@@ -96,41 +100,4 @@ final class LikedMenuViewController: BaseViewController {
         
         return layout
     }
-    
-//    // MARK: - Fetch API Functions
-//    
-//    private func fetchLikedMenu() {
-//        SettingAPI.fetchLikedMenu() { [weak self] result in
-//            guard let self = self else { return }
-//            
-//            switch result {
-//            case .success(let likedMenuList):
-//                self.likedMenuList = likedMenuList.map {
-//                    LikedMenuSection(menuID: $0.menuID, menuName: $0.menuName)
-//                }
-//                
-//                DispatchQueue.main.async {
-//                    self.testLikedMenuTableView.reloadData()
-//                }
-//                
-//            case .failure(let error):
-//                print("[LikedMenuVC] Error: \(error.localizedDescription)")
-//            }
-//        }
-//    }
 }
-
-//extension LikedMenuViewController: UITableViewDataSource, UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        likedMenuList.count
-//    }
-//    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: LikedMenuCell.reuseIdentifier, for: indexPath) as? LikedMenuCell else {
-//            return UITableViewCell()
-//        }
-//        cell.setCellUI(with: likedMenuList[indexPath.row])
-//        
-//        return cell
-//    }
-//}
