@@ -17,6 +17,10 @@ final class LikedMenuViewController: BaseViewController {
         $0.setLabelUI("좋아요 알림 받기", font: .pretendard_semibold, size: 15, color: .black)
     }
     
+    private let likeNotifySwitch = UISwitch().then {
+        $0.onTintColor = .customColor(.mainColor)
+    }
+    
     private lazy var testLikedMenuTableView = UITableView().then {
         $0.register(LikedMenuCell.self, forCellReuseIdentifier: LikedMenuCell.reuseIdentifier)
     }
@@ -33,6 +37,7 @@ final class LikedMenuViewController: BaseViewController {
     override func setHierarchy() {
         [
             likedMenuNotifiLabel,
+            likeNotifySwitch,
             testLikedMenuTableView
         ].forEach(view.addSubview)
     }
@@ -42,6 +47,11 @@ final class LikedMenuViewController: BaseViewController {
     override func setConstraints() {
         likedMenuNotifiLabel.snp.makeConstraints {
             $0.top.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
+        }
+        
+        likeNotifySwitch.snp.makeConstraints {
+            $0.centerY.equalTo(likedMenuNotifiLabel)
+            $0.trailing.equalToSuperview().inset(22)
         }
         
         testLikedMenuTableView.snp.makeConstraints {
