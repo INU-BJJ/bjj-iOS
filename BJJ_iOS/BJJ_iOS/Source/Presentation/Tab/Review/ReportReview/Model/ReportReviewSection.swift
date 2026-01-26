@@ -17,3 +17,8 @@ enum ReportReason: String, CaseIterable {
     case defamation = "누군가를 비방하는 내용"
     case other = "기타(하단 내용 작성)"
 }
+
+struct ReportReasonItem {
+    let reason: ReportReason
+    var isSelected: Bool = false
+}
