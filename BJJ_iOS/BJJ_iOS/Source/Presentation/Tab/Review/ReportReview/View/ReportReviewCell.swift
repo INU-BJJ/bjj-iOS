@@ -9,65 +9,48 @@ import UIKit
 import SnapKit
 import Then
 
-final class ReportReviewCell: UITableViewCell, ReuseIdentifying {
+final class ReportReviewCell: BaseTableViewCell<ReportReason> {
     
     // MARK: - UI Components
     
-    private let testReportReasonLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_bold, size: 18, color: .black)
+    private let reportReasonLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
     }
     
-    // MARK: - Life Cycle
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        setUI()
-        setAddView()
-        setConstraints()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    // MARK: - Reset
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        testReportReasonLabel.textColor = .black
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        testReportReasonLabel.textColor = selected ? .customColor(.mainColor) : .black
+        reportReasonLabel.text = nil
     }
     
     // MARK: - Set UI
     
-    private func setUI() {
-        contentView.backgroundColor = .white
+    override func setUI() {
+        selectionStyle = .none
     }
     
-    // MARK: - Set AddView
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
-            testReportReasonLabel
+            reportReasonLabel
         ].forEach(contentView.addSubview)
     }
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
-        testReportReasonLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
+    override func setConstraints() {
+        reportReasonLabel.snp.makeConstraints {
+            $0.top.leading.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(23)
         }
     }
     
     // MARK: - Configure Cell
     
-    func configureCell(with reason: ReportReason) {
-        testReportReasonLabel.text = reason.rawValue
+    override func configureCell(with data: ReportReason) {
+        reportReasonLabel.text = data.rawValue
     }
 }
