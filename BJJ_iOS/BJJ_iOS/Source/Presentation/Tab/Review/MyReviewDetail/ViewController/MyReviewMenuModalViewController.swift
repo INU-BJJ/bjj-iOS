@@ -8,13 +8,22 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
+
+enum ReviewActionResult {
+    case deleteSuccess
+}
 
 final class MyReviewMenuModalViewController: UIViewController {
     
     // MARK: - Properties
     
-    weak var delegate: MyReviewDeleteDelegate?
     private let isOwned: Bool
+    private let disposeBag = DisposeBag()
+    
+    // 삭제/신고 성공 이벤트
+    let actionCompletedRelay = PublishRelay<ReviewActionResult>()
     
     // MARK: - UI Components
     
@@ -122,10 +131,31 @@ final class MyReviewMenuModalViewController: UIViewController {
     }
     
     @objc private func didTapDeleteButton() {
-        delegate?.didTapDeleteButton()
+        showAlert(
+            title: "리뷰를 삭제할까요?",
+            message: "리뷰를 삭제하면 데이터가 삭제되고 다시 볼 수 없어요.",
+            cancelTitle: "취소",
+            confirmTitle: "삭제"
+        ) { [weak self] in
+            self?.handleDeleteReview()
+        }
     }
     
     @objc private func didTapReportButton() {
+        // TODO: 신고하기 페이지로 이동
+    }
+    
+    // MARK: - API Call Methods
+    
+    private func handleDeleteReview() {
         
+        // TODO: API 호출 - 리뷰 삭제
+        
+        // TODO: API 성공 시
+        dismiss(animated: true) { [weak self] in
+            self?.actionCompletedRelay.accept(.deleteSuccess)
+        }
+        
+        // TODO: API 실패 시 에러 처리
     }
 }

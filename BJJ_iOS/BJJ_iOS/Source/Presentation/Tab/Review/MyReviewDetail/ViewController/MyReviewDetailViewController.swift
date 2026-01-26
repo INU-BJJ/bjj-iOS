@@ -8,12 +8,10 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
-protocol MyReviewDeleteDelegate: AnyObject {
-    func didTapDeleteButton()
-}
-
-final class MyReviewDetailViewController: UIViewController {
+final class MyReviewDetailViewController: BaseViewController {
     
     // MARK: - ViewModel
     
@@ -42,14 +40,6 @@ final class MyReviewDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setUI()
-        setAddView()
-        setConstraints()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -58,20 +48,27 @@ final class MyReviewDetailViewController: UIViewController {
     
     // MARK: - Set UI
     
-    private func setUI() {
+    override func setUI() {
         view.backgroundColor = .white
         setBackMoreNaviBar("리뷰 상세") { [weak self] in
             guard let self = self else { return }
             let modalVC = MyReviewMenuModalViewController(isOwned: self.viewModel.isOwned)
-            modalVC.delegate = self
             modalVC.modalPresentationStyle = .overCurrentContext
+
+            // 삭제/신고 완료 이벤트 구독
+            modalVC.actionCompletedRelay
+                .bind(with: self, onNext: { owner, result in
+                    owner.handleActionCompleted(result)
+                })
+                .disposed(by: self.disposeBag)
+
             self.present(modalVC, animated: true)
         }
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
             myReviewStackView
         ].forEach(view.addSubview)
@@ -79,7 +76,7 @@ final class MyReviewDetailViewController: UIViewController {
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
+    override func setConstraints() {
         myReviewStackView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(111)
             $0.horizontalEdges.equalToSuperview().inset(20)
@@ -94,20 +91,15 @@ final class MyReviewDetailViewController: UIViewController {
         }
     }
     
-    // MARK: - Delete API Functions
+    // MARK: - Handle Action Completed
     
-    private func deleteMyReview(reviewID: Int) {
-        MyReviewDetailAPI.deleteMyReview(reviewID: reviewID) { result in
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    self.dismiss(animated: false)
-                    self.presentMyReviewViewController()
-                }
-                
-            case .failure(let error):
-                print("<< [MyReviewDetailVC] \(error.localizedDescription)")
-            }
+    private func handleActionCompleted(_ result: ReviewActionResult) {
+        switch result {
+        case .deleteSuccess:
+            // TODO: 삭제 성공 토스트 메시지 표시
+
+            // MenuDetailVC로 이동 (현재 네비게이션 스택에서 pop)
+            navigationController?.popViewController(animated: true)
         }
     }
     
@@ -140,14 +132,6 @@ final class MyReviewDetailViewController: UIViewController {
             case .failure(let error):
                 print("[MyReviewDetailVC] Fetch Error: \(error.localizedDescription)")
             }
-        }
-    }
-}
-
-extension MyReviewDetailViewController: MyReviewDeleteDelegate {
-    func didTapDeleteButton() {
-        if let myReviewID = myReviewData?.reviewID {
-            deleteMyReview(reviewID: myReviewID)
         }
     }
 }
