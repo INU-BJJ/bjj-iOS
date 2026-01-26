@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class ReportReviewCell: BaseTableViewCell<ReportReason> {
+final class ReportReviewCell: BaseTableViewCell<ReportReasonItem> {
     
     // MARK: - UI Components
     
@@ -51,6 +51,7 @@ final class ReportReviewCell: BaseTableViewCell<ReportReason> {
         checkBoxIcon.snp.makeConstraints {
             $0.top.leading.equalToSuperview()
             $0.bottom.equalToSuperview().inset(23)
+            $0.size.equalTo(17)
         }
         
         reportReasonLabel.snp.makeConstraints {
@@ -60,8 +61,9 @@ final class ReportReviewCell: BaseTableViewCell<ReportReason> {
     }
     
     // MARK: - Configure Cell
-    
-    override func configureCell(with data: ReportReason) {
-        reportReasonLabel.text = data.rawValue
+
+    override func configureCell(with data: ReportReasonItem) {
+        reportReasonLabel.text = data.reason.rawValue
+        checkBoxIcon.setImage(data.isSelected ? .smallBorderCheckBox : .checkBox)
     }
 }
