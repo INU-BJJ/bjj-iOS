@@ -32,7 +32,7 @@ final class ReportReviewViewController: BaseViewController {
         $0.numberOfLines = 2
     }
     
-    private lazy var reportTableView = UITableView().then {
+    private let reportTableView = UITableView().then {
         $0.register(ReportReviewCell.self, forCellReuseIdentifier: ReportReviewCell.reuseIdentifier)
         $0.separatorStyle = .none
         $0.allowsMultipleSelection = true
@@ -119,6 +119,23 @@ final class ReportReviewViewController: BaseViewController {
         }
     }
     
+    // MARK: - Bind
+    
+    override func bind() {
+        let input = ReportReviewViewModel.Input()
+        let output = viewModel.transform(input: input)
+        
+        // 신고 사유 tableView 데이터 바인딩
+        output.reportReasonList
+            .bind(to: reportTableView.rx.items(
+                cellIdentifier: ReportReviewCell.reuseIdentifier,
+                cellType: ReportReviewCell.self)
+            ) { index, reportReason, cell in
+                cell.configureCell(with: reportReason)
+            }
+            .disposed(by: disposeBag)
+    }
+    
     // MARK: - objc Functions
     
     @objc private func didTapReportReviewButton() {
@@ -152,26 +169,6 @@ final class ReportReviewViewController: BaseViewController {
         testReportOtherReasonTextView.isEditable = enabled
         testReportOtherReasonTextView.isSelectable = enabled
         testReportOtherReasonTextView.backgroundColor = enabled ? UIColor.white : UIColor.customColor(.dropDownGray)
-    }
-}
-
-// MARK: UITableView DataSource
-
-extension ReportReviewViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        reportReasons.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ReportReviewCell.reuseIdentifier, for: indexPath) as? ReportReviewCell else {
-            return UITableViewCell()
-        }
-        let reason = reportReasons[indexPath.row]
-        
-        cell.selectionStyle = .none
-        cell.configureCell(with: reason)
-        
-        return cell
     }
 }
 

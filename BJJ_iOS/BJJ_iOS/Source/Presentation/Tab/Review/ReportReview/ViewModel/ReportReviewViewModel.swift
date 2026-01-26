@@ -17,6 +17,7 @@ final class ReportReviewViewModel: BaseViewModel {
     // MARK: - Properties
     
     private let reviewID: Int
+    private let reportReasonList = BehaviorRelay(value: ReportReason.allCases)
     
     // MARK: - Init
     
@@ -33,12 +34,12 @@ final class ReportReviewViewModel: BaseViewModel {
     // MARK: - Output
     
     struct Output {
-        
+        let reportReasonList: BehaviorRelay<[ReportReason]>
     }
     
     // MARK: - Transform
     
     func transform(input: Input) -> Output {
-        return Output()
+        return Output(reportReasonList: reportReasonList)
     }
 }
