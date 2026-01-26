@@ -32,10 +32,8 @@ final class ReportReviewViewController: BaseViewController {
         $0.numberOfLines = 2
     }
     
-    private lazy var testReportReviewTableView = UITableView().then {
+    private lazy var reportTableView = UITableView().then {
         $0.register(ReportReviewCell.self, forCellReuseIdentifier: ReportReviewCell.reuseIdentifier)
-        $0.dataSource = self
-        $0.delegate = self
         $0.separatorStyle = .none
         $0.allowsMultipleSelection = true
     }
@@ -82,7 +80,7 @@ final class ReportReviewViewController: BaseViewController {
         [
             reportTitleLabel,
             reportGuideLabel,
-            testReportReviewTableView,
+            reportTableView,
             testReportOtherReasonTextView,
             testReportReviewButton
         ].forEach(view.addSubview)
@@ -101,22 +99,23 @@ final class ReportReviewViewController: BaseViewController {
             $0.leading.equalTo(reportTitleLabel)
         }
         
-        testReportReviewTableView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(100)
-            $0.horizontalEdges.equalToSuperview().inset(40)
-            $0.bottom.equalToSuperview().inset(400)
+        reportTableView.snp.makeConstraints {
+            $0.top.equalTo(reportGuideLabel.snp.bottom).offset(26)
+            $0.leading.equalToSuperview().offset(27)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalTo(testReportOtherReasonTextView.snp.top).offset(-10)
         }
         
         testReportOtherReasonTextView.snp.makeConstraints {
-            $0.top.equalTo(testReportReviewTableView.snp.bottom).offset(20)
-            $0.horizontalEdges.equalTo(testReportReviewTableView)
-            $0.bottom.equalToSuperview().inset(140)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(158)
+            $0.bottom.equalTo(testReportReviewButton.snp.top).offset(-53)
         }
         
         testReportReviewButton.snp.makeConstraints {
-            $0.top.equalTo(testReportOtherReasonTextView.snp.bottom).offset(20)
-            $0.bottom.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview().inset(40)
+            $0.height.equalTo(47)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.bottom.equalToSuperview().inset(40)
         }
     }
     
