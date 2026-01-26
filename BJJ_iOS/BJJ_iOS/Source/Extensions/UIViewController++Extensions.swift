@@ -301,6 +301,30 @@ extension UIViewController {
         }
     }
     
+    // 기본 Alert (확인/취소)
+    func showAlert(
+        title: String,
+        message: String,
+        cancelTitle: String = "취소",
+        confirmTitle: String = "확인",
+        confirmHandler: @escaping () -> Void
+    ) {
+        let alertController = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel)
+        let confirmAction = UIAlertAction(title: confirmTitle, style: .destructive) { _ in
+            confirmHandler()
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(confirmAction)
+        
+        present(alertController, animated: true)
+    }
+    
     // MARK: - objc Function
     
     /// popVC
