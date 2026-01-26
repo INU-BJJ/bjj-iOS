@@ -37,20 +37,18 @@ final class MyReviewMenuModalViewController: BaseViewController {
         $0.layer.cornerRadius = 20
     }
     
-    private lazy var deleteButton = UIButton().then {
+    private let deleteButton = UIButton().then {
         $0.setTitle("삭제하기", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
         $0.setTitleColor(.customColor(.warningRed), for: .normal)
         $0.contentHorizontalAlignment = .leading
-        $0.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
     }
     
-    private lazy var reportButton = UIButton().then {
+    private let reportButton = UIButton().then {
         $0.setTitle("신고하기", for: .normal)
         $0.titleLabel?.font = .customFont(.pretendard_semibold, 15)
         $0.setTitleColor(.black, for: .normal)
         $0.contentHorizontalAlignment = .leading
-        $0.addTarget(self, action: #selector(didTapReportButton), for: .touchUpInside)
     }
     
     // MARK: - LifeCycle
@@ -109,25 +107,36 @@ final class MyReviewMenuModalViewController: BaseViewController {
         }
     }
     
+    // MARK: - Bind
+    
+    override func bind() {
+        
+        // 삭제하기 버튼 탭
+        deleteButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.showAlert(
+                    title: "리뷰를 삭제할까요?",
+                    message: "리뷰를 삭제하면 데이터가 삭제되고 다시 볼 수 없어요.",
+                    cancelTitle: "취소",
+                    confirmTitle: "삭제"
+                ) { [weak self] in
+                    self?.handleDeleteReview()
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        // 신고하기 버튼 탭
+        reportButton.rx.tap
+            .bind(with: self) { owner, _ in
+                // TODO: 신고하기 페이지로 이동
+            }
+            .disposed(by: disposeBag)
+    }
+    
     // MARK: - Objc Function
     
     @objc private func dismissModal() {
         dismiss(animated: true)
-    }
-    
-    @objc private func didTapDeleteButton() {
-        showAlert(
-            title: "리뷰를 삭제할까요?",
-            message: "리뷰를 삭제하면 데이터가 삭제되고 다시 볼 수 없어요.",
-            cancelTitle: "취소",
-            confirmTitle: "삭제"
-        ) { [weak self] in
-            self?.handleDeleteReview()
-        }
-    }
-    
-    @objc private func didTapReportButton() {
-        // TODO: 신고하기 페이지로 이동
     }
     
     // MARK: - API Call Methods
