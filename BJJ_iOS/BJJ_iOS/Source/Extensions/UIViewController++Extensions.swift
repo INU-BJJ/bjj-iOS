@@ -272,6 +272,13 @@ extension UIViewController {
         navigationController?.pushViewController(bannerVC, animated: true)
     }
     
+    /// ReportReviewVC로 push
+    func pushReportReviewVC(reviewID: Int) {
+        let reportReviewVC = ReportReviewViewController(reviewID: reviewID)
+        reportReviewVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(reportReviewVC, animated: true)
+    }
+    
     // MARK: - Modal Present
     
     /// 랭킹 인포 모달 present
