@@ -1,13 +1,15 @@
 //
-//  MyReviewDeleteModal.swift
+//  MyReviewMenuModalViewController.swift
 //  BJJ_iOS
 //
 //  Created by HyoTaek on 2/5/25.
 //
 
 import UIKit
+import SnapKit
+import Then
 
-final class MyReviewDeleteModalViewController: UIViewController {
+final class MyReviewMenuModalViewController: UIViewController {
     
     // MARK: - Properties
     

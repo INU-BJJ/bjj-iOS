@@ -62,7 +62,7 @@ final class MyReviewDetailViewController: UIViewController {
         view.backgroundColor = .white
         setBackMoreNaviBar("리뷰 상세") { [weak self] in
             guard let self = self else { return }
-            let modalVC = MyReviewDeleteModalViewController(isOwned: self.viewModel.isOwned)
+            let modalVC = MyReviewMenuModalViewController(isOwned: self.viewModel.isOwned)
             modalVC.delegate = self
             modalVC.modalPresentationStyle = .overCurrentContext
             self.present(modalVC, animated: true)
