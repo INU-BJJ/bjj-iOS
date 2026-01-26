@@ -103,6 +103,20 @@ extension UIViewController {
         self.navigationController?.navigationBar.standardAppearance = standardAppearance
     }
     
+    /// x버튼 네비바
+    func setXNaviBar(_ title: String) {
+        let xButton = UIButton().then {
+            $0.setImage(UIImage(named: ImageAsset.blackXButton.name), for: .normal)
+            $0.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
+        }
+        let titleLabel = UILabel().then {
+            $0.setLabelUI(title, font: .pretendard_bold, size: 18, color: .black)
+        }
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: xButton)
+        navigationItem.titleView = titleLabel
+    }
+    
     /// 마이페이지 네비바
     func setMyPageNaviBar() {
         let titleLabel = UILabel().then {

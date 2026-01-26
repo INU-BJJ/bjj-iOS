@@ -64,6 +64,7 @@ final class ReportReviewViewController: BaseViewController {
     
     override func setUI() {
         view.backgroundColor = .white
+        setXNaviBar("리뷰 신고하기")
     }
     
     // MARK: - Set Hierarchy
