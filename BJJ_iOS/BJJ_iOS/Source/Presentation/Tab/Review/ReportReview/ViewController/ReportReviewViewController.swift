@@ -27,6 +27,11 @@ final class ReportReviewViewController: BaseViewController {
         $0.setLabel("리뷰를 신고하는 이유를 알려주세요!", font: .pretendard_bold, size: 15, color: .black)
     }
     
+    private let reportGuideLabel = UILabel().then {
+        $0.setLabel("타당한 근거 없이 신고된 내용은 관리자 확인 후 반영되지\n않을 수 있습니다.", font: .pretendard_medium, size: 13, color: ._999999)
+        $0.numberOfLines = 2
+    }
+    
     private lazy var testReportReviewTableView = UITableView().then {
         $0.register(ReportReviewCell.self, forCellReuseIdentifier: ReportReviewCell.reuseIdentifier)
         $0.dataSource = self
@@ -76,6 +81,7 @@ final class ReportReviewViewController: BaseViewController {
     override func setHierarchy() {
         [
             reportTitleLabel,
+            reportGuideLabel,
             testReportReviewTableView,
             testReportOtherReasonTextView,
             testReportReviewButton
@@ -88,6 +94,11 @@ final class ReportReviewViewController: BaseViewController {
         reportTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
             $0.leading.equalToSuperview().offset(20)
+        }
+        
+        reportGuideLabel.snp.makeConstraints {
+            $0.top.equalTo(reportTitleLabel.snp.bottom).offset(8)
+            $0.leading.equalTo(reportTitleLabel)
         }
         
         testReportReviewTableView.snp.makeConstraints {
