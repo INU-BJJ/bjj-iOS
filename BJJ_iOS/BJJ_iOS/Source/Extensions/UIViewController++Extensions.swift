@@ -163,8 +163,9 @@ extension UIViewController {
     }
     
     /// MyReviewDetailVC로 push
-    func presentMyReviewDetailViewController(reviewID: Int) {
-        let myReviewDetailVC = MyReviewDetailViewController(reviewID: reviewID)
+    func presentMyReviewDetailViewController(reviewID: Int, isOwned: Bool) {
+        let myReviewDetailViewModel = MyReviewDetailViewModel(isOwned: isOwned)
+        let myReviewDetailVC = MyReviewDetailViewController(viewModel: myReviewDetailViewModel, reviewID: reviewID)
         myReviewDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(myReviewDetailVC, animated: true)
     }

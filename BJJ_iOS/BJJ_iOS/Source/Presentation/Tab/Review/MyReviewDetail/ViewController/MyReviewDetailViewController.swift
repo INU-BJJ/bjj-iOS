@@ -15,6 +15,10 @@ protocol MyReviewDeleteDelegate: AnyObject {
 
 final class MyReviewDetailViewController: UIViewController {
     
+    // MARK: - ViewModel
+    
+    private let viewModel: MyReviewDetailViewModel
+    
     // MARK: - Properties
     
     private var myReviewData: MyReviewDetailSection?
@@ -28,7 +32,8 @@ final class MyReviewDetailViewController: UIViewController {
     
     // MARK: - LifeCycle
     
-    init(reviewID: Int) {
+    init(viewModel: MyReviewDetailViewModel, reviewID: Int) {
+        self.viewModel = viewModel
         self.reviewID = reviewID
         super.init(nibName: nil, bundle: nil)
     }
