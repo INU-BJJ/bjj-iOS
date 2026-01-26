@@ -13,6 +13,10 @@ final class ReportReviewCell: BaseTableViewCell<ReportReason> {
     
     // MARK: - UI Components
     
+    private let checkBoxIcon = UIImageView().then {
+        $0.setImage(.checkBox)
+    }
+    
     private let reportReasonLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
     }
@@ -22,6 +26,7 @@ final class ReportReviewCell: BaseTableViewCell<ReportReason> {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        checkBoxIcon.setImage(.checkBox)
         reportReasonLabel.text = nil
     }
     
@@ -35,6 +40,7 @@ final class ReportReviewCell: BaseTableViewCell<ReportReason> {
     
     override func setHierarchy() {
         [
+            checkBoxIcon,
             reportReasonLabel
         ].forEach(contentView.addSubview)
     }
@@ -42,9 +48,14 @@ final class ReportReviewCell: BaseTableViewCell<ReportReason> {
     // MARK: - Set Constraints
     
     override func setConstraints() {
-        reportReasonLabel.snp.makeConstraints {
+        checkBoxIcon.snp.makeConstraints {
             $0.top.leading.equalToSuperview()
             $0.bottom.equalToSuperview().inset(23)
+        }
+        
+        reportReasonLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalTo(checkBoxIcon.snp.trailing).offset(13)
         }
     }
     
