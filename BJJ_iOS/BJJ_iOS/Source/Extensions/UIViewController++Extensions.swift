@@ -76,17 +76,26 @@ extension UIViewController {
     }
     
     /// 흰 배경 + 검정 Back 버튼 + More 버튼 Navigation Bar
-    func setBackMoreNaviBar(_ title: String) {
+    func setBackMoreNaviBar(_ title: String, moreAction: (() -> Void)? = nil) {
         let titleLabel = UILabel().then {
             $0.setLabelUI(title, font: .pretendard_bold, size: 18, color: .black)
         }
         
-        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "BlackBackButton")
-        let moreButton = self.navigationItem.makeImageButtonItem(self, action: #selector(showMoreOptions), imageName: "VerticalMoreButton")
+        let backButton = UIButton().then {
+            $0.setImage(UIImage(named: ImageAsset.BlackBackButton.name), for: .normal)
+            $0.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
+        }
+        
+        let moreButton = UIButton().then {
+            $0.setImage(UIImage(named: ImageAsset.VerticalMoreButton.name), for: .normal)
+            if let moreAction {
+                $0.addAction(UIAction { _ in moreAction() }, for: .touchUpInside)
+            }
+        }
         
         self.navigationItem.titleView = titleLabel
-        self.navigationItem.leftBarButtonItem = backButton
-        self.navigationItem.rightBarButtonItem = moreButton
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: moreButton)
         
         let standardAppearance = UINavigationBarAppearance()
         standardAppearance.backgroundColor = .white
@@ -297,17 +306,6 @@ extension UIViewController {
     /// popVC
     @objc func popViewController() {
         self.navigationController?.popViewController(animated: true)
-    }
-    
-    /// 더보기 버튼
-    @objc func showMoreOptions() {
-        let modalVC = MyReviewDeleteModalViewController()
-        guard let delegateVC = self as? MyReviewDeleteDelegate else { return }
-
-        modalVC.delegate = delegateVC
-        modalVC.modalPresentationStyle = .overCurrentContext
-        
-        present(modalVC, animated: true)
     }
     
     /// 설정 버튼 탭
