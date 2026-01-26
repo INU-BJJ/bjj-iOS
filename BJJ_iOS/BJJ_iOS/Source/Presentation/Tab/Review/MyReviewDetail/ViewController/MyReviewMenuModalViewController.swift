@@ -160,7 +160,28 @@ final class MyReviewMenuModalViewController: BaseViewController {
         // 신고하기 버튼 탭
         reportButton.rx.tap
             .bind(with: self) { owner, _ in
-                // TODO: 신고하기 페이지로 이동
+                let presentingVC = owner.presentingViewController
+                
+                // dismiss 이후 신고 페이지로 이동
+                owner.dismiss(animated: true) {
+                    // presentingViewController를 통해 실제 presenting하는 VC 찾기
+                    var targetVC: UIViewController?
+                    
+                    if let navController = presentingVC as? UINavigationController {
+                        targetVC = navController.viewControllers.last
+                    } else if let tabBarController = presentingVC as? UITabBarController {
+                        if let navController = tabBarController.selectedViewController as? UINavigationController {
+                            targetVC = navController.viewControllers.last
+                        }
+                    } else {
+                        targetVC = presentingVC
+                    }
+                    
+                    // push 실행
+                    if targetVC != nil {
+                        targetVC?.pushReportReviewVC(reviewID: owner.reviewID)
+                    }
+                }
             }
             .disposed(by: disposeBag)
     }
