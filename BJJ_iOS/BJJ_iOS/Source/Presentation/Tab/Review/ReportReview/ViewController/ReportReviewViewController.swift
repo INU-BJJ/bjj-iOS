@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class ReportReviewViewController: UIViewController {
+final class ReportReviewViewController: BaseViewController {
     
     // MARK: - ViewModel
     
@@ -60,23 +60,15 @@ final class ReportReviewViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setUI()
-        setAddView()
-        setConstraints()
-    }
-    
     // MARK: - Set UI
     
-    private func setUI() {
+    override func setUI() {
         view.backgroundColor = .white
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
             testReportReviewTableView,
             testReportOtherReasonTextView,
@@ -86,7 +78,7 @@ final class ReportReviewViewController: UIViewController {
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
+    override func setConstraints() {
         testReportReviewTableView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(100)
             $0.horizontalEdges.equalToSuperview().inset(40)
