@@ -15,12 +15,11 @@ enum ReviewActionResult {
     case deleteSuccess
 }
 
-final class MyReviewMenuModalViewController: UIViewController {
+final class MyReviewMenuModalViewController: BaseViewController {
     
     // MARK: - Properties
     
     private let isOwned: Bool
-    private let disposeBag = DisposeBag()
     
     // 삭제/신고 성공 이벤트
     let actionCompletedRelay = PublishRelay<ReviewActionResult>()
@@ -66,24 +65,17 @@ final class MyReviewMenuModalViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setUI()
-        setAddView()
-        setConstraints()
-        configureButtons()
-    }
-    
     // MARK: - Set UI
     
-    private func setUI() {
+    override func setUI() {
         view.backgroundColor = .clear
+        deleteButton.isHidden = !isOwned
+        reportButton.isHidden = isOwned
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
             deleteModalView,
             reviewActionView
@@ -97,7 +89,7 @@ final class MyReviewMenuModalViewController: UIViewController {
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
+    override func setConstraints() {
         deleteModalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -115,13 +107,6 @@ final class MyReviewMenuModalViewController: UIViewController {
         reportButton.snp.makeConstraints {
             $0.edges.equalTo(deleteButton)
         }
-    }
-    
-    // MARK: - Configure Buttons
-    
-    private func configureButtons() {
-        deleteButton.isHidden = !isOwned
-        reportButton.isHidden = isOwned
     }
     
     // MARK: - Objc Function
