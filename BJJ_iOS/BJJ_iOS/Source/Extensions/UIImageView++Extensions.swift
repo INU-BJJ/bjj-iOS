@@ -30,6 +30,7 @@ enum ImageAsset: String {
     case GachaMachine
     case EmptyHeart
     case Heart
+    case VerticalMoreButton
     
     var name: String {
         rawValue
