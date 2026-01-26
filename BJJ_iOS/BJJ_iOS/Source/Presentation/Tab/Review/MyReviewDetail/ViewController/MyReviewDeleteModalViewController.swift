@@ -12,6 +12,7 @@ final class MyReviewDeleteModalViewController: UIViewController {
     // MARK: - Properties
     
     weak var delegate: MyReviewDeleteDelegate?
+    private let isOwned: Bool
     
     // MARK: - UI Components
     
@@ -23,7 +24,7 @@ final class MyReviewDeleteModalViewController: UIViewController {
     
     private let reviewActionView = UIView().then {
         $0.backgroundColor = .white
-        $0.layer.cornerRadius = 12
+        $0.layer.cornerRadius = 20
     }
     
     private lazy var deleteButton = UIButton().then {
@@ -44,12 +45,23 @@ final class MyReviewDeleteModalViewController: UIViewController {
     
     // MARK: - LifeCycle
     
+    init(isOwned: Bool) {
+        self.isOwned = isOwned
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUI()
         setAddView()
         setConstraints()
+        configureButtons()
     }
     
     // MARK: - Set UI
@@ -80,24 +92,25 @@ final class MyReviewDeleteModalViewController: UIViewController {
         }
         
         reviewActionView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(605)
-            $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.bottom.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(150)
         }
         
         deleteButton.snp.makeConstraints {
             $0.top.equalToSuperview().offset(35)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().inset(76)
-            $0.height.equalTo(18)
+            $0.horizontalEdges.equalToSuperview().inset(20)
         }
         
-        // TODO: deleteButton과의 간격 수정
         reportButton.snp.makeConstraints {
-            $0.top.equalTo(deleteButton.snp.bottom).offset(65)
-            $0.leading.trailing.equalTo(deleteButton)
-            $0.height.equalTo(18)
+            $0.edges.equalTo(deleteButton)
         }
+    }
+    
+    // MARK: - Configure Buttons
+    
+    private func configureButtons() {
+        deleteButton.isHidden = !isOwned
+        reportButton.isHidden = isOwned
     }
     
     // MARK: - Objc Function
