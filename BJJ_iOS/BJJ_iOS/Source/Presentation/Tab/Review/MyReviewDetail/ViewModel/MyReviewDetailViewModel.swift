@@ -16,7 +16,7 @@ final class MyReviewDetailViewModel: BaseViewModel {
     
     // MARK: - Properties
     
-    private let isOwned: Bool
+    let isOwned: Bool
     
     // MARK: - Init
     

@@ -60,7 +60,13 @@ final class MyReviewDetailViewController: UIViewController {
     
     private func setUI() {
         view.backgroundColor = .white
-        setBackMoreNaviBar("리뷰 상세")
+        setBackMoreNaviBar("리뷰 상세") { [weak self] in
+            guard let self = self else { return }
+            let modalVC = MyReviewDeleteModalViewController(isOwned: self.viewModel.isOwned)
+            modalVC.delegate = self
+            modalVC.modalPresentationStyle = .overCurrentContext
+            self.present(modalVC, animated: true)
+        }
     }
     
     // MARK: - Set AddViews
