@@ -17,7 +17,6 @@ final class ReportReviewViewController: BaseViewController {
     
     // MARK: - Properties
     
-    private let reportReasons = ReportReason.allCases
     private var reportContent: Set<String> = []
     private let otherPrefix = ReportReason.other.rawValue
     
@@ -122,25 +121,39 @@ final class ReportReviewViewController: BaseViewController {
     // MARK: - Bind
     
     override func bind() {
-        let input = ReportReviewViewModel.Input()
+        let input = ReportReviewViewModel.Input(
+            itemSelected: reportTableView.rx.itemSelected.asDriver()
+        )
         let output = viewModel.transform(input: input)
         
         // 신고 사유 tableView 데이터 바인딩
         output.reportReasonList
-            .bind(to: reportTableView.rx.items(
+            .drive(reportTableView.rx.items(
                 cellIdentifier: ReportReviewCell.reuseIdentifier,
                 cellType: ReportReviewCell.self)
-            ) { index, reportReason, cell in
-                cell.configureCell(with: reportReason)
+            ) { index, reportReasonItem, cell in
+                cell.configureCell(with: reportReasonItem)
             }
             .disposed(by: disposeBag)
+        
+//        // reportContent 동기화
+//        output.reportReasonList
+//            .map { items in
+//                Set(items.filter { $0.isSelected }.map { $0.reason.rawValue })
+//            }
+//            .drive(onNext: { [weak self] selectedReasons in
+//                self?.reportContent = selectedReasons
+//                self?.updateOtherTextViewState()
+//            })
+//            .disposed(by: disposeBag)
     }
     
     // MARK: - objc Functions
     
     @objc private func didTapReportReviewButton() {
-        let reportContent = ["content": Array(reportContent)]
-        
+//        let selectedReasons = viewModel.getSelectedReasons()
+//        let reportContent = ["content": selectedReasons]
+
 //        postReportReview(reviewID: reviewID, reportReasons: reportContent)
     }
     
@@ -169,30 +182,6 @@ final class ReportReviewViewController: BaseViewController {
         testReportOtherReasonTextView.isEditable = enabled
         testReportOtherReasonTextView.isSelectable = enabled
         testReportOtherReasonTextView.backgroundColor = enabled ? UIColor.white : UIColor.customColor(.dropDownGray)
-    }
-}
-
-// MARK: - UITableView Delegate
-
-extension ReportReviewViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let reasonString = reportReasons[indexPath.row].rawValue
-        reportContent.insert(reasonString)
-        
-        if let cell = tableView.cellForRow(at: indexPath) as? ReportReviewCell {
-            cell.setSelected(true, animated: true)
-        }
-        updateOtherTextViewState()
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let reasonString = reportReasons[indexPath.row].rawValue
-        reportContent.remove(reasonString)
-        
-        if let cell = tableView.cellForRow(at: indexPath) as? ReportReviewCell {
-            cell.setSelected(false, animated: true)
-        }
-        updateOtherTextViewState()
     }
 }
 
