@@ -11,9 +11,12 @@ import Then
 
 final class ReportReviewViewController: UIViewController {
     
+    // MARK: - ViewModel
+    
+    private let viewModel: ReportReviewViewModel
+    
     // MARK: - Properties
     
-    private let reviewID: Int
     private let reportReasons = ReportReason.allCases
     private var reportContent: Set<String> = []
     private let otherPrefix = ReportReason.other.rawValue
@@ -47,11 +50,12 @@ final class ReportReviewViewController: UIViewController {
     
     // MARK: - LifeCycle
     
-    init(reviewID: Int) {
-        self.reviewID = reviewID
+    init(viewModel: ReportReviewViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -107,7 +111,7 @@ final class ReportReviewViewController: UIViewController {
     @objc private func didTapReportReviewButton() {
         let reportContent = ["content": Array(reportContent)]
         
-        postReportReview(reviewID: reviewID, reportReasons: reportContent)
+//        postReportReview(reviewID: reviewID, reportReasons: reportContent)
     }
     
     // MARK: - Post API

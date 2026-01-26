@@ -243,13 +243,6 @@ extension UIViewController {
         self.navigationController?.pushViewController(likedMenuVC, animated: true)
     }
     
-    /// ReportReviewVC로 push
-    func presentReportReviewViewController(reviewID: Int) {
-        let reportReviewVC = ReportReviewViewController(reviewID: reviewID)
-        reportReviewVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(reportReviewVC, animated: true)
-    }
-    
     /// ServicePolicyVC로 push
     func pushServicePolicyVC() {
         let servicePolicyVC = ServicePolicyViewController()
@@ -274,7 +267,8 @@ extension UIViewController {
     
     /// ReportReviewVC로 push
     func pushReportReviewVC(reviewID: Int) {
-        let reportReviewVC = ReportReviewViewController(reviewID: reviewID)
+        let reportReviewViewModel = ReportReviewViewModel(reviewID: reviewID)
+        let reportReviewVC = ReportReviewViewController(viewModel: reportReviewViewModel)
         reportReviewVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(reportReviewVC, animated: true)
     }
