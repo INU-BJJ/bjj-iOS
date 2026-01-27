@@ -123,18 +123,42 @@ extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         guard let fcmToken = fcmToken else { return }
         
+        // 이전 토큰과 비교
+        let previousToken = UserDefaultsManager.shared.readString(.fcmToken)
+        let isTokenChanged = previousToken != fcmToken
+        
         // FCM 토큰을 UserDefaults에 저장
         UserDefaultsManager.shared.save(value: fcmToken, key: .fcmToken)
         
-        // accessToken 또는 tempToken이 있는지 확인
+        // accessToken 확인
         let hasToken = KeychainManager.read(key: .accessToken) != nil
         
         if hasToken {
-            // 서버에 FCM 토큰 등록
-            FCMAPI.registerFCMToken(fcmToken: fcmToken) { result in
-                if case .success = result {
-                    // 업로드 성공 시 현재 날짜 저장
-                    UserDefaultsManager.shared.save(value: Date(), key: .lastFCMTokenUploadDate)
+            // 토큰이 변경된 경우에는 즉시 등록
+            if isTokenChanged {
+                FCMAPI.registerFCMToken(fcmToken: fcmToken) { result in
+                    if case .success = result {
+                        UserDefaultsManager.shared.save(value: Date(), key: .lastFCMTokenUploadDate)
+                    }
+                }
+            } else {
+                // 토큰이 동일하면 24시간 제한 적용
+                let lastUploadDate = UserDefaultsManager.shared.readDate(.lastFCMTokenUploadDate)
+                let shouldUpload: Bool
+
+                if let lastDate = lastUploadDate {
+                    let hoursSinceLastUpload = Date().timeIntervalSince(lastDate) / 3600
+                    shouldUpload = hoursSinceLastUpload >= 24
+                } else {
+                    shouldUpload = true
+                }
+
+                if shouldUpload {
+                    FCMAPI.registerFCMToken(fcmToken: fcmToken) { result in
+                        if case .success = result {
+                            UserDefaultsManager.shared.save(value: Date(), key: .lastFCMTokenUploadDate)
+                        }
+                    }
                 }
             }
         }
