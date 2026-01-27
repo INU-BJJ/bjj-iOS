@@ -5,4 +5,13 @@
 //  Created by HyoTaek on 1/28/26.
 //
 
-import Foundation
+enum FCMPath {
+    case registerFCMToken
+    
+    var url: String {
+        switch self {
+        case .registerFCMToken:
+            return "device-tokens"
+        }
+    }
+}
