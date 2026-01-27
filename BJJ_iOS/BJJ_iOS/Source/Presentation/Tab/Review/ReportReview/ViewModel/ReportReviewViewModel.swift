@@ -38,6 +38,7 @@ final class ReportReviewViewModel: BaseViewModel {
     
     struct Output {
         let reportReasonList: Driver<[ReportReasonItem]>
+        let reportButtonEnabled: Driver<Bool>
     }
     
     // MARK: - Transform
@@ -59,8 +60,14 @@ final class ReportReviewViewModel: BaseViewModel {
             })
             .disposed(by: disposeBag)
 
+        // 신고 버튼 활성화 여부 (선택된 항목이 1개 이상이면 true)
+        let reportButtonEnabled = reportReasonList
+            .map { items in items.contains(where: { $0.isSelected }) }
+            .asDriver(onErrorJustReturn: false)
+        
         return Output(
-            reportReasonList: reportReasonList.asDriver()
+            reportReasonList: reportReasonList.asDriver(),
+            reportButtonEnabled: reportButtonEnabled
         )
     }
 //

@@ -122,6 +122,13 @@ final class ReportReviewViewController: BaseViewController {
                 cell.configureCell(with: reportReasonItem)
             }
             .disposed(by: disposeBag)
+        
+        // 신고 버튼 활성화/비활성화
+        output.reportButtonEnabled
+            .drive(with: self, onNext: { owner, isEnabled in
+                owner.reportReviewButton.setUI(isEnabled: isEnabled)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Post API

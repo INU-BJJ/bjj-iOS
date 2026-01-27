@@ -61,8 +61,7 @@ extension SceneDelegate {
     func setRootViewController() {
         
         if KeychainManager.hasToken(type: .accessToken) {   // 토큰이 존재하는 경우: 홈 화면으로 이동
-//            let tabBarController = TabBarController()
-            let tabBarController = UINavigationController(rootViewController: ReportReviewViewController(viewModel: ReportReviewViewModel(reviewID: 155)))
+            let tabBarController = TabBarController()
             window?.rootViewController = tabBarController
         } else {                                            // 토큰이 없는 경우: 로그인 화면으로 이동
             let loginVC = LoginViewController()
