@@ -138,6 +138,10 @@ final class PlaceholderTextView: BaseView {
         return textView.text
     }
 
+    func getTrimmedText() -> String {
+        return textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
     func setText(_ text: String) {
         textView.text = text
         placeholderLabel.isHidden = !text.isEmpty
@@ -174,5 +178,11 @@ final class PlaceholderTextView: BaseView {
 extension Reactive where Base: PlaceholderTextView {
     var text: Observable<String> {
         return base.textRelay.asObservable()
+    }
+
+    var trimmedText: Driver<String> {
+        return base.textRelay
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .asDriver(onErrorJustReturn: "")
     }
 }
