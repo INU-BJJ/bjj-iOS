@@ -176,11 +176,11 @@ final class GachaResultViewController: BaseViewController {
                         }
                     }
                     
-                case .failure:
+                case .failure(let error):
                     // 실패 시 에러 알림 표시
                     owner.presentAlertViewController(
                         alertType: .failure,
-                        title: "아이템 착용에 실패했습니다. 다시 시도해주세요."
+                        title: error.localizedDescription
                     )
                 }
             }

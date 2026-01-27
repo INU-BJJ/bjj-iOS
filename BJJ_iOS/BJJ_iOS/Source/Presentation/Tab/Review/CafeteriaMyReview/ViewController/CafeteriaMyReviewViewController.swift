@@ -105,7 +105,7 @@ final class CafeteriaMyReviewViewController: UIViewController {
                 }
                 
             case .failure(let error):
-                print("Error fetching menu data: \(error.localizedDescription)")
+                self.presentAlertViewController(alertType: .failure, title: error.localizedDescription)
             }
         }
     }

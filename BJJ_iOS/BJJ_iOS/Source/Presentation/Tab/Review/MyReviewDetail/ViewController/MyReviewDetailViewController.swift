@@ -130,7 +130,7 @@ final class MyReviewDetailViewController: BaseViewController {
                 self.configureMyReviewDetailVC()
                 
             case .failure(let error):
-                print("[MyReviewDetailVC] Fetch Error: \(error.localizedDescription)")
+                self.presentAlertViewController(alertType: .failure, title: error.localizedDescription)
             }
         }
     }

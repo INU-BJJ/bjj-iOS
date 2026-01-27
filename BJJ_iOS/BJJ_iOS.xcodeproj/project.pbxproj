@@ -185,6 +185,7 @@
 		3FC123292DA5245100676A09 /* MemberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC123282DA5245100676A09 /* MemberModel.swift */; };
 		3FC1232B2DA5246000676A09 /* MemberAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC1232A2DA5246000676A09 /* MemberAddress.swift */; };
 		3FC1232D2DA5246B00676A09 /* MemberAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC1232C2DA5246B00676A09 /* MemberAPI.swift */; };
+		3FC427F92F28BABD00137C3D /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC427F82F28BABD00137C3D /* NetworkError.swift */; };
 		3FC68D922E0D96E300BCA1B6 /* HomeCafeteriaInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC68D912E0D96E300BCA1B6 /* HomeCafeteriaInfoView.swift */; };
 		3FC691592D1D53D7004643D2 /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC691582D1D53D7004643D2 /* ServiceAPI.swift */; };
 		3FC6915C2D1D5795004643D2 /* HomeAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC6915B2D1D5795004643D2 /* HomeAddress.swift */; };
@@ -418,6 +419,7 @@
 		3FC123282DA5245100676A09 /* MemberModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberModel.swift; sourceTree = "<group>"; };
 		3FC1232A2DA5246000676A09 /* MemberAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAddress.swift; sourceTree = "<group>"; };
 		3FC1232C2DA5246B00676A09 /* MemberAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAPI.swift; sourceTree = "<group>"; };
+		3FC427F82F28BABD00137C3D /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		3FC68D912E0D96E300BCA1B6 /* HomeCafeteriaInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCafeteriaInfoView.swift; sourceTree = "<group>"; };
 		3FC691582D1D53D7004643D2 /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
 		3FC6915B2D1D5795004643D2 /* HomeAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAddress.swift; sourceTree = "<group>"; };
@@ -1701,6 +1703,7 @@
 				3FC691582D1D53D7004643D2 /* ServiceAPI.swift */,
 				3FD8ACDA2D76E817009D4AA3 /* Response.swift */,
 				3F79BA592DFC10D30067224E /* APICancelToken .swift */,
+				3FC427F82F28BABD00137C3D /* NetworkError.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -2418,6 +2421,7 @@
 				3F14723F2DACEF5900098C41 /* StoreModel.swift in Sources */,
 				3F61252F2DA6ABB6003B5851 /* MyPageAddress.swift in Sources */,
 				3FA1D3232D7EDAAB00010931 /* MyReviewImageDetailViewController.swift in Sources */,
+				3FC427F92F28BABD00137C3D /* NetworkError.swift in Sources */,
 				3F79BA5A2DFC10D30067224E /* APICancelToken .swift in Sources */,
 				3F6FC5752DFA9480004A08C5 /* ReviewPhotoGallerySection.swift in Sources */,
 				3FBA45B12CD749730038960A /* MenuHeader.swift in Sources */,

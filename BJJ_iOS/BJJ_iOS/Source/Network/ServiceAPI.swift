@@ -7,15 +7,6 @@
 
 import Alamofire
 
-enum NetworkError: Error {
-    case invalidParameters
-    case invalidURL
-    case invalidResponse
-    case invalidToken
-    case decodingError
-    case unknownError
-}
-
 public enum ResponseType {
     case json
     case html
@@ -101,6 +92,14 @@ public func networkRequest<T: Decodable>(
                 if let data = response.data,
                    let errorMessage = String(data: data, encoding: .utf8) {
                     print("\n<< [ServiceAPI] ErrorMsg: \(errorMessage)\n")
+                    
+                    // 서버 에러 응답 파싱 시도
+                    if let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data),
+                       let message = errorResponse.msg.first {
+                        let serverError = NetworkError.serverError(code: errorResponse.code, message: message)
+                        completion(.failure(serverError))
+                        return
+                    }
                 } else {
                     print("\n<< [ServiceAPI] Error.localizedDescription: \(error.localizedDescription)\n")
                 }
@@ -165,6 +164,14 @@ public func networkRequest(
                 if let data = response.data,
                    let errorMessage = String(data: data, encoding: .utf8) {
                     print("\n<< [ServiceAPI] ErrorMsg: \(errorMessage)\n")
+                    
+                    // 서버 에러 응답 파싱 시도
+                    if let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data),
+                       let message = errorResponse.msg.first {
+                        let serverError = NetworkError.serverError(code: errorResponse.code, message: message)
+                        completion(.failure(serverError))
+                        return
+                    }
                 } else {
                     print("\n<< [ServiceAPI] Error.localizedDescription: \(error.localizedDescription)\n")
                 }
@@ -219,6 +226,14 @@ public func uploadNetworkRequest<T: Decodable>(
             if let data = response.data,
                let errorMessage = String(data: data, encoding: .utf8) {
                 print("\n<< [ServiceAPI] ErrorMsg: \(errorMessage)\n")
+                
+                // 서버 에러 응답 파싱 시도
+                if let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data),
+                   let message = errorResponse.msg.first {
+                    let serverError = NetworkError.serverError(code: errorResponse.code, message: message)
+                    completion(.failure(serverError))
+                    return
+                }
             } else {
                 print("\n<< [ServiceAPI] Error.localizedDescription: \(error.localizedDescription)\n")
             }

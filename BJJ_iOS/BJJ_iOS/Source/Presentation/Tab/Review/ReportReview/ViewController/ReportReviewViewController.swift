@@ -109,7 +109,8 @@ final class ReportReviewViewController: BaseViewController {
     override func bind() {
         let input = ReportReviewViewModel.Input(
             itemSelected: reportTableView.rx.itemSelected.asDriver(),
-            otherReasonText: reportOtherReasonTextView.rx.trimmedText
+            otherReasonText: reportOtherReasonTextView.rx.trimmedText,
+            reportButtonTapped: reportReviewButton.rx.tap
         )
         let output = viewModel.transform(input: input)
         
@@ -129,21 +130,20 @@ final class ReportReviewViewController: BaseViewController {
                 owner.reportReviewButton.setUI(isEnabled: isEnabled)
             })
             .disposed(by: disposeBag)
-    }
-    
-    // MARK: - Post API
-    
-    private func postReportReview(reviewID: Int, reportReasons: [String: [String]]) {
-        ReportReviewAPI.postReportReview(reviewID: reviewID, reportReasons: reportReasons) { result in
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    self.navigationController?.popViewController(animated: true)
+        
+        // 신고 결과 처리
+        output.reportResult
+            .drive(with: self, onNext: { owner, result in
+                switch result {
+                case .success:
+                    // 신고 성공 시 이전 화면으로 이동
+                    owner.navigationController?.popViewController(animated: true)
+                    
+                case .failure(let error):
+                    // 신고 실패 시 토스트 메시지 띄움
+                    owner.presentAlertViewController(alertType: .failure, title: error.localizedDescription)
                 }
-                
-            case .failure(let error):
-                print("[Post ReportReviewAPI] Error: \(error.localizedDescription)")
-            }
-        }
+            })
+            .disposed(by: disposeBag)
     }
 }

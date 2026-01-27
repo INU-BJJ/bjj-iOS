@@ -32,6 +32,7 @@ final class ReportReviewViewModel: BaseViewModel {
     struct Input {
         let itemSelected: Driver<IndexPath>
         let otherReasonText: Driver<String>
+        let reportButtonTapped: ControlEvent<Void>
     }
     
     // MARK: - Output
@@ -39,6 +40,7 @@ final class ReportReviewViewModel: BaseViewModel {
     struct Output {
         let reportReasonList: Driver<[ReportReasonItem]>
         let reportButtonEnabled: Driver<Bool>
+        let reportResult: Driver<Result<Void, Error>>
     }
     
     // MARK: - Transform
@@ -65,17 +67,67 @@ final class ReportReviewViewModel: BaseViewModel {
             .map { items in items.contains(where: { $0.isSelected }) }
             .asDriver(onErrorJustReturn: false)
         
+        // 신고 버튼 탭 시 API 호출
+        let reportResult = input.reportButtonTapped
+            .asObservable()
+            .withLatestFrom(Observable.combineLatest(
+                reportReasonList.asObservable(),
+                otherReasonText.asObservable())
+            )
+            .flatMapLatest { [weak self] (items, otherText) -> Observable<Result<Void, Error>> in
+                guard let self = self else {
+                    return Observable.just(.failure(NSError(domain: "ReportReviewViewModel", code: -1, userInfo: [NSLocalizedDescriptionKey: "ViewModel이 해제되었습니다."])))
+                }
+                
+                // 선택된 신고 사유
+                let selectedReasons = items
+                    .filter { $0.isSelected }
+                    .map { $0.reason.rawValue }
+                
+                // 요청 body
+                let reportReasons: [String: [String]] = [
+                    "content": selectedReasons
+                ]
+                
+                return self.postReportReview(reportReasons: reportReasons)
+                    .map { .success(()) }
+                    .catch { error in Observable.just(.failure(error)) }
+            }
+            .asDriver(onErrorJustReturn: .failure(NSError(domain: "ReportReviewViewModel", code: -1, userInfo: [NSLocalizedDescriptionKey: "알 수 없는 오류가 발생했습니다."])))
+        
         return Output(
             reportReasonList: reportReasonList.asDriver(),
-            reportButtonEnabled: reportButtonEnabled
+            reportButtonEnabled: reportButtonEnabled,
+            reportResult: reportResult
         )
     }
-//
-//    // MARK: - Public Methods
-//    
-//    func getSelectedReasons() -> [String] {
-//        return reportReasonList.value
-//            .filter { $0.isSelected }
-//            .map { $0.reason.rawValue }
-//    }
+}
+
+// MARK: - API Methods
+
+extension ReportReviewViewModel {
+    
+    /// 신고하기 post 요청
+    private func postReportReview(reportReasons: [String: [String]]) -> Observable<Void> {
+        return Observable.create { [weak self] observer in
+            guard let self = self else {
+                observer.onError(NSError(domain: "ReportReviewViewModel", code: -1, userInfo: [NSLocalizedDescriptionKey: "ViewModel이 해제되었습니다."]))
+                return Disposables.create()
+            }
+            
+            ReportReviewAPI.postReportReview(reviewID: self.reviewID, reportReasons: reportReasons) { result in
+                switch result {
+                case .success:
+                    observer.onNext(())
+                    observer.onCompleted()
+                    
+                case .failure(let error):
+                    print("[Post ReportReviewAPI] Error: \(error.localizedDescription)")
+                    observer.onError(error)
+                }
+            }
+            
+            return Disposables.create()
+        }
+    }
 }
