@@ -107,6 +107,7 @@
 		3F4CA3C12F27A9220024A555 /* ReportReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4CA3C02F27A9220024A555 /* ReportReviewViewModel.swift */; };
 		3F4DF56A2DF8197A006E047E /* ReviewPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4DF5692DF8197A006E047E /* ReviewPhotoCell.swift */; };
 		3F5045992F28A324001E9405 /* PlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5045972F28A324001E9405 /* PlaceholderTextView.swift */; };
+		3F50459C2F28B34C001E9405 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3F50459B2F28B34C001E9405 /* IQKeyboardManagerSwift */; };
 		3F5617B82CF3312400B4912D /* MenuReviewImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5617B72CF3312400B4912D /* MenuReviewImageCell.swift */; };
 		3F5F5E562F1F94C9001A8E99 /* Notification.Name++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5F5E552F1F94C9001A8E99 /* Notification.Name++Extensions.swift */; };
 		3F5F842B2F1E3FE40029F4BE /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 3F5F842A2F1E3FE40029F4BE /* RxDataSources */; };
@@ -465,6 +466,7 @@
 				3F90699C2F15384700FDBC94 /* RxSwift in Frameworks */,
 				3F5F842B2F1E3FE40029F4BE /* RxDataSources in Frameworks */,
 				3F90699A2F15384700FDBC94 /* RxCocoa in Frameworks */,
+				3F50459C2F28B34C001E9405 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2060,6 +2062,7 @@
 				3F9069992F15384700FDBC94 /* RxCocoa */,
 				3F90699B2F15384700FDBC94 /* RxSwift */,
 				3F5F842A2F1E3FE40029F4BE /* RxDataSources */,
+				3F50459B2F28B34C001E9405 /* IQKeyboardManagerSwift */,
 			);
 			productName = BJJ_iOS;
 			productReference = 3F25B3E52CB282D7005C0907 /* BJJ_iOS.app */;
@@ -2140,6 +2143,7 @@
 				3FEDD49D2CB2B21B009617A5 /* XCRemoteSwiftPackageReference "PretendardKit" */,
 				3F9069982F15384700FDBC94 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				3F5F84292F1E3FE40029F4BE /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				3F50459A2F28B34C001E9405 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 3F25B3E62CB282D7005C0907 /* Products */;
 			projectDirPath = "";
@@ -2844,6 +2848,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3F50459A2F28B34C001E9405 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.2;
+			};
+		};
 		3F5F84292F1E3FE40029F4BE /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
@@ -2871,6 +2883,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3F50459B2F28B34C001E9405 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F50459A2F28B34C001E9405 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
 		3F5F842A2F1E3FE40029F4BE /* RxDataSources */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3F5F84292F1E3FE40029F4BE /* XCRemoteSwiftPackageReference "RxDataSources" */;
