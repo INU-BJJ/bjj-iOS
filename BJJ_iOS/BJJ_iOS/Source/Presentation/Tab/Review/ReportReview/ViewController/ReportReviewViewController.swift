@@ -137,13 +137,11 @@ final class ReportReviewViewController: BaseViewController {
                 switch result {
                 case .success:
                     // 신고 성공 시 이전 화면으로 이동
-                    // TODO: 토스트 메세지
                     owner.navigationController?.popViewController(animated: true)
                     
                 case .failure(let error):
-                    // 신고 실패 시 에러 메시지 출력
-                    print("[ReportReviewViewController] 신고 실패: \(error.localizedDescription)")
-                    // TODO: 사용자에게 에러 알림 표시 (Alert 또는 Toast)
+                    // 신고 실패 시 토스트 메시지 띄움
+                    owner.presentAlertViewController(alertType: .failure, title: "신고 요청에 실패했습니다. 다시 시도해주세요.")
                 }
             })
             .disposed(by: disposeBag)
