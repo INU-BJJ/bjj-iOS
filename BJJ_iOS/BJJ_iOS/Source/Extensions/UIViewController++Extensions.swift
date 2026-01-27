@@ -316,6 +316,19 @@ extension UIViewController {
         }
     }
     
+    // 기본 Alert (확인)
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
+        let okButton = UIAlertAction(title: "확인", style: .default) { _ in }
+        
+        alertController.addAction(okButton)
+        present(alertController, animated: true)
+    }
+    
     // 기본 Alert (확인/취소)
     func showAlert(
         title: String,
