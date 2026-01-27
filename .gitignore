@@ -143,4 +143,7 @@ iOSInjectionProject/
 # API Key
 BJJ_iOS/BJJ_iOS/Source/Network/Key/
 
+# FCM Key
+**/GoogleService-Info.plist
+
 # End of https://www.toptal.com/developers/gitignore/api/xcode,swift,cocoapods,macos
