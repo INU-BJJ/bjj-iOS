@@ -36,7 +36,6 @@ final class MenuReviewListCell: UICollectionViewCell, ReuseIdentifying {
         })
     }
     
-    // TODO: private 해제 방법 말고 다른 방법 없을까?
     let menuReviewInfoView = MenuReviewInfoView()
     
     private let reviewCommentTextView = UITextView().then {
@@ -334,6 +333,10 @@ extension MenuReviewListCell: UIGestureRecognizerDelegate {
         // 터치된 뷰가 reviewImageCollectionView의 subView라면 gesture 비활성화
         if let touchedView = touch.view,
            touchedView.isDescendant(of: reviewImageCollectionView) { return false }
+        
+        // 터치된 뷰가 reviewLikeButton이라면 gesture 비활성화
+        if let touchedView = touch.view,
+           touchedView.isDescendant(of: menuReviewInfoView.reviewLikeButton) { return false }
         
         return true
     }

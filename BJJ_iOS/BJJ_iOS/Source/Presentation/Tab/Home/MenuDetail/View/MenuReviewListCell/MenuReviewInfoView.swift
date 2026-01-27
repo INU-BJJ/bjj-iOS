@@ -18,6 +18,7 @@ final class MenuReviewInfoView: UIView {
     private var isOwned = false
     private var reviewLikedCount = 0
     var onLikeToggled: ((Bool) -> Void)?
+    var onShowOwnReviewAlert: (() -> Void)?
     
     // MARK: - UI Components
     
@@ -37,7 +38,7 @@ final class MenuReviewInfoView: UIView {
         $0.setLabelUI("", font: .pretendard, size: 13, color: .darkGray)
     }
     
-    private lazy var reviewLikeButton = UIButton().then {
+    lazy var reviewLikeButton = UIButton().then {
         $0.setImage(UIImage(named: "Like")?.resize(to: CGSize(width: 17, height: 17)), for: .normal)
         $0.addTarget(self, action: #selector(didTapReviewLikeButton), for: .touchUpInside)
     }
@@ -178,8 +179,7 @@ final class MenuReviewInfoView: UIView {
             }
             onLikeToggled?(isReviewLiked)
         } else {
-            // TODO: 실패 UI 띄우기
-            print("[MenuReviewInfoView] Error: 자기 리뷰 좋아요 안됨")
+            onShowOwnReviewAlert?()
         }
     }
 }

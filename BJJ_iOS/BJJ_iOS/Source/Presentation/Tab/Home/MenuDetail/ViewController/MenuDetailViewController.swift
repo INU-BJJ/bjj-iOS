@@ -416,7 +416,7 @@ final class MenuDetailViewController: UIViewController {
                     }
                 }
             case .failure(let error):
-                print("<< [MenuDetailVC] 메뉴 좋아요 실패: \(error.localizedDescription)")
+                self.presentAlertViewController(alertType: .failure, title: error.localizedDescription)
             }
         }
     }
@@ -428,7 +428,7 @@ final class MenuDetailViewController: UIViewController {
                 self.isReviewLikedList[indexPath.item] = isLiked
                 
             case .failure(let error):
-                print("[MenuDetailVC] 리뷰 좋아요 실패: \(error.localizedDescription)")
+                self.presentAlertViewController(alertType: .failure, title: error.localizedDescription)
             }
             
         }
@@ -673,6 +673,16 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
                 }
                 // 각 리뷰별 타이머 저장
                 self.reviewLikeDebounceTimers[indexPath.item] = timer
+            }
+            cell.menuReviewInfoView.onShowOwnReviewAlert = { [weak self] in
+                guard let self = self else { return }
+                
+                DispatchQueue.main.async {
+                    self.presentAlertViewController(
+                        alertType: .failure,
+                        title: "자신의 리뷰에는 좋아요를 누를 수 없습니다."
+                    )
+                }
             }
             
             return cell
