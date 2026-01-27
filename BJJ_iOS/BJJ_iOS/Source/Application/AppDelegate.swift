@@ -131,7 +131,12 @@ extension AppDelegate: MessagingDelegate {
         
         if hasToken {
             // 서버에 FCM 토큰 등록
-            FCMAPI.registerFCMToken(fcmToken: fcmToken) { _ in }
+            FCMAPI.registerFCMToken(fcmToken: fcmToken) { result in
+                if case .success = result {
+                    // 업로드 성공 시 현재 날짜 저장
+                    UserDefaultsManager.shared.save(value: Date(), key: .lastFCMTokenUploadDate)
+                }
+            }
         }
     }
 }

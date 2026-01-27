@@ -14,6 +14,7 @@ final class UserDefaultsManager {
     enum UserDefaultsKey: String {
         case didRequestNotificationPermission = "DidRequestNotificationPermission"
         case fcmToken = "FCMToken"
+        case lastFCMTokenUploadDate = "LastFCMTokenUploadDate"
     }
     
     // MARK: - Init
@@ -37,6 +38,10 @@ final class UserDefaultsManager {
         return UserDefaults.standard.string(forKey: key.rawValue)
     }
     
+    func readDate(_ key: UserDefaultsKey) -> Date? {
+        return UserDefaults.standard.object(forKey: key.rawValue) as? Date
+    }
+
     // MARK: - Delete
     
     func delete(_ key: UserDefaultsKey) {
