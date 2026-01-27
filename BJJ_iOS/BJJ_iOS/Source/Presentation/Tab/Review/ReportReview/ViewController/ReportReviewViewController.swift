@@ -38,11 +38,7 @@ final class ReportReviewViewController: BaseViewController {
         hasIndicator: true
     )
     
-    private lazy var testReportReviewButton = UIButton().then {
-        $0.backgroundColor = .customColor(.mainColor)
-        $0.setTitle("신고하기", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-    }
+    private let reportReviewButton = ConfirmButton(title: "신고하기")
     
     // MARK: - LifeCycle
     
@@ -71,7 +67,7 @@ final class ReportReviewViewController: BaseViewController {
             reportGuideLabel,
             reportTableView,
             reportOtherReasonTextView,
-            testReportReviewButton
+            reportReviewButton
         ].forEach(view.addSubview)
     }
     
@@ -98,10 +94,10 @@ final class ReportReviewViewController: BaseViewController {
         reportOtherReasonTextView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.height.equalTo(158)
-            $0.bottom.equalTo(testReportReviewButton.snp.top).offset(-53)
+            $0.bottom.equalTo(reportReviewButton.snp.top).offset(-53)
         }
         
-        testReportReviewButton.snp.makeConstraints {
+        reportReviewButton.snp.makeConstraints {
             $0.height.equalTo(47)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.bottom.equalToSuperview().inset(40)
