@@ -16,6 +16,7 @@ final class ReviewPhotoCell: BaseCollectionViewCell<String> {
     
     private let reviewPhotoImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
     }
     
     // MARK: - Set Hierarchy
