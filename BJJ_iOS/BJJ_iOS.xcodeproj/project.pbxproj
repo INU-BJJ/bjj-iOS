@@ -217,6 +217,7 @@
 		3FF6CAC32D50A544006ED4F3 /* MyReviewFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF6CAC22D50A544006ED4F3 /* MyReviewFooterView.swift */; };
 		3FF817822F2901FE0062D6A6 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 3FF817812F2901FE0062D6A6 /* FirebaseMessaging */; };
 		3FF8178A2F29037D0062D6A6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3FF817892F29037D0062D6A6 /* GoogleService-Info.plist */; };
+		3FF817922F2908CC0062D6A6 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF817912F2908CC0062D6A6 /* UserDefaultsManager.swift */; };
 		3FFAB73C2CF1CF0B00D09749 /* UINavigationItem++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFAB73B2CF1CF0B00D09749 /* UINavigationItem++Extensions.swift */; };
 		8CB8B6DAAA797515681E5BE4 /* Pods_BJJ_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33515C51778C5C5E22CDE88A /* Pods_BJJ_iOS.framework */; };
 		B2B8CF43B90B3501D67193C0 /* Pods_BJJ_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D83C02392DEFEE825823B917 /* Pods_BJJ_iOSTests.framework */; };
@@ -452,6 +453,7 @@
 		3FF1E92B2D67067000A237FA /* UITextView++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView++Extensions.swift"; sourceTree = "<group>"; };
 		3FF6CAC22D50A544006ED4F3 /* MyReviewFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewFooterView.swift; sourceTree = "<group>"; };
 		3FF817892F29037D0062D6A6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3FF817912F2908CC0062D6A6 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		3FFAB73B2CF1CF0B00D09749 /* UINavigationItem++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem++Extensions.swift"; sourceTree = "<group>"; };
 		5C0139F5C073095340DC8F57 /* Pods-BJJ_iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJJ_iOSTests.release.xcconfig"; path = "Target Support Files/Pods-BJJ_iOSTests/Pods-BJJ_iOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		8040A191D407760C32A91799 /* Pods_BJJ_iOS_BJJ_iOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BJJ_iOS_BJJ_iOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1299,6 +1301,7 @@
 			children = (
 				3F673C8D2DA437F60080FD23 /* KeychainManager.swift */,
 				3F5F843A2F1E4D160029F4BE /* DateFormatterManager.swift */,
+				3FF817912F2908CC0062D6A6 /* UserDefaultsManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -2471,6 +2474,7 @@
 				3F61252D2DA6ABAA003B5851 /* MyPageModel.swift in Sources */,
 				3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */,
 				3F311D742D88603B00F8D803 /* RankingAddress.swift in Sources */,
+				3FF817922F2908CC0062D6A6 /* UserDefaultsManager.swift in Sources */,
 				3FB76F3A2F23B89F00DD2901 /* NicknameEditViewModel.swift in Sources */,
 				3F5045992F28A324001E9405 /* PlaceholderTextView.swift in Sources */,
 				3F1FAD532D8D681C00570681 /* MenuReviewSortingCell.swift in Sources */,
