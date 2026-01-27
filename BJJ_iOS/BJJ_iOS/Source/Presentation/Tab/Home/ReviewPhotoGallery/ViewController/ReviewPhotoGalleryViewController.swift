@@ -100,9 +100,9 @@ final class ReviewPhotoGalleryViewController: UIViewController {
     
     private func setConstraints() {
         reviewPhotosCollectionView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(150)
-            $0.horizontalEdges.equalToSuperview().inset(50)
-            $0.bottom.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(4)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(33)
         }
     }
     
@@ -127,9 +127,6 @@ final class ReviewPhotoGalleryViewController: UIViewController {
                     self.isFetching = false
                 }
                 
-                // TODO: 로딩 UI 추가
-//                https://blog.rightbrain.co.kr/?p=12479
-                
                 switch result {
                 case .success(let responseData):
                     let reviewPhotos = responseData.reviewImageDetailList.map { $0.reviewImage }
@@ -149,30 +146,35 @@ final class ReviewPhotoGalleryViewController: UIViewController {
     
     private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { sectionIndex, environment in
-            // 아이템 설정
-            // TODO: 아이템 크기 수정
+            let spacing: CGFloat = 4
+            let columnCount = CGFloat(self.columnCount)
+            
+            // 아이템 크기 계산: (화면 너비 - (열 간격 × (열 개수 - 1))) / 열 개수
+            let totalSpacing = spacing * (columnCount - 1)
+            let itemWidth = (environment.container.contentSize.width - totalSpacing) / columnCount
+            
+            // 아이템 설정 (정사각형)
             let itemSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.2),
-                heightDimension: .absolute(200)
+                widthDimension: .absolute(itemWidth),
+                heightDimension: .absolute(itemWidth)
             )
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             // 그룹 설정
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(200)
+                heightDimension: .absolute(itemWidth)
             )
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: groupSize,
                 subitem: item,
                 count: self.columnCount
             )
-            // TODO: 간격 수정
-            group.interItemSpacing = .fixed(10)
+            group.interItemSpacing = .fixed(spacing)
             
             // 섹션 설정
             let section = NSCollectionLayoutSection(group: group)
-            section.interGroupSpacing = 10
+            section.interGroupSpacing = spacing
             section.orthogonalScrollingBehavior = .none
 
             return section
@@ -190,7 +192,7 @@ final class ReviewPhotoGalleryViewController: UIViewController {
             
             switch item {
             case .photoURL(let photoURL):
-                cell.setUI(reviewPhoto: photoURL)
+                cell.configureCell(with: photoURL)
             }
             
             return cell
