@@ -33,17 +33,15 @@ final class AlertViewController: BaseViewController {
         $0.contentMode = .scaleAspectFit
     }
     
-    private let alertMessageLabel = PaddingLabel(
-        padding: UIEdgeInsets(top: 24, left: 23.5, bottom: 24, right: 23.5)
-    ).then {
-        $0.setLabelUI("", font: .pretendard_semibold, size: 15, color: .black)
+    private let alertMessageView = UIView().then {
         $0.setCornerRadius(radius: 10)
         $0.backgroundColor = .white
+    }
+    
+    private let alertMessageLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_semibold, size: 15, color: .black)
         $0.textAlignment = .center
         $0.numberOfLines = 0
-        
-        
-        $0.setBorder()
     }
     
     // MARK: - LifeCycle
@@ -71,9 +69,11 @@ final class AlertViewController: BaseViewController {
     override func setHierarchy() {
         [
             circleIconView,
-            alertMessageLabel,
+            alertMessageView,
             alertImageView
         ].forEach(view.addSubview)
+        
+        alertMessageView.addSubview(alertMessageLabel)
     }
     
     // MARK: - Set Constraints
@@ -91,10 +91,15 @@ final class AlertViewController: BaseViewController {
             $0.bottom.equalTo(circleIconView).inset(13)
         }
         
-        alertMessageLabel.snp.makeConstraints {
+        alertMessageView.snp.makeConstraints {
             $0.top.equalTo(circleIconView).offset(46)
             $0.horizontalEdges.equalToSuperview().inset(56)
             $0.centerX.equalToSuperview()
+        }
+        
+        alertMessageLabel.snp.makeConstraints {
+            $0.verticalEdges.equalToSuperview().inset(24)
+            $0.horizontalEdges.equalToSuperview().inset(23.5)
         }
     }
     
