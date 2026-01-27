@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import SDWebImage
 
 final class MenuReviewInfoView: UIView {
     
@@ -68,6 +69,7 @@ final class MenuReviewInfoView: UIView {
     // MARK: - Reset UI
     
     func resetUI() {
+        profileImage.image = nil
         nicknameLabel.text = ""
         reviewDateLabel.text = ""
         reviewRatingView.configureReviewStar(reviewRating: 0, type: .small)
@@ -134,7 +136,13 @@ final class MenuReviewInfoView: UIView {
     
     func setUI(with menuReview: MenuDetailModel) {
         let likeIcon = isReviewLiked ? "FilledLike" : "Like"
+        let profileImageURL = URL(string: "\(baseURL.characterImageURL)icon_ \(menuReview.memberImage).svg")
         
+        profileImage.sd_setImage(
+            with: profileImageURL,
+            placeholderImage: nil,
+            options: [.retryFailed, .continueInBackground]
+        )
         nicknameLabel.text = menuReview.memberNickname
         reviewRatingView.configureReviewStar(reviewRating: menuReview.reviewRating, type: .small)
         reviewDateLabel.text = menuReview.reviewCreatedDate

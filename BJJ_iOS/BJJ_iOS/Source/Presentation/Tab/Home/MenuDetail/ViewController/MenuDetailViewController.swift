@@ -636,7 +636,7 @@ extension MenuDetailViewController: UICollectionViewDelegate, UICollectionViewDa
                 guard let self = self else { return }
                 
                 DispatchQueue.main.async {
-                    self.presentMyReviewDetailViewController(reviewID: self.reviewData[indexPath.item].reviewID)
+                    self.presentMyReviewDetailViewController(reviewID: self.reviewData[indexPath.item].reviewID, isOwned: self.reviewData[indexPath.item].isOwned)
                 }
             }
             cell.onTapReviewImage = { [weak self] in

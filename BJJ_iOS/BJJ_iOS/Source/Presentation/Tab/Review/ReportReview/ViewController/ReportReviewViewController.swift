@@ -9,105 +9,126 @@ import UIKit
 import SnapKit
 import Then
 
-final class ReportReviewViewController: UIViewController {
+final class ReportReviewViewController: BaseViewController {
     
-    // MARK: - Properties
+    // MARK: - ViewModel
     
-    private let reviewID: Int
-    private let reportReasons = ReportReason.allCases
-    private var reportContent: Set<String> = []
-    private let otherPrefix = ReportReason.other.rawValue
+    private let viewModel: ReportReviewViewModel
     
     // MARK: - UI Components
     
-    private lazy var testReportReviewTableView = UITableView().then {
+    private let reportTitleLabel = UILabel().then {
+        $0.setLabel("리뷰를 신고하는 이유를 알려주세요!", font: .pretendard_bold, size: 15, color: .black)
+    }
+    
+    private let reportGuideLabel = UILabel().then {
+        $0.setLabel("타당한 근거 없이 신고된 내용은 관리자 확인 후 반영되지\n않을 수 있습니다.", font: .pretendard_medium, size: 13, color: ._999999)
+        $0.numberOfLines = 2
+    }
+    
+    private let reportTableView = UITableView().then {
         $0.register(ReportReviewCell.self, forCellReuseIdentifier: ReportReviewCell.reuseIdentifier)
-        $0.dataSource = self
-        $0.delegate = self
         $0.separatorStyle = .none
         $0.allowsMultipleSelection = true
     }
     
-    private lazy var testReportOtherReasonTextView = UITextView().then {
-        $0.setTextViewUI("", font: .pretendard_bold, size: 18, color: .black)
-        $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
-        $0.layer.borderWidth = 1
-        $0.isEditable = false
-        $0.isSelectable = false
-        $0.backgroundColor = .customColor(.dropDownGray)
-        $0.delegate = self
-    }
+    private lazy var reportOtherReasonTextView = PlaceholderTextView(
+        placeholder: "신고하신 이유를 적어주세요.",
+        maxLength: 500,
+        hasIndicator: true
+    )
     
-    private lazy var testReportReviewButton = UIButton().then {
-        $0.backgroundColor = .customColor(.mainColor)
-        $0.setTitle("신고하기", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.addTarget(self, action: #selector(didTapReportReviewButton), for: .touchUpInside)
-    }
+    private let reportReviewButton = ConfirmButton(title: "신고하기")
     
     // MARK: - LifeCycle
     
-    init(reviewID: Int) {
-        self.reviewID = reviewID
+    init(viewModel: ReportReviewViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setUI()
-        setAddView()
-        setConstraints()
-    }
-    
     // MARK: - Set UI
     
-    private func setUI() {
+    override func setUI() {
         view.backgroundColor = .white
+        setXNaviBar("리뷰 신고하기")
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
-            testReportReviewTableView,
-            testReportOtherReasonTextView,
-            testReportReviewButton
+            reportTitleLabel,
+            reportGuideLabel,
+            reportTableView,
+            reportOtherReasonTextView,
+            reportReviewButton
         ].forEach(view.addSubview)
     }
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
-        testReportReviewTableView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(100)
-            $0.horizontalEdges.equalToSuperview().inset(40)
-            $0.bottom.equalToSuperview().inset(400)
+    override func setConstraints() {
+        reportTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
+            $0.leading.equalToSuperview().offset(20)
         }
         
-        testReportOtherReasonTextView.snp.makeConstraints {
-            $0.top.equalTo(testReportReviewTableView.snp.bottom).offset(20)
-            $0.horizontalEdges.equalTo(testReportReviewTableView)
-            $0.bottom.equalToSuperview().inset(140)
+        reportGuideLabel.snp.makeConstraints {
+            $0.top.equalTo(reportTitleLabel.snp.bottom).offset(8)
+            $0.leading.equalTo(reportTitleLabel)
         }
         
-        testReportReviewButton.snp.makeConstraints {
-            $0.top.equalTo(testReportOtherReasonTextView.snp.bottom).offset(20)
-            $0.bottom.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview().inset(40)
+        reportTableView.snp.makeConstraints {
+            $0.top.equalTo(reportGuideLabel.snp.bottom).offset(26)
+            $0.leading.equalToSuperview().offset(27)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalTo(reportOtherReasonTextView.snp.top).offset(-10)
+        }
+        
+        reportOtherReasonTextView.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(158)
+            $0.bottom.equalTo(reportReviewButton.snp.top).offset(-53)
+        }
+        
+        reportReviewButton.snp.makeConstraints {
+            $0.height.equalTo(47)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.bottom.equalToSuperview().inset(40)
         }
     }
     
-    // MARK: - objc Functions
+    // MARK: - Bind
     
-    @objc private func didTapReportReviewButton() {
-        let reportContent = ["content": Array(reportContent)]
+    override func bind() {
+        let input = ReportReviewViewModel.Input(
+            itemSelected: reportTableView.rx.itemSelected.asDriver(),
+            otherReasonText: reportOtherReasonTextView.rx.trimmedText
+        )
+        let output = viewModel.transform(input: input)
         
-        postReportReview(reviewID: reviewID, reportReasons: reportContent)
+        // 신고 사유 tableView 데이터 바인딩
+        output.reportReasonList
+            .drive(reportTableView.rx.items(
+                cellIdentifier: ReportReviewCell.reuseIdentifier,
+                cellType: ReportReviewCell.self)
+            ) { index, reportReasonItem, cell in
+                cell.configureCell(with: reportReasonItem)
+            }
+            .disposed(by: disposeBag)
+        
+        // 신고 버튼 활성화/비활성화
+        output.reportButtonEnabled
+            .drive(with: self, onNext: { owner, isEnabled in
+                owner.reportReviewButton.setUI(isEnabled: isEnabled)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Post API
@@ -124,73 +145,5 @@ final class ReportReviewViewController: UIViewController {
                 print("[Post ReportReviewAPI] Error: \(error.localizedDescription)")
             }
         }
-    }
-    
-    // MARK: - Update OtherTextView State
-    
-    private func updateOtherTextViewState() {
-        let enabled = reportContent.contains { $0.hasPrefix(otherPrefix) }
-        
-        if !enabled { testReportOtherReasonTextView.text = "" }
-        testReportOtherReasonTextView.isEditable = enabled
-        testReportOtherReasonTextView.isSelectable = enabled
-        testReportOtherReasonTextView.backgroundColor = enabled ? UIColor.white : UIColor.customColor(.dropDownGray)
-    }
-}
-
-// MARK: UITableView DataSource
-
-extension ReportReviewViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        reportReasons.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ReportReviewCell.reuseIdentifier, for: indexPath) as? ReportReviewCell else {
-            return UITableViewCell()
-        }
-        let reason = reportReasons[indexPath.row]
-        
-        cell.selectionStyle = .none
-        cell.configureCell(with: reason)
-        
-        return cell
-    }
-}
-
-// MARK: - UITableView Delegate
-
-extension ReportReviewViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let reasonString = reportReasons[indexPath.row].rawValue
-        reportContent.insert(reasonString)
-        
-        if let cell = tableView.cellForRow(at: indexPath) as? ReportReviewCell {
-            cell.setSelected(true, animated: true)
-        }
-        updateOtherTextViewState()
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let reasonString = reportReasons[indexPath.row].rawValue
-        reportContent.remove(reasonString)
-        
-        if let cell = tableView.cellForRow(at: indexPath) as? ReportReviewCell {
-            cell.setSelected(false, animated: true)
-        }
-        updateOtherTextViewState()
-    }
-}
-
-// MARK: - UITextView Delegate
-
-extension ReportReviewViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        reportContent = reportContent.filter { !$0.hasPrefix(otherPrefix) }
-        
-        let trimmedContent = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
-        let fullContent = trimmedContent.isEmpty ? otherPrefix : "\(otherPrefix): \(trimmedContent)"
-        
-        reportContent.insert(fullContent)
     }
 }

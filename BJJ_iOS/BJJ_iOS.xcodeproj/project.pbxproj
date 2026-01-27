@@ -103,7 +103,11 @@
 		3F4831F02D89831700B138A2 /* ReviewModalSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4831EF2D89831700B138A2 /* ReviewModalSection.swift */; };
 		3F4AB2232D5A0819005D5D91 /* ReviewStarSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4AB2222D5A0819005D5D91 /* ReviewStarSize.swift */; };
 		3F4B09252CE1FC31005C56C2 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4B09242CE1FC31005C56C2 /* TabBarController.swift */; };
+		3F4CA3BE2F2785300024A555 /* MyReviewMenuModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4CA3BD2F2785300024A555 /* MyReviewMenuModalViewModel.swift */; };
+		3F4CA3C12F27A9220024A555 /* ReportReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4CA3C02F27A9220024A555 /* ReportReviewViewModel.swift */; };
 		3F4DF56A2DF8197A006E047E /* ReviewPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4DF5692DF8197A006E047E /* ReviewPhotoCell.swift */; };
+		3F5045992F28A324001E9405 /* PlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5045972F28A324001E9405 /* PlaceholderTextView.swift */; };
+		3F50459C2F28B34C001E9405 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3F50459B2F28B34C001E9405 /* IQKeyboardManagerSwift */; };
 		3F5617B82CF3312400B4912D /* MenuReviewImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5617B72CF3312400B4912D /* MenuReviewImageCell.swift */; };
 		3F5F5E562F1F94C9001A8E99 /* Notification.Name++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5F5E552F1F94C9001A8E99 /* Notification.Name++Extensions.swift */; };
 		3F5F842B2F1E3FE40029F4BE /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 3F5F842A2F1E3FE40029F4BE /* RxDataSources */; };
@@ -159,6 +163,7 @@
 		3F9A5F442F16344E00AB0576 /* ConsentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A5F432F16344E00AB0576 /* ConsentCollectionViewCell.swift */; };
 		3FA055AC2D6B26ED00C72029 /* ReviewCategorySelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA055AB2D6B26ED00C72029 /* ReviewCategorySelectCell.swift */; };
 		3FA1D3232D7EDAAB00010931 /* MyReviewImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1D3222D7EDAAB00010931 /* MyReviewImageDetailViewController.swift */; };
+		3FA27ECE2F26864400FF3F2B /* MyReviewDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA27ECD2F26864400FF3F2B /* MyReviewDetailViewModel.swift */; };
 		3FA5C7A42F2374F1007B370E /* SettingMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA5C7A32F2374F1007B370E /* SettingMenu.swift */; };
 		3FA5C7A82F23790C007B370E /* ServicePolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA5C7A72F23790C007B370E /* ServicePolicyViewController.swift */; };
 		3FA69D422F1F7A630058E6AA /* GachaResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA69D412F1F7A630058E6AA /* GachaResultViewModel.swift */; };
@@ -170,7 +175,7 @@
 		3FB76F3A2F23B89F00DD2901 /* NicknameEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB76F392F23B89F00DD2901 /* NicknameEditViewModel.swift */; };
 		3FB984602D5378A30050D66A /* MyReviewDetailImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB9845F2D5378A30050D66A /* MyReviewDetailImageCell.swift */; };
 		3FB984622D5389710050D66A /* MyReviewDetailHashTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB984612D5389710050D66A /* MyReviewDetailHashTagCell.swift */; };
-		3FB984642D53918F0050D66A /* MyReviewDeleteModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB984632D53918F0050D66A /* MyReviewDeleteModalViewController.swift */; };
+		3FB984642D53918F0050D66A /* MyReviewMenuModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB984632D53918F0050D66A /* MyReviewMenuModalViewController.swift */; };
 		3FBA45B12CD749730038960A /* MenuHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBA45B02CD749730038960A /* MenuHeader.swift */; };
 		3FBC44362D4F66AF00D47EEA /* MyReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBC44352D4F66AF00D47EEA /* MyReviewViewController.swift */; };
 		3FC0A6692DA0378100FBFAEE /* SignUpAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC0A6682DA0378100FBFAEE /* SignUpAddress.swift */; };
@@ -335,7 +340,10 @@
 		3F4831EF2D89831700B138A2 /* ReviewModalSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewModalSection.swift; sourceTree = "<group>"; };
 		3F4AB2222D5A0819005D5D91 /* ReviewStarSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewStarSize.swift; sourceTree = "<group>"; };
 		3F4B09242CE1FC31005C56C2 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		3F4CA3BD2F2785300024A555 /* MyReviewMenuModalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewMenuModalViewModel.swift; sourceTree = "<group>"; };
+		3F4CA3C02F27A9220024A555 /* ReportReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportReviewViewModel.swift; sourceTree = "<group>"; };
 		3F4DF5692DF8197A006E047E /* ReviewPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPhotoCell.swift; sourceTree = "<group>"; };
+		3F5045972F28A324001E9405 /* PlaceholderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderTextView.swift; sourceTree = "<group>"; };
 		3F5617B72CF3312400B4912D /* MenuReviewImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewImageCell.swift; sourceTree = "<group>"; };
 		3F5F5E552F1F94C9001A8E99 /* Notification.Name++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name++Extensions.swift"; sourceTree = "<group>"; };
 		3F5F842C2F1E40830029F4BE /* StoreSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSectionModel.swift; sourceTree = "<group>"; };
@@ -388,6 +396,7 @@
 		3F9A5F432F16344E00AB0576 /* ConsentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentCollectionViewCell.swift; sourceTree = "<group>"; };
 		3FA055AB2D6B26ED00C72029 /* ReviewCategorySelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCategorySelectCell.swift; sourceTree = "<group>"; };
 		3FA1D3222D7EDAAB00010931 /* MyReviewImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewImageDetailViewController.swift; sourceTree = "<group>"; };
+		3FA27ECD2F26864400FF3F2B /* MyReviewDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailViewModel.swift; sourceTree = "<group>"; };
 		3FA5C7A32F2374F1007B370E /* SettingMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMenu.swift; sourceTree = "<group>"; };
 		3FA5C7A72F23790C007B370E /* ServicePolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicePolicyViewController.swift; sourceTree = "<group>"; };
 		3FA69D412F1F7A630058E6AA /* GachaResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GachaResultViewModel.swift; sourceTree = "<group>"; };
@@ -399,7 +408,7 @@
 		3FB76F392F23B89F00DD2901 /* NicknameEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameEditViewModel.swift; sourceTree = "<group>"; };
 		3FB9845F2D5378A30050D66A /* MyReviewDetailImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailImageCell.swift; sourceTree = "<group>"; };
 		3FB984612D5389710050D66A /* MyReviewDetailHashTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailHashTagCell.swift; sourceTree = "<group>"; };
-		3FB984632D53918F0050D66A /* MyReviewDeleteModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDeleteModalViewController.swift; sourceTree = "<group>"; };
+		3FB984632D53918F0050D66A /* MyReviewMenuModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewMenuModalViewController.swift; sourceTree = "<group>"; };
 		3FBA45B02CD749730038960A /* MenuHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeader.swift; sourceTree = "<group>"; };
 		3FBC44352D4F66AF00D47EEA /* MyReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewViewController.swift; sourceTree = "<group>"; };
 		3FC0A6682DA0378100FBFAEE /* SignUpAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpAddress.swift; sourceTree = "<group>"; };
@@ -457,6 +466,7 @@
 				3F90699C2F15384700FDBC94 /* RxSwift in Frameworks */,
 				3F5F842B2F1E3FE40029F4BE /* RxDataSources in Frameworks */,
 				3F90699A2F15384700FDBC94 /* RxCocoa in Frameworks */,
+				3F50459C2F28B34C001E9405 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -619,6 +629,7 @@
 				3F90698F2F1537A300FDBC94 /* Base */,
 				3F967AD42F15432F0053A5F1 /* UIButton */,
 				3F906A4F2F153F2A00FDBC94 /* UILabel */,
+				3F5045982F28A324001E9405 /* UITextView */,
 				3F4AB2212D5A07F0005D5D91 /* Model */,
 				3F1613332CD87BC900A30369 /* View */,
 				3F876EB72D43750300C96096 /* ReUseIdentifying.swift */,
@@ -969,6 +980,7 @@
 			children = (
 				3F2BE7962D50E576005003CC /* Model */,
 				3F2BE7952D50E572005003CC /* View */,
+				3FA27ECC2F26863000FF3F2B /* ViewModel */,
 				3F2BE7942D50E56B005003CC /* ViewController */,
 			);
 			path = MyReviewDetail;
@@ -978,7 +990,7 @@
 			isa = PBXGroup;
 			children = (
 				3F2BE7972D50E594005003CC /* MyReviewDetailViewController.swift */,
-				3FB984632D53918F0050D66A /* MyReviewDeleteModalViewController.swift */,
+				3FB984632D53918F0050D66A /* MyReviewMenuModalViewController.swift */,
 				3FADD2212D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift */,
 				3FA1D3222D7EDAAB00010931 /* MyReviewImageDetailViewController.swift */,
 			);
@@ -1175,6 +1187,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		3F4CA3BF2F27A9160024A555 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3F4CA3C02F27A9220024A555 /* ReportReviewViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		3F4DF5652DF8193F006E047E /* ReviewPhotoGallery */ = {
 			isa = PBXGroup;
 			children = (
@@ -1207,6 +1227,14 @@
 				3F6FC5742DFA9480004A08C5 /* ReviewPhotoGallerySection.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3F5045982F28A324001E9405 /* UITextView */ = {
+			isa = PBXGroup;
+			children = (
+				3F5045972F28A324001E9405 /* PlaceholderTextView.swift */,
+			);
+			path = UITextView;
 			sourceTree = "<group>";
 		};
 		3F6125232DA6A693003B5851 /* Setting */ = {
@@ -1445,6 +1473,15 @@
 				3F9A5F432F16344E00AB0576 /* ConsentCollectionViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		3FA27ECC2F26863000FF3F2B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3FA27ECD2F26864400FF3F2B /* MyReviewDetailViewModel.swift */,
+				3F4CA3BD2F2785300024A555 /* MyReviewMenuModalViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		3FA5C7A22F2374EB007B370E /* Model */ = {
@@ -1863,6 +1900,7 @@
 			children = (
 				3FD68C182DFF05940011B89B /* Model */,
 				3FD68C172DFF058F0011B89B /* View */,
+				3F4CA3BF2F27A9160024A555 /* ViewModel */,
 				3FD68C162DFF05880011B89B /* ViewController */,
 			);
 			path = ReportReview;
@@ -2024,6 +2062,7 @@
 				3F9069992F15384700FDBC94 /* RxCocoa */,
 				3F90699B2F15384700FDBC94 /* RxSwift */,
 				3F5F842A2F1E3FE40029F4BE /* RxDataSources */,
+				3F50459B2F28B34C001E9405 /* IQKeyboardManagerSwift */,
 			);
 			productName = BJJ_iOS;
 			productReference = 3F25B3E52CB282D7005C0907 /* BJJ_iOS.app */;
@@ -2104,6 +2143,7 @@
 				3FEDD49D2CB2B21B009617A5 /* XCRemoteSwiftPackageReference "PretendardKit" */,
 				3F9069982F15384700FDBC94 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				3F5F84292F1E3FE40029F4BE /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				3F50459A2F28B34C001E9405 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 3F25B3E62CB282D7005C0907 /* Products */;
 			projectDirPath = "";
@@ -2316,6 +2356,7 @@
 				3F311D782D88609900F8D803 /* RankingModel.swift in Sources */,
 				3F2B0EBA2D7997D80059AA2B /* MyReviewDetailAPI.swift in Sources */,
 				3F3AE9BF2F23AE600090E1FD /* PersonalPolicyViewModel.swift in Sources */,
+				3FA27ECE2F26864400FF3F2B /* MyReviewDetailViewModel.swift in Sources */,
 				3FC691592D1D53D7004643D2 /* ServiceAPI.swift in Sources */,
 				3F4AB2232D5A0819005D5D91 /* ReviewStarSize.swift in Sources */,
 				3FF1E92C2D67067000A237FA /* UITextView++Extensions.swift in Sources */,
@@ -2323,12 +2364,13 @@
 				3F87423D2D4FC1E3004DF204 /* MyReviewCell.swift in Sources */,
 				3F673C8E2DA437F60080FD23 /* KeychainManager.swift in Sources */,
 				3F27E94E2DACB26B00CD2554 /* GachaResultAPI.swift in Sources */,
+				3F4CA3C12F27A9220024A555 /* ReportReviewViewModel.swift in Sources */,
 				3FEDD4A12CB2B499009617A5 /* UIColor++Extensions.swift in Sources */,
 				3F61DF4F2CB31B2E00A019E8 /* HomeMenuCell.swift in Sources */,
 				3F61DF4B2CB3149600A019E8 /* HomeSection.swift in Sources */,
 				3F0CF25B2E002D5B00998FA9 /* ReportReviewSection.swift in Sources */,
 				3F9A5F442F16344E00AB0576 /* ConsentCollectionViewCell.swift in Sources */,
-				3FB984642D53918F0050D66A /* MyReviewDeleteModalViewController.swift in Sources */,
+				3FB984642D53918F0050D66A /* MyReviewMenuModalViewController.swift in Sources */,
 				3F27E94A2DACB25600CD2554 /* GachaResultModel.swift in Sources */,
 				3F9A5F3A2F16325C00AB0576 /* BaseViewModel.swift in Sources */,
 				3F96BE462DE31D4D009AED6F /* MenuReviewInfoView.swift in Sources */,
@@ -2339,6 +2381,7 @@
 				3F43F0DC2D7838F00018E7E8 /* CafeteriaMyReviewModel.swift in Sources */,
 				3F1BC3182D50D8EE00B153BA /* CafeteriaMyReviewViewController.swift in Sources */,
 				3FB396D42DAE1F8900EF87A8 /* SettingAddress.swift in Sources */,
+				3F4CA3BE2F2785300024A555 /* MyReviewMenuModalViewModel.swift in Sources */,
 				3FADD2222D7DBAF000758B57 /* MyReviewImageDetailPageViewController.swift in Sources */,
 				3FC68D922E0D96E300BCA1B6 /* HomeCafeteriaInfoView.swift in Sources */,
 				3F3D31C32F1E27DE00D7BFD1 /* ItemProbabilityViewController.swift in Sources */,
@@ -2415,6 +2458,7 @@
 				3F47B9E82CD7716C00F8E2CB /* UIImage++Extensions.swift in Sources */,
 				3F311D742D88603B00F8D803 /* RankingAddress.swift in Sources */,
 				3FB76F3A2F23B89F00DD2901 /* NicknameEditViewModel.swift in Sources */,
+				3F5045992F28A324001E9405 /* PlaceholderTextView.swift in Sources */,
 				3F1FAD532D8D681C00570681 /* MenuReviewSortingCell.swift in Sources */,
 				3F1613292CD8584100A30369 /* MenuReviewHeaderView.swift in Sources */,
 				3F362D372DFD7BC8006C8094 /* AlertType.swift in Sources */,
@@ -2804,6 +2848,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3F50459A2F28B34C001E9405 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.2;
+			};
+		};
 		3F5F84292F1E3FE40029F4BE /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
@@ -2831,6 +2883,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3F50459B2F28B34C001E9405 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F50459A2F28B34C001E9405 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
 		3F5F842A2F1E3FE40029F4BE /* RxDataSources */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3F5F84292F1E3FE40029F4BE /* XCRemoteSwiftPackageReference "RxDataSources" */;

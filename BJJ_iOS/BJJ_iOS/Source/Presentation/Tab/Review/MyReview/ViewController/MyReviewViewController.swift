@@ -190,7 +190,8 @@ extension MyReviewViewController: UITableViewDelegate, UITableViewDataSource {
         let cafeteria = getCafeteriaName(for: indexPath.section)
 
         if let review = myReviews[cafeteria]?[indexPath.row] {
-            let myReviewDetailVC = MyReviewDetailViewController(reviewID: review.reviewID)
+            let myReviewDetailViewModel = MyReviewDetailViewModel(isOwned: true)
+            let myReviewDetailVC = MyReviewDetailViewController(viewModel: myReviewDetailViewModel, reviewID: review.reviewID)
 
             myReviewDetailVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(myReviewDetailVC, animated: true)

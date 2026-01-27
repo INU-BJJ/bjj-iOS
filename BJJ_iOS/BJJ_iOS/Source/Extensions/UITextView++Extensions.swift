@@ -13,6 +13,8 @@ extension UITextView {
         self.textColor = .customColor(color)
         self.font = .customFont(font, size)
         self.text = text
+        self.textContainer.lineFragmentPadding = 0
+        self.textContainerInset = .zero
     }
     
     func numberOfLines() -> Int {

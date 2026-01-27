@@ -76,22 +76,45 @@ extension UIViewController {
     }
     
     /// 흰 배경 + 검정 Back 버튼 + More 버튼 Navigation Bar
-    func setBackMoreNaviBar(_ title: String) {
+    func setBackMoreNaviBar(_ title: String, moreAction: (() -> Void)? = nil) {
         let titleLabel = UILabel().then {
             $0.setLabelUI(title, font: .pretendard_bold, size: 18, color: .black)
         }
         
-        let backButton = self.navigationItem.makeImageButtonItem(self, action: #selector(popViewController), imageName: "BlackBackButton")
-        let moreButton = self.navigationItem.makeImageButtonItem(self, action: #selector(showMoreOptions), imageName: "VerticalMoreButton")
+        let backButton = UIButton().then {
+            $0.setImage(UIImage(named: ImageAsset.BlackBackButton.name), for: .normal)
+            $0.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
+        }
+        
+        let moreButton = UIButton().then {
+            $0.setImage(UIImage(named: ImageAsset.VerticalMoreButton.name), for: .normal)
+            if let moreAction {
+                $0.addAction(UIAction { _ in moreAction() }, for: .touchUpInside)
+            }
+        }
         
         self.navigationItem.titleView = titleLabel
-        self.navigationItem.leftBarButtonItem = backButton
-        self.navigationItem.rightBarButtonItem = moreButton
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: moreButton)
         
         let standardAppearance = UINavigationBarAppearance()
         standardAppearance.backgroundColor = .white
         
         self.navigationController?.navigationBar.standardAppearance = standardAppearance
+    }
+    
+    /// x버튼 네비바
+    func setXNaviBar(_ title: String) {
+        let xButton = UIButton().then {
+            $0.setImage(UIImage(named: ImageAsset.blackXButton.name), for: .normal)
+            $0.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
+        }
+        let titleLabel = UILabel().then {
+            $0.setLabelUI(title, font: .pretendard_bold, size: 18, color: .black)
+        }
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: xButton)
+        navigationItem.titleView = titleLabel
     }
     
     /// 마이페이지 네비바
@@ -163,8 +186,9 @@ extension UIViewController {
     }
     
     /// MyReviewDetailVC로 push
-    func presentMyReviewDetailViewController(reviewID: Int) {
-        let myReviewDetailVC = MyReviewDetailViewController(reviewID: reviewID)
+    func presentMyReviewDetailViewController(reviewID: Int, isOwned: Bool) {
+        let myReviewDetailViewModel = MyReviewDetailViewModel(isOwned: isOwned)
+        let myReviewDetailVC = MyReviewDetailViewController(viewModel: myReviewDetailViewModel, reviewID: reviewID)
         myReviewDetailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(myReviewDetailVC, animated: true)
     }
@@ -233,13 +257,6 @@ extension UIViewController {
         self.navigationController?.pushViewController(likedMenuVC, animated: true)
     }
     
-    /// ReportReviewVC로 push
-    func presentReportReviewViewController(reviewID: Int) {
-        let reportReviewVC = ReportReviewViewController(reviewID: reviewID)
-        reportReviewVC.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(reportReviewVC, animated: true)
-    }
-    
     /// ServicePolicyVC로 push
     func pushServicePolicyVC() {
         let servicePolicyVC = ServicePolicyViewController()
@@ -260,6 +277,14 @@ extension UIViewController {
         let bannerVC = BannerViewController(viewModel: bannerViewModel)
         bannerVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(bannerVC, animated: true)
+    }
+    
+    /// ReportReviewVC로 push
+    func pushReportReviewVC(reviewID: Int) {
+        let reportReviewViewModel = ReportReviewViewModel(reviewID: reviewID)
+        let reportReviewVC = ReportReviewViewController(viewModel: reportReviewViewModel)
+        reportReviewVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(reportReviewVC, animated: true)
     }
     
     // MARK: - Modal Present
@@ -291,22 +316,35 @@ extension UIViewController {
         }
     }
     
+    // 기본 Alert (확인/취소)
+    func showAlert(
+        title: String,
+        message: String,
+        cancelTitle: String = "취소",
+        confirmTitle: String = "확인",
+        confirmHandler: @escaping () -> Void
+    ) {
+        let alertController = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel)
+        let confirmAction = UIAlertAction(title: confirmTitle, style: .destructive) { _ in
+            confirmHandler()
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(confirmAction)
+        
+        present(alertController, animated: true)
+    }
+    
     // MARK: - objc Function
     
     /// popVC
     @objc func popViewController() {
         self.navigationController?.popViewController(animated: true)
-    }
-    
-    /// 더보기 버튼
-    @objc func showMoreOptions() {
-        let modalVC = MyReviewDeleteModalViewController()
-        guard let delegateVC = self as? MyReviewDeleteDelegate else { return }
-
-        modalVC.delegate = delegateVC
-        modalVC.modalPresentationStyle = .overCurrentContext
-        
-        present(modalVC, animated: true)
     }
     
     /// 설정 버튼 탭

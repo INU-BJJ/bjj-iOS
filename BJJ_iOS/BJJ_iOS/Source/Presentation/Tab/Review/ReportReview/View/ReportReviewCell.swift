@@ -9,65 +9,61 @@ import UIKit
 import SnapKit
 import Then
 
-final class ReportReviewCell: UITableViewCell, ReuseIdentifying {
+final class ReportReviewCell: BaseTableViewCell<ReportReasonItem> {
     
     // MARK: - UI Components
     
-    private let testReportReasonLabel = UILabel().then {
-        $0.setLabelUI("", font: .pretendard_bold, size: 18, color: .black)
+    private let checkBoxIcon = UIImageView().then {
+        $0.setImage(.checkBox)
     }
     
-    // MARK: - Life Cycle
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        setUI()
-        setAddView()
-        setConstraints()
+    private let reportReasonLabel = UILabel().then {
+        $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    // MARK: - Reset
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        testReportReasonLabel.textColor = .black
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        testReportReasonLabel.textColor = selected ? .customColor(.mainColor) : .black
+        checkBoxIcon.setImage(.checkBox)
+        reportReasonLabel.text = nil
     }
     
     // MARK: - Set UI
     
-    private func setUI() {
-        contentView.backgroundColor = .white
+    override func setUI() {
+        selectionStyle = .none
     }
     
-    // MARK: - Set AddView
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
-            testReportReasonLabel
+            checkBoxIcon,
+            reportReasonLabel
         ].forEach(contentView.addSubview)
     }
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
-        testReportReasonLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
+    override func setConstraints() {
+        checkBoxIcon.snp.makeConstraints {
+            $0.top.leading.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(23)
+            $0.size.equalTo(17)
+        }
+        
+        reportReasonLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalTo(checkBoxIcon.snp.trailing).offset(13)
         }
     }
     
     // MARK: - Configure Cell
-    
-    func configureCell(with reason: ReportReason) {
-        testReportReasonLabel.text = reason.rawValue
+
+    override func configureCell(with data: ReportReasonItem) {
+        reportReasonLabel.text = data.reason.rawValue
+        checkBoxIcon.setImage(data.isSelected ? .smallBorderCheckBox : .checkBox)
     }
 }
