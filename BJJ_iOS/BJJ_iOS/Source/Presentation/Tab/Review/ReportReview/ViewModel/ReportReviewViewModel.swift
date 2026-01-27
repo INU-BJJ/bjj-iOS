@@ -19,6 +19,7 @@ final class ReportReviewViewModel: BaseViewModel {
     
     private let reviewID: Int
     private let reportReasonList = BehaviorRelay(value: ReportReason.allCases.map { ReportReasonItem(reason: $0) })
+    private let otherReasonText = BehaviorRelay<String>(value: "")
     
     // MARK: - Init
     
@@ -30,6 +31,7 @@ final class ReportReviewViewModel: BaseViewModel {
     
     struct Input {
         let itemSelected: Driver<IndexPath>
+        let otherReasonText: Driver<String>
     }
     
     // MARK: - Output
@@ -43,14 +45,20 @@ final class ReportReviewViewModel: BaseViewModel {
     func transform(input: Input) -> Output {
         // 셀 탭 시 해당 인덱스의 isSelected 토글
         input.itemSelected
-            .drive(onNext: { [weak self] indexPath in
-                guard let self = self else { return }
-                var items = self.reportReasonList.value
+            .drive(with: self, onNext: { owner, indexPath in
+                var items = owner.reportReasonList.value
                 items[indexPath.row].isSelected.toggle()
-                self.reportReasonList.accept(items)
+                owner.reportReasonList.accept(items)
             })
             .disposed(by: disposeBag)
         
+        // 기타 사유 텍스트 저장
+        input.otherReasonText
+            .drive(with: self, onNext: { owner, text in
+                owner.otherReasonText.accept(text)
+            })
+            .disposed(by: disposeBag)
+
         return Output(
             reportReasonList: reportReasonList.asDriver()
         )

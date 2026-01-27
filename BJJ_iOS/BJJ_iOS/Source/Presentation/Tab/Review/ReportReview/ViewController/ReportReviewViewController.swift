@@ -15,11 +15,6 @@ final class ReportReviewViewController: BaseViewController {
     
     private let viewModel: ReportReviewViewModel
     
-    // MARK: - Properties
-    
-    private var reportContent: Set<String> = []
-    private let otherPrefix = ReportReason.other.rawValue
-    
     // MARK: - UI Components
     
     private let reportTitleLabel = UILabel().then {
@@ -47,7 +42,6 @@ final class ReportReviewViewController: BaseViewController {
         $0.backgroundColor = .customColor(.mainColor)
         $0.setTitle("신고하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-        $0.addTarget(self, action: #selector(didTapReportReviewButton), for: .touchUpInside)
     }
     
     // MARK: - LifeCycle
@@ -118,7 +112,8 @@ final class ReportReviewViewController: BaseViewController {
     
     override func bind() {
         let input = ReportReviewViewModel.Input(
-            itemSelected: reportTableView.rx.itemSelected.asDriver()
+            itemSelected: reportTableView.rx.itemSelected.asDriver(),
+            otherReasonText: reportOtherReasonTextView.rx.trimmedText
         )
         let output = viewModel.transform(input: input)
         
@@ -131,26 +126,6 @@ final class ReportReviewViewController: BaseViewController {
                 cell.configureCell(with: reportReasonItem)
             }
             .disposed(by: disposeBag)
-        
-//        // reportContent 동기화
-//        output.reportReasonList
-//            .map { items in
-//                Set(items.filter { $0.isSelected }.map { $0.reason.rawValue })
-//            }
-//            .drive(onNext: { [weak self] selectedReasons in
-//                self?.reportContent = selectedReasons
-//                self?.updateOtherTextViewState()
-//            })
-//            .disposed(by: disposeBag)
-    }
-    
-    // MARK: - objc Functions
-    
-    @objc private func didTapReportReviewButton() {
-//        let selectedReasons = viewModel.getSelectedReasons()
-//        let reportContent = ["content": selectedReasons]
-
-//        postReportReview(reviewID: reviewID, reportReasons: reportContent)
     }
     
     // MARK: - Post API
@@ -167,29 +142,5 @@ final class ReportReviewViewController: BaseViewController {
                 print("[Post ReportReviewAPI] Error: \(error.localizedDescription)")
             }
         }
-    }
-    
-    // MARK: - Update OtherTextView State
-    
-    private func updateOtherTextViewState() {
-        let enabled = reportContent.contains { $0.hasPrefix(otherPrefix) }
-        
-        if !enabled { testReportOtherReasonTextView.text = "" }
-        testReportOtherReasonTextView.isEditable = enabled
-        testReportOtherReasonTextView.isSelectable = enabled
-        testReportOtherReasonTextView.backgroundColor = enabled ? UIColor.white : UIColor.customColor(.dropDownGray)
-    }
-}
-
-// MARK: - UITextView Delegate
-
-extension ReportReviewViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        reportContent = reportContent.filter { !$0.hasPrefix(otherPrefix) }
-        
-        let trimmedContent = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
-        let fullContent = trimmedContent.isEmpty ? otherPrefix : "\(otherPrefix): \(trimmedContent)"
-        
-        reportContent.insert(fullContent)
     }
 }
