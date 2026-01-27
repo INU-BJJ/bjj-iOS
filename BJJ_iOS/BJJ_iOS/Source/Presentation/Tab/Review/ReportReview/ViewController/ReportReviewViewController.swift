@@ -141,7 +141,7 @@ final class ReportReviewViewController: BaseViewController {
                     
                 case .failure(let error):
                     // 신고 실패 시 토스트 메시지 띄움
-                    owner.presentAlertViewController(alertType: .failure, title: "신고 요청에 실패했습니다. 다시 시도해주세요.")
+                    owner.presentAlertViewController(alertType: .failure, title: error.localizedDescription)
                 }
             })
             .disposed(by: disposeBag)
