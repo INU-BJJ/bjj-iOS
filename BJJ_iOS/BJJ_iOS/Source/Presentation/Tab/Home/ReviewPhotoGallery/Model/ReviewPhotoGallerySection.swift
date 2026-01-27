@@ -14,5 +14,5 @@ enum ReviewPhotoGallerySection: Hashable {
 }
 
 enum ReviewPhotoGalleryItem: Hashable {
-    case photoURL(String)
+    case photo(reviewID: Int, reviewImage: String)
 }

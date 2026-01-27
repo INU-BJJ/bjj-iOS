@@ -15,13 +15,12 @@ final class MyReviewDetailViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
     
     // MARK: - Properties
-    
-    let isOwned: Bool
-    
+
+    var isOwned: Bool = false
+
     // MARK: - Init
-    
-    init(isOwned: Bool) {
-        self.isOwned = isOwned
+
+    init() {
     }
     
     // MARK: - Input

@@ -129,11 +129,11 @@ final class ReviewPhotoGalleryViewController: UIViewController {
                 
                 switch result {
                 case .success(let responseData):
-                    let reviewPhotos = responseData.reviewImageDetailList.map { $0.reviewImage }
-                    
+                    let reviewImages = responseData.reviewImageDetailList
+
                     DispatchQueue.main.async {
                         self.isLastPage = responseData.isLastPage
-                        self.updateSnapshot(forSection: .reviewPhotos, withItems: reviewPhotos)
+                        self.updateSnapshot(forSection: .reviewPhotos, withItems: reviewImages)
                     }
                     
                 case .failure(let error):
@@ -191,8 +191,8 @@ final class ReviewPhotoGalleryViewController: UIViewController {
             }
             
             switch item {
-            case .photoURL(let photoURL):
-                cell.configureCell(with: photoURL)
+            case .photo(_, let reviewImage):
+                cell.configureCell(with: reviewImage)
             }
             
             return cell
@@ -204,12 +204,12 @@ final class ReviewPhotoGalleryViewController: UIViewController {
     }
     
     // MARK: - Update Snapshot
-    
-    private func updateSnapshot(forSection section: ReviewPhotoGallerySection, withItems reviewPhotos: [String]) {
+
+    private func updateSnapshot(forSection section: ReviewPhotoGallerySection, withItems reviewImages: [MenuDetailImage]) {
         guard let dataSource = self.dataSource else { return }
         var snapshot = dataSource.snapshot()
-        let items = reviewPhotos.map { ReviewPhotoGalleryItem.photoURL($0) }
-        
+        let items = reviewImages.map { ReviewPhotoGalleryItem.photo(reviewID: $0.reviewID, reviewImage: $0.reviewImage) }
+
         snapshot.appendItems(items, toSection: section)
         dataSource.apply(snapshot, animatingDifferences: false)
     }
@@ -223,17 +223,26 @@ extension ReviewPhotoGalleryViewController: UICollectionViewDelegate {
             // 마지막 2줄이 화면에 나타날 때 다음 페이지 이미지 로드
             let triggerIndex = dataSource?.snapshot().numberOfItems ?? 0 - (self.columnCount * 2)
             let needsNextPage = indexPath.item >= max(0, triggerIndex)
-            
+
             if needsNextPage && canFetchNextPage {
                 lastHeightUpdateTime = Date()
                 currentPageNumber += 1
-                
+
                 fetchReviewPhotos(
                     menuPairID: menuPairID,
                     pageNumber: currentPageNumber,
                     pageSize: pageSize
                 )
             }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let item = dataSource?.itemIdentifier(for: indexPath) else { return }
+
+        switch item {
+        case .photo(let reviewID, _):
+            presentMyReviewDetailViewController(reviewID: reviewID)
+        }
     }
 }
 
