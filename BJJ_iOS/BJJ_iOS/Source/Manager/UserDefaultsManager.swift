@@ -13,6 +13,7 @@ final class UserDefaultsManager {
 
     enum UserDefaultsKey: String {
         case didRequestNotificationPermission = "DidRequestNotificationPermission"
+        case fcmToken = "FCMToken"
     }
     
     // MARK: - Init
@@ -30,6 +31,10 @@ final class UserDefaultsManager {
     
     func readBool(_ key: UserDefaultsKey) -> Bool {
         return UserDefaults.standard.bool(forKey: key.rawValue)
+    }
+    
+    func readString(_ key: UserDefaultsKey) -> String? {
+        return UserDefaults.standard.string(forKey: key.rawValue)
     }
     
     // MARK: - Delete
