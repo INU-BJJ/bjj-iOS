@@ -54,7 +54,7 @@ final class BannerViewController: BaseViewController {
     override func setConstraints() {
         bannerWebView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.horizontalEdges.equalToSuperview().inset(18)
+            $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
     }
