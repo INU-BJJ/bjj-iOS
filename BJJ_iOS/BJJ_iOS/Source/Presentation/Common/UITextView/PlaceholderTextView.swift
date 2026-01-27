@@ -50,8 +50,8 @@ final class PlaceholderTextView: BaseView {
     init(
         placeholder: String,
         font: Fonts = .pretendard_medium,
-        fontSize: CGFloat = 14,
-        cornerRadius: CGFloat = 8,
+        fontSize: CGFloat = 13,
+        cornerRadius: CGFloat = 4,
         maxLength: Int? = nil,
         hasIndicator: Bool = false
     ) {
