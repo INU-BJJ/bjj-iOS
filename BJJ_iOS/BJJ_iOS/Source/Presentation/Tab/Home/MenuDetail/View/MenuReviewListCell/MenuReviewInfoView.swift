@@ -37,7 +37,7 @@ final class MenuReviewInfoView: UIView {
         $0.setLabelUI("", font: .pretendard, size: 13, color: .darkGray)
     }
     
-    private lazy var reviewLikeButton = UIButton().then {
+    lazy var reviewLikeButton = UIButton().then {
         $0.setImage(UIImage(named: "Like")?.resize(to: CGSize(width: 17, height: 17)), for: .normal)
         $0.addTarget(self, action: #selector(didTapReviewLikeButton), for: .touchUpInside)
     }
