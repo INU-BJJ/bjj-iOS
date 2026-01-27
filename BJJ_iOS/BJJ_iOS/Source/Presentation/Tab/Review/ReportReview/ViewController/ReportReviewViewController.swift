@@ -37,15 +37,11 @@ final class ReportReviewViewController: BaseViewController {
         $0.allowsMultipleSelection = true
     }
     
-    private lazy var testReportOtherReasonTextView = UITextView().then {
-        $0.setTextViewUI("", font: .pretendard_bold, size: 18, color: .black)
-        $0.layer.borderColor = UIColor.customColor(.midGray).cgColor
-        $0.layer.borderWidth = 1
-        $0.isEditable = false
-        $0.isSelectable = false
-        $0.backgroundColor = .customColor(.dropDownGray)
-        $0.delegate = self
-    }
+    private lazy var reportOtherReasonTextView = PlaceholderTextView(
+        placeholder: "신고하신 이유를 적어주세요.",
+        maxLength: 500,
+        hasIndicator: true
+    )
     
     private lazy var testReportReviewButton = UIButton().then {
         $0.backgroundColor = .customColor(.mainColor)
@@ -80,7 +76,7 @@ final class ReportReviewViewController: BaseViewController {
             reportTitleLabel,
             reportGuideLabel,
             reportTableView,
-            testReportOtherReasonTextView,
+            reportOtherReasonTextView,
             testReportReviewButton
         ].forEach(view.addSubview)
     }
@@ -102,10 +98,10 @@ final class ReportReviewViewController: BaseViewController {
             $0.top.equalTo(reportGuideLabel.snp.bottom).offset(26)
             $0.leading.equalToSuperview().offset(27)
             $0.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalTo(testReportOtherReasonTextView.snp.top).offset(-10)
+            $0.bottom.equalTo(reportOtherReasonTextView.snp.top).offset(-10)
         }
         
-        testReportOtherReasonTextView.snp.makeConstraints {
+        reportOtherReasonTextView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.height.equalTo(158)
             $0.bottom.equalTo(testReportReviewButton.snp.top).offset(-53)
