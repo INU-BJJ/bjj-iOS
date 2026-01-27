@@ -430,6 +430,7 @@
 		3FCA25432D818E1B00BF56C2 /* MenuRankingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRankingViewController.swift; sourceTree = "<group>"; };
 		3FCA676A2CEF16C400E38AC6 /* MenuReviewSeparatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReviewSeparatingView.swift; sourceTree = "<group>"; };
 		3FCAD7832DCC85A100A008CE /* MyReviewDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewDetailModel.swift; sourceTree = "<group>"; };
+		3FCAEB7D2F28FA85000FFD91 /* BJJ_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BJJ_iOS.entitlements; sourceTree = "<group>"; };
 		3FCC9A282F17181F004717AA /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		3FCC9A2D2F171F36004717AA /* SocialLoginType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginType.swift; sourceTree = "<group>"; };
 		3FCF9B072D803C8E00FB8252 /* ReviewWriteCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -755,6 +756,7 @@
 		3F25B3E72CB282D7005C0907 /* BJJ_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				3FCAEB7D2F28FA85000FFD91 /* BJJ_iOS.entitlements */,
 				3F25B4192CB283E7005C0907 /* Source */,
 				3F25B4182CB283DD005C0907 /* Resource */,
 			);
@@ -2675,9 +2677,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BJJ_iOS/BJJ_iOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3S2S9T38QB;
+				DEVELOPMENT_TEAM = W574M8SSUP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BJJ_iOS/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -2689,7 +2692,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.justdinn.BJJ-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Hyotaek.bjj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -2708,9 +2711,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BJJ_iOS/BJJ_iOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3S2S9T38QB;
+				DEVELOPMENT_TEAM = W574M8SSUP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BJJ_iOS/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -2722,7 +2726,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.justdinn.BJJ-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Hyotaek.bjj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

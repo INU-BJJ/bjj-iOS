@@ -109,6 +109,9 @@ final class MyReviewDetailViewController: BaseViewController {
         MyReviewDetailAPI.fetchMyReviewDetail(reviewID: reviewID) { result in
             switch result {
             case .success(let myDetailReview):
+                // ViewModel의 isOwned 업데이트
+                self.viewModel.isOwned = myDetailReview.isOwned
+
                 self.myReviewData = MyReviewDetailSection(
                                         reviewID: myDetailReview.reviewID,
                                         reviewComment: myDetailReview.reviewComment,
@@ -128,7 +131,7 @@ final class MyReviewDetailViewController: BaseViewController {
                                         isLiked: myDetailReview.isLiked
                                     )
                 self.configureMyReviewDetailVC()
-                
+
             case .failure(let error):
                 self.presentAlertViewController(alertType: .failure, title: error.localizedDescription)
             }
