@@ -12,7 +12,7 @@ final class UserDefaultsManager {
     // MARK: - Key
 
     enum UserDefaultsKey: String {
-        case hasRequestedNotificationPermission = "HasRequestedNotificationPermission"
+        case didRequestNotificationPermission = "DidRequestNotificationPermission"
     }
     
     // MARK: - Init

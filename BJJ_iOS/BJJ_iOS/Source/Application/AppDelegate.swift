@@ -29,26 +29,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UNUserNotificationCenter.current().delegate = self
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         
-        // TODO: 처음 권한 요청인지 확인
-        
+        // 이전에 권한을 요청했는지 확인
+        let didRequestBefore = UserDefaultsManager.shared.readBool(.didRequestNotificationPermission)
+
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions
         ) { granted, _ in
-            // TODO: 권한 상태 저장
+            // 권한 요청 완료 후 상태 저장
+            UserDefaultsManager.shared.save(value: true, key: .didRequestNotificationPermission)
             
             // 권한 허용 시에만 APNs 등록
             if granted {
-                application.registerForRemoteNotifications()
+                DispatchQueue.main.async {
+                    application.registerForRemoteNotifications()
+                }
+            } else if !didRequestBefore {
+                // 처음 권한 요청 시 거부한 경우에만 alert 표시
+                DispatchQueue.main.async {
+                    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                       let rootVC = windowScene.windows.first?.rootViewController {
+                        rootVC.showAlert(title: "알림 수신 거부 처리 결과", message: "푸시 알림 수신을 원하시면 [설정] > [앱] > [밥점줘]에서 알림을 허용해주세요.")
+                    }
+                }
             }
-//            else if isFirstTimeRequest {
-//                // 처음 권한 요청 시 거부한 경우에만 alert 표시
-//                DispatchQueue.main.async {
-//                    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-//                       let rootVC = windowScene.windows.first?.rootViewController {
-//                        rootVC.showAlert(title: "알림 수신 거부 처리 결과", message: "푸시 알림 수신을 원하시면 [설정] > [앱] > [밴더]에서 알림을 허용해주세요.")
-//                    }
-//                }
-//            }
         }
         
         // SDWebImageSVGCoder 설정
