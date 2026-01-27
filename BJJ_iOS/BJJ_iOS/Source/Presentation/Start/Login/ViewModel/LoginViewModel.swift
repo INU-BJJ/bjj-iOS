@@ -116,6 +116,11 @@ final class LoginViewModel: BaseViewModel {
         let navigateToTabBar = loginCase
             .do(onNext: { token in
                 KeychainManager.create(value: token, key: .accessToken)
+                
+                // 로그인 성공 시 저장된 FCM 토큰을 서버에 전송
+                if let fcmToken = UserDefaultsManager.shared.readString(.fcmToken) {
+                    FCMAPI.registerFCMToken(fcmToken: fcmToken) { _ in }
+                }
             })
             .map { _ in }
 

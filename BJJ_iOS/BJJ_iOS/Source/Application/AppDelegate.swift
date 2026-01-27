@@ -123,6 +123,15 @@ extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         guard let fcmToken = fcmToken else { return }
         
-        // 서버에 FCM 토큰을 전송 로직 추가
+        // FCM 토큰을 UserDefaults에 저장
+        UserDefaultsManager.shared.save(value: fcmToken, key: .fcmToken)
+        
+        // accessToken 또는 tempToken이 있는지 확인
+        let hasToken = KeychainManager.read(key: .accessToken) != nil
+        
+        if hasToken {
+            // 서버에 FCM 토큰 등록
+            FCMAPI.registerFCMToken(fcmToken: fcmToken) { _ in }
+        }
     }
 }
