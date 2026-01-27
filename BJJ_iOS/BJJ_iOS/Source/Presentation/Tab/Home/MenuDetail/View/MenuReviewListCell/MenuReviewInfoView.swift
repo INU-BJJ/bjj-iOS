@@ -18,6 +18,7 @@ final class MenuReviewInfoView: UIView {
     private var isOwned = false
     private var reviewLikedCount = 0
     var onLikeToggled: ((Bool) -> Void)?
+    var onShowOwnReviewAlert: (() -> Void)?
     
     // MARK: - UI Components
     
@@ -178,8 +179,7 @@ final class MenuReviewInfoView: UIView {
             }
             onLikeToggled?(isReviewLiked)
         } else {
-            // TODO: 실패 UI 띄우기
-            print("[MenuReviewInfoView] Error: 자기 리뷰 좋아요 안됨")
+            onShowOwnReviewAlert?()
         }
     }
 }

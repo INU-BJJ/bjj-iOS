@@ -40,6 +40,10 @@ final class AlertViewController: BaseViewController {
         $0.setCornerRadius(radius: 10)
         $0.backgroundColor = .white
         $0.textAlignment = .center
+        $0.numberOfLines = 0
+        
+        
+        $0.setBorder()
     }
     
     // MARK: - LifeCycle
