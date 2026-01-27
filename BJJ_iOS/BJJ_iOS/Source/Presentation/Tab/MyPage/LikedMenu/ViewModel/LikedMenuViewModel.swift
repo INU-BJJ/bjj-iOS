@@ -53,9 +53,9 @@ final class LikedMenuViewModel: BaseViewModel {
                                 })
                                 .disposed(by: self.disposeBag)
 
-                        case .failure:
+                        case .failure(let error):
                             // 좋아요 토글 실패 시 에러 메시지 방출
-                            errorMessageRelay.accept("좋아요 토글에 실패했습니다.\n다시 시도해주세요.")
+                            errorMessageRelay.accept(error.localizedDescription)
                             observer.onNext([])
                         }
                     }

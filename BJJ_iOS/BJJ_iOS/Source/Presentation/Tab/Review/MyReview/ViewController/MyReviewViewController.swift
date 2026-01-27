@@ -128,8 +128,7 @@ final class MyReviewViewController: UIViewController {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    // 에러 처리 (필요 시 UI에 에러 메시지 표시 가능)
-                    print("Error fetching menu data: \(error.localizedDescription)")
+                    self.presentAlertViewController(alertType: .failure, title: error.localizedDescription)
                 }
             }
         }

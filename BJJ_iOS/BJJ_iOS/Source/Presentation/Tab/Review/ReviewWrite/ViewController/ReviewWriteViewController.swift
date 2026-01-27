@@ -193,6 +193,8 @@ final class ReviewWriteViewController: UIViewController {
     
     private func fetchMenuList(cafeteriaName: String, completion: @escaping ([ReviewWriteSection]) -> Void) {
         ReviewWriteAPI.fetchMenuList(cafeteriaName: cafeteriaName) { [weak self] result in
+            guard let self else { return }
+            
             switch result {
             case .success(let reviewMenuInfos):
                 let menuData = reviewMenuInfos.map { menu in
@@ -204,7 +206,7 @@ final class ReviewWriteViewController: UIViewController {
                 completion(menuData)
                 
             case .failure(let error):
-                print("Error fetching menu data: \(error.localizedDescription)")
+                presentAlertViewController(alertType: .failure, title: error.localizedDescription)
             }
         }
     }

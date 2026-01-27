@@ -302,7 +302,7 @@ extension UIViewController {
     func presentAlertViewController(
         alertType: AlertType,
         title: String,
-        duration: TimeInterval = 0.5,
+        duration: TimeInterval = 1.0,
         completion: (() -> Void)? = nil
     ) {
         let alertVC = AlertViewController(alertType: alertType, text: title)

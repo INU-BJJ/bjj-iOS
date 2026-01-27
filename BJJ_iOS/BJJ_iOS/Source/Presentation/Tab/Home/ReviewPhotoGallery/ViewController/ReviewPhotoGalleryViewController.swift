@@ -140,7 +140,7 @@ final class ReviewPhotoGalleryViewController: UIViewController {
                     }
                     
                 case .failure(let error):
-                    print("[ReviewPhotoGallery] Error: \(error.localizedDescription)")
+                    self.presentAlertViewController(alertType: .failure, title: error.localizedDescription)
                 }
             }
     }

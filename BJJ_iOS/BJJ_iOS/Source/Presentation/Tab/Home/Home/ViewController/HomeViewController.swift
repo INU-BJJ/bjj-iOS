@@ -353,8 +353,7 @@ final class HomeViewController: BaseViewController {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    // 에러 처리 (필요 시 UI에 에러 메시지 표시 가능)
-                    print("Error fetching menu data: \(error.localizedDescription)")
+                    self.presentAlertViewController(alertType: .failure, title: error.localizedDescription)
                 }
             }
         }
@@ -377,7 +376,7 @@ final class HomeViewController: BaseViewController {
                 completion()
                 
             case .failure(let error):
-                print("[Home fetchCafeteriaInfo Error]: \(error.localizedDescription)")
+                self.presentAlertViewController(alertType: .failure, title: error.localizedDescription)
             }
         }
     }

@@ -220,10 +220,10 @@ final class NicknameEditViewController: BaseViewController {
                         owner.popViewController()
                     }
                     
-                case .failure:
+                case .failure(let error):
                     owner.presentAlertViewController(
                         alertType: .failure,
-                        title: "닉네임 변경에 실패했습니다.\n다시 시도해주세요."
+                        title: error.localizedDescription
                     )
                 }
             })
