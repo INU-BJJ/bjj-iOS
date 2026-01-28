@@ -12,6 +12,7 @@ enum SettingAddress {
     case fetchLikedMenu
     case fetchServicePolicy
     case fetchPersonalPolicy
+    case patchNotifySetting
     
     var url: String {
         switch self {
@@ -23,6 +24,8 @@ enum SettingAddress {
             return "/policy/terms"
         case .fetchPersonalPolicy:
             return "/policy/privacy"
+        case .patchNotifySetting:
+            return "members/notification"
         }
     }
 }

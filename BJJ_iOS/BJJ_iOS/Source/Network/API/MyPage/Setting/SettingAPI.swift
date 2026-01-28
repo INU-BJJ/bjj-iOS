@@ -8,6 +8,7 @@
 import Foundation
 
 final class SettingAPI {
+    
     /// 닉네임 변경
     static func patchNickname(nickname: String, completion: @escaping (Result<NicknameEditModel, Error>) -> Void) {
         networkRequest(
@@ -47,6 +48,17 @@ final class SettingAPI {
             urlStr: SettingAddress.fetchPersonalPolicy.url,
             method: .get,
             responseType: .html,
+            completion: completion
+        )
+    }
+    
+    /// 알림 설정 변경
+    static func patchNotifySetting(completion: @escaping (Result<Bool, Error>) -> Void) {
+        networkRequest(
+            urlStr: SettingAddress.patchNotifySetting.url,
+            method: .patch,
+            data: nil,
+            model: Bool.self,
             completion: completion
         )
     }
