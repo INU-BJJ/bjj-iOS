@@ -21,6 +21,9 @@ final class LikedMenuViewController: BaseViewController {
     
     private let fetchLikedMenuTrigger = PublishRelay<Void>()
     private let toggleMenuLikeTrigger = PublishRelay<Int>()
+    private let viewWillAppearTrigger = PublishRelay<Void>()
+    private let sceneDidBecomeActiveTrigger = PublishRelay<Void>()
+    private let likeNotifySwitchTappedTrigger = PublishRelay<Bool>()
     
     // MARK: - UI Components
     
@@ -30,6 +33,11 @@ final class LikedMenuViewController: BaseViewController {
     
     private let likeNotifySwitch = UISwitch().then {
         $0.onTintColor = .customColor(.mainColor)
+    }
+    
+    private let overlaySwitchButton = UIButton().then {
+        $0.backgroundColor = .clear
+        $0.isHidden = true
     }
     
     private lazy var likedMenuCollectionView = UICollectionView(
@@ -46,6 +54,25 @@ final class LikedMenuViewController: BaseViewController {
         
         // 좋아요한 메뉴 조회
         fetchLikedMenuTrigger.accept(())
+        
+        // sceneDidBecomeActive 알림 옵저버 등록
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(sceneDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // 화면이 나타날 때마다 알림 권한 체크 및 스위치 상태 로드
+        viewWillAppearTrigger.accept(())
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Set UI
@@ -61,6 +88,7 @@ final class LikedMenuViewController: BaseViewController {
         [
             likedMenuNotifiLabel,
             likeNotifySwitch,
+            overlaySwitchButton,
             likedMenuCollectionView
         ].forEach(view.addSubview)
     }
@@ -77,6 +105,10 @@ final class LikedMenuViewController: BaseViewController {
             $0.trailing.equalToSuperview().inset(22)
         }
         
+        overlaySwitchButton.snp.makeConstraints {
+            $0.edges.equalTo(likeNotifySwitch)
+        }
+        
         likedMenuCollectionView.snp.makeConstraints {
             $0.top.equalTo(likeNotifySwitch.snp.bottom).offset(24)
             $0.horizontalEdges.equalToSuperview().inset(15)
@@ -89,7 +121,10 @@ final class LikedMenuViewController: BaseViewController {
     override func bind() {
         let input = LikedMenuViewModel.Input(
             fetchLikedMenuTrigger: fetchLikedMenuTrigger.asObservable(),
-            toggleMenuLike: toggleMenuLikeTrigger.asObservable()
+            toggleMenuLike: toggleMenuLikeTrigger.asObservable(),
+            viewWillAppear: viewWillAppearTrigger.asObservable(),
+            sceneDidBecomeActive: sceneDidBecomeActiveTrigger.asObservable(),
+            likeNotifySwitchTapped: likeNotifySwitchTappedTrigger.asObservable()
         )
         let output = viewModel.transform(input: input)
         
@@ -121,6 +156,58 @@ final class LikedMenuViewController: BaseViewController {
                 )
             })
             .disposed(by: disposeBag)
+        
+        // 스위치 상태 업데이트
+        output.likeNotifySwitchState
+            .bind(to: likeNotifySwitch.rx.isOn)
+            .disposed(by: disposeBag)
+        
+        // 알림 권한 상태에 따른 스위치 및 버튼 제어
+        output.isNotificationAuthorized
+            .observe(on: MainScheduler.asyncInstance)
+            .bind(with: self, onNext: { owner, isAuthorized in
+                if isAuthorized {
+                    // 알림 권한이 있을 때: 스위치 활성화, 오버레이 버튼 숨김
+                    owner.likeNotifySwitch.isEnabled = true
+                    owner.overlaySwitchButton.isHidden = true
+                } else {
+                    // 알림 권한이 없을 때: 스위치 비활성화, 오버레이 버튼 표시
+                    owner.likeNotifySwitch.isEnabled = false
+                    owner.overlaySwitchButton.isHidden = false
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        // 오버레이 버튼 탭 (알림 권한이 없을 때만 표시됨)
+        overlaySwitchButton.rx.tap
+            .bind(with: self, onNext: { owner, _ in
+                owner.showAlert(
+                    title: "알림 설정",
+                    message: "기기의 알림 설정이 꺼져있어요!\n[설정] > [앱] > [밥점줘]에서\n설정을 변경해주세요.",
+                    cancelTitle: "취소",
+                    confirmTitle: "설정 변경하기"
+                ) {
+                    // iOS 설정 앱으로 이동
+                    if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(settingsURL)
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        // 스위치 탭 이벤트
+        likeNotifySwitch.rx.controlEvent(.valueChanged)
+            .map { [weak self] _ in
+                self?.likeNotifySwitch.isOn ?? false
+            }
+            .bind(to: likeNotifySwitchTappedTrigger)
+            .disposed(by: disposeBag)
+    }
+
+    // MARK: - Selector Methods
+    
+    @objc private func sceneDidBecomeActive() {
+        sceneDidBecomeActiveTrigger.accept(())
     }
     
     // MARK: - Create Layout

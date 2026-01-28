@@ -7,6 +7,7 @@
 
 import UIKit
 import PretendardKit
+import UserNotifications
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -32,8 +33,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        // 알림 권한 상태 확인 및 FCM 토큰 재등록
+        checkNotificationStatusAndRegisterFCMToken()
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
@@ -67,6 +68,47 @@ extension SceneDelegate {
             let loginVC = LoginViewController()
             let navigationController = UINavigationController(rootViewController: loginVC)
             window?.rootViewController = navigationController
+        }
+    }
+    
+    /// 알림 권한 상태 확인 및 FCM 토큰 재등록
+    private func checkNotificationStatusAndRegisterFCMToken() {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            
+            // 알림 권한이 허용되지 않은 경우 early return
+            guard settings.authorizationStatus == .authorized else { return }
+            
+            // APNs 재등록 (권한이 허용된 상태이므로 안전)
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+            
+            // 로그인 상태 확인
+            guard let accessToken = KeychainManager.read(key: .accessToken), !accessToken.isEmpty else { return }
+            
+            // FCM 토큰이 있는 경우 서버에 등록 시도
+            guard let fcmToken = UserDefaultsManager.shared.readString(.fcmToken) else { return }
+            
+            // 마지막 업로드 날짜 확인 (24시간마다 한 번씩만 업로드)
+            let lastUploadDate = UserDefaultsManager.shared.readDate(.lastFCMTokenUploadDate)
+            let shouldUpload: Bool
+            
+            if let lastDate = lastUploadDate {
+                let hoursSinceLastUpload = Date().timeIntervalSince(lastDate) / 3600
+                shouldUpload = hoursSinceLastUpload >= 24
+            } else {
+                // 업로드 기록이 없는 경우
+                shouldUpload = true
+            }
+            
+            if shouldUpload {
+                FCMAPI.registerFCMToken(fcmToken: fcmToken) { result in
+                    if case .success = result {
+                        // 업로드 성공 시 현재 날짜 저장
+                        UserDefaultsManager.shared.save(value: Date(), key: .lastFCMTokenUploadDate)
+                    }
+                }
+            }
         }
     }
 }
