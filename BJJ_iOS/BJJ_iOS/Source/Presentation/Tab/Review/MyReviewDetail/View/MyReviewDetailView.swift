@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import SDWebImage
 
 protocol MyReviewDetailDelegate: AnyObject {
     func didTapReviewImage(with reviewImages: [String])
@@ -243,6 +244,13 @@ final class MyReviewDetailView: UIView {
     // MARK: - Configure Cell
     
     func configureMyDatailReview(with myReviewInfo: MyReviewDetailSection) {
+        let profileImageURL = URL(string: "\(baseURL.characterImageURL)icon_\(myReviewInfo.memberImage ?? "").svg")
+        
+        profileImage.sd_setImage(
+            with: profileImageURL,
+            placeholderImage: nil,
+            options: [.retryFailed, .continueInBackground]
+        )
         nicknameLabel.text = myReviewInfo.memberNickname
         reviewRatingView.configureReviewStar(reviewRating: myReviewInfo.reviewRating, type: .small)
         reviewDateLabel.text = myReviewInfo.reviewCreatedDate
