@@ -80,7 +80,27 @@ final class MyReviewDetailViewController: BaseViewController {
         myReviewStackView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(111)
             $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+    }
+    
+    // MARK: - Bind
+    
+    override func bind() {
+        let input = MyReviewDetailViewModel.Input(
+            reviewLikeButtonTapped: myReviewStackView.reviewLikeButton.rx.tap.asObservable()
+        )
+        let output = viewModel.transform(input: input)
+        
+        // 본인 리뷰일 때 좋아요 버튼 탭 시 알림 표시
+        output.showOwnReviewAlert
+            .drive(with: self) { owner, _ in
+                owner.presentAlertViewController(
+                    alertType: .failure,
+                    title: "자신의 리뷰에는 좋아요를 누를 수 없습니다."
+                )
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Configure MyReviewDetailVC
@@ -109,8 +129,8 @@ final class MyReviewDetailViewController: BaseViewController {
         MyReviewDetailAPI.fetchMyReviewDetail(reviewID: reviewID) { result in
             switch result {
             case .success(let myDetailReview):
-                // ViewModel의 isOwned 업데이트
-                self.viewModel.isOwned = myDetailReview.isOwned
+                // ViewModel의 isOwned 업데이트 (Relay를 통해)
+                self.viewModel.updateIsOwned(myDetailReview.isOwned)
 
                 self.myReviewData = MyReviewDetailSection(
                                         reviewID: myDetailReview.reviewID,

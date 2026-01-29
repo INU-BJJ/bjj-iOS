@@ -21,12 +21,20 @@ final class MyReviewDetailView: UIView {
     private var reviewImages: [String] = []
     private var hashTags: [String] = []
     
+    private var isReviewExpanded = false
+    private var isOver3LineReview = false
+    
     // MARK: - UI Components
+    
+    private let reviewScrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+        $0.alwaysBounceVertical = true
+    }
     
     private let myReviewStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 12
-        $0.alignment = .leading
+        $0.alignment = .trailing
     }
     
     private let myInfoTotalView = UIView()
@@ -57,7 +65,7 @@ final class MyReviewDetailView: UIView {
         $0.setLabelUI("", font: .pretendard, size: 13, color: .darkGray)
     }
     
-    private let reviewLikeButton = UIButton().then {
+    let reviewLikeButton = UIButton().then {
         $0.setImage(UIImage(named: "Like")?.resize(to: CGSize(width: 17, height: 17)), for: .normal)
     }
     
@@ -67,8 +75,15 @@ final class MyReviewDetailView: UIView {
     
     private let reviewCommentLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
-        $0.numberOfLines = 0
-        $0.lineBreakMode = .byWordWrapping
+        $0.numberOfLines = 3
+        $0.lineBreakMode = .byTruncatingTail
+    }
+    
+    private lazy var reviewTextMoreButton = UIButton().then {
+        $0.setButton(title: "더보기", font: .pretendard_medium, size: 13, color: .customColor(.midGray))
+        $0.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        $0.contentHorizontalAlignment = .trailing
+        $0.addTarget(self, action: #selector(didTapReviewTextMoreButton), for: .touchUpInside)
     }
     
     private lazy var reviewImageCollectionView = UICollectionView(
@@ -117,12 +132,17 @@ final class MyReviewDetailView: UIView {
     
     private func setAddView() {
         [
-            myReviewStackView
+            reviewScrollView
         ].forEach(addSubview)
+        
+        [
+            myReviewStackView
+        ].forEach(reviewScrollView.addSubview)
         
         [
             myInfoTotalView,
             reviewCommentLabel,
+            reviewTextMoreButton,
             reviewImageCollectionView,
             reviewHashTagCollectionView
         ].forEach(myReviewStackView.addArrangedSubview)
@@ -152,13 +172,19 @@ final class MyReviewDetailView: UIView {
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        myReviewStackView.snp.makeConstraints {
+        reviewScrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        myReviewStackView.snp.makeConstraints {
+            $0.edges.equalTo(reviewScrollView.contentLayoutGuide)
+            $0.width.equalTo(reviewScrollView.snp.width)
         }
         
         myInfoTotalView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(41)
         }
         
         profileImage.snp.makeConstraints {
@@ -199,6 +225,10 @@ final class MyReviewDetailView: UIView {
             $0.centerX.equalToSuperview()
         }
         
+        reviewCommentLabel.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview()
+        }
+        
         reviewImageCollectionView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(293)
@@ -221,6 +251,12 @@ final class MyReviewDetailView: UIView {
         reviewImages = myReviewInfo.reviewImages
         hashTags = [myReviewInfo.mainMenuName, myReviewInfo.subMenuName]
         
+        // 3줄 초과 여부 확인
+        if !isOver3LineReview {
+            isOver3LineReview = checkIfTextExceedsLines(text: myReviewInfo.reviewComment, lines: 3)
+        }
+        setReviewMoreButtonVisibility()
+        
         reviewImageCollectionView.reloadData()
         reviewHashTagCollectionView.reloadData()
         
@@ -232,6 +268,20 @@ final class MyReviewDetailView: UIView {
                 myReviewStackView.addArrangedSubview(reviewImageCollectionView)
             }
         }
+    }
+    
+    // UILabel의 텍스트가 지정된 줄 수를 초과하는지 확인
+    private func checkIfTextExceedsLines(text: String, lines: Int) -> Bool {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = reviewCommentLabel.font
+        label.text = text
+
+        let maxSize = CGSize(width: reviewCommentLabel.frame.width, height: .greatestFiniteMagnitude)
+        let textHeight = label.sizeThatFits(maxSize).height
+        let lineHeight = label.font.lineHeight
+
+        return textHeight > lineHeight * CGFloat(lines)
     }
     
     // MARK: - Create Layout
@@ -344,5 +394,39 @@ extension MyReviewDetailView: UICollectionViewDataSource, UICollectionViewDelega
         if collectionView == reviewImageCollectionView {
             delegate?.didTapReviewImage(with: reviewImages)
         }
+    }
+}
+
+// MARK: - Review Text More Button Action
+
+extension MyReviewDetailView {
+    @objc private func didTapReviewTextMoreButton() {
+        isReviewExpanded.toggle()
+
+        reviewTextMoreButton.setButton(
+            title: isReviewExpanded ? "접기" : "더보기",
+            font: .pretendard_medium,
+            size: 13,
+            color: .customColor(.midGray)
+        )
+        reviewCommentLabel.numberOfLines = isReviewExpanded ? 0 : 3
+        reviewCommentLabel.lineBreakMode = isReviewExpanded ? .byWordWrapping : .byTruncatingTail
+
+        UIView.animate(withDuration: 0.3) {
+            self.layoutIfNeeded()
+        }
+    }
+}
+
+// MARK: - Update ReviewMoreButton Hidden
+
+extension MyReviewDetailView {
+    private func setReviewMoreButtonVisibility() {
+        reviewCommentLabel.layoutIfNeeded()
+        reviewTextMoreButton.isHidden = !isOver3LineReview
+        myReviewStackView.setCustomSpacing(
+            reviewTextMoreButton.isHidden ? 12 : 0,
+            after: reviewCommentLabel
+        )
     }
 }
