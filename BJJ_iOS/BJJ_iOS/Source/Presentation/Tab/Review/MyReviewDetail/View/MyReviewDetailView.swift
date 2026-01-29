@@ -23,6 +23,11 @@ final class MyReviewDetailView: UIView {
     
     // MARK: - UI Components
     
+    private let reviewScrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+        $0.alwaysBounceVertical = true
+    }
+    
     private let myReviewStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 12
@@ -117,8 +122,12 @@ final class MyReviewDetailView: UIView {
     
     private func setAddView() {
         [
-            myReviewStackView
+            reviewScrollView
         ].forEach(addSubview)
+        
+        [
+            myReviewStackView
+        ].forEach(reviewScrollView.addSubview)
         
         [
             myInfoTotalView,
@@ -152,13 +161,19 @@ final class MyReviewDetailView: UIView {
     // MARK: - Set Constraints
     
     private func setConstraints() {
-        myReviewStackView.snp.makeConstraints {
+        reviewScrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        myReviewStackView.snp.makeConstraints {
+            $0.edges.equalTo(reviewScrollView.contentLayoutGuide)
+            $0.width.equalTo(reviewScrollView.snp.width)
         }
         
         myInfoTotalView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(41)
         }
         
         profileImage.snp.makeConstraints {

@@ -80,6 +80,7 @@ final class MyReviewDetailViewController: BaseViewController {
         myReviewStackView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(111)
             $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
