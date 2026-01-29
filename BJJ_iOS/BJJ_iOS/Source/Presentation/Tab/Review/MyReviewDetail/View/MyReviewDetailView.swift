@@ -31,7 +31,7 @@ final class MyReviewDetailView: UIView {
     private let myReviewStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 12
-        $0.alignment = .leading
+        $0.alignment = .trailing
     }
     
     private let myInfoTotalView = UIView()
@@ -74,6 +74,12 @@ final class MyReviewDetailView: UIView {
         $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
         $0.numberOfLines = 0
         $0.lineBreakMode = .byWordWrapping
+    }
+    
+    private let reviewTextMoreButton = UIButton().then {
+        $0.setButton(title: "더보기", font: .pretendard_medium, size: 13, color: .customColor(.midGray))
+        $0.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        $0.contentHorizontalAlignment = .trailing
     }
     
     private lazy var reviewImageCollectionView = UICollectionView(
@@ -132,6 +138,7 @@ final class MyReviewDetailView: UIView {
         [
             myInfoTotalView,
             reviewCommentLabel,
+            reviewTextMoreButton,
             reviewImageCollectionView,
             reviewHashTagCollectionView
         ].forEach(myReviewStackView.addArrangedSubview)
@@ -212,6 +219,10 @@ final class MyReviewDetailView: UIView {
         reviewLikeCountLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(4)
             $0.centerX.equalToSuperview()
+        }
+        
+        reviewCommentLabel.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview()
         }
         
         reviewImageCollectionView.snp.makeConstraints {
