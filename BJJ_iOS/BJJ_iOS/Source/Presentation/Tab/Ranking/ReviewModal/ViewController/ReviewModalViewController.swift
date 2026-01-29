@@ -34,7 +34,7 @@ final class ReviewModalViewController: UIViewController {
     private let reviewTextLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
         $0.setLineSpacing(kernValue: 0.13, lineHeightMultiple: 1.1)
-        $0.numberOfLines = 0
+        $0.numberOfLines = 3
         $0.lineBreakMode = .byWordWrapping
     }
     
@@ -97,9 +97,8 @@ final class ReviewModalViewController: UIViewController {
     
     private func setConstraints() {
         reviewModalStackView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(226)
+            $0.top.equalToSuperview().offset(169)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(108)
         }
         
         reviewInfoView.snp.makeConstraints {
