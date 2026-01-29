@@ -201,6 +201,7 @@ final class ReviewModalViewController: UIViewController {
                     self.reviewInfoView.setView(with: bestReviewData)
                     self.reviewTextLabel.text = bestReviewData.comment
                     self.reviewImages = bestReviewData.reviewImages
+                    self.reviewImageCollectionView.isHidden = self.reviewImages.isEmpty
                     self.reviewImageCollectionView.reloadData()
                 }
                 
