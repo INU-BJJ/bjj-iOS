@@ -62,7 +62,7 @@ final class MyReviewDetailView: UIView {
         $0.setLabelUI("", font: .pretendard, size: 13, color: .darkGray)
     }
     
-    private let reviewLikeButton = UIButton().then {
+    let reviewLikeButton = UIButton().then {
         $0.setImage(UIImage(named: "Like")?.resize(to: CGSize(width: 17, height: 17)), for: .normal)
     }
     
