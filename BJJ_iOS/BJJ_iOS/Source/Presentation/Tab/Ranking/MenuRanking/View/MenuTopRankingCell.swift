@@ -24,6 +24,7 @@ final class MenuTopRankingCell: UITableViewCell, ReuseIdentifying {
     private let menuImageView = UIImageView().then {
         $0.layer.cornerRadius = 3
         $0.clipsToBounds = true
+        $0.contentMode = .scaleAspectFill
     }
     
     private let menuNameLabel = UILabel().then {

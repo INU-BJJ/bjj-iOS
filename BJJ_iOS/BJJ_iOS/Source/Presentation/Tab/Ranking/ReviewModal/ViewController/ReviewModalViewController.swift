@@ -9,16 +9,17 @@ import UIKit
 import SnapKit
 import Then
 
-final class ReviewModalViewController: UIViewController {
+final class ReviewModalViewController: BaseViewController {
     
     // MARK: - Properties
     
     private var bestReviewID: Int
     private var reviewImages: [String] = []
+    private let modalStackViewTapGesture = UITapGestureRecognizer()
     
     // MARK: - UI Components
     
-    private let reviewModalStackView = UIStackView().then {
+    private lazy var reviewModalStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 12
         $0.alignment = .fill
@@ -27,6 +28,8 @@ final class ReviewModalViewController: UIViewController {
         $0.layoutMargins = UIEdgeInsets(top: 17, left: 14, bottom: 17, right: 14)
         $0.isLayoutMarginsRelativeArrangement = true
         $0.layer.cornerRadius = 17
+        $0.isUserInteractionEnabled = true
+        $0.addGestureRecognizer(modalStackViewTapGesture)
     }
     
     private let reviewInfoView = ReviewInfoView()
@@ -34,7 +37,7 @@ final class ReviewModalViewController: UIViewController {
     private let reviewTextLabel = UILabel().then {
         $0.setLabelUI("", font: .pretendard_medium, size: 13, color: .black)
         $0.setLineSpacing(kernValue: 0.13, lineHeightMultiple: 1.1)
-        $0.numberOfLines = 0
+        $0.numberOfLines = 3
         $0.lineBreakMode = .byWordWrapping
     }
     
@@ -63,15 +66,12 @@ final class ReviewModalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setViewController()
-        setAddView()
-        setConstraints()
         fetchBestReview(bestReviewID: bestReviewID)
     }
     
-    // MARK: - Set ViewController
+    // MARK: - Set UI
     
-    private func setViewController() {
+    override func setUI() {
         let tapGestureInView = UITapGestureRecognizer(target: self, action: #selector(dismissModal))
         tapGestureInView.cancelsTouchesInView = false
         
@@ -79,9 +79,9 @@ final class ReviewModalViewController: UIViewController {
         view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
     }
     
-    // MARK: - Set AddViews
+    // MARK: - Set Hierarchy
     
-    private func setAddView() {
+    override func setHierarchy() {
         [
             reviewModalStackView
         ].forEach(view.addSubview)
@@ -95,11 +95,10 @@ final class ReviewModalViewController: UIViewController {
     
     // MARK: - Set Constraints
     
-    private func setConstraints() {
+    override func setConstraints() {
         reviewModalStackView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(226)
+            $0.top.equalToSuperview().offset(169)
             $0.horizontalEdges.equalToSuperview().inset(16)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(108)
         }
         
         reviewInfoView.snp.makeConstraints {
@@ -109,6 +108,39 @@ final class ReviewModalViewController: UIViewController {
         reviewImageCollectionView.snp.makeConstraints {
             $0.height.equalTo(283)
         }
+    }
+    
+    // MARK: - Bind
+
+    override func bind() {
+        
+        // 모달 창 탭
+        modalStackViewTapGesture.rx.event
+            .bind(with: self) { owner, _ in
+                let presentingVC = owner.presentingViewController
+                
+                // dismiss 이후 리뷰 상세 페이지로 이동
+                owner.dismiss(animated: true) {
+                    // presentingViewController를 통해 실제 presenting하는 VC 찾기
+                    var targetVC: UIViewController?
+                    
+                    if let navController = presentingVC as? UINavigationController {
+                        targetVC = navController.viewControllers.last
+                    } else if let tabBarController = presentingVC as? UITabBarController {
+                        if let navController = tabBarController.selectedViewController as? UINavigationController {
+                            targetVC = navController.viewControllers.last
+                        }
+                    } else {
+                        targetVC = presentingVC
+                    }
+                    
+                    // push 실행
+                    if targetVC != nil {
+                        targetVC?.presentMyReviewDetailViewController(reviewID: owner.bestReviewID)
+                    }
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Create Layout
@@ -202,6 +234,7 @@ final class ReviewModalViewController: UIViewController {
                     self.reviewInfoView.setView(with: bestReviewData)
                     self.reviewTextLabel.text = bestReviewData.comment
                     self.reviewImages = bestReviewData.reviewImages
+                    self.reviewImageCollectionView.isHidden = self.reviewImages.isEmpty
                     self.reviewImageCollectionView.reloadData()
                 }
                 

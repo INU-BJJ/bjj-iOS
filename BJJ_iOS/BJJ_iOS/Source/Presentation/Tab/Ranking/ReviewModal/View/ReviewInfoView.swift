@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import SDWebImage
 
 final class ReviewInfoView: UIView {
     
@@ -96,6 +97,13 @@ final class ReviewInfoView: UIView {
     // MARK: - Set View
     
     func setView(with bestReview: BestReviewSection) {
+        let profileImageURL = URL(string: "\(baseURL.characterImageURL)icon_\(bestReview.memberImage ?? "").svg")
+        
+        profileImage.sd_setImage(
+            with: profileImageURL,
+            placeholderImage: nil,
+            options: [.retryFailed, .continueInBackground]
+        )
         nicknameLabel.text = bestReview.memberNickname
         reviewRatingView.configureReviewStar(reviewRating: bestReview.reviewRating, type: .small)
         reviewDateLabel.text = bestReview.reviewCreatedDate
