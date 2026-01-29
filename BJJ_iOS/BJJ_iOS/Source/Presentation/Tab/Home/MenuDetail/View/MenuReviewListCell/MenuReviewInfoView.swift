@@ -137,7 +137,7 @@ final class MenuReviewInfoView: UIView {
     
     func setUI(with menuReview: MenuDetailModel) {
         let likeIcon = isReviewLiked ? "FilledLike" : "Like"
-        let profileImageURL = URL(string: "\(baseURL.characterImageURL)icon_ \(menuReview.memberImage).svg")
+        let profileImageURL = URL(string: "\(baseURL.characterImageURL)icon_\(menuReview.memberImage).svg")
         
         profileImage.sd_setImage(
             with: profileImageURL,
